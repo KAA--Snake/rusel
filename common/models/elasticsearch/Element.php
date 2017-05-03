@@ -44,21 +44,15 @@ class Element extends ActiveRecord
             static::type() => [
                 '_source' => ['enabled' => true],
                 'properties' => [
-                    'id'    => [
-                        'type' => 'integer',
-
-
-                        /**
-                         * ANALYZER НЕЛЬЗЯ ДОБАВЛЯТЬ К KEYWORD типу !!!!!!!
-                         * */
-                        //'analyzer' => 'simple',
-                        //'analyzer' => 'autocomplete',
-                        //'search_analyzer' => 'standard'
-                        //"term_vector" => "yes",
-
-                    ],
+                    'id'    => ['type' => 'integer'],
                     'quantity'    => ['type' => 'integer'],
-                    'name'    => ['type' => 'text'],
+
+                    'name'    => [
+                        'type' => 'text',
+                        //'analyzer' => 'simple',
+                        'analyzer' => 'russian',
+                        //'preserve_separators' => ['enabled' => true],
+                    ],
 
                 ]
             ],
@@ -83,7 +77,7 @@ class Element extends ActiveRecord
         $db = static::getDb();
         $command = $db->createCommand();
         $command->createIndex(static::index(), [
-            //'settings' => [],
+            'settings' => static::__getSettings(),
             'mappings' => static::mapping(),
             //'warmers' => [  ],
             //'aliases' => [  ],
@@ -100,4 +94,52 @@ class Element extends ActiveRecord
         $command = $db->createCommand();
         $command->deleteIndex(static::index(), static::type());
     }
+
+
+
+    public static function __getSettings(){
+        return [
+
+                "analysis"=> [
+
+                    "filter"=> [
+                        "russian_stop" => [
+                            "type" =>       "stop",
+                            "stopwords"=>  "_russian_"
+                        ],/*
+                        "keywords"=> [
+                            "type"=>       "keyword_marker",
+                            "keywords"=>   new \stdClass()
+                        ],*/
+                        /*
+                        "russian_keywords"=> [
+                            "type"=>       "keyword_marker",
+                            "keywords"=>   new \stdClass()
+                        ],*/
+                        "russian_stemmer"=> [
+                            "type"=>       "stemmer",
+                            "language"=>   "russian"
+                        ]
+                    ],
+
+                    "analyzer" => [
+                        "russian" => [
+                            "tokenizer" =>  "standard",
+                            "filter" => [
+                                "lowercase",
+                                "russian_stop",
+                                //"russian_keywords",
+                                //"keywords",
+                                "russian_stemmer",
+                            ]
+                        ]
+                    ]
+
+                ]
+
+        ];
+
+    }
+
+
 }
