@@ -19,6 +19,9 @@ class PostController extends AppController
     public $myNewVar; //для проброса в поведениях
 
 
+
+
+
     public function behaviors(){
        parent::behaviors();
 

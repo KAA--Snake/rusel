@@ -14,6 +14,14 @@ use frontend\models\queries\B_element_query;
 class B_iblock_element extends ActiveRecord
 {
 
+    /**
+     * Используем базу постгреса
+     * @return mixed
+     */
+    public static function getDb() {
+        return \Yii::$app->db_mysql;
+    }
+
     public static function tableName(){
         //parent::tableName(); возвращает имя таблицы
         return 'b_iblock_element'; //можно вручную вернуть имя таблицы

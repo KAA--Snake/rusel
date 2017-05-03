@@ -14,12 +14,15 @@ echo 'Поброс: ' . $newVar . PHP_EOL;
 ?>
 <hr>
 <?
+print_r($posts);
+if(count($posts) <= 0) die();
+
 foreach($posts as $onePost){?>
 
-    <?= Html::tag('a', Html::encode($onePost->NAME), [
+    <?/*= Html::tag('a', Html::encode($onePost->NAME), [
         'class' => 'myhrefclass',
         'href' => Url::to(['post/show', 'id'=>$onePost->ID]),
-    ])?>
+    ])*/?>
 
 <?
     //echo '<pre>';

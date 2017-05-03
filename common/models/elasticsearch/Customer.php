@@ -12,6 +12,15 @@ namespace common\models\elasticsearch;
 class Customer extends \yii\elasticsearch\ActiveRecord
 {
 
+    /**
+     * Используем базу постгреса
+     * @return mixed
+     */
+    public function getDb() {
+        return Yii::$app->db;
+    }
+
+
     public function attributes(){
         return ['name', 'surname'];
     }
