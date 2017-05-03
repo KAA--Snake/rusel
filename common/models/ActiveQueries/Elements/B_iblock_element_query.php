@@ -9,7 +9,12 @@
 namespace common\models\ActiveQueries\Elements;
 
 
-class B_iblock_element_query
+use yii\db\ActiveQuery;
+
+class B_iblock_element_query extends ActiveQuery
 {
 
+    public function isActive(){
+        return $this->andWhere(['b_iblock_element.ACTIVE' => 'Y']);
+    }
 }

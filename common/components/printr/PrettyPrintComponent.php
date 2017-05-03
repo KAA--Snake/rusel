@@ -2,7 +2,7 @@
 /**
  * print_r2
  */
-namespace yii\components\printr;
+namespace common\components\printr;
 
 
 use yii\base\Component;
