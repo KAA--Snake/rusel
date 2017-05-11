@@ -21,28 +21,29 @@ class m170511_160509_create_section_table extends Migration
     {
         $this->createTable('section', [
             'id' => $this->primaryKey(),
+            'unique_id' => $this->string()->unique(),
             'depth_level' => $this->integer()->notNull()->unsigned(),
-            'parent_id' => $this->integer()->unsigned()->unique(),
-            'code' => $this->string()->unique(),
+            'parent_id' => $this->string(),
+            'code' => $this->string(),
             'name' => $this->string(),
             'preview_text' => $this->text(),
             'detail_text' => $this->text(),
             'picture' => $this->string(),
+            'sort' => $this->integer(),
         ]);
 
 
         $this->createIndex(
             'idx-section-code',
             'section',
-            'code',
-            true //unique
+            'code'
+            //true //unique
         );
 
         $this->createIndex(
             'idx-section-parent_id',
             'section',
-            'parent_id',
-            true //unique
+            'parent_id'
         );
 
         $this->createIndex(

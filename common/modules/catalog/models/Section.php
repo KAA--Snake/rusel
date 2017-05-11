@@ -15,6 +15,7 @@ use Yii;
  * @property string $preview_text
  * @property string $detail_text
  * @property string $picture
+ * @property integer $sort
  */
 class Section extends \yii\db\ActiveRecord
 {
@@ -40,14 +41,11 @@ class Section extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['depth_level'], 'required'],
-            [['depth_level', 'parent_id'], 'integer'],
-            [['preview_text', 'detail_text'], 'string'],
+            [['depth_level', 'unique_id'], 'required'],
+            [['depth_level', 'sort'], 'integer'],
+            [['preview_text', 'detail_text', 'unique_id', 'parent_id'], 'string'],
             [['code', 'name', 'picture'], 'string', 'max' => 255],
-            [['code'], 'unique'],
-            [['parent_id'], 'unique'],
-            [['code'], 'unique'],
-            [['parent_id'], 'unique'],
+            [['unique_id'], 'unique'],
         ];
     }
 
@@ -65,6 +63,7 @@ class Section extends \yii\db\ActiveRecord
             'preview_text' => 'Preview Text',
             'detail_text' => 'Detail Text',
             'picture' => 'Picture',
+            'sort' => 'Sort',
         ];
     }
 
