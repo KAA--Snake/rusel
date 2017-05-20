@@ -14,13 +14,13 @@ return [
                 'search/by-name/<name:.*>' => 'search/by-name',
                 'mongo/search/<name:.*>' => 'mongo/search',
                 //REST для импорта CSVшек
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'import'],
-                /*[
+                //['class' => 'yii\rest\UrlRule', 'controller' => 'import'],
+                [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'import',
-                    'except' => ['delete', 'create', 'update'],
+                    //'except' => ['delete', 'update'],
                     'pluralize' => false //не  переводим import в imports
-                ]*/
+                ]
             ],
         ],
     ],

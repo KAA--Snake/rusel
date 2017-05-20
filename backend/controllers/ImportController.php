@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use app\common\modules\catalog\models\import\CsvImport;
+use common\modules\catalog\models\import\CsvImport;
 use Yii;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -17,21 +17,29 @@ class ImportController extends Controller
 {
 
     //public $modelClass = 'common\modules\catalog\models\import\CsvImport';
+
+    //временно отключаем валидацию токенов для тестирования TODO
     public $enableCsrfValidation = false;
 
     public function actionCreate(){
 
-        \Yii::$app->pr->print_r2(\Yii::$app->request);
+        //\Yii::$app->pr->print_r2(\Yii::$app->request);
 
         $model = new CsvImport();
 
         if (Yii::$app->request->isPost) {
+
             $model->csvFile = UploadedFile::getInstance($model, 'csvFile');
 
-            if ($model->massUpload()) {
+            /*$post = Yii::$app->request->post();
+            \Yii::$app->pr->print_r2($post);*/
+
+            //\Yii::$app->pr->print_r2($model->csvFile);
+
+
+            //if ($model->massUpload()) {
+            if ($model->upload()) {
                 // file is uploaded successfully
-
-
                 return 'uploaded';
             }
 
@@ -41,17 +49,16 @@ class ImportController extends Controller
     }
 
 
-/*
-    public function actionUploadCsv(){
+
+    //rest import form
+    public function actionIndex(){
 
         $model = new CsvImport();
 
         if (Yii::$app->request->isPost) {
-            $model->csvFile = UploadedFile::getInstances($model, 'csvFile');
-            if ($model->massUpload()) {
+            $model->csvFile = UploadedFile::getInstance($model, 'csvFile');
+            if ($model->upload()) {
                 // file is uploaded successfully
-
-
                 return 'uploaded';
             }
         }
@@ -64,25 +71,4 @@ class ImportController extends Controller
 
 
 
-
-    //rest
-    public function actionCreate(){
-        $model = new CsvImport();
-
-        if (Yii::$app->request->isPost) {
-            $model->csvFile = UploadedFile::getInstances($model, 'csvFile');
-            if ($model->massUpload()) {
-                // file is uploaded successfully
-
-
-                return 'uploaded';
-            }
-        }
-
-        // \Yii::$app->pr->print_r2(\Yii::$app->request);
-
-
-        return $this->render('csv', ['model' => $model]);
-    }
-    */
 }

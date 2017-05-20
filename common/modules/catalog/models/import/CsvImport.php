@@ -6,7 +6,7 @@
  * Time: 13:42
  */
 
-namespace app\common\modules\catalog\models\import;
+namespace common\modules\catalog\models\import;
 
 
 use yii\base\Model;
@@ -14,14 +14,15 @@ use yii\base\Model;
 class CsvImport extends Model
 {
 
+    public $enableCsrfValidation = false;
 
     var $csvFile;
 
     public function rules()
     {
+        //пока не ограничиваем
         return [];
 
-        //пока не ограничиваем
         return [
             [['imageFiles'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4],
         ];
@@ -41,12 +42,8 @@ class CsvImport extends Model
 
     public function massUpload()
     {
-
-        // echo __DIR__;
-        //die();
-
-
         if ($this->validate()) {
+
             foreach ($this->csvFile as $file) {
                 $file->saveAs(__DIR__.'/upload_csv/' . $file->baseName . '.' . $file->extension);
             }
