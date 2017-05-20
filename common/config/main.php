@@ -8,10 +8,19 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
             'rules' => [
-                //правило для показа элементов типа post/show/1 (post/show?id=1)
+                //test for mng/elastic
                 'search/by-name/<name:.*>' => 'search/by-name',
-                'mongo/search/<name:.*>' => 'mongo/search'
+                'mongo/search/<name:.*>' => 'mongo/search',
+                //REST для импорта CSVшек
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'import'],
+                /*[
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'import',
+                    'except' => ['delete', 'create', 'update'],
+                    'pluralize' => false //не  переводим import в imports
+                ]*/
             ],
         ],
     ],
