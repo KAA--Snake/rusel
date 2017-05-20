@@ -12,13 +12,9 @@ class DefaultController extends Controller
 {
     public $layout = 'catalog';
 
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
-    public function actionIndex()
-    {
 
+
+    public function import(){
         $section = new Section();
 
         $section->setAttributes([
@@ -45,15 +41,34 @@ class DefaultController extends Controller
 
         }
 
+        return 'done';
+    }
 
 
-/*
+
+
+    /**
+     * Renders the index view for the module
+     * @return string
+     */
+    public function actionIndex()
+    {
+
+
         $find = Section::find()->andWhere([
-            'depth_level' => 1
-        ])->all();
+            //'depth_level' => 1
+        ])
+        ->orderBy([
+            'depth_level' => SORT_ASC,
+            //'sort' => SORT_ASC,
+        ])
+        ->all();
 
-        \Yii::$app->pr->print_r2($find);
-*/
+        foreach($find as $category){
+            echo '<br>' . $category->name;
+        }
+        //\Yii::$app->pr->print_r2($find);
+        return '';
         return $this->render('index');
     }
 }

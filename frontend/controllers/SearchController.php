@@ -253,7 +253,7 @@ class SearchController extends Controller
     }
 
     /**
-     * Создаем индекс для модели customer
+     * Создаем индекс для модели Element
      */
     public function actionCreateIndex(){
         Element::createIndex();
