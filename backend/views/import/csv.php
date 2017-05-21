@@ -2,9 +2,17 @@
 use yii\widgets\ActiveForm;
 ?>
 
+<?php
+if($uploaded) {
+    echo 'Успешно загружено ! <br />';
+}
+
+?>
+
+
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-<?= $form->field($model, 'csvFile')->fileInput(['multiple' => false, 'accept' => 'csv']); ?>
+<?php echo $form->field($model, 'file')->fileInput(['multiple' => false, 'accept' => $allowedExtensions]); ?>
 
     <button>Submit</button>
 

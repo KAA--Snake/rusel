@@ -21,9 +21,9 @@ class m170511_160509_create_section_table extends Migration
     {
         $this->createTable('section', [
             'id' => $this->primaryKey(),
-            'unique_id' => $this->string()->unique(),
+            'unique_id' => $this->integer()->notNull()->unsigned()->unique(),
             'depth_level' => $this->integer()->notNull()->unsigned(),
-            'parent_id' => $this->string(),
+            'parent_id' => $this->integer(),
             'code' => $this->string(),
             'name' => $this->string(),
             'preview_text' => $this->text(),

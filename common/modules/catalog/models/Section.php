@@ -42,8 +42,8 @@ class Section extends \yii\db\ActiveRecord
     {
         return [
             [['depth_level', 'unique_id'], 'required'],
-            [['depth_level', 'sort'], 'integer'],
-            [['preview_text', 'detail_text', 'unique_id', 'parent_id'], 'string'],
+            [['depth_level', 'sort', 'unique_id', 'parent_id'], 'integer'],
+            [['preview_text', 'detail_text'], 'string'],
             [['code', 'name', 'picture'], 'string', 'max' => 255],
             [['unique_id'], 'unique'],
         ];
@@ -75,4 +75,20 @@ class Section extends \yii\db\ActiveRecord
     {
         return new SectionQuery(get_called_class());
     }
+
+
+    /**
+     * Сохранение из парсера
+     * @param $group
+     */
+    public function saveGroup(&$group){
+        print_r($group);
+        //\Yii::$app->pr->print_r2($group);
+        // echo '<br/ > SAVING GROUP';
+        $selfSection = new static();
+
+
+    }
+
+
 }

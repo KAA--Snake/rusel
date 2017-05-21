@@ -28,6 +28,10 @@ return [
     'modules' => [
         'catalog' => [
             'class' => 'common\modules\catalog\Module',
+            'params' => [
+                'importFolderName' => 'upload_xml',
+                'allowedExtensions' => ['xml', 'csv'],
+            ]
         ],
     ],
 ];

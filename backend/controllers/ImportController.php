@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use common\modules\catalog\models\import\CsvImport;
+use common\modules\catalog\models\import\CatalogImport;
 use Yii;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -22,51 +22,38 @@ class ImportController extends Controller
     public $enableCsrfValidation = false;
 
     public function actionCreate(){
+        $catalogModule = \Yii::$app->getModule('catalog');
+        $allowedExtensions = $catalogModule->params['allowedExtensions'];
 
-        //\Yii::$app->pr->print_r2(\Yii::$app->request);
+        $uploaded = false;
 
-        $model = new CsvImport();
+        $model = new CatalogImport();
 
         if (Yii::$app->request->isPost) {
 
-            $model->csvFile = UploadedFile::getInstance($model, 'csvFile');
-
-            /*$post = Yii::$app->request->post();
-            \Yii::$app->pr->print_r2($post);*/
-
-            //\Yii::$app->pr->print_r2($model->csvFile);
-
+            $model->file = UploadedFile::getInstance($model, 'file');
 
             //if ($model->massUpload()) {
             if ($model->upload()) {
                 // file is uploaded successfully
-                return 'uploaded';
+                $uploaded = true;
+
+                $model->importGroups();
             }
 
         }
 
-        return 'post';
+        return $this->render('csv', ['allowedExtensions' => $allowedExtensions, 'uploaded' => $uploaded, 'model' => $model]);
     }
 
 
 
-    //rest import form
+    //rest import CSV form
     public function actionIndex(){
-
-        $model = new CsvImport();
-
-        if (Yii::$app->request->isPost) {
-            $model->csvFile = UploadedFile::getInstance($model, 'csvFile');
-            if ($model->upload()) {
-                // file is uploaded successfully
-                return 'uploaded';
-            }
-        }
-
-       // \Yii::$app->pr->print_r2(\Yii::$app->request);
-
-
-        return $this->render('csv', ['model' => $model]);
+        $catalogModule = \Yii::$app->getModule('catalog');
+        $allowedExtensions = $catalogModule->params['allowedExtensions'];
+        $model = new CatalogImport();
+        return $this->render('csv', ['allowedExtensions' => $allowedExtensions, 'uploaded' => false, 'model' => $model]);
     }
 
 
