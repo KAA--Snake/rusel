@@ -11,7 +11,16 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        /*'catalog' => [
+            'class' => 'app\modules\catalog\Module',
+            'params' => [
+                'importFolderName' => 'upload_xml',
+                'allowedExtensions' => ['xml', 'csv'],
+            ]
+        ],*/
+
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -46,5 +55,6 @@ return [
         ],
         */
     ],
+
     'params' => $params,
 ];

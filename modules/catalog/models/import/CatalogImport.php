@@ -6,7 +6,7 @@
  * Time: 13:42
  */
 
-namespace common\modules\catalog\models\import;
+namespace modules\catalog\models\import;
 
 set_time_limit(0);
 $start_time = microtime(true);
@@ -80,7 +80,7 @@ class CatalogImport extends Model
         //\Yii::$app->pr->print_r2($files);
         foreach($files as $file) {
             $reader = new GroupParser($file);
-            $reader->setModel(\common\modules\catalog\models\Section::className());
+            $reader->setModel(\modules\catalog\models\Section::className());
             $reader->parse();
         }
     }

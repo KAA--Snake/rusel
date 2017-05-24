@@ -62,16 +62,16 @@ return [
             'errorAction' => 'site/error',
         ],
         
-        'urlManager' => [
+        /*'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 //правило для показа элементов типа post/show/1 (post/show?id=1)
                 'post/show/<id:\d+>' => 'post/show',
 
-                'elastic/find-by-name/<name:\w+>' => 'elastic/find-by-name'
+                'elastic/find-by-name/<name:\w+>' => 'elastic/find-by-name',
             ],
-        ],
+        ],*/
 
     ],
     'params' => $params,

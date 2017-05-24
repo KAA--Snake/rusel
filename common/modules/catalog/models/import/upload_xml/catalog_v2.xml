@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+	<group>
+		<id>11</id>
+		<status>1</status>
+		<depth_level>1</depth_level>
+		<parent_id />
+		<sort>100</sort>
+		<name>Аккумуляторные батареи11</name>
+		<code>accumulator_batteries</code>
+		<preview_text>&lt;a href=&quot;http://www.link.com&quot;&gt;link&lt;/a&gt; &lt;b&gt;some text here&lt;/b</preview_text>
+		<detail_text>&lt;a href=&quot;http://www.link.com&quot;&gt;link&lt;/a&gt; &lt;b&gt;some text here&lt;/b</detail_text>
+		<picture>/images/image1.jpg</picture>
+	</group>	
+	<group>
+		<id>12</id>
+		<status>1</status>
+		<depth_level>2</depth_level>
+		<parent_id>11</parent_id>
+		<sort>100</sort>
+		<name>Аккумуляторы R3-ААA</name>
+		<code>accumulator_batteries_r3</code>
+		<preview_text>&lt;a href=&quot;http://www.link.com&quot;&gt;link&lt;/a&gt; &lt;b&gt;some text here&lt;/b</preview_text>
+		<detail_text>&lt;a href=&quot;http://www.link.com&quot;&gt;link&lt;/a&gt; &lt;b&gt;some text here&lt;/b</detail_text>
+		<picture>/images/image1.jpg</picture>
+	</group>
+	<group>
+		<id>13</id>
+		<status>1</status>
+		<depth_level>2</depth_level>
+		<parent_id>11</parent_id>
+		<sort>200</sort>
+		<name>Аккумуляторы для китайских телефонов</name>
+		<code>accumulator_batteries_china</code>
+		<preview_text>текст текст текст текст</preview_text>
+		<detail_text>текст текст текст текст</detail_text>
+		<picture>/images/image2.jpg</picture>
+	</group>
+	<group>
+		<id>14</id>
+		<status>1</status>
+		<depth_level>3</depth_level>
+		<parent_id>12</parent_id>
+		<sort>100</sort>
+		<name>Аккумуляторы R3-BBB</name>
+		<code>accumulator_batteries_china_r1</code>
+		<preview_text>текст текст текст текст</preview_text>
+		<detail_text>текст текст текст текст</detail_text>
+		<picture>/images/image1.jpg</picture>
+	</group>
+	<group>
+		<id>15</id>
+		<status>1</status>
+		<depth_level>3</depth_level>
+		<parent_id>12</parent_id>
+		<sort>200</sort>
+		<name>Аккумуляторы R4-BBB</name>
+		<code>accumulator_batteries_china_r2</code>
+		<preview_text>текст текст текст текст</preview_text>
+		<detail_text>текст текст текст текст</detail_text>
+		<picture>/images/image1.jpg</picture>
+	</group>
+	<group>
+		<id>16</id>
+		<status>1</status>
+		<depth_level>4</depth_level>
+		<parent_id>15</parent_id>
+		<sort>100</sort>
+		<name>Аккумуляторы R3-CCC</name>
+		<code>accumulator_batteries_china_r5</code>
+		<preview_text>текст текст текст текст</preview_text>
+		<detail_text>текст текст текст текст</detail_text>
+		<picture>/images/image1.jpg</picture>
+	</group>
+	<group>
+		<id>17</id>
+		<status>1</status>
+		<depth_level>5</depth_level>
+		<parent_id>16</parent_id>
+		<sort>100</sort>
+		<name>Аккумуляторы R5-CCC</name>
+		<code>accumulator_batteries_china_r6</code>
+		<preview_text>текст текст текст текст</preview_text>
+		<detail_text>текст текст текст текст</detail_text>
+		<picture>/images/image1.jpg</picture>
+	</group>
+	<group>
+		<id>18</id>
+		<status>1</status>
+		<depth_level>1</depth_level>
+		<parent_id />
+		<sort>100</sort>
+		<name>Клеммы</name>
+		<code>klemms</code>
+		<preview_text>текст текст текст текст</preview_text>
+		<detail_text>текст текст текст текст</detail_text>
+		<picture>/images/image2.jpg</picture>		
+	</group>		
+</catalog>

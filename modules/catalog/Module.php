@@ -1,6 +1,6 @@
 <?php
 
-namespace common\modules\catalog;
+namespace modules\catalog;
 
 /**
  * catalog module definition class
@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'common\modules\catalog\controllers';
+    public $controllerNamespace = 'modules\catalog\controllers';
 
     /**
      * @inheritdoc
@@ -20,6 +20,6 @@ class Module extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
-        \Yii::configure($this, require(__DIR__ . '/config/config.php'));
+        //\Yii::configure($this, require(__DIR__ . '/config/config.php'));
     }
 }
