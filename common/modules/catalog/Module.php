@@ -19,6 +19,15 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
+
+        $this->modules = [
+            'admin' => [
+                // you should consider using a shorter namespace here!
+                'class' => 'common\modules\catalog\modules\admin\Module',
+            ],
+        ];
+
+
         // custom initialization code goes here
         \Yii::configure($this, require(__DIR__ . '/config/config.php'));
     }
