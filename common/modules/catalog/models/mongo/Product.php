@@ -11,7 +11,7 @@ namespace common\modules\catalog\models\mongo;
 
 use yii\mongodb\ActiveRecord;
 
-class Element extends ActiveRecord
+class Product extends ActiveRecord
 {
     public static function getDb()
     {
@@ -20,7 +20,7 @@ class Element extends ActiveRecord
 
 
     public static function collectionName(){
-        return 'element';
+        return 'product';
     }
 
     public function rules(){

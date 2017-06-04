@@ -20,7 +20,7 @@ class DefaultController extends Controller
 
         return 'use /section/ or /goods/ for editing catalog.';
 
-        $sectionQuery = Section::find();
+       /* $sectionQuery = Section::find();
 
 
 
@@ -38,6 +38,6 @@ class DefaultController extends Controller
         ]);
 
 
-        return $this->render('index', ['provider' => $provider]);
+        return $this->render('index', ['provider' => $provider]);*/
     }
 }

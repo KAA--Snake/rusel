@@ -8,7 +8,8 @@
 
 namespace backend\controllers;
 
-use common\modules\catalog\models\import\CatalogImport;
+
+use common\modules\catalog\modules\admin\models\import\CatalogImport;
 use Yii;
 use yii\web\Controller;
 use yii\web\UploadedFile;
@@ -38,7 +39,7 @@ class ImportController extends Controller
                 // file is uploaded successfully
                 $uploaded = true;
 
-                $model->importGroups();
+                $model->import();
             }
 
         }

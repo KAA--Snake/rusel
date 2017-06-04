@@ -6,7 +6,7 @@
  * Time: 13:42
  */
 
-namespace common\modules\catalog\models\import;
+namespace common\modules\catalog\modules\admin\models\import;
 
 set_time_limit(0);
 $start_time = microtime(true);
@@ -73,15 +73,17 @@ class CatalogImport extends Model
 
     /**
      * Сам импорт
+     *
+     * распознавание что именно импортируется, происходит в парсере далее
      */
-    public function importGroups(){
+    public function import(){
 
         $files = array($this->filePath);
 
         foreach($files as $file) {
-            $reader = new GroupParser($file);
-            $reader->setModel(\common\modules\catalog\models\Section::className());
+            $reader = new CatalogXmlReader($file);
             $reader->parse();
+            unset($reader);
         }
     }
 }
