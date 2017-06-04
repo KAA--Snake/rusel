@@ -44,7 +44,7 @@ class Section extends \yii\db\ActiveRecord
         return [
             [['depth_level', 'unique_id'], 'required'],
             [['depth_level', 'sort', 'unique_id', 'parent_id'], 'integer'],
-            [['preview_text', 'detail_text'], 'string'],
+            [['preview_text', 'detail_text', 'menu_offlink', 'redirect_url'], 'string'],
             [['code', 'name', 'picture'], 'string', 'max' => 255],
             [['unique_id'], 'unique'],
         ];
@@ -56,15 +56,17 @@ class Section extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'depth_level' => 'Depth Level',
-            'parent_id' => 'Parent ID',
-            'code' => 'Code',
-            'name' => 'Name',
-            'preview_text' => 'Preview Text',
-            'detail_text' => 'Detail Text',
-            'picture' => 'Picture',
-            'sort' => 'Sort',
+            'id' => 'Id',
+            'depth_level' => 'Вложенность раздела',
+            'parent_id' => 'Родительский ID',
+            'code' => 'Код',
+            'name' => 'Название',
+            'preview_text' => 'Краткое описание',
+            'detail_text' => 'Детальное описание',
+            'picture' => 'Картинка',
+            'sort' => 'Сортировка',
+            'menu_offlink' => 'Ссылка "над" разделом',
+            'redirect_url' => 'Ссылка раздела (для перезаписи)',
         ];
     }
 
@@ -87,7 +89,7 @@ class Section extends \yii\db\ActiveRecord
         /**
          * Если $status == 0 удаляем запись
          */
-        $status = intval($group->status);
+        /*$status = intval($group->status);
         if($status == 0){
 
             $selfSection = static::find()
@@ -117,7 +119,7 @@ class Section extends \yii\db\ActiveRecord
 
             unset($group);
             return true;
-        }
+        }*/
 
         //\Yii::app()->db_postg->createCommand('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
 
@@ -143,6 +145,8 @@ class Section extends \yii\db\ActiveRecord
                 'preview_text' => strval($group->preview_text),
                 'detail_text' => strval($group->detail_text),
                 'picture' => strval($group->picture),
+                'menu_offlink' => strval($group->menu_offlink),
+                'redirect_url' => strval($group->redirect_url),
             ]);
 
             if ($selfSection->save(true)) {

@@ -29,9 +29,17 @@ class m170511_160509_create_section_table extends Migration
             'preview_text' => $this->text(),
             'detail_text' => $this->text(),
             'picture' => $this->string(),
+            'menu_offlink' => $this->string(),
+            'redirect_url' => $this->string(),
             'sort' => $this->integer(),
         ]);
 
+
+        $this->createIndex(
+            'idx-unique-id',
+            'section',
+            'unique_id'
+        );
 
         $this->createIndex(
             'idx-section-code',
@@ -59,6 +67,12 @@ class m170511_160509_create_section_table extends Migration
      */
     public function down()
     {
+        // drops index for column `unique_id`
+        $this->dropIndex(
+            'idx-unique-id',
+            'section'
+        );
+
         // drops index for column `code`
         $this->dropIndex(
             'idx-section-code',

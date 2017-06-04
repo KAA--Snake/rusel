@@ -20,6 +20,9 @@ class CatalogXmlReader
     protected $result = array();
     protected $model;
 
+    /** флаг - удалена ли таблица (изпользуется в начале обработки, т.к. разделы всегда удаляются перед обработкой)*/
+    private $isTableSectionClear = false;
+
     public function __construct($xml_path) {
 
         $this->reader = new XMLReader();
@@ -27,6 +30,24 @@ class CatalogXmlReader
             $this->reader->open($xml_path);
         else throw new Exception('XML file {'.$xml_path.'} not exists!');
     }
+
+
+    /**
+     * Достает атрибут тега по его имени
+     *
+     * @param $name
+     * @return string
+     */
+    public function Attribute($name)
+    {
+        foreach($this->Attributes() as $key=>$val)
+        {
+            if($key == $name)
+                return (string)$val;
+        }
+    }
+
+
 
 
     public function parse(){
@@ -50,7 +71,17 @@ class CatalogXmlReader
      * Парсинг раздела каталога (группы)
      */
     public function parseGroup(){
+
         if($this->reader->nodeType == XMLREADER::ELEMENT && $this->reader->localName == 'group') {
+
+            /**Если таблица разделов полная, очистим ее*/
+            if(!$this->isTableSectionClear){
+                Section::deleteAll();
+
+                //флаг - разделы очищены
+                $this->isTableSectionClear = true;
+            }
+
 
             //задаем модель для записи результата
             $this->model = new Section();
@@ -79,6 +110,13 @@ class CatalogXmlReader
                 $ratio['name'] = $this->reader->value;
             }*/
             $this->result = simplexml_load_string($this->reader->readOuterXml());
+
+            echo '<pre>';
+            print_r($this->result);
+
+            die();
+
+
         }
     }
 
