@@ -18,6 +18,8 @@ class DefaultController extends Controller
     public function actionIndex()
     {
 
+        return 'use /section/ or /goods/ for editing catalog.';
+
         $sectionQuery = Section::find();
 
 

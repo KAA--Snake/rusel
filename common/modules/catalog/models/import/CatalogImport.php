@@ -77,7 +77,7 @@ class CatalogImport extends Model
     public function importGroups(){
 
         $files = array($this->filePath);
-        //\Yii::$app->pr->print_r2($files);
+
         foreach($files as $file) {
             $reader = new GroupParser($file);
             $reader->setModel(\common\modules\catalog\models\Section::className());

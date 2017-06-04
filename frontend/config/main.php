@@ -23,6 +23,7 @@ readonly: readonly
 //https://4873ffa424778a84e4cc377607e792b2.us-east-1.aws.found.io:9243/
 return [
     'id' => 'app-frontend',
+    'homeUrl' => '/',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -39,6 +40,7 @@ return [
         ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'baseUrl' => '',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
