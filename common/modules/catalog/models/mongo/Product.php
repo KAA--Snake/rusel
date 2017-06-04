@@ -110,8 +110,15 @@ class Product extends ActiveRecord
      * @param $group
      */
     public function saveProduct(&$product){
-        var_dump($product);
 
+
+        //var_dump($product);
+
+        /**тестовый сброс */
+        $selfProduct = new static();
+        $selfProduct->deleteAll();
+        \Yii::$app->db_mongo->getCollection('product')->drop();
+        unset($selfProduct);
 
         $selfProduct = static::find()->andWhere(['id' => intval($product['id'])])->one();
 

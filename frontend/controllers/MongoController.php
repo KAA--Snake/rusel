@@ -121,7 +121,22 @@ class MongoController extends Controller
         //$query->select()->from('element')->where([]);
 
         $search = Product::find()
-            ->select(['id', 'name', 'quantity'])
+            ->select([
+                '_id',
+                'id',
+                'section_id',
+                'status',
+                'sort',
+                'name',
+                'code',
+                'artikul',
+                'product_logic',
+                'properties',
+                'other_properties',
+                'prices',
+                'quantity',
+                'marketing',
+            ])
             ->from('product')
             /*->where([
                 '$text' => [
