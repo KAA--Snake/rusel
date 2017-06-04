@@ -11,7 +11,7 @@ namespace frontend\controllers;
 
 
 use common\models\B_iblock_element;
-use common\models\mongo\Element;
+use common\modules\catalog\models\mongo\Product;
 use yii\mongodb\Query;
 use yii\web\Controller;
 
@@ -110,26 +110,26 @@ class MongoController extends Controller
     }
 
 
-    public function actionSearch(){
+    public function actionSearch($name){
 
-        $name = \Yii::$app->request->get('name');
+        //$name = \Yii::$app->request->get('name');
 
-        if(empty($name)) return 'empty request';
+        //if(empty($name)) return 'empty request';
 
         //$query = new Query();
 
         //$query->select()->from('element')->where([]);
 
-        $search = Element::find()
+        $search = Product::find()
             ->select(['id', 'name', 'quantity'])
-            ->from('element')
-            ->where([
+            ->from('product')
+            /*->where([
                 '$text' => [
                     '$search' => $name
                 ]
-            ])
+            ])*/
             ->orderBy(
-                ['name' => SORT_ASC, 'quantity' => SORT_DESC]
+                ['name' => SORT_ASC, 'sort' => SORT_DESC]
             )
             ->all();
 
@@ -138,11 +138,15 @@ class MongoController extends Controller
         echo 'Поиск по "<b>'.$name.'</b>" <br /><br />';
 
         foreach ($search as $oneRes) {
-            //$rr = $oneRes->getAttributes();
 
-            echo '<br>'. $oneRes->name . ', количество: ' . $oneRes->quantity;
 
-            //\Yii::$app->pr->print_r2($rr);
+            $rr = $oneRes->getAttributes();
+            $rr = $oneRes->toArray();
+
+
+            //echo '<br>'. $oneRes->name . ', количество: ' . $oneRes->id;
+
+            \Yii::$app->pr->print_r2($rr);
         }
 
         return '<br /><br /> Найдено всего: ' . count($search);

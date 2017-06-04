@@ -10,6 +10,7 @@ namespace common\modules\catalog\models\mongo;
 
 
 use yii\mongodb\ActiveRecord;
+use yii\mongodb\Exception;
 
 class Product extends ActiveRecord
 {
@@ -25,8 +26,8 @@ class Product extends ActiveRecord
 
     public function rules(){
         return [
-            [['id', 'name', 'quantity',], 'required'],
-            [['id', 'quantity'], 'integer'],
+            [['id', 'name', 'code', 'artikul', 'status'], 'required'],
+            [['id'], 'integer'],
             [['id'], 'unique'],
         ];
     }
@@ -35,8 +36,18 @@ class Product extends ActiveRecord
         return[
             '_id',
             'id',
+            'section_id',
+            'status',
+            'sort',
             'name',
+            'code',
+            'artikul',
+            'product_logic',
+            'properties',
+            'other_properties',
+            'prices',
             'quantity',
+            'marketing',
         ];
     }
 
@@ -44,8 +55,18 @@ class Product extends ActiveRecord
         return [
             '_id',
             'id',
+            'section_id',
+            'status',
+            'sort',
             'name',
+            'code',
+            'artikul',
+            'product_logic',
+            'properties',
+            'other_properties',
+            'prices',
             'quantity',
+            'marketing',
         ];
     }
 
@@ -85,10 +106,32 @@ class Product extends ActiveRecord
 
 
     /**
-     * Test import
+     * Сохранение из парсера
+     * @param $group
      */
-    public function importData(){
-        //\Faker
+    public function saveProduct(&$product){
+        var_dump($product);
+
+
+        $selfProduct = static::find()->andWhere(['id' => intval($product['id'])])->one();
+
+        if(!$selfProduct){
+            $selfProduct = new static();
+        }
+
+        $selfProduct->setAttributes($product);
+
+        try{
+            $selfProduct->save(true);
+
+        }catch (Exception $e){
+
+            $error = '<br />' . $e->getMessage() . '<br />';
+            Yii::$app->session->setFlash('error_'.intval($product['id']), $error);
+        }
+
+
+
     }
 
 

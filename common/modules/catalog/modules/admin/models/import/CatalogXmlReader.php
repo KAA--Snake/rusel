@@ -9,6 +9,7 @@
 namespace common\modules\catalog\modules\admin\models\import;
 
 
+use common\modules\catalog\modules\admin\models\import\ProductParser;
 use common\modules\catalog\models\mongo\Product;
 use common\modules\catalog\models\Section;
 use yii\base\Model;
@@ -30,23 +31,6 @@ class CatalogXmlReader
             $this->reader->open($xml_path);
         else throw new Exception('XML file {'.$xml_path.'} not exists!');
     }
-
-
-    /**
-     * Достает атрибут тега по его имени
-     *
-     * @param $name
-     * @return string
-     */
-    public function Attribute($name)
-    {
-        foreach($this->Attributes() as $key=>$val)
-        {
-            if($key == $name)
-                return (string)$val;
-        }
-    }
-
 
 
 
@@ -104,18 +88,34 @@ class CatalogXmlReader
             //задаем модель для записи результата
             $this->model = new Product();
 
+            //задаем парсер
+            $productParser = new ProductParser();
 
+            //echo '<pre>';
             /*$this->reader->read();
             if($this->reader->nodeType == XMLREADER::TEXT){
                 $ratio['name'] = $this->reader->value;
             }*/
             $this->result = simplexml_load_string($this->reader->readOuterXml());
 
-            echo '<pre>';
-            print_r($this->result);
+            /*$product = [];
+            $product['prices'] = [];
+            $product['marketing'] = [];
+            $product['properties'] = [];*/
 
-            die();
+            //спарсиваем в рандомный массив
+            $this->result = $productParser->object2array($this->result);
 
+            //print_r($res);
+            /*if(isset($this->result->prices)){
+                $prices = $priceParser->parsePrices($this->result->prices);
+                $product['prices'] = $prices;
+            }
+
+            if(isset($this->result->marketing)){
+                $marketing = $priceParser->parseMarketing($this->result->marketing);
+                $product['marketing'] = $marketing;
+            }*/
 
         }
     }
