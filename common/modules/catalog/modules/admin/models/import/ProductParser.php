@@ -8,11 +8,12 @@
 
 namespace common\modules\catalog\modules\admin\models\import;
 
-
 class ProductParser
 {
 
-    function object2array($object) { return @json_decode(@json_encode($object),1); }
+    function object2array($object) {
+        return @json_decode(@json_encode($object),1);
+    }
 
     public function parsePrices(&$block){
         $parsed = [];

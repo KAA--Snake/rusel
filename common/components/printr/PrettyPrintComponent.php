@@ -15,7 +15,7 @@ class PrettyPrintComponent extends Component
     }
 
 
-    public function print_r2(&$whatPrint){
+    public function print_r2($whatPrint){
         print_r2($whatPrint);
     }
 

@@ -11,6 +11,7 @@ namespace common\modules\catalog\models\mongo;
 
 use yii\mongodb\ActiveRecord;
 use yii\mongodb\Exception;
+use common\helpers\translit\Translit;
 
 class Product extends ActiveRecord
 {
@@ -27,8 +28,9 @@ class Product extends ActiveRecord
     public function rules(){
         return [
             [['id', 'name', 'code', 'artikul', 'status'], 'required'],
-            [['id'], 'integer'],
+            [['id', 'section_id', 'status'], 'integer'],
             [['id'], 'unique'],
+            [['sort'], 'default', 'value' => 100],
         ];
     }
 
@@ -42,6 +44,7 @@ class Product extends ActiveRecord
             'name',
             'code',
             'artikul',
+            'ed_izmerenia',
             'product_logic',
             'properties',
             'other_properties',
@@ -61,6 +64,7 @@ class Product extends ActiveRecord
             'name',
             'code',
             'artikul',
+            'ed_izmerenia',
             'product_logic',
             'properties',
             'other_properties',
@@ -111,25 +115,34 @@ class Product extends ActiveRecord
      */
     public function saveProduct(&$product){
 
+        $product['code'] = str_ireplace(['/','\\'], '', $product['code']);
 
-        //var_dump($product);
+        /**
+         * если не задан код, берем его транслитом
+         */
+        if(empty($product['code']) || $product['code'] == ''){
+            $product['code'] = $product['name'];
+            $product['code'] = Translit::t($product['code']);
+        }
+
+        //\Yii::$app->pr->print_r2($product);
 
         /**тестовый сброс */
-        $selfProduct = new static();
+       /* $selfProduct = new static();
         $selfProduct->deleteAll();
         \Yii::$app->db_mongo->getCollection('product')->drop();
-        unset($selfProduct);
+        unset($selfProduct);*/
 
-        $selfProduct = static::find()->andWhere(['id' => intval($product['id'])])->one();
+        $selfProduct = static::find()->andWhere(['id' => $product['id']])->one();
 
         if(!$selfProduct){
             $selfProduct = new static();
         }
-
+        //var_dump($selfProduct->getAttributes());
         $selfProduct->setAttributes($product);
 
         try{
-            $selfProduct->save(true);
+            $selfProduct->save();
 
         }catch (Exception $e){
 
