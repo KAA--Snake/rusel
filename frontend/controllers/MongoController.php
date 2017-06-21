@@ -121,7 +121,7 @@ class MongoController extends Controller
         //$query->select()->from('element')->where([]);
 
         $search = Product::find()
-            ->select([
+            /*->select([
                 '_id',
                 'id',
                 'section_id',
@@ -136,7 +136,7 @@ class MongoController extends Controller
                 'prices',
                 'quantity',
                 'marketing',
-            ])
+            ])*/
             ->from('product')
             /*->where([
                 '$text' => [
@@ -146,6 +146,7 @@ class MongoController extends Controller
             ->orderBy(
                 ['name' => SORT_ASC, 'sort' => SORT_DESC]
             )
+            ->limit(20)
             ->all();
 
         //\Yii::$app->pr->print_r2($rr);
