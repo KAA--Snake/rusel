@@ -33,7 +33,10 @@ class CatalogXmlReader
     }
 
 
-
+    /**
+     * Последовательно запускает методы с названием тегов ХМЛа.
+     * Пример <group> тег запускает метод $this->parseFroup()
+     */
     public function parse(){
         while($this->reader->read()){
             if($this->reader->nodeType == XMLREADER::ELEMENT) {
