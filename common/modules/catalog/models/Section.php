@@ -4,6 +4,7 @@ namespace common\modules\catalog\models;
 
 use Yii;
 use yii\db\Exception;
+use common\helpers\translit\Translit;
 
 /**
  * This is the model class for table "public.section".
@@ -135,11 +136,22 @@ class Section extends \yii\db\ActiveRecord
                 $selfSection = new static();
             }
 
+            $code = strval($group->code);
+            $code = str_ireplace(['/','\\'], '', $code);
+
+            /**
+             * если не задан код, берем его транслитом
+             */
+            if(empty($code) || $code == ''){
+                $code = strval($group->name);
+                $code = Translit::t($code);
+            }
+
             $selfSection->setAttributes([
                 'unique_id' => intval($group->id),
                 'depth_level' => intval($group->depth_level),
                 'parent_id' => intval($group->parent_id),
-                'code' => strval($group->code),
+                'code' => $code,
                 'name' => strval($group->name),
                 'sort' => intval($group->sort),
                 'preview_text' => strval($group->preview_text),
