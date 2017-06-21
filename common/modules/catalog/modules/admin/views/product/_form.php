@@ -20,7 +20,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'sort')->textInput() ?>
+    <?= $form->field($model, 'artikul')->textInput() ?>
+
+    <?= $form->field($model, 'status')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

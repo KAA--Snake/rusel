@@ -85,8 +85,11 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
+        $pkId = (array)$model->getPrimaryKey();
+        $pkId = $pkId['oid'];
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $pkId]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -117,15 +120,7 @@ class ProductController extends Controller
     protected function findModel($id)
     {
 
-        /*$query->andFilterWhere([
-            'id' => $this->id,
-            'name' => $this->name,
-            'section_id' => $this->section_id,
-            'status' => $this->status,
-            'artikul' => $this->artikul,
-        ]);*/
-
-        if (($model = Product::findOne(['id' => $id])) !== null) {
+        if (($model = Product::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
