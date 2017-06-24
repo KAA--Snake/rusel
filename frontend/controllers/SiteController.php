@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\modules\catalog\models\Section;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -72,7 +73,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $sectionsModel = new Section();
+
+        $catalogmenu = $sectionsModel->getCatalogSections();
+
+
+
+        //return $this->render('index');
     }
 
     /**

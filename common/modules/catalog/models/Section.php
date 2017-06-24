@@ -82,7 +82,7 @@ class Section extends \yii\db\ActiveRecord
 
 
     /**
-     * Сохранение из парсера
+     * Сохранение из парсера (используется при импорте каталога)
      * @param $group
      */
     public function saveGroup(&$group){
@@ -185,5 +185,51 @@ class Section extends \yii\db\ActiveRecord
         return true;
 
     }
+
+
+    /**
+     * Получает полную структуру разделов каталога
+     * (используется для создания меню каталога)
+     *
+     * @return array
+     */
+    public function getCatalogSections(){
+        $allSects = [];
+        $allSects = static::find()->asArray()->all();
+
+        $main = [];
+
+        if(count($allSects) > 0){
+            /** первоначально соберем разделы сделав ключами их ИДы разделов */
+            foreach ($allSects as $k=>$oneSection) {
+                $main[$oneSection['unique_id']] = $oneSection;
+            }
+
+            foreach($main as $sectionId => $sectionArr){
+                //проверим, есть ли ИД текущего раздела в списке всех разделов
+                if(array_key_exists($sectionArr['parent_id'], $main) && $sectionArr['parent_id'] != 0){
+                    //если есть, то запишем его в подразделы к этому найденному разделу и удалим из списка главных разделов
+
+                }else{
+                    //если нет, то оставим
+
+                }
+
+
+
+
+            }
+
+        }
+
+        \Yii::$app->pr->print_r2($allSects);
+        return $allSects;
+    }
+
+
+
+
+
+
 
 }
