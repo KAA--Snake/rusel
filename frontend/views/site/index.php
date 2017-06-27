@@ -5,9 +5,10 @@
 $this->title = 'My Yii Application';
 
 
-//меню каталога доступно в $catalog_menu
+//меню каталога доступно в $catalog_menu. Раскомментируй отладку ниже чтобы посмотреть его структуру
+//\yii\helpers\VarDumper::dump($catalog_menu, 10, true);
 
-\yii\helpers\VarDumper::dump($catalog_menu, 10, true);
+
 
 ?>
 
