@@ -111,17 +111,25 @@ class Product extends ActiveRecord
 
     /**
      * Сохранение из парсера
-     * @param $group
+     * @param $product
+     * @internal param $group
      */
     public function saveProduct(&$product){
 
         $product['code'] = str_ireplace(['/','\\'], '', $product['code']);
 
         /**
-         * если не задан код, берем его транслитом
+         * если не задан код, берем его транслитом из артикула
          */
         if(empty($product['code']) || $product['code'] == ''){
-            $product['code'] = $product['name'];
+
+            //если артикул есть
+            if(!empty($product['artikul']) && $product['artikul'] != ''){
+                $product['code'] = $product['artikul'];
+            }else{
+                //если артикула нет, делаем код из имени
+                $product['code'] = $product['name'];
+            }
             $product['code'] = Translit::t($product['code']);
         }
 
@@ -140,6 +148,7 @@ class Product extends ActiveRecord
         }
         //var_dump($selfProduct->getAttributes());
         $selfProduct->setAttributes($product);
+
 
         try{
             $selfProduct->save();

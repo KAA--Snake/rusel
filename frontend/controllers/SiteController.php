@@ -77,9 +77,9 @@ class SiteController extends Controller
 
         $catalogmenu = $sectionsModel->getCatalogSections();
 
+        //\Yii::$app->pr->print_r2($catalogmenu);
 
-
-        //return $this->render('index');
+        return $this->render('index', ['catalog_menu' => $catalogmenu]);
     }
 
     /**

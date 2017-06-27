@@ -21,6 +21,9 @@ use common\helpers\translit\Translit;
  */
 class Section extends \yii\db\ActiveRecord
 {
+
+    private $catalogTree;
+
     /**
      * @inheritdoc
      */
@@ -84,6 +87,7 @@ class Section extends \yii\db\ActiveRecord
     /**
      * Сохранение из парсера (используется при импорте каталога)
      * @param $group
+     * @return bool
      */
     public function saveGroup(&$group){
         //print_r($group);
@@ -194,41 +198,51 @@ class Section extends \yii\db\ActiveRecord
      * @return array
      */
     public function getCatalogSections(){
-        $allSects = [];
+
         $allSects = static::find()->asArray()->all();
 
-        $main = [];
 
         if(count($allSects) > 0){
-            /** первоначально соберем разделы сделав ключами их ИДы разделов */
+            /** первоначально соберем разделы сделав ключами их ИДы родительских разделов */
             foreach ($allSects as $k=>$oneSection) {
-                $main[$oneSection['unique_id']] = $oneSection;
-            }
-
-            foreach($main as $sectionId => $sectionArr){
-                //проверим, есть ли ИД текущего раздела в списке всех разделов
-                if(array_key_exists($sectionArr['parent_id'], $main) && $sectionArr['parent_id'] != 0){
-                    //если есть, то запишем его в подразделы к этому найденному разделу и удалим из списка главных разделов
-
-                }else{
-                    //если нет, то оставим
-
-                }
-
-
-
-
+                //$this->catalogTree[$oneSection['unique_id']] = $oneSection;
+                //делаем ключами ИДы разделов
+                //$this->catalogTree[$oneSection['parent_id']][] = $oneSection;
             }
 
         }
 
-        \Yii::$app->pr->print_r2($allSects);
-        return $allSects;
+        return $this->buildTree($allSects);
+
     }
 
 
+    /**
+     *
+     * @param $data
+     * @param int $rootID
+     * @return array
+     */
+    protected function buildTree(&$data, $rootID = 0) {
+        //\Yii::$app->pr->print_r2($data);
+        $tree = array();
+        /*foreach ($data as $id => $node) {
+            if ($node['parent_id'] == $rootID) {
+                unset($data[$id]);
+                $node['childs'] = $this->buildTree($data, $node['id']);
+                $tree[] = $node;
+            }
+        }*/
 
-
+        foreach ($data as $id => $node) {
+            if ($node['parent_id'] == $rootID) {
+                unset($data[$id]);
+                $node['childs'] = $this->buildTree($data, $node['unique_id']);
+                $tree[] = $node;
+            }
+        }
+        return $tree;
+    }
 
 
 
