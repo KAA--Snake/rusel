@@ -23,6 +23,17 @@ return [
                 ]*/
             ],
         ],
+        'assetManager' => [
+            'bundles' => [
+                //require(__DIR__ . '/assets.php'),
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [],
+                ],
+            ],
+            'converter'=> [
+                'class'=>'nizsheanez\assetConverter\Converter',
+            ]
+        ],
     ],
     'modules' => [
         'catalog' => [
