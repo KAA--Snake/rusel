@@ -73,6 +73,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        /** временно меняем шаблоны (для показа заказчику) */
+        $layoutVersion = Yii::$app->request->get('v');
+        if(!empty($layoutVersion) && $layoutVersion== 2){
+            $this->layout = 'main_v2';
+        }
+
+
         $sectionsModel = new Section();
 
         $catalogmenu = $sectionsModel->getCatalogSections();
