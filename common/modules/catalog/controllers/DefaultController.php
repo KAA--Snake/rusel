@@ -54,7 +54,19 @@ class DefaultController extends Controller
      */
     public function actionIndex($pathForParse = false)
     {
+        //для нулевог оуровня каталога показываем только главные разделы
+        if(!$pathForParse){
+            $rootSections = Section::find()->andWhere([
+                'depth_level' => 1
+            ])
+                ->orderBy([
+                    'depth_level' => SORT_ASC,
+                    //'sort' => SORT_ASC,
+                ])
+                ->all();
 
+            return $this->render('catalogRoot', ['rootSections' => $rootSections]);
+        }
 
         //echo 'переход по пути: '.$pathForParse;
 
