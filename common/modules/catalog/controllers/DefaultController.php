@@ -46,17 +46,17 @@ class DefaultController extends Controller
 
 
 
-    public function actionTest(){
-        return 'wkss';
-    }
-
     /**
+     * Точка входа для всего каталога
+     *
      * Renders the index view for the module
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($pathForParse = false)
     {
 
+
+        //echo 'переход по пути: '.$pathForParse;
 
         $find = Section::find()->andWhere([
             //'depth_level' => 1
@@ -68,10 +68,10 @@ class DefaultController extends Controller
         ->all();
 
         foreach($find as $category){
-            echo '<br>' . $category->name;
+            //echo '<br>' . $category->name;
         }
         //\Yii::$app->pr->print_r2($find);
-        return '';
-        return $this->render('index');
+
+        return $this->render('index', ['pathForParse' => $pathForParse, 'categories' => $find ]);
     }
 }

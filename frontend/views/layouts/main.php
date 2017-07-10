@@ -69,20 +69,24 @@ AppAsset::register($this);
 </div>
 
 <footer class="footer">
-    <div class="mw1350">
-        <div class="footer-left">&copy; Русєл24. Торговля электронными компонентами. Все права защищены. <?= date('Y') ?></div>
+    <div class="mw1350 clear">
+        <div class="footer-left fll">&copy; Русєл24. Торговля электронными компонентами. Все права защищены. <?= date('Y') ?></div>
 
-        <div class="footer-right">
+        <div class="footer-right flr">
             <div class="contact_block">
                 <div class="contact_item phone">
                     <div class="icon "></div>
-                    <div class="top">8 (495) 589-34-23</div>
-                    <div class="bottom">Обратный звонок</div>
+                    <div class="contact">
+                        <div class="top">8 (495) 589-34-23</div>
+                        <div class="bottom">Обратный звонок</div>
+                    </div>
                 </div>
                 <div class="contact_item mail">
                     <div class="icon"></div>
-                    <div class="top">zapros@rusel24.ru</div>
-                    <div class="bottom">Отправить письмо</div>
+                    <div class="contact">
+                        <div class="top">zapros@rusel24.ru</div>
+                        <div class="bottom">Отправить письмо</div>
+                    </div>
                 </div>
             </div>
         </div>
