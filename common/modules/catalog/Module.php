@@ -2,10 +2,12 @@
 
 namespace common\modules\catalog;
 
+use yii\base\BootstrapInterface;
+
 /**
  * catalog module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \yii\base\Module implements BootstrapInterface
 {
     /**
      * @inheritdoc
@@ -30,5 +32,18 @@ class Module extends \yii\base\Module
 
         // custom initialization code goes here
         \Yii::configure($this, require(__DIR__ . '/config/config.php'));
+    }
+
+
+    /**
+     * Настройки УРЛов для модуля каталога.
+     * Подключен через бутстрап модуля в конфиге фронтенда.
+     * @param \yii\base\Application $app
+     */
+    public function bootstrap($app)
+    {
+        $app->getUrlManager()->addRules([
+            'catalog' => 'catalog/default/test'
+        ], true);
     }
 }

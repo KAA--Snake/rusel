@@ -46,6 +46,9 @@ class DefaultController extends Controller
 
 
 
+    public function actionTest(){
+        return 'wkss';
+    }
 
     /**
      * Renders the index view for the module
