@@ -25,6 +25,7 @@ class m170511_160509_create_section_table extends Migration
             'depth_level' => $this->integer()->notNull()->unsigned(),
             'parent_id' => $this->integer(),
             'code' => $this->string(),
+            'url' => $this->string(),
             'name' => $this->string(),
             'preview_text' => $this->text(),
             'detail_text' => $this->text(),
@@ -46,6 +47,12 @@ class m170511_160509_create_section_table extends Migration
             'section',
             'code'
             //true //unique
+        );
+
+        $this->createIndex(
+            'idx-section-url',
+            'section',
+            'url'
         );
 
         $this->createIndex(
@@ -76,6 +83,12 @@ class m170511_160509_create_section_table extends Migration
         // drops index for column `code`
         $this->dropIndex(
             'idx-section-code',
+            'section'
+        );
+
+        // drops index for column `url`
+        $this->dropIndex(
+            'idx-section-url',
             'section'
         );
 

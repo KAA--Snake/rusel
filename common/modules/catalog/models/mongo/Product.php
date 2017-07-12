@@ -9,6 +9,7 @@
 namespace common\modules\catalog\models\mongo;
 
 
+use common\modules\catalog\models\Section;
 use yii\mongodb\ActiveRecord;
 use yii\mongodb\Exception;
 use common\helpers\translit\Translit;
@@ -39,6 +40,7 @@ class Product extends ActiveRecord
             '_id',
             'id',
             'section_id',
+            'url',
             'status',
             'sort',
             'name',
@@ -59,6 +61,7 @@ class Product extends ActiveRecord
             '_id',
             'id',
             'section_id',
+            'url',
             'status',
             'sort',
             'name',
@@ -133,6 +136,10 @@ class Product extends ActiveRecord
             $product['code'] = Translit::t($product['code']);
         }
 
+        /** сгенерим урл из урла раздела/урла товара */
+        $product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
+
+
         //\Yii::$app->pr->print_r2($product);
 
         /**тестовый сброс */
@@ -162,6 +169,23 @@ class Product extends ActiveRecord
 
 
     }
+
+
+    /**
+     * Генерирует УРЛы для товаров и пишет их в соотв поле таблицы...надо ли ?
+     *
+     * @return bool
+     */
+    private function __generateUrl($productCode, $sectionUniqueId){
+        $section = Section::find()->andWhere(['unique_id' => $sectionUniqueId])->one();
+
+        if($section){
+            return $section['code'].$productCode.'/';
+        }
+
+        return $productCode.'/';
+    }
+
 
 
 }

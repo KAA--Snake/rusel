@@ -48,7 +48,7 @@ class Section extends \yii\db\ActiveRecord
         return [
             [['depth_level', 'unique_id'], 'required'],
             [['depth_level', 'sort', 'unique_id', 'parent_id'], 'integer'],
-            [['preview_text', 'detail_text', 'menu_offlink', 'redirect_url'], 'string'],
+            [['preview_text', 'detail_text', 'menu_offlink', 'redirect_url', 'url'], 'string'],
             [['code', 'name', 'picture'], 'string', 'max' => 255],
             [['unique_id'], 'unique'],
         ];
@@ -64,6 +64,7 @@ class Section extends \yii\db\ActiveRecord
             'depth_level' => 'Вложенность раздела',
             'parent_id' => 'Родительский ID',
             'code' => 'Код',
+            'url' => 'URL',
             'name' => 'Название',
             'preview_text' => 'Краткое описание',
             'detail_text' => 'Детальное описание',
@@ -237,6 +238,10 @@ class Section extends \yii\db\ActiveRecord
         foreach ($data as $id => $node) {
             if ($node['parent_id'] == $rootID) {
                 unset($data[$id]);
+
+                //@TODO придумать рекурсию для прохода по разделам и создания УРЛОв
+                $node['url'] = $node['code'];
+
                 $node['childs'] = $this->buildTree($data, $node['unique_id']);
                 $tree[] = $node;
             }
@@ -245,5 +250,23 @@ class Section extends \yii\db\ActiveRecord
     }
 
 
+    /**
+     * Генерирует УРЛы для таблицы разделов
+     *
+     * @return bool
+     */
+    public function generateUrls(){
+
+        $sectionsStruct = $this->getCatalogSections();
+
+        //Yii::$app->pr->print_r2($sectionsStruct);
+
+        foreach($sectionsStruct as $oneSection){
+
+        }
+
+
+        return true;
+    }
 
 }

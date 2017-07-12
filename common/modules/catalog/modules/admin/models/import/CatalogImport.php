@@ -11,6 +11,8 @@ namespace common\modules\catalog\modules\admin\models\import;
 set_time_limit(0);
 $start_time = microtime(true);
 
+use common\modules\catalog\models\mongo\Product;
+use common\modules\catalog\models\Section;
 use yii\base\Model;
 
 
@@ -98,8 +100,15 @@ class CatalogImport extends Model
      */
     public function generateCatalogUrls(){
         //взять объект Section и сгенерить для него УРЛЫ
+        $sectionModel = new Section();
+        $sectionModel->generateUrls();
 
         //взять объект Product и сгенерить для него УРЛЫ
+        //$productModel = new Product();
+        //$productModel->generateUrls();
+
+
+
         return true;
     }
 
