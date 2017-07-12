@@ -36,7 +36,7 @@ class ImportController extends Controller
 
     //public $modelClass = 'common\modules\catalog\models\import\CsvImport';
 
-    //временно отключаем валидацию токенов для тестирования TODO
+    //@TODO временно отключаем валидацию токенов для тестирования
     public $enableCsrfValidation = false;
 
     public function actionCreate(){
@@ -57,6 +57,9 @@ class ImportController extends Controller
                 $uploaded = true;
 
                 $model->import();
+
+                /** запускаем проход по импортированному каталогу и генерим ему урлы*/
+                $model->generateCatalogUrls();
             }
 
         }
