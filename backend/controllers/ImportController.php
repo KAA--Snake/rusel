@@ -9,6 +9,7 @@
 namespace backend\controllers;
 
 
+use common\modules\catalog\models\Section;
 use common\modules\catalog\modules\admin\models\import\CatalogImport;
 use Yii;
 use yii\web\Controller;
@@ -75,6 +76,24 @@ class ImportController extends Controller
         $allowedExtensions = $catalogModule->params['allowedExtensions'];
         $model = new CatalogImport();
         return $this->render('csv', ['allowedExtensions' => $allowedExtensions, 'uploaded' => false, 'model' => $model]);
+    }
+
+
+    /**
+     * Генерирует УРЛЫ для каталога.
+     *
+     * @TODO Временно отключена, сделать только для админа !
+     *
+     * @return string
+     */
+    public function actionGenerate(){
+
+        if(true) return 'ADMINS ONLY';
+
+        $sectModel = new Section();
+
+        $sectModel->generateUrls();
+
     }
 
 

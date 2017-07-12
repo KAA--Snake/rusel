@@ -23,6 +23,8 @@ class Section extends \yii\db\ActiveRecord
 {
 
     private $catalogTree;
+    private $reParented = [];
+    private $url;
 
     /**
      * @inheritdoc
@@ -202,17 +204,6 @@ class Section extends \yii\db\ActiveRecord
 
         $allSects = static::find()->asArray()->all();
 
-
-        if(count($allSects) > 0){
-            /** первоначально соберем разделы сделав ключами их ИДы родительских разделов */
-            foreach ($allSects as $k=>$oneSection) {
-                //$this->catalogTree[$oneSection['unique_id']] = $oneSection;
-                //делаем ключами ИДы разделов
-                //$this->catalogTree[$oneSection['parent_id']][] = $oneSection;
-            }
-
-        }
-
         return $this->buildTree($allSects);
 
     }
@@ -225,15 +216,8 @@ class Section extends \yii\db\ActiveRecord
      * @return array
      */
     protected function buildTree(&$data, $rootID = 0) {
-        //\Yii::$app->pr->print_r2($data);
+
         $tree = array();
-        /*foreach ($data as $id => $node) {
-            if ($node['parent_id'] == $rootID) {
-                unset($data[$id]);
-                $node['childs'] = $this->buildTree($data, $node['id']);
-                $tree[] = $node;
-            }
-        }*/
 
         foreach ($data as $id => $node) {
             if ($node['parent_id'] == $rootID) {
@@ -257,16 +241,57 @@ class Section extends \yii\db\ActiveRecord
      */
     public function generateUrls(){
 
-        $sectionsStruct = $this->getCatalogSections();
+        $allSects = static::find()->all();
+        //$allSects = static::find()->asArray()->all();
 
-        //Yii::$app->pr->print_r2($sectionsStruct);
+        foreach($allSects as $section){
+            $this->reParented[$section->unique_id] = $section;
+        }
 
-        foreach($sectionsStruct as $oneSection){
+        foreach($allSects as $k=>$section){
+            $this->url = '';
+            $this->addParentsCode($section->parent_id);
+            $this->url .= $section->code.'/';
+
+            $section->setAttribute('url', $this->url);
+            $section->save();
 
         }
 
+        //\Yii::$app->pr->print_r2($allSects);
+        //\Yii::$app->pr->print_r2($this->reParented);
 
+        //$tree = $this->buildTree2($allSects);
         return true;
+    }
+
+
+
+    /**
+     * рекурсивно получает разделы родителя и достраивает по ним УРЛ
+     *
+     * @param $sectionUniqueId
+     * @return string
+     */
+    protected function addParentsCode($sectionUniqueId){
+
+        if(!empty($this->reParented[$sectionUniqueId])){
+
+            $url = explode('/', $this->url);
+
+            //добавим к первому элементу массива- код родителя
+            array_unshift($url, $this->reParented[$sectionUniqueId]->code);
+
+            $this->url = implode('/', $url);
+
+            if($this->reParented[$sectionUniqueId]->parent_id > 0){//если не дошли до верхнего уровня каталога
+                $this->addParentsCode($this->reParented[$sectionUniqueId]->parent_id);
+            }
+
+        }
+
+        return $this->url;
+
     }
 
 }
