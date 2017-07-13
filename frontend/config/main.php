@@ -63,18 +63,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                //'catalog' => 'catalog/default/test',
-                //правило для показа элементов типа post/show/1 (post/show?id=1)
-                //'post/show/<id:\d+>' => 'post/show',
-
-                //'elastic/find-by-name/<name:\w+>' => 'elastic/find-by-name',
-            ],
-        ],
 
     ],
     'params' => $params,

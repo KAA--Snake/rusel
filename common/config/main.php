@@ -52,6 +52,7 @@ return [
                 //test for mng/elastic
                 'search/by-name/<name:.*>' => 'search/by-name',
                 'mongo/search/<name:.*>' => 'mongo/search',
+                'POST import' => 'import/create',
                 //REST для импорта CSVшек
                 //['class' => 'yii\rest\UrlRule', 'controller' => 'import'],
                 /*[

@@ -223,9 +223,6 @@ class Section extends \yii\db\ActiveRecord
             if ($node['parent_id'] == $rootID) {
                 unset($data[$id]);
 
-                //@TODO придумать рекурсию для прохода по разделам и создания УРЛОв
-                $node['url'] = $node['code'];
-
                 $node['childs'] = $this->buildTree($data, $node['unique_id']);
                 $tree[] = $node;
             }

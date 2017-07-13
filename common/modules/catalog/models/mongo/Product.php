@@ -147,7 +147,9 @@ class Product extends ActiveRecord
        /* $selfProduct = new static();
         $selfProduct->deleteAll();
         \Yii::$app->db_mongo->getCollection('product')->drop();
-        unset($selfProduct);*/
+        u        if (Yii::$app->request->isPost) {
+            return 'here';
+        }nset($selfProduct);*/
 
         $selfProduct = static::find()->andWhere(['id' => $product['id']])->one();
 
@@ -157,8 +159,10 @@ class Product extends ActiveRecord
         //var_dump($selfProduct->getAttributes());
         $selfProduct->setAttributes($product);
 
+        //\Yii::$app->pr->print_r2($product);
 
         try{
+
             $selfProduct->save();
 
         }catch (Exception $e){
@@ -178,12 +182,27 @@ class Product extends ActiveRecord
      * @return bool
      */
     private function __generateUrl($productCode, $sectionUniqueId){
-        $section = Section::find()->andWhere(['unique_id' => $sectionUniqueId])->one();
+        $section = false; //первоначально раздела для товара нет
 
-        if($section){
-            return $section['code'].$productCode.'/';
+        if($sectionUniqueId > 0 && !empty($sectionUniqueId)){
+            $section = Section::find()->andWhere(['unique_id' => $sectionUniqueId])->one();
+        }else{
+            //@TODO нет раздела для товара, значит сбрасываем его в корень кталога. Подумать как это реализовать!
         }
 
+        /*echo '$section->url = ' . $section->url . '<br />';
+        echo '$productCode = ' . $productCode . '<br />';
+        echo 'URL = '.$section->url.$productCode.'/' . '<br />';*/
+
+        if($section){
+            //echo 'Уникальный ИД: '.$section->unique_id . '<br />';
+            return $section->url.$productCode.'/';
+        }else{
+            //@TODO не найден такой раздела в каталоге для товара, сбрасываем товар в корень каталога
+
+        }
+
+        //если раздела не существует, то хотя бы генерим урл из кода
         return $productCode.'/';
     }
 

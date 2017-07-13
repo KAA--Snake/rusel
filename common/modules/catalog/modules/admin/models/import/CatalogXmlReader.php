@@ -131,6 +131,7 @@ class CatalogXmlReader
         unset($this->result);
         unset($this->model);
 
+
     }
 
 }

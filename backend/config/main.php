@@ -49,15 +49,6 @@ return [
             'errorAction' => 'site/error',
         ],
 
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                'POST import' => 'import/create',
-
-            ],
-        ],
-
     ],
 
     'params' => $params,

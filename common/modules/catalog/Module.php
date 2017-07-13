@@ -45,6 +45,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
         $app->getUrlManager()->addRules([
             'catalog/<pathForParse:[\w_\/-]+>'=>'catalog/default',
             'catalog' => 'catalog/default',
+            //'POST import' => 'import/create',
             //'catalog/test/test2' => 'catalog/default',
         ], true);
     }
