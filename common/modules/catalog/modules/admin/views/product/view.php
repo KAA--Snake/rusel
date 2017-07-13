@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'section_id',
             'artikul',
             'code',
+            'url',
             'name',
             //'preview_text:ntext',
             //'detail_text:ntext',

@@ -2,6 +2,7 @@
 
 namespace common\modules\catalog\controllers;
 
+use common\modules\catalog\models\mongo\Product;
 use common\modules\catalog\models\Section;
 use yii\web\Controller;
 
@@ -59,31 +60,41 @@ class DefaultController extends Controller
             $rootSections = Section::find()->andWhere([
                 'depth_level' => 1
             ])
-                ->orderBy([
-                    'depth_level' => SORT_ASC,
-                    //'sort' => SORT_ASC,
-                ])
-                ->all();
+            ->orderBy([
+                'depth_level' => SORT_ASC,
+                //'sort' => SORT_ASC,
+            ])
+            ->all();
 
             return $this->render('catalogRoot', ['rootSections' => $rootSections]);
         }
 
-        //echo 'переход по пути: '.$pathForParse;
-
-        $find = Section::find()->andWhere([
-            //'depth_level' => 1
-        ])
-        ->orderBy([
-            'depth_level' => SORT_ASC,
-            //'sort' => SORT_ASC,
-        ])
-        ->all();
-
-        foreach($find as $category){
-            //echo '<br>' . $category->name;
+        /** есть ли такой товар */
+        $productWhere = [
+            'url' => $pathForParse
+        ];
+        $product = Product::find()->andWhere($productWhere)->one();
+        if($product){
+            \Yii::$app->pr->print_r2($product->getAttributes());
+            return '';
         }
-        //\Yii::$app->pr->print_r2($find);
 
-        return $this->render('index', ['pathForParse' => $pathForParse, 'categories' => $find ]);
+
+
+        /** есть ли такой раздел */
+        $sectionWhere = [
+            'url' => $pathForParse
+        ];
+        $section = Section::find()->andWhere($sectionWhere)->one();
+        if($section){
+            \Yii::$app->pr->print_r2($section->getAttributes());
+            return '';
+        }
+
+
+
+        return '';
+
+        return $this->render('index', ['pathForParse' => $pathForParse, 'categories' => $product ]);
     }
 }
