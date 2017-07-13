@@ -32,6 +32,7 @@ class Product extends ActiveRecord
             [['id', 'section_id', 'status'], 'integer'],
             [['id'], 'unique'],
             [['sort'], 'default', 'value' => 100],
+            [['url'], 'string'],
         ];
     }
 
