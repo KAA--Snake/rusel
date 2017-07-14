@@ -33,6 +33,11 @@ class m170511_160509_create_section_table extends Migration
             'menu_offlink' => $this->string(),
             'redirect_url' => $this->string(),
             'sort' => $this->integer(),
+
+            //ниже поле нужные для behaviourTree
+            'lft' => $this->integer()->notNull(),
+            'rgt' => $this->integer()->notNull(),
+            'depth' => $this->integer()->notNull(),
         ]);
 
 

@@ -55,7 +55,7 @@ class DefaultController extends Controller
      */
     public function actionIndex($pathForParse = false)
     {
-        //для нулевог оуровня каталога показываем только главные разделы
+        //для нулевого уровня каталога показываем только главные разделы
         if(!$pathForParse){
             $rootSections = Section::find()->andWhere([
                 'depth_level' => 1
@@ -66,6 +66,9 @@ class DefaultController extends Controller
             ])
             ->all();
 
+
+            //\Yii::$app->pr->print_r2($rootSections);
+            //return '';
             return $this->render('catalogRoot', ['rootSections' => $rootSections]);
         }
 
@@ -87,6 +90,11 @@ class DefaultController extends Controller
         ];
         $section = Section::find()->andWhere($sectionWhere)->one();
         if($section){
+
+            /** выведем подразделы (если они есть)*/
+            $sectionModel = new Section();
+            $subSections = $sectionModel->getChildrens($section->unique_id);
+
             \Yii::$app->pr->print_r2($section->getAttributes());
             return '';
         }

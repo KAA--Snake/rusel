@@ -22,9 +22,9 @@ use common\helpers\translit\Translit;
 class Section extends \yii\db\ActiveRecord
 {
 
-    private $catalogTree;
     private $reParented = [];
     private $url;
+    private $childrenSections = []; //для сборки подразделов
 
     /**
      * @inheritdoc
@@ -62,7 +62,8 @@ class Section extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'Id',
+            'id' => 'id',
+            'unique_id' => 'Уникальный ID',
             'depth_level' => 'Вложенность раздела',
             'parent_id' => 'Родительский ID',
             'code' => 'Код',
@@ -93,6 +94,7 @@ class Section extends \yii\db\ActiveRecord
      * @return bool
      */
     public function saveGroup(&$group){
+
         //print_r($group);
         /**
          * Если $status == 0 удаляем запись
@@ -166,6 +168,7 @@ class Section extends \yii\db\ActiveRecord
                 'picture' => strval($group->picture),
                 'menu_offlink' => strval($group->menu_offlink),
                 'redirect_url' => strval($group->redirect_url),
+                'depth' => strval($group->depth_level),
             ]);
 
             if ($selfSection->save(true)) {
@@ -289,6 +292,27 @@ class Section extends \yii\db\ActiveRecord
 
         return $this->url;
 
+    }
+
+
+    /**
+     * Отдает всех потомков раздела с ИД $sectionUniqueId
+     * возможно ограничение максимального уровня вложенности (считается от текущего,
+     * пример $maxDepthLevel = 2 означает что будут выведены все подразделы
+     * на 2 уровня ниже от раздела $sectionUniqueId
+     *
+     * @param $sectionUniqueId
+     * @param $maxDepthLevel
+     * @return array
+     */
+    public function getChildrens($sectionUniqueId, $maxDepthLevel=false){
+
+        if(empty($sectionUniqueId) || $sectionUniqueId == 0) return [];
+
+
+
+
+        return $this->childrenSections;
     }
 
 }
