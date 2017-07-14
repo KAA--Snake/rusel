@@ -88,19 +88,52 @@ class DefaultController extends Controller
         $sectionModel = new Section();
         $sectionData = $sectionModel->getSectionByUrl($pathForParse);
 
+        //\Yii::$app->pr->print_r2($sectionData);
+
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
 
         if($sectionData){
             //\Yii::$app->pr->print_r2($sectionData['currentSection']->getAttributes());
 
-            foreach($sectionData['siblingSections'] as $oneSibling){
+
+            /*foreach($sectionData['unGroupedSiblings'] as $oneSibling){
                 //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
+            }*/
+
+            echo '<br />';
+            echo '<br />';
+            echo 'Выбран раздел: <b>' . $sectionData['currentSection']->name.'</b>';
+            echo '<br />';
+            echo '<br />';
+
+
+            echo 'Подразделы:';
+            echo '<br />';
+            echo '<br />';
+
+
+            //\Yii::$app->pr->print_r2($sectionData['groupedSiblings']);
+
+            foreach($sectionData['groupedSiblings'] as $oneSibling){
+
+                //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
+
+                echo '-- ' . $oneSibling->name . '<br />';
+
+                if(isset($oneSibling->childs)){
+                    //echo 'Подразделы в этой категории (показан только +1 уровень): <br />';
+
+                    foreach ($oneSibling->childs as $oneChild) {
+                        echo '------ ' . $oneChild->name . '<br />';
+
+                    }
+                }
+
             }
 
 
-
-
+            //return '@todo - include section template';
             return '@todo - include section template';
         }
 

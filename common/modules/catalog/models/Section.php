@@ -141,12 +141,14 @@ class Section extends \yii\db\ActiveRecord
      * @param $url
      * @param bool $maxDepthLevel
      * @return array
+     * @internal param bool $asArray
      */
     public function getSectionByUrl($url, $maxDepthLevel=false){
 
         $returnData = [];
         $returnData['currentSection'] = [];
-        $returnData['siblingSections'] = [];
+        $returnData['unGroupedSiblings'] = [];
+        $returnData['groupedSiblings'] = [];
         $returnData['currentSectionProducts'] = []; //товары текущего раздела
 
 
@@ -173,9 +175,15 @@ class Section extends \yii\db\ActiveRecord
                 ]);
             }
 
-            $returnData['siblingSections'] = $subsectionsQuery->orderBy('depth_level, parent_id, sort ASC')->all();
+            $returnData['unGroupedSiblings'] = $subsectionsQuery->orderBy('depth_level, parent_id, sort ASC')->all();
 
-            $this->groupSubsections($returnData['siblingSections']);
+            $unGroupedSiblings = $subsectionsQuery->orderBy('depth_level, parent_id, sort ASC')->all();
+
+            //$returnData['unGroupedSiblings'] = $unGroupedSiblings;
+
+            /** группировка подразделов */
+            $returnData['groupedSiblings']= $this->groupSubsections($unGroupedSiblings, $returnData['currentSection']->unique_id);
+
 
         }
 
@@ -188,13 +196,30 @@ class Section extends \yii\db\ActiveRecord
 
 
 
-    private function groupSubsections(&$sections){
-        $grouped = [];
+    private function groupSubsections($data, $rootID=false){
 
-        foreach($sections as $oneSibling){
-            $grouped[$oneSibling->depth_level][] = $oneSibling->getAttributes();
+        $tree = array();
+
+        foreach ($data as $id => $node) {
+
+            if ($node->parent_id == $rootID) {
+                //unset($data[$id]);
+                //continue;
+
+                $node->childs = $this->buildTree($data, $node->unique_id);
+                $tree[$node->name] = $node;
+            }
         }
-        \Yii::$app->pr->print_r2($grouped);
+
+        //\Yii::$app->pr->print_r2($tree);
+
+        return $tree;
+
+
+        /*foreach($sections as $oneSibling){
+            $grouped[$oneSibling->depth_level][] = $oneSibling->getAttributes();
+        }*/
+        //\Yii::$app->pr->print_r2($grouped);
 
     }
 
@@ -316,7 +341,7 @@ class Section extends \yii\db\ActiveRecord
      */
     public function getCatalogSections(){
 
-        $allSects = static::find()->all();
+        $allSects = static::find()->asArray()->all();
 
         return $this->buildTree($allSects);
 
@@ -336,10 +361,10 @@ class Section extends \yii\db\ActiveRecord
 
 
         foreach ($data as $id => $node) {
-            if ($node->parent_id == $rootID) {
+            if ($node['parent_id'] == $rootID) {
                 unset($data[$id]);
 
-                $node->childs = $this->buildTree($data, $node->unique_id);
+                $node['childs'] = $this->buildTree($data, $node['unique_id']);
                 $tree[] = $node;
             }
         }
