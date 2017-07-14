@@ -119,13 +119,13 @@ class DefaultController extends Controller
 
                 //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
 
-                echo '-- ' . $oneSibling->name . '<br />';
+                echo '-- ' . '<a href="/catalog/'.$oneSibling->url.'">' . $oneSibling->name . '</a> <br />';
 
                 if(isset($oneSibling->childs)){
                     //echo 'Подразделы в этой категории (показан только +1 уровень): <br />';
 
                     foreach ($oneSibling->childs as $oneChild) {
-                        echo '------ ' . $oneChild->name . '<br />';
+                        echo '------ ' . '<a href="/catalog/'.$oneChild->url.'">' . $oneChild->name . '</a> <br />';
 
                     }
                 }
