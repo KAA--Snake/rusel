@@ -101,7 +101,8 @@ class CatalogImport extends Model
     public function generateCatalogUrls(){
         //взять объект Section и сгенерить для него УРЛЫ
         $sectionModel = new Section();
-        $sectionModel->generateUrls();
+        $sectionModel->generateUrls(); //генерация урлов для разделов
+        $sectionModel->generateTree(); //перестроение данных в таблице для создания дерева
 
         //взять объект Product и сгенерить для него УРЛЫ
         //$productModel = new Product();

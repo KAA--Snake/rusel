@@ -26,6 +26,11 @@ class Section extends \yii\db\ActiveRecord
     private $url;
     private $childrenSections = []; //для сборки подразделов
 
+    private $left = 1; //левая граница дерева
+    private $right; //правая граница дерева
+    private $currentDepth;
+    private $cnter;
+
     /**
      * @inheritdoc
      */
@@ -42,6 +47,27 @@ class Section extends \yii\db\ActiveRecord
         return Yii::$app->get('db_postg');
     }
 
+   /* public function behaviors() {
+        return [
+            'tree' => [
+                'class' => NestedSetsBehavior::className(),
+                // 'treeAttribute' => 'tree',
+                // 'leftAttribute' => 'lft',
+                // 'rightAttribute' => 'rgt',
+                // 'depthAttribute' => 'depth',
+            ],
+        ];
+    }*/
+
+
+    /** нужно для построение tree */
+    /*public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
+    }*/
+
     /**
      * @inheritdoc
      */
@@ -49,7 +75,7 @@ class Section extends \yii\db\ActiveRecord
     {
         return [
             [['depth_level', 'unique_id'], 'required'],
-            [['depth_level', 'sort', 'unique_id', 'parent_id'], 'integer'],
+            [['depth_level', 'sort', 'unique_id', 'parent_id', 'lft', 'rgt'], 'integer'],
             [['preview_text', 'detail_text', 'menu_offlink', 'redirect_url', 'url'], 'string'],
             [['code', 'name', 'picture'], 'string', 'max' => 255],
             [['unique_id'], 'unique'],
@@ -168,7 +194,7 @@ class Section extends \yii\db\ActiveRecord
                 'picture' => strval($group->picture),
                 'menu_offlink' => strval($group->menu_offlink),
                 'redirect_url' => strval($group->redirect_url),
-                'depth' => strval($group->depth_level),
+                //'depth' => strval($group->depth_level),
             ]);
 
             if ($selfSection->save(true)) {
@@ -291,6 +317,156 @@ class Section extends \yii\db\ActiveRecord
         }
 
         return $this->url;
+
+    }
+
+
+
+    public function rebuild_tree($parentSection, $left) {
+        // the right value of this node is the left value + 1
+        $right = $left+1;
+
+        // get all children of this node
+        $parentUniqueId = $parentSection->unique_id;
+        $siblingSections = static::find()->andWhere([
+            'parent_id' => $parentUniqueId,
+        ])->all();
+
+        if(count($siblingSections) > 0){
+            foreach($siblingSections as $oneSiblingSection){
+                $right = $this->rebuild_tree($oneSiblingSection, $right);
+            }
+        }
+
+        // we've got the left value, and now that we've processed
+        // the children of this node we also know the right value
+        $parentSection->setAttribute('lft', $left);
+        $parentSection->setAttribute('rgt', $right);
+        $parentSection->save(false);
+
+        /*mysql_query('UPDATE tree SET lft='.$left.', rgt='.
+            $right.' WHERE title="'.$parentUniqueId.'";');*/
+
+        // return the right value of this node + 1
+        $this->right = $right+1;
+        return $right+1;
+    }
+
+
+
+
+
+
+
+    /**
+     * Пересобирает таблицу, создавая связи для дерева.
+     *
+     * @return bool
+     */
+    public function generateTree(){
+
+        //всегда должен быть рутовый раздел. Цикл будет по ним
+        $rootSections = Section::find()->andWhere([
+            'depth_level' => 1
+        ])
+            ->orderBy([
+                'sort' => SORT_ASC,
+            ])
+            ->all();
+
+        //\Yii::$app->pr->print_r2($rootSections);
+        $this->right = 1;
+        foreach($rootSections as $rootSection){
+
+            $this->rebuild_tree($rootSection, $this->right);
+
+           /* if($isStarted){
+                $this->rebuild_tree($rootSection, 1);
+            }else{
+                $this->rebuild_tree($rootSection, $this->right);
+            }
+            $isStarted = true;*/
+        }
+
+
+    }
+
+
+    private function recursiveSetRanges($depth, $currentSectionId=false){
+        $maxDepth = $depth + 1;
+
+        $sectionsMain = static::find()->andWhere(['depth_level' => $depth])->all();
+
+        foreach($sectionsMain as $mainSection) {
+
+
+            $mainSection->setAttribute('lft', $this->left);
+            $mainSection->save(false);
+            $this->cnter = 1; //инкремент =1
+
+
+            $mainSection->setAttribute('rgt', $this->right);
+
+
+
+            //найдем потомков этого раздела (но только +1)
+            $siblingWhere = [
+                'parent_id' => $mainSection->unique_id,
+                'depth_level' => $maxDepth,
+            ];
+            $siblingSections = static::find()->andWhere($siblingWhere)->all();
+
+            foreach($siblingSections as $oneSibling){
+                if(count($siblingSections) > 0){
+                    $this->recursiveSetRanges($maxDepth);
+                }else{
+                    return true;
+                }
+            }
+        }
+
+
+
+
+
+
+        //$siblingSections = static::find()->andWhere(['parent_id' => $sectionUniqueId])->all();
+
+        //
+
+        /*foreach($siblingSections as $siblingSection){
+
+            //инкрементим по границам
+            $this->left++; //left + 1
+            $this->right = $this->left + 2; //right + 2
+
+            $siblingSection->setAttribute('lft', $this->left);
+            $siblingSection->setAttribute('rgt', $this->right);
+
+            $siblingSection->save();
+
+            \Yii::$app->pr->print_r2($siblingSection->getAttributes());
+
+            echo '<hr>';
+            echo 'left = '. $this->left .'<br>';
+            echo 'right = '. $this->right .'<br>';
+            echo '<hr>';
+
+            //проверим, есть ли у них подразделы
+            $subSiblingsCheck = static::find()->andWhere(['parent_id' => $siblingSection->unique_id])->one();
+
+            if(count($subSiblingsCheck) > 0){//остались подразделы, пойдем по ним
+
+                echo 'остались подразделы: <br />';
+                $this->recursiveSetRanges($siblingSection->unique_id);
+
+
+            }else{//больше нет подразделов, заканчиваем рекурсию
+
+
+                return true;
+            }
+        }*/
 
     }
 

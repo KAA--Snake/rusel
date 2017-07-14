@@ -34,11 +34,23 @@ class m170511_160509_create_section_table extends Migration
             'redirect_url' => $this->string(),
             'sort' => $this->integer(),
 
-            //ниже поле нужные для behaviourTree
-            'lft' => $this->integer()->notNull(),
-            'rgt' => $this->integer()->notNull(),
-            'depth' => $this->integer()->notNull(),
+            /** ниже поле нужные для behaviourTree */
+            'lft' => $this->integer(),
+            'rgt' => $this->integer(),
+
         ]);
+
+        $this->createIndex(
+            'idx-unique-lft',
+            'section',
+            'lft'
+        );
+
+        $this->createIndex(
+            'idx-unique-rgt',
+            'section',
+            'rgt'
+        );
 
 
         $this->createIndex(
@@ -79,6 +91,18 @@ class m170511_160509_create_section_table extends Migration
      */
     public function down()
     {
+        // drops index for column `lft`
+        $this->dropIndex(
+            'idx-unique-lft',
+            'section'
+        );
+
+        // drops index for column `rgt`
+        $this->dropIndex(
+            'idx-unique-rgt',
+            'section'
+        );
+
         // drops index for column `unique_id`
         $this->dropIndex(
             'idx-unique-id',
