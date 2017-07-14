@@ -87,15 +87,17 @@ class DefaultController extends Controller
         /** есть ли такой раздел */
         $sectionModel = new Section();
         $sectionData = $sectionModel->getSectionByUrl($pathForParse);
-        if($sectionData){
 
-            \Yii::$app->pr->print_r2($sectionData['currentSection']->getAttributes());
+        /** раскомментить ниже если нужен только 1 подраздел */
+        //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
+
+        if($sectionData){
+            //\Yii::$app->pr->print_r2($sectionData['currentSection']->getAttributes());
 
             foreach($sectionData['siblingSections'] as $oneSibling){
                 //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
             }
 
-            \Yii::$app->pr->print_r2($sectionData['sectionsBuilded']);
 
 
 

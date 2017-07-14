@@ -143,6 +143,7 @@ class Section extends \yii\db\ActiveRecord
      * @return array
      */
     public function getSectionByUrl($url, $maxDepthLevel=false){
+
         $returnData = [];
         $returnData['currentSection'] = [];
         $returnData['siblingSections'] = [];
@@ -161,16 +162,22 @@ class Section extends \yii\db\ActiveRecord
             $mtn = 'lft > ' .$returnData['currentSection']->lft;
             $ltn = 'rgt < '.$returnData['currentSection']->rgt;
 
-            $returnData['siblingSections'] = static::find()
-                ->andWhere(['and', $mtn, $ltn])
-                ->orderBy('depth_level ASC')->all();
+            $subsectionsQuery = static::find()->andWhere(['and', $mtn, $ltn]);
 
-            $sectionByArr = $this->buildTree($returnData['siblingSections'], $returnData['currentSection']->unique_id);
-            $returnData['sectionsBuilded'] = $sectionByArr;
+            /** если надо, то ограничим уровень вложенности */
+            if($maxDepthLevel){
+                $maxDepthLevel = $returnData['currentSection']->depth_level + $maxDepthLevel;
+
+                $subsectionsQuery->andWhere([
+                    '<=', 'depth_level', $maxDepthLevel
+                ]);
+            }
+
+            $returnData['siblingSections'] = $subsectionsQuery->orderBy('depth_level, parent_id, sort ASC')->all();
+
+            $this->groupSubsections($returnData['siblingSections']);
+
         }
-
-
-
 
 
         /** @TODO достаем товары привязанные к текущему разделу */
@@ -181,6 +188,15 @@ class Section extends \yii\db\ActiveRecord
 
 
 
+    private function groupSubsections(&$sections){
+        $grouped = [];
+
+        foreach($sections as $oneSibling){
+            $grouped[$oneSibling->depth_level][] = $oneSibling->getAttributes();
+        }
+        \Yii::$app->pr->print_r2($grouped);
+
+    }
 
 
     /**
