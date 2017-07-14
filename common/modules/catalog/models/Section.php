@@ -26,6 +26,8 @@ class Section extends \yii\db\ActiveRecord
     private $url;
     private $right; //правая граница дерева
 
+    public $childs;
+
     /**
      * @inheritdoc
      */
@@ -114,9 +116,10 @@ class Section extends \yii\db\ActiveRecord
      * можно указать максимальную глубину для подразделов
      *
      * @param $sectionUniqueId
+     * @param bool $maxDepthLevel
      * @return array
      */
-    public function getSectionByUniqueId($sectionUniqueId){
+    public function getSectionByUniqueId($sectionUniqueId, $maxDepthLevel=false){
         $returnData = [];
         $siblingSections = [];
 
@@ -136,18 +139,42 @@ class Section extends \yii\db\ActiveRecord
      * можно указать максимальную глубину для подразделов
      *
      * @param $url
+     * @param bool $maxDepthLevel
      * @return array
      */
-    public function getSectionByUrl($url){
+    public function getSectionByUrl($url, $maxDepthLevel=false){
         $returnData = [];
-        $siblingSections = [];
+        $returnData['currentSection'] = [];
+        $returnData['siblingSections'] = [];
+        $returnData['currentSectionProducts'] = []; //товары текущего раздела
 
-        $currentSection = static::find()->andWhere([
+
+        /** достаем выбранный раздел */
+        $returnData['currentSection'] = static::find()->andWhere([
             'url' => $url
         ])->one();
 
-        $returnData['currentSection'] = $currentSection;
-        $returnData['siblingSections'] = $siblingSections;
+
+        /** достаем всех дочерние разделы */
+        if($returnData['currentSection']){
+
+            $mtn = 'lft > ' .$returnData['currentSection']->lft;
+            $ltn = 'rgt < '.$returnData['currentSection']->rgt;
+
+            $returnData['siblingSections'] = static::find()
+                ->andWhere(['and', $mtn, $ltn])
+                ->orderBy('depth_level ASC')->all();
+
+            $sectionByArr = $this->buildTree($returnData['siblingSections'], $returnData['currentSection']->unique_id);
+            $returnData['sectionsBuilded'] = $sectionByArr;
+        }
+
+
+
+
+
+        /** @TODO достаем товары привязанные к текущему разделу */
+        //$returnData['currentSectionProducts'] = ...
 
         return $returnData;
     }
@@ -273,7 +300,7 @@ class Section extends \yii\db\ActiveRecord
      */
     public function getCatalogSections(){
 
-        $allSects = static::find()->asArray()->all();
+        $allSects = static::find()->all();
 
         return $this->buildTree($allSects);
 
@@ -281,6 +308,7 @@ class Section extends \yii\db\ActiveRecord
 
 
     /**
+     * Рекурсивно выводит структуру каталога
      *
      * @param $data
      * @param int $rootID
@@ -290,11 +318,12 @@ class Section extends \yii\db\ActiveRecord
 
         $tree = array();
 
+
         foreach ($data as $id => $node) {
-            if ($node['parent_id'] == $rootID) {
+            if ($node->parent_id == $rootID) {
                 unset($data[$id]);
 
-                $node['childs'] = $this->buildTree($data, $node['unique_id']);
+                $node->childs = $this->buildTree($data, $node->unique_id);
                 $tree[] = $node;
             }
         }
