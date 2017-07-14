@@ -85,23 +85,18 @@ class DefaultController extends Controller
 
 
         /** есть ли такой раздел */
-        $sectionWhere = [
-            'url' => $pathForParse
-        ];
-        $section = Section::find()->andWhere($sectionWhere)->one();
-        if($section){
-
-            /** выведем подразделы (если они есть)*/
-            $sectionModel = new Section();
-            $subSections = $sectionModel->getChildrens($section->unique_id);
-
-            \Yii::$app->pr->print_r2($section->getAttributes());
-            return '';
+        $sectionModel = new Section();
+        $sectionData = $sectionModel->getSectionByUrl($pathForParse);
+        if($sectionData){
+            \Yii::$app->pr->print_r2($sectionData['currentSection']->getAttributes());
+            return '@todo - include section template';
         }
 
 
 
-        return '';
+
+
+
 
         return $this->render('index', ['pathForParse' => $pathForParse, 'categories' => $product ]);
     }

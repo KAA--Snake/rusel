@@ -24,12 +24,7 @@ class Section extends \yii\db\ActiveRecord
 
     private $reParented = [];
     private $url;
-    private $childrenSections = []; //для сборки подразделов
-
-    private $left = 1; //левая граница дерева
     private $right; //правая граница дерева
-    private $currentDepth;
-    private $cnter;
 
     /**
      * @inheritdoc
@@ -112,6 +107,53 @@ class Section extends \yii\db\ActiveRecord
     {
         return new SectionQuery(get_called_class());
     }
+
+
+    /**
+     * Получает раздел каталога и всех его потомков по unique_id раздела,
+     * можно указать максимальную глубину для подразделов
+     *
+     * @param $sectionUniqueId
+     * @return array
+     */
+    public function getSectionByUniqueId($sectionUniqueId){
+        $returnData = [];
+        $siblingSections = [];
+
+        $currentSection = static::find()->andWhere([
+            'unique_id' => $sectionUniqueId
+        ])->one();
+
+        $returnData['currentSection'] = $currentSection;
+        $returnData['siblingSections'] = $siblingSections;
+
+        return $returnData;
+    }
+
+
+    /**
+     * Получает раздел каталога и всех его потомков по УРЛу,
+     * можно указать максимальную глубину для подразделов
+     *
+     * @param $url
+     * @return array
+     */
+    public function getSectionByUrl($url){
+        $returnData = [];
+        $siblingSections = [];
+
+        $currentSection = static::find()->andWhere([
+            'url' => $url
+        ])->one();
+
+        $returnData['currentSection'] = $currentSection;
+        $returnData['siblingSections'] = $siblingSections;
+
+        return $returnData;
+    }
+
+
+
 
 
     /**
@@ -321,8 +363,14 @@ class Section extends \yii\db\ActiveRecord
     }
 
 
-
-    public function rebuild_tree($parentSection, $left) {
+    /**
+     * рекурсивное построение дерева для разделов каталога
+     *
+     * @param $parentSection
+     * @param $left
+     * @return mixed
+     */
+    private function __rebuild_tree($parentSection, $left) {
         // the right value of this node is the left value + 1
         $right = $left+1;
 
@@ -334,7 +382,7 @@ class Section extends \yii\db\ActiveRecord
 
         if(count($siblingSections) > 0){
             foreach($siblingSections as $oneSiblingSection){
-                $right = $this->rebuild_tree($oneSiblingSection, $right);
+                $right = $this->__rebuild_tree($oneSiblingSection, $right);
             }
         }
 
@@ -344,22 +392,16 @@ class Section extends \yii\db\ActiveRecord
         $parentSection->setAttribute('rgt', $right);
         $parentSection->save(false);
 
-        /*mysql_query('UPDATE tree SET lft='.$left.', rgt='.
-            $right.' WHERE title="'.$parentUniqueId.'";');*/
-
         // return the right value of this node + 1
         $this->right = $right+1;
         return $right+1;
     }
 
 
-
-
-
-
-
     /**
      * Пересобирает таблицу, создавая связи для дерева.
+     * Используется при импорте разделов каталога
+     * ИЛИ при изменении (ручном) разделов каталога (@TODO - сделать)
      *
      * @return bool
      */
@@ -377,118 +419,13 @@ class Section extends \yii\db\ActiveRecord
         //\Yii::$app->pr->print_r2($rootSections);
         $this->right = 1;
         foreach($rootSections as $rootSection){
-
-            $this->rebuild_tree($rootSection, $this->right);
-
-           /* if($isStarted){
-                $this->rebuild_tree($rootSection, 1);
-            }else{
-                $this->rebuild_tree($rootSection, $this->right);
-            }
-            $isStarted = true;*/
+            $this->__rebuild_tree($rootSection, $this->right);
         }
 
-
+        return true;
     }
 
 
-    private function recursiveSetRanges($depth, $currentSectionId=false){
-        $maxDepth = $depth + 1;
 
-        $sectionsMain = static::find()->andWhere(['depth_level' => $depth])->all();
-
-        foreach($sectionsMain as $mainSection) {
-
-
-            $mainSection->setAttribute('lft', $this->left);
-            $mainSection->save(false);
-            $this->cnter = 1; //инкремент =1
-
-
-            $mainSection->setAttribute('rgt', $this->right);
-
-
-
-            //найдем потомков этого раздела (но только +1)
-            $siblingWhere = [
-                'parent_id' => $mainSection->unique_id,
-                'depth_level' => $maxDepth,
-            ];
-            $siblingSections = static::find()->andWhere($siblingWhere)->all();
-
-            foreach($siblingSections as $oneSibling){
-                if(count($siblingSections) > 0){
-                    $this->recursiveSetRanges($maxDepth);
-                }else{
-                    return true;
-                }
-            }
-        }
-
-
-
-
-
-
-        //$siblingSections = static::find()->andWhere(['parent_id' => $sectionUniqueId])->all();
-
-        //
-
-        /*foreach($siblingSections as $siblingSection){
-
-            //инкрементим по границам
-            $this->left++; //left + 1
-            $this->right = $this->left + 2; //right + 2
-
-            $siblingSection->setAttribute('lft', $this->left);
-            $siblingSection->setAttribute('rgt', $this->right);
-
-            $siblingSection->save();
-
-            \Yii::$app->pr->print_r2($siblingSection->getAttributes());
-
-            echo '<hr>';
-            echo 'left = '. $this->left .'<br>';
-            echo 'right = '. $this->right .'<br>';
-            echo '<hr>';
-
-            //проверим, есть ли у них подразделы
-            $subSiblingsCheck = static::find()->andWhere(['parent_id' => $siblingSection->unique_id])->one();
-
-            if(count($subSiblingsCheck) > 0){//остались подразделы, пойдем по ним
-
-                echo 'остались подразделы: <br />';
-                $this->recursiveSetRanges($siblingSection->unique_id);
-
-
-            }else{//больше нет подразделов, заканчиваем рекурсию
-
-
-                return true;
-            }
-        }*/
-
-    }
-
-
-    /**
-     * Отдает всех потомков раздела с ИД $sectionUniqueId
-     * возможно ограничение максимального уровня вложенности (считается от текущего,
-     * пример $maxDepthLevel = 2 означает что будут выведены все подразделы
-     * на 2 уровня ниже от раздела $sectionUniqueId
-     *
-     * @param $sectionUniqueId
-     * @param $maxDepthLevel
-     * @return array
-     */
-    public function getChildrens($sectionUniqueId, $maxDepthLevel=false){
-
-        if(empty($sectionUniqueId) || $sectionUniqueId == 0) return [];
-
-
-
-
-        return $this->childrenSections;
-    }
 
 }
