@@ -133,8 +133,7 @@ class DefaultController extends Controller
             }
 
 
-            //return '@todo - include section template';
-            return '@todo - include section template';
+            return '<br><br><br><br><hr>@todo - include section template';
         }
 
 
