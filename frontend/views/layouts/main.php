@@ -69,7 +69,7 @@ AppAsset::register($this);
 </div>
 
 <footer class="footer">
-    <div class="mw1350 clear">
+    <div class="mw1180 clear">
         <div class="footer-left fll">&copy; Русєл24. Торговля электронными компонентами. Все права защищены. <?= date('Y') ?></div>
 
         <div class="footer-right flr">

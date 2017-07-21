@@ -22,6 +22,8 @@ class Module extends \yii\base\Module implements BootstrapInterface
         parent::init();
 
 
+
+
         $this->modules = [
             'admin' => [
                 // you should consider using a shorter namespace here!
@@ -32,6 +34,12 @@ class Module extends \yii\base\Module implements BootstrapInterface
 
         // custom initialization code goes here
         \Yii::configure($this, require(__DIR__ . '/config/config.php'));
+
+        //echo $this->params['catalogDir'];
+        //die();
+        \Yii::setAlias('@catalogDir', $this->params['catalogDir']);
+
+
     }
 
 
@@ -42,11 +50,14 @@ class Module extends \yii\base\Module implements BootstrapInterface
      */
     public function bootstrap($app)
     {
+
+        $catalogDir = $this->params['catalogDir'];
+
         $app->getUrlManager()->addRules([
-            'catalog/admin/section' => 'catalog/admin/section/index',
-            'catalog/admin/product' => 'catalog/admin/product/index',
-            'catalog/<pathForParse:[\w_\/-]+>'=>'catalog/default',
-            'catalog' => 'catalog/default',
+            $catalogDir.'/admin/section' => $catalogDir.'/admin/section/index',
+            $catalogDir.'/admin/product' => $catalogDir.'/admin/product/index',
+            $catalogDir.'/<pathForParse:[\w_\/-]+>'=> $catalogDir.'/default',
+            $catalogDir => $catalogDir.'/default',
             //'POST import' => 'import/create',
             //'catalog/test/test2' => 'catalog/default',
         ], true);

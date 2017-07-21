@@ -50,6 +50,7 @@ return [
             'enableStrictParsing' => false,
             'rules' => [
                 //test for mng/elastic
+               // 'catalog/<pathForParse:[\w_\/-]+>'=> 'catalog/default',
                 'search/by-name/<name:.*>' => 'search/by-name',
                 'mongo/search/<name:.*>' => 'mongo/search',
                 'POST import' => 'import/create',
@@ -109,10 +110,7 @@ return [
     'modules' => [
         'catalog' => [
             'class' => 'common\modules\catalog\Module',
-            'params' => [
-                'importFolderName' => 'upload_xml',
-                'allowedExtensions' => ['xml', 'csv', 'txt'],
-            ]
+
         ],
     ],
 ];

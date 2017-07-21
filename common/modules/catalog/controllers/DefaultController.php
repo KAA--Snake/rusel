@@ -57,18 +57,12 @@ class DefaultController extends Controller
     {
         //для нулевого уровня каталога показываем только главные разделы
         if(!$pathForParse){
-            $rootSections = Section::find()->andWhere([
-                'depth_level' => 1
-            ])
-            ->orderBy([
-                'depth_level' => SORT_ASC,
-                //'sort' => SORT_ASC,
-            ])
-            ->all();
 
+            $sectionModel = new Section();
+            $rootSections = $sectionModel->getRootSections();
 
             //\Yii::$app->pr->print_r2($rootSections);
-            //return '';
+
             return $this->render('catalogRoot', ['rootSections' => $rootSections]);
         }
 

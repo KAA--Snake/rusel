@@ -135,6 +135,32 @@ class Section extends \yii\db\ActiveRecord
 
 
     /**
+     * Выводит корневые разделы каталога
+     * (используется для захода по адресу /catalog/)
+     *
+     * @return array
+     */
+    public function getRootSections(){
+
+        $rootSections = [];
+
+        $rootSections = Section::find()->andWhere([
+            'depth_level' => 1
+        ])
+            ->orderBy([
+                'depth_level' => SORT_ASC,
+                //'sort' => SORT_ASC,
+            ])
+            ->all();
+
+
+        //\Yii::$app->pr->print_r2($rootSections);
+        //return '';
+
+        return $rootSections;
+    }
+
+    /**
      * Получает раздел каталога и всех его потомков по УРЛу,
      * можно указать максимальную глубину для подразделов
      *
