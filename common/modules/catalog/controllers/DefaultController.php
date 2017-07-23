@@ -86,7 +86,11 @@ class DefaultController extends Controller
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
 
-        if( $sectionData ){
+        //var_dump($sectionData);
+        //die();
+
+        if( $sectionData['currentSection'] ){
+
             $returnData = [
                 'currentSection' => $sectionData['currentSection'],
                 'groupedSiblings' => $sectionData['groupedSiblings'],
@@ -108,6 +112,10 @@ class DefaultController extends Controller
         /** если раздел не содержит товаров, но есть список подразделов, выведем их*/
         else if( !empty($sectionData['groupedSiblings']) ){
 
+            return $this->render('sectionsList', $returnData);
+        }
+        /** последний подраздел, но без списка товаров (по идее сюда не должно заходить, т.к. товары должны быть!)*/
+        else if( $sectionData['currentSection'] ){
             return $this->render('sectionsList', $returnData);
         }
 

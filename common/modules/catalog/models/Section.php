@@ -214,7 +214,6 @@ class Section extends \yii\db\ActiveRecord
             'url' => $url
         ])->one();
 
-
         /** достаем всех дочерние разделы */
         if($returnData['currentSection']){
 

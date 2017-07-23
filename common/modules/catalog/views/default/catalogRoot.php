@@ -5,9 +5,6 @@ use yii\helpers\Url;
 
 echo '<br /><br />Корневой раздел каталога. Список разделов: <br /><br />';
 
-
-
-
 if(count($rootSections) > 0){
     foreach($rootSections as $category){
 
