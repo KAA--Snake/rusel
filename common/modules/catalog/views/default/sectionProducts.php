@@ -66,7 +66,7 @@ foreach($groupedSiblings as $oneSibling){
     //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
     $url = Url::toRoute(['@catalogDir/'.$oneSibling->url]);
 
-    echo '--- ' . '<a href="'.$url.'">' . $oneSibling->name . '</a> <br />';
+    echo '<br /><br />--- ' . '<a href="'.$url.'">' . $oneSibling->name . '</a> <br />';
 
     if(isset($oneSibling->childs)){
 
@@ -80,11 +80,13 @@ foreach($groupedSiblings as $oneSibling){
 
             /** вот так, если потребуется, можешь проверить и вывести подразделы для этого подраздела: */
             if(isset($oneChild->childs)){
-                foreach ($oneSibling->childs as $oneSubChild) {
+
+                foreach ($oneChild->childs as $oneSubChild) {
                     /** @var \common\modules\catalog\models\Section $oneSubChild */
                     $subChildUrl = Url::toRoute(['@catalogDir/'.$oneSubChild->url]);
                     echo '---------------- ' . '<a href="'.$subChildUrl.'">' . $oneSubChild->name . '</a> <br />';
                 }
+
             }
 
 
