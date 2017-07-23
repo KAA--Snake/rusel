@@ -73,62 +73,44 @@ class DefaultController extends Controller
         $product = Product::find()->andWhere($productWhere)->one();
         if($product){
             \Yii::$app->pr->print_r2($product->getAttributes());
-            return '';
+            return 'Product detail page ... not implemented yet...soon';
         }
 
 
-
-        /** есть ли такой раздел */
+        /**
+         * Ниже вывод раздела/списка товаров в разделе
+         */
         $sectionModel = new Section();
         $sectionData = $sectionModel->getSectionByUrl($pathForParse);
-
-        //\Yii::$app->pr->print_r2($sectionData);
 
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
 
-
-        if($sectionData){
-            //\Yii::$app->pr->print_r2($sectionData['currentSection']->getAttributes());
-
-            return $this->render('catalogRoot', ['rootSections' => $sectionData]);
-
-            /*foreach($sectionData['unGroupedSiblings'] as $oneSibling){
-                //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
-            }*/
-
-            echo '<br />';
-            echo '<br />';
-            echo 'Выбран раздел: <b>' . $sectionData['currentSection']->name.'</b>';
-            echo '<br />';
-            echo '<br />';
-
-
-            echo 'Подразделы:';
-            echo '<br />';
-            echo '<br />';
-
-
-            //\Yii::$app->pr->print_r2($sectionData['groupedSiblings']);
-
-            foreach($sectionData['groupedSiblings'] as $oneSibling){
-
-                //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
-
-                echo '-- ' . '<a href="/catalog/'.$oneSibling->url.'">' . $oneSibling->name . '</a> <br />';
-
-                if(isset($oneSibling->childs)){
-                    //echo 'Подразделы в этой категории (показан только +1 уровень): <br />';
-
-                    foreach ($oneSibling->childs as $oneChild) {
-                        echo '------ ' . '<a href="/catalog/'.$oneChild->url.'">' . $oneChild->name . '</a> <br />';
-
-                    }
-                }
-
-            }
-
+        if( $sectionData ){
+            $returnData = [
+                'currentSection' => $sectionData['currentSection'],
+                'groupedSiblings' => $sectionData['groupedSiblings'],
+                'unGroupedSiblings' => $sectionData['unGroupedSiblings'],
+                'currentSectionProducts' => $sectionData['currentSectionProducts'],
+            ];
+        }else{
+            /** если ничего не нашлось, выбросим 404 */
+            throw new HttpException(404);
         }
+
+
+
+        /** если раздел содержит товары, выведем их список */
+        if( !empty($sectionData['currentSectionProducts']) ){
+
+            return $this->render('sectionProducts', $returnData);
+        }
+        /** если раздел не содержит товаров, но есть список подразделов, выведем их*/
+        else if( !empty($sectionData['groupedSiblings']) ){
+
+            return $this->render('sectionsList', $returnData);
+        }
+
 
 
         /** если ничего не нашлось ранее, выбросим 404 */

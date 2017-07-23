@@ -206,6 +206,9 @@ class Section extends \yii\db\ActiveRecord
         $returnData['currentSectionProducts'] = []; //товары текущего раздела
 
 
+        /** добавляем в конце слеш, т.к. у нас suffix = '/' */
+        $url = $url.'/';
+
         /** достаем выбранный раздел */
         $returnData['currentSection'] = static::find()->andWhere([
             'url' => $url
