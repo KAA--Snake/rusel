@@ -53,6 +53,9 @@ class Module extends \yii\base\Module implements BootstrapInterface
 
         $catalogDir = $this->params['catalogDir'];
 
+        //подстановка слеша в конце
+        $app->getUrlManager()->suffix = '/';
+
         $app->getUrlManager()->addRules([
             $catalogDir.'/admin/section' => $catalogDir.'/admin/section/index',
             $catalogDir.'/admin/product' => $catalogDir.'/admin/product/index',

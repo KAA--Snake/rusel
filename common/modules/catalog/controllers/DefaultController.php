@@ -5,6 +5,7 @@ namespace common\modules\catalog\controllers;
 use common\modules\catalog\models\mongo\Product;
 use common\modules\catalog\models\Section;
 use yii\web\Controller;
+use yii\web\HttpException;
 
 /**
  * Default controller for the `catalog` module
@@ -55,18 +56,17 @@ class DefaultController extends Controller
      */
     public function actionIndex($pathForParse = false)
     {
-        //для нулевого уровня каталога показываем только главные разделы
+
+        /** для нулевого уровня каталога показываем только главные разделы */
         if(!$pathForParse){
 
             $sectionModel = new Section();
             $rootSections = $sectionModel->getRootSections();
 
-            //\Yii::$app->pr->print_r2($rootSections);
-
             return $this->render('catalogRoot', ['rootSections' => $rootSections]);
         }
 
-        /** есть ли такой товар */
+        /** есть ли такой товар @TODO сделать реализацию карточки товара (здесь) */
         $productWhere = [
             'url' => $pathForParse
         ];
@@ -87,9 +87,11 @@ class DefaultController extends Controller
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
 
+
         if($sectionData){
             //\Yii::$app->pr->print_r2($sectionData['currentSection']->getAttributes());
 
+            return $this->render('catalogRoot', ['rootSections' => $sectionData]);
 
             /*foreach($sectionData['unGroupedSiblings'] as $oneSibling){
                 //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
@@ -126,16 +128,11 @@ class DefaultController extends Controller
 
             }
 
-
-            return '<br><br><br><br><hr>@todo - include section template';
         }
 
 
+        /** если ничего не нашлось ранее, выбросим 404 */
+        throw new HttpException(404);
 
-
-
-
-
-        return $this->render('index', ['pathForParse' => $pathForParse, 'categories' => $product ]);
     }
 }

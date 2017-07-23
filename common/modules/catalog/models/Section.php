@@ -3,6 +3,7 @@
 namespace common\modules\catalog\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use common\helpers\translit\Translit;
 
@@ -27,6 +28,21 @@ class Section extends \yii\db\ActiveRecord
     private $right; //правая граница дерева
 
     public $childs;
+
+    //для хранения ссылки на модуль
+    private $catalogModule;
+
+
+    public function __construct(){
+        //сохраняем ссылку на модуль, чтоб не тягать постоянно
+        $this->catalogModule = \Yii::$app->getModule('catalog');
+
+        parent::__construct();
+    }
+
+
+
+
 
     /**
      * @inheritdoc
@@ -144,15 +160,27 @@ class Section extends \yii\db\ActiveRecord
 
         $rootSections = [];
 
-        $rootSections = Section::find()->andWhere([
-            'depth_level' => 1
-        ])
-            ->orderBy([
-                'depth_level' => SORT_ASC,
-                //'sort' => SORT_ASC,
-            ])
-            ->all();
+        $sectionsCount = $this->catalogModule->params['max_sections_cnt'];
 
+        $query = Section::find()->andWhere([
+            'depth_level' => 1
+        ]);
+
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => $sectionsCount,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'depth_level' => SORT_ASC,
+                    //'name' => SORT_DESC
+                ]
+            ],
+        ]);
+
+        // returns an array of Section objects
+        $rootSections = $provider->getModels();
 
         //\Yii::$app->pr->print_r2($rootSections);
         //return '';
