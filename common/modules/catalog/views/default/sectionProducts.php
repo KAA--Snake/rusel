@@ -44,7 +44,7 @@ use yii\helpers\Url;
 
 echo '<br />';
 echo '<br />';
-echo 'Выбран раздел: <b>' . $currentSection->name.'</b>';
+echo 'Выбран раздел: sectionProducts.php <b>' . $currentSection->name.'</b>';
 echo '<br />';
 echo 'Перейти назад в <a href="'.Url::toRoute(['@catalogDir']).'">каталог</a>';
 echo '<br />';
@@ -53,7 +53,7 @@ echo '<br />';
 /** получить массив значений выбранного раздела - $currentSection->getAttributes() : */
 //\Yii::$app->pr->print_r2($currentSection->getAttributes());
 
-echo 'Подразделы:';
+echo 'Подразделы 1:';
 echo '<br />';
 echo '<br />';
 
