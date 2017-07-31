@@ -247,7 +247,7 @@ class Section extends \yii\db\ActiveRecord
         /** @TODO достаем товары привязанные к текущему разделу */
         //$returnData['currentSectionProducts'] = ...
         //@todo это ФЕЙКОВЫЕ ДАННЫЕ, УДАЛИТЬ ИХ ПОТОМ И СДЕЛАТЬ НОМРАЛЬНЫМИ !
-        $returnData['currentSectionProducts'] = ['someDataForTest' => true];
+        //$returnData['currentSectionProducts'] = ['someDataForTest' => true];
 
         return $returnData;
     }
