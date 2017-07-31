@@ -47,6 +47,7 @@ class DefaultController extends Controller
     }
 
 
+
     /**
      * Точка входа для всего каталога
      *
