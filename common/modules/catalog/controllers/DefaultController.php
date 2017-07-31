@@ -47,12 +47,13 @@ class DefaultController extends Controller
     }
 
 
-
     /**
      * Точка входа для всего каталога
      *
      * Renders the index view for the module
+     * @param bool $pathForParse
      * @return string
+     * @throws HttpException
      */
     public function actionIndex($pathForParse = false)
     {
@@ -81,7 +82,7 @@ class DefaultController extends Controller
          * Ниже вывод раздела/списка товаров в разделе
          */
         $sectionModel = new Section();
-        $sectionData = $sectionModel->getSectionByUrl($pathForParse);
+        $sectionData = $sectionModel->getSectionByUrl($pathForParse, 5);
 
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
