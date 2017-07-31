@@ -58,6 +58,19 @@ class DefaultController extends Controller
     public function actionIndex($pathForParse = false)
     {
 
+        /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ */
+        if(!empty(\Yii::$app->request->get('product'))){
+            $returnData = [
+                'currentSection' => [],
+                'groupedSiblings' => [],
+                'unGroupedSiblings' => [],
+                'currentSectionProducts' => [],
+            ];
+            return $this->render('sectionProducts', $returnData);
+        }
+
+
+
         /** для нулевого уровня каталога показываем только главные разделы */
         if(!$pathForParse){
 
