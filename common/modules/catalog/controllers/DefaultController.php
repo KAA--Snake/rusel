@@ -67,6 +67,7 @@ class DefaultController extends Controller
                 'unGroupedSiblings' => [],
                 'currentSectionProducts' => [],
             ];
+            $this->layout = 'catalogFullWidth';
             return $this->render('sectionProducts', $returnData);
         }
 
