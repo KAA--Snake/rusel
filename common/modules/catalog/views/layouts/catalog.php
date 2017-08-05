@@ -111,7 +111,7 @@ AppAsset::register($this);
         <div class="col_220 fll">
 
             <div class="supply_program">
-                <div class="sp_header">ПРОГРАММА ПОСТАВОК</div>
+                <div class="sp_header sp_expanded">ПРОГРАММА ПОСТАВОК</div>
                 <div class="sp_body">
                     <div class="sp_filter_block">
                         <input type="text" class="sp_filter" placeholder="Поиск производителя">
@@ -135,15 +135,15 @@ AppAsset::register($this);
         <div class="content_top col_940">
             <div class="goods_catalog js-dropdown-catalog">
                 <div class="gc_header">Каталог</div>
-                <ul class="gc_list gc_list-lvl0" style="display: none;">
+                <ul class="gc_list gc_list-lvl0" >
                     <li class="gc_item">
-                        <a href="electric_products/"><span>Электротехнические изделия</span></a>
+                        <a href="/catalog/electric_products/"><span>Электротехнические изделия</span></a>
                     </li>
                     <li class="gc_item">
-                        <a href="izmeritelnye-pribory/"><span>Измерительные приборы</span></a>
+                        <a href="/catalog/izmeritelnye-pribory/"><span>Измерительные приборы</span></a>
                     </li>
                     <li class="gc_item">
-                        <a href="electronic_components/"><span>Электронные компоненты</span></a>
+                        <a href="/catalog/electronic_components/"><span>Электронные компоненты</span></a>
                     </li>
                 </ul>
             </div>
@@ -157,7 +157,7 @@ AppAsset::register($this);
         </div>
 
 
-        <div class="content_inner_wrap col_940">
+        <div class="content_inner_wrap col_940 clear">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
