@@ -160,7 +160,7 @@ class Section extends \yii\db\ActiveRecord
 
         $rootSections = [];
 
-        $sectionsCount = $this->catalogModule->params['max_sections_cnt'];
+        //$sectionsCount = $this->catalogModule->params['max_sections_cnt'];
 
         $query = Section::find()->andWhere([
             'depth_level' => 1
@@ -168,9 +168,9 @@ class Section extends \yii\db\ActiveRecord
 
         $provider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
+            /*'pagination' => [
                 'pageSize' => $sectionsCount,
-            ],
+            ],*/
             'sort' => [
                 'defaultOrder' => [
                     'depth_level' => SORT_ASC,

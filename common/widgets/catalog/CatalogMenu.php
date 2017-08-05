@@ -9,6 +9,7 @@
 namespace common\widgets\catalog;
 
 
+use common\modules\catalog\models\Section;
 use yii\base\Widget;
 
 class CatalogMenu extends Widget
@@ -23,6 +24,8 @@ class CatalogMenu extends Widget
 
     public function run()
     {
-        return $this->render('main_menu');
+        $sectionModel = new Section();
+        $rootSections = $sectionModel->getRootSections();
+        return $this->render('main_menu', ['rootSections' => $rootSections]);
     }
 }

@@ -3,6 +3,8 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Url;
+use common\widgets\catalog\CatalogMenu;
+
 $this->title = 'My Yii Application';
 
 
@@ -89,27 +91,9 @@ $this->title = 'My Yii Application';
 
 
     <div class="content_top col_940">
-        <div class="goods_catalog">
-            <div class="gc_header">Каталог</div>
-            <ul class="gc_list gc_list-lvl0" style="display: none;">
-                <li class="gc_item">
-                    <span>Электронные компоненты</span>
-                    <div class="catalog-icon"></div>
-                </li>
-                <li class="gc_item">
-                    <span>Электротехнические изделия</span>
-                    <div class="catalog-icon"></div>
-                </li>
-                <li class="gc_item">
-                    <span>измерительные приборы</span>
-                    <div class="catalog-icon"></div>
-                </li>
-                <li class="gc_item">
-                    <span>щитовое оборудование</span>
-                    <div class="catalog-icon"></div>
-                </li>
-            </ul>
-        </div>
+
+        <?=CatalogMenu::widget();?>
+
 
         <div class="search_block">
             <input type="text" class="search_field">

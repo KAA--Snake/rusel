@@ -36,6 +36,33 @@ use yii\helpers\Url;
 /** @var Array $unGroupedSiblings - НЕсгруппированные подразделы текущего раздела */
 /** @var Array $currentSectionProducts - Товары в текущем разделе (если есть) */
 
+foreach ($groupedSiblings as $oneSibling){
+    if(isset($oneSibling->childs) && count($oneSibling->childs) > 0){
+        //\Yii::$app->pr->print_r2($oneSibling->childs);
+        //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
+    }
+
+}
+
+
+
+
+function buildTree(&$data, $rootID = 0) {
+
+    $tree = array();
+
+
+    foreach ($data as $id => $node) {
+        if ($node['parent_id'] == $rootID) {
+            unset($data[$id]);
+
+            $node['childs'] = $this->buildTree($data, $node['unique_id']);
+            $tree[] = $node;
+        }
+    }
+    return $tree;
+}
+
 ?>
 <h1><?= $currentSection->name; ?></h1>
 
