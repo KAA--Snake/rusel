@@ -75,7 +75,7 @@ class DefaultController extends Controller
         /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - карточка товара */
         if(!empty(\Yii::$app->request->get('detail'))){
 
-            $this->layout = 'catalogFullWidth';
+            $this->layout = 'catalogDetail';
             return $this->render('productDetail');
         }
 
