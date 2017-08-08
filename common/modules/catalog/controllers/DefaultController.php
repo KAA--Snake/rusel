@@ -72,6 +72,13 @@ class DefaultController extends Controller
         }
 
 
+        /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - карточка товара */
+        if(!empty(\Yii::$app->request->get('detail'))){
+
+            $this->layout = 'catalogDetail';
+            return $this->render('productDetail');
+        }
+
 
         /** для нулевого уровня каталога показываем только главные разделы */
         if(!$pathForParse){
