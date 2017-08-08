@@ -74,8 +74,29 @@ class ImportController extends Controller
     public function actionIndex(){
         $catalogModule = \Yii::$app->getModule('catalog');
         $allowedExtensions = $catalogModule->params['allowedExtensions'];
+
+        $uploaded = false;
+
         $model = new CatalogImport();
-        return $this->render('csv', ['allowedExtensions' => $allowedExtensions, 'uploaded' => false, 'model' => $model]);
+
+        if (Yii::$app->request->isPost) {
+
+            $model->file = UploadedFile::getInstance($model, 'file');
+
+            //if ($model->massUpload()) {
+            if ($model->upload()) {
+                // file is uploaded successfully
+                $uploaded = true;
+
+                $model->import();
+
+                /** запускаем проход по импортированному каталогу и генерим ему урлы*/
+                $model->generateCatalogUrls();
+            }
+
+        }
+
+        return $this->render('csv', ['allowedExtensions' => $allowedExtensions, 'uploaded' => $uploaded, 'model' => $model]);
     }
 
 

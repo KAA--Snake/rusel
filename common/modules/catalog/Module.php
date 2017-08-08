@@ -57,11 +57,12 @@ class Module extends \yii\base\Module implements BootstrapInterface
         $app->getUrlManager()->suffix = '/';
 
         $app->getUrlManager()->addRules([
+            //'POST /admin/import/' => 'import/create',
+           //'POST admin/import' => 'import/create',
             $catalogDir.'/admin/section/' => $catalogDir.'/admin/section/index',
             $catalogDir.'/admin/product/' => $catalogDir.'/admin/product/index',
             $catalogDir.'/<pathForParse:.+>'=> $catalogDir.'/default',
             $catalogDir => $catalogDir.'/default',
-            //'POST import' => 'import/create',
             //'catalog/test/test2' => 'catalog/default',
         ], true);
     }
