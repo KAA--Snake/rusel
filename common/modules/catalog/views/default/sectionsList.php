@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Url;
+use common\modules\catalog\models\Section;
 
 /**
  *  Это view для вывода раздела / списка подразделов каталога
@@ -44,24 +45,9 @@ foreach ($groupedSiblings as $oneSibling){
 
 }
 
+$sectionModel = new Section();
 
-
-
-function buildTree(&$data, $rootID = 0) {
-
-    $tree = array();
-
-
-    foreach ($data as $id => $node) {
-        if ($node['parent_id'] == $rootID) {
-            unset($data[$id]);
-
-            $node['childs'] = $this->buildTree($data, $node['unique_id']);
-            $tree[] = $node;
-        }
-    }
-    return $tree;
-}
+//$sectionModel->listTree($groupedSiblings);
 
 ?>
 <h1><?= $currentSection->name; ?></h1>
@@ -99,7 +85,9 @@ function buildTree(&$data, $rootID = 0) {
 
 
 
-    <?php foreach ($groupedSiblings as $oneSibling) { ?>
+    <?php
+
+    foreach ($groupedSiblings as $oneSibling) { ?>
         <div class="content_block">
             <div class="tree_container clear">
                 <!--<div class="tree_img fll">
@@ -111,43 +99,12 @@ function buildTree(&$data, $rootID = 0) {
                     </h2>
                     <?php if (count($oneSibling->childs) > 0) { ?>
                         <div class="tree_list">
-                            <ul class="catalog_tree lv1">
-                                <?php foreach ($oneSibling->childs as $key => $oneChild) { ?>
-                                    <li class="ct_item lv1 <?php if ($key == 0) { ?>ct_first <?php } ?><?php if (count($oneChild->childs) > 0) { ?>ct_dir child_collapsed<?php }; ?> <?php if (count($oneSibling->childs) == ($key + 1)) { ?>ct_last<?php } ?>">
 
-                                        <?php if (!count($oneChild->childs) > 0){ ?><a
-                                                href="<?= Url::toRoute(['@catalogDir/' . $oneChild->url]); ?>"><?php } ?>
-                                            <?= $oneChild->name; ?>
-                                            <?php if (!count($oneChild->childs) > 0){ ?></a><?php } ?>
+                            <?php
+                            $sectionModel->recursiveLevel = 1;
+                            $sectionModel->listTree($oneSibling->childs);
+                            ?>
 
-                                        <?php if (count($oneChild->childs) > 0) { ?>
-                                            <ul class="catalog_tree lv2 sublvl collapsed">
-                                                <?php foreach ($oneChild->childs as $subKey => $oneSubChild) { ?>
-                                                    <li class="ct_item lv2 sublvl <?php if (count($oneSubChild->childs) > 0) { ?>ct_dir child_collapsed<?php }; ?> <?php if (count($oneChild->childs) == ($subKey + 1)) { ?>ct_last<?php } ?>">
-                                                        <?php if (!count($oneSubChild->childs) > 0){ ?><a
-                                                                href="<?= Url::toRoute(['@catalogDir/' . $oneSubChild->url]); ?>"><?php } ?>
-                                                            <?= $oneSubChild->name; ?>
-                                                            <?php if (!count($oneSubChild->childs) > 0){ ?></a><?php } ?>
-
-                                                        <?php if (count($oneSubChild->childs) > 0) { ?>
-                                                            <ul class="catalog_tree lv3 sublvl collapsed">
-                                                                <?php foreach ($oneSubChild->childs as $subSubKey => $oneSubSubChild) { ?>
-                                                                    <li class="ct_item lv3 sublvl <?php if (count($oneSubChild->childs) == ($subSubKey + 1)) { ?>ct_last<?php } ?>">
-                                                                        <?php if (!count($oneSubSubChild->childs) > 0){ ?>
-                                                                        <a href="<?= Url::toRoute(['@catalogDir/' . $oneSubSubChild->url]); ?>"><?php } ?>
-                                                                            <?= $oneSubSubChild->name;?>
-                                                                            <?php if (!count($oneSubSubChild->childs) > 0){ ?></a><?php } ?>
-                                                                    </li>
-                                                                <?php } ?>
-                                                            </ul>
-                                                        <?php } ?>
-                                                    </li>
-                                                <?php } ?>
-                                            </ul>
-                                        <?php } ?>
-                                    </li>
-                                <?php } ?>
-                            </ul>
                         </div>
                     <?php } ?>
 

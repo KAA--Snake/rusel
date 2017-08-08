@@ -6,6 +6,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use common\helpers\translit\Translit;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "public.section".
@@ -26,6 +27,10 @@ class Section extends \yii\db\ActiveRecord
     private $reParented = [];
     private $url;
     private $right; //правая граница дерева
+
+    //сюда падает уровень вложенности при рекурсивном составлении дерева
+    public $recursiveLevel = 1;
+    public $subLevel = 1;
 
     public $childs;
 
@@ -428,6 +433,77 @@ class Section extends \yii\db\ActiveRecord
         }
         return $tree;
     }
+
+
+    /**
+     * Выводит в каталоге список
+     *
+     * @param $oneSibling
+     * @param int $level
+     * @return array
+     * @internal param $groupedSiblings
+     * @internal param $data
+     * @internal param int $rootID
+     */
+    public function listTree($oneSibling){
+
+        //\Yii::$app->pr->print_r2($oneSibling);
+
+        if($this->recursiveLevel === 1){
+            $sub = '';
+            echo '<ul class="catalog_tree lv'.$this->recursiveLevel.'">';
+        }else{
+            $sub = ' sublvl';
+            echo '<ul class="catalog_tree lv'.$this->recursiveLevel.' sublvl collapsed">';
+        }
+
+
+
+        $overallChildsCnt = count($oneSibling);
+
+        $cnt = 0;
+        foreach ($oneSibling as $id => $oneChild) {
+            $classFst= '';
+            if($cnt == 0){
+                $classFst .= ' ct_first';
+            }
+
+            $cnt++;
+
+            $class='';
+            if($overallChildsCnt == 1){
+                $class .= ' ct_last';
+            }
+
+            if(count($oneChild->childs) > 0){
+                $class .= ' ct_dir';
+                $class .= ' child_collapsed';
+            }
+
+            echo '<li class="ct_item'.$class.$classFst.$sub.'">';
+
+            $url = Url::toRoute(['@catalogDir/' . $oneChild->getAttribute('url')]);
+            echo '<a href="'.$url.'">'.$oneChild->name.'</a>';
+
+            if(isset($oneChild->childs) && count($oneChild->childs) > 0){
+                $this->recursiveLevel++;
+                $this->listTree($oneChild->childs);
+            }
+
+            echo '</li>';
+
+            $overallChildsCnt--;
+            //\Yii::$app->pr->print_r2($node->getAttributes());
+        }
+
+
+
+
+        echo '</ul>';
+        //return $tree;
+    }
+
+
 
 
     /**

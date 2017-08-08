@@ -37,11 +37,11 @@ use yii\helpers\Url;
             <div class="price_vars">
                 <div class="price_var_item clear">
                     <span class="count fll">1+</span>
-                    <span class="price flr">100.00 Р/шт</span>
+                    <span class="price flr">100.00 &#8381;/шт</span>
                 </div>
                 <div class="price_var_item clear">
                     <span class="count fll">1+</span>
-                    <span class="price flr">100.00 Р/шт</span>
+                    <span class="price flr">100.00 &#8381;/шт</span>
                 </div>
                 <div class="price_var_item clear">
                     <span class="count fll">1+</span>
