@@ -439,8 +439,8 @@ class Section extends \yii\db\ActiveRecord
      * Выводит в каталоге список
      *
      * @param $oneSibling
-     * @param int $level
      * @return array
+     * @internal param int $level
      * @internal param $groupedSiblings
      * @internal param $data
      * @internal param int $rootID
@@ -464,7 +464,7 @@ class Section extends \yii\db\ActiveRecord
         $cnt = 0;
         foreach ($oneSibling as $id => $oneChild) {
             $classFst= '';
-            if($cnt == 0){
+            if($cnt == 0 && $this->recursiveLevel === 1){
                 $classFst .= ' ct_first';
             }
 

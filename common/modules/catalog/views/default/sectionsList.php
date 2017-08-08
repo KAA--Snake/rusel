@@ -114,7 +114,7 @@ $sectionModel = new Section();
     <?php } ?>
 
 
-
+    <?php /*?>
     <div class="content_block">
         <div class="tree_container clear">
             <div class="tree_img fll">
@@ -161,6 +161,7 @@ $sectionModel = new Section();
             </div>
         </div>
     </div>
+    <?php */?>
 
 </div>
 
