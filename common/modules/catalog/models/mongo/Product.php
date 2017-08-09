@@ -114,6 +114,22 @@ class Product extends ActiveRecord
 
 
     /**
+     * Удаляет документы и саму коллекцию product
+     *
+     * @return bool
+     */
+    public function dropProductCollection(){
+
+        $selfProduct = new static();
+
+        $selfProduct->deleteAll(); //удаляем все документы из коллекции
+
+        \Yii::$app->db_mongo->getCollection('product')->drop(); //удаляем саму коллекцию
+
+        return true;
+    }
+
+    /**
      * Сохранение из парсера
      * @param $product
      * @internal param $group
