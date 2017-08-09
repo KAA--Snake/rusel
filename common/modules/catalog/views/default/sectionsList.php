@@ -37,13 +37,6 @@ use common\modules\catalog\models\Section;
 /** @var Array $unGroupedSiblings - НЕсгруппированные подразделы текущего раздела */
 /** @var Array $currentSectionProducts - Товары в текущем разделе (если есть) */
 
-foreach ($groupedSiblings as $oneSibling){
-    if(isset($oneSibling->childs) && count($oneSibling->childs) > 0){
-        //\Yii::$app->pr->print_r2($oneSibling->childs);
-        //\Yii::$app->pr->print_r2($oneSibling->getAttributes());
-    }
-
-}
 
 $sectionModel = new Section();
 
@@ -56,37 +49,8 @@ $sectionModel = new Section();
 <!--static markup--------------------------------------------------------------------->
 <!--static markup--------------------------------------------------------------------->
 <div class="catalog_tree_container fll">
-    <?php
-    $depth = 0;
-    $previousKey = null;
-    foreach ($unGroupedSiblings as $key=>$value) {
-        /** @var \common\modules\catalog\models\Section $oneSibling */
-        /*if( !$previousKey ) $previousKey = 0;
-        $depth = $value->depth_level;
-        echo $value->name.' :: '. $depth.' ';
-
-        echo '---'.$unGroupedSiblings[$previousKey]->name.' :: '. $depth.'<br>';*/
-
-        /*if($value->depth_level > $depth){
-            $depth = $value->depth_level;
-            echo $value->name.' :: '. $depth.'<br>';
-            echo '---'.$unGroupedSiblings[$previousKey]->name.' :: '. $depth.'<br>';
-        }elseif ($value->depth_level < $depth){
-            $depth = $value->depth_level;
-            echo $value->name.' :: '. $depth.'<br>';
-            echo '---'.$unGroupedSiblings[$previousKey]->name.' :: '. $depth.'<br>';
-        }*/
-
-        $previousKey = $key;
-        //\Yii::$app->pr->print_r2($value->getAttributes());
-
-    }
-    ?>
-
-
 
     <?php
-
     foreach ($groupedSiblings as $oneSibling) { ?>
         <div class="content_block">
             <div class="tree_container clear">
@@ -95,7 +59,7 @@ $sectionModel = new Section();
                 </div>-->
                 <div class="catalog_tree_wrap fll">
                     <h2>
-                        <a href="<?= Url::toRoute(['@catalogDir/' . $oneSibling->url]); ?>"><?= $oneSibling->name; ?></a>
+                        <a class="tree_header active" href="<?= Url::toRoute(['@catalogDir/' . $oneSibling->url]); ?>"><?= $oneSibling->name; ?></a>
                     </h2>
                     <?php if (count($oneSibling->childs) > 0) { ?>
                         <div class="tree_list">

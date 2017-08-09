@@ -1,24 +1,119 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+    font-family: 'Open Sans', sans-serif;
+
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.clear:before,
+.clear:after {
+    content: "";
+    display: table;
+}
+.clear:after{
+    clear: both;
+}
+
+.fll{
+    float: left;
+}
+.flr{
+    float: right;
+}
+
+.mw1180{
+    width: 1180px;
+    margin: 0 auto;
+}
+.col_220{
+    width:220px;
+}
+
+.col_940{
+    width:940px;
+}
+.ml240{
+    margin-left: 240px;
+}
+.hidden,
+.collapsed{
+    display: none;
+}
+
 html,
 body {
     height: 100%;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    min-width: 1200px;
+}
+
+body *{
+    box-sizing: border-box;
+}
+body div{
+    position: relative;
 }
 
 .wrap {
     min-height: 100%;
     height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
+    margin: 0 auto -82px;
+    padding: 0 0 164px;
+    background: #f7f7f7;
 }
 
 .wrap > .container {
-    padding: 70px 15px 20px;
+    padding: 0;
+    margin: 0;
 }
 
 .footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
+    position: relative;
+    height: 82px;
+    background-color: #fff;
 }
 
 .jumbotron {
@@ -118,3 +213,5 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
