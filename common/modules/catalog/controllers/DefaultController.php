@@ -80,6 +80,15 @@ class DefaultController extends Controller
         }
 
 
+
+        /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - корзина */
+        if(!empty(\Yii::$app->request->get('cart'))){
+
+            $this->layout = 'catalogDetail';
+            return $this->render('cartOrder');
+        }
+
+
         /** для нулевого уровня каталога показываем только главные разделы */
         if(!$pathForParse){
 
