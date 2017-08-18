@@ -114,12 +114,13 @@ class ImportController extends Controller
             if(\Yii::$app->request->post('CatalogImport')['isNeedDropCollection'] == 1){
                 /** надо чистить товары */
                 /** @TODO СДЕЛАТЬ ПРОВЕРКУ НА АДМИНА !!*/
-                $productModel = new Product();
-                $productModel->dropProductCollection();
-                $isProductsClear = true;
+
+                //$elModel = new \common\models\elasticsearch\Product();
+                //$elModel->deleteAll();
+                //$isProductsClear = true;
 
             }
-            //if ($model->massUpload()) {
+
 
 
         }
@@ -155,8 +156,6 @@ class ImportController extends Controller
 
 
     public function actionErp(){
-
-
 
         if(\Yii::$app->getRequest()->getIsPost()){
             $erpParams = \Yii::$app->getModule('catalog')->params['erp'];

@@ -178,6 +178,93 @@ class Product extends Model
 
 
 
+    public function getProductByUrl($productUrl)
+    {
+
+
+        /*$elModel = new \common\models\elasticsearch\Product();
+        $elModel->deleteAll();
+
+        die();*/
+
+        /*$client = ClientBuilder::create()->build();
+        $params = [
+            'index' => 'product',
+            'body' => [
+                //'settings' => [
+                //    'number_of_shards' => 3,
+                //    'number_of_replicas' => 2
+                //],
+                'mappings' => [
+                    'product_type' => [
+                        '_source' => [
+                            'enabled' => true
+                        ],
+                        'properties' => [
+                            'url' => [
+                                'type' => 'keyword',
+                                //'analyzer' => 'standard'
+                            ],
+                            //'age' => [
+                            //    'type' => 'integer'
+                            //]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        // Create the index with mappings and settings now
+        $response = static::getElasticClient()->indices()->create($params);
+
+        // Update the index mapping
+       // static::getElasticClient()->indices()->create($params);
+
+        die();*/
+
+
+        $url = str_replace('/', '|', $productUrl);
+
+
+        $params = [
+            'body' => [
+                'query' => [
+                    'match' => [
+                        'url' => $url
+                    ]
+                ]
+            ]
+        ];
+
+
+        /*$json = '{
+            "query" : {
+                "term" : {
+                    "section_id" : "165"
+                }
+            }
+        }';*/
+
+        /*$params = [
+            'body' => $json
+        ];*/
+
+        //\Yii::$app->pr->print_r2($params);
+        //\Yii::$app->pr->print_r2($response);
+        //print_r($response);
+
+        $params = static::productData + $params;
+
+        $response = static::getElasticClient()->search($params);
+
+        if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
+            return $response['hits']['hits'][0]['_source'];
+        }
+
+        return false;
+
+    }
+
 
     /**
      * Сохранение из парсера
@@ -185,8 +272,6 @@ class Product extends Model
      * @internal param $group
      */
     public function saveProduct(&$product){
-
-
 
         $product['code'] = str_ireplace(['/','\\'], '', $product['code']);
 
@@ -208,27 +293,9 @@ class Product extends Model
         /** сгенерим урл из урла раздела/урла товара */
         $product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
 
-
         //\Yii::$app->pr->print_r2($product);
 
-
-        try{
-
-            $this->addProduct($product);
-
-           // $selfProduct->save();
-
-        }catch (Exception $e){
-
-            $error = '<br />' . $e->getMessage() . '<br />';
-
-            //echo $error;
-            //\Yii::$app->pr->print_r2($product);
-
-            //\Yii::$app->session->setFlash('error_'.intval($product['id']), $error);
-        }
-
-
+        $this->addProduct($product);
 
     }
 
@@ -253,7 +320,14 @@ class Product extends Model
 
         if($section){
             //echo 'Уникальный ИД: '.$section->unique_id . '<br />';
-            return $section->url.$productCode.'/';
+
+            //выпиливаем слеши для сохранения в базе
+            $url = str_replace('/', '|', $section->url.$productCode);
+            //$url = md5($url);
+
+
+            //return 'electric_productsaksessuary-dlya-klemmmarkirovka2035-0';
+            return $url;
         }else{
             //@TODO не найден такой раздела в каталоге для товара, сбрасываем товар в корень каталога
 

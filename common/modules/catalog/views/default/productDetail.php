@@ -2,6 +2,9 @@
 
     use yii\helpers\Url;
 
+    //здесь выводится все по товару
+    //\Yii::$app->pr->print_r2($product);
+
     ?>
 
     <div class="product_cards_block _detail">

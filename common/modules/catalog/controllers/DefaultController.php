@@ -72,12 +72,7 @@ class DefaultController extends Controller
         }
 
 
-        /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - карточка товара */
-        if(!empty(\Yii::$app->request->get('detail'))){
 
-            $this->layout = 'catalogDetail';
-            return $this->render('productDetail');
-        }
 
 
 
@@ -101,21 +96,13 @@ class DefaultController extends Controller
         /** есть ли такой товар @TODO сделать реализацию карточки товара (здесь) */
         $productModel = new \common\models\elasticsearch\Product();
 
-        $product = $productModel->getProductById(6654);
+        //$product = $productModel->getProductById(6654);
 
-        \Yii::$app->pr->print_r2($product);
-
-
-        /*
-        $productWhere = [
-            'url' => $pathForParse
-        ];
-        $product = Product::find()->andWhere($productWhere)->one();
+        $product = $productModel->getProductByUrl($pathForParse);
         if($product){
-            \Yii::$app->pr->print_r2($product->getAttributes());
-            return 'Product detail page ... not implemented yet...soon';
+            $this->layout = 'catalogDetail';
+            return $this->render('productDetail', ['product' => $product]);
         }
-        */
 
 
         /**
