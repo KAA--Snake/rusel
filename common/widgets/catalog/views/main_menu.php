@@ -3,6 +3,9 @@ namespace common\widgets\catalog\views;
 
 use yii\helpers\Url;
 
+if(!isset($rootSections) || empty($rootSections)){
+    $rootSections = [];
+}
 //\Yii::$app->pr->print_r2($rootSections[0]);
 ?>
 

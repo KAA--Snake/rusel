@@ -8,9 +8,8 @@
 
 namespace common\modules\catalog\modules\admin\models\import;
 
-
+use common\models\elasticsearch\Product;
 use common\modules\catalog\modules\admin\models\import\ProductParser;
-use common\modules\catalog\models\mongo\Product;
 use common\modules\catalog\models\Section;
 use yii\base\Model;
 use XMLReader;
@@ -29,7 +28,7 @@ class CatalogXmlReader
         $this->reader = new XMLReader();
         if(is_file($xml_path))
             $this->reader->open($xml_path);
-        else throw new Exception('XML file {'.$xml_path.'} not exists!');
+        else throw new \Exception('XML file {'.$xml_path.'} not exists!');
     }
 
 

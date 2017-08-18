@@ -28,16 +28,7 @@ return [
     'bootstrap' => ['log', 'catalog'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-        'elasticsearch' => [
-            'class' => 'yii\elasticsearch\Connection',
-            'auth' => ['username' => 'elastic', 'password' => 'changeme'],
-            //'username' => 'elastic',
-            //'password' => 'changeme',
-            'nodes' => [
-                ['http_address' => 'elasticsearch:9200'],
-                // configure more hosts if you have a cluster
-            ],
-        ],
+
         'request' => [
             'csrfParam' => '_csrf-frontend',
             'baseUrl' => '',

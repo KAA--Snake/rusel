@@ -7,6 +7,13 @@ return [
 
         /** ниже настройки каталога*/
 
+        //пароль для ерп
+        'erp' => [
+            'login' => 'erp',
+            'password' => 'tgRdj674G',
+            'upload_folder' => '/webapp/upload/erp/',
+        ],
+
         //макс число выводимых разделов
         'max_sections_cnt' => 30,
 

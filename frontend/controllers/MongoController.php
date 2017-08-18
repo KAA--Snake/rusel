@@ -110,7 +110,7 @@ class MongoController extends Controller
     }
 
 
-    public function actionSearch($name){
+    public function actionSearch($name=''){
 
         //$name = \Yii::$app->request->get('name');
 

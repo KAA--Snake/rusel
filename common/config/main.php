@@ -3,6 +3,16 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
 
+        'elasticsearch' => [
+            'class' => 'yii\elasticsearch\Connection',
+            'auth' => ['username' => 'elastic', 'password' => 'changeme'],
+            //'username' => 'elastic',
+            //'password' => 'changeme',
+            'nodes' => [
+                ['http_address' => 'elasticsearch:9200'],
+                // configure more hosts if you have a cluster
+            ],
+        ],
         //основная база mysql
         'db' => [
             'class' => 'yii\db\Connection',
@@ -39,11 +49,14 @@ return [
             'useFileTransport' => true,
         ],
 
-
-
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+
+        'errorHandler' => [
+            'errorAction' => 'site/error',
+        ],
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

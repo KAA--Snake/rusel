@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use yii\helpers\Html;
@@ -44,7 +45,8 @@ AppAsset::register($this);
             <form action="" class="popup-form">
                 <input name="name" type="text" placeholder="Введите ваше ФИО" class="popup-input name_input">
                 <input name="phone" type="text" placeholder="Введите Ваш телефон" class="popup-input phone_input">
-                <textarea name="comment" id="" cols="30" rows="10" placeholder="Примечание к звонку" class="popup-input textarea comment" ></textarea>
+                <textarea name="comment" id="" cols="30" rows="10" placeholder="Примечание к звонку"
+                          class="popup-input textarea comment"></textarea>
                 <div class="recaptcha"></div>
                 <input type="submit" class="popup-button" value="Заказать">
             </form>
@@ -135,7 +137,7 @@ AppAsset::register($this);
             <div class="content_top col_940">
                 <div class="goods_catalog js-dropdown-catalog">
                     <div class="gc_header">Каталог</div>
-                    <ul class="gc_list gc_list-lvl0" >
+                    <ul class="gc_list gc_list-lvl0">
                         <li class="gc_item">
                             <a href="/catalog/electric_products/"><span>Электротехнические изделия</span></a>
                         </li>
@@ -179,7 +181,8 @@ AppAsset::register($this);
                     <div class="divider"></div>
                     <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
                     <div class="divider"></div>
-                    <div class="filter_params_applied" data-empty="Условия фильтра не выбраны">Условия фильтра не выбраны</div>
+                    <div class="filter_params_applied" data-empty="Фильтр не применен">Фильтр не применен
+                    </div>
                     <div class="divider"></div>
                     <div class="filter_reset_btn">Сброс</div>
                 </div>
@@ -237,10 +240,6 @@ AppAsset::register($this);
             </div>
 
 
-
-
-
-
             <div class="content_inner_wrap left0 col_1180">
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -281,7 +280,7 @@ AppAsset::register($this);
                 'items' => $menuItems,
             ]);
             NavBar::end();
-            */?>
+            */ ?>
 
 
     </div>

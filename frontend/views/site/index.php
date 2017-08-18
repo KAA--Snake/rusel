@@ -297,10 +297,13 @@ $this->title = 'My Yii Application';
 
         <div class="slider">
             <div class="slider_item">
-                <img src="<?= Url::to('@web/img/slider_img.png');?>" alt="">
+                <img src="<?= Url::to('@web/img/slider/1.png');?>" alt="">
             </div>
             <div class="slider_item">
-                <img src="<?= Url::to('@web/img/slider_img.png');?>" alt="">
+                <img src="<?= Url::to('@web/img/slider/2.png');?>" alt="">
+            </div>
+            <div class="slider_item">
+                <img src="<?= Url::to('@web/img/slider/3.png');?>" alt="">
             </div>
         </div>
         

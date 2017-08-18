@@ -99,6 +99,14 @@ class DefaultController extends Controller
         }
 
         /** есть ли такой товар @TODO сделать реализацию карточки товара (здесь) */
+        $productModel = new \common\models\elasticsearch\Product();
+
+        $product = $productModel->getProductById(6654);
+
+        \Yii::$app->pr->print_r2($product);
+
+
+        /*
         $productWhere = [
             'url' => $pathForParse
         ];
@@ -107,6 +115,7 @@ class DefaultController extends Controller
             \Yii::$app->pr->print_r2($product->getAttributes());
             return 'Product detail page ... not implemented yet...soon';
         }
+        */
 
 
         /**

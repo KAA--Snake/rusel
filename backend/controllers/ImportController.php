@@ -14,10 +14,15 @@ use common\modules\catalog\models\Section;
 use common\modules\catalog\modules\admin\models\import\CatalogImport;
 use Yii;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\UploadedFile;
+
 
 class ImportController extends Controller
 {
+
+    //@TODO временно отключаем валидацию токенов для тестирования
+    public $enableCsrfValidation = false;
 
     /**
      * @inheritdoc
@@ -38,8 +43,7 @@ class ImportController extends Controller
 
     //public $modelClass = 'common\modules\catalog\models\import\CsvImport';
 
-    //@TODO временно отключаем валидацию токенов для тестирования
-    public $enableCsrfValidation = false;
+
 
     public function actionCreate(){
         $catalogModule = \Yii::$app->getModule('catalog');
@@ -148,5 +152,67 @@ class ImportController extends Controller
     }
 
 
+
+
+    public function actionErp(){
+
+
+
+        if(\Yii::$app->getRequest()->getIsPost()){
+            $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
+            $postData = \Yii::$app->getRequest()->post();
+
+
+            if($erpParams['login'] == $postData['login']){
+                if($erpParams['password'] == $postData['password']){
+
+                    //удалить ли товары?
+                    if(isset($postData['clear_products']) && !empty($postData['clear_products'])){
+                        //временно отключили удаление товаров
+                        //$elModel = new \common\models\elasticsearch\Product();
+                        //$elModel->deleteAll();
+
+                    }
+
+                    //запустить импорт
+                    if(isset($postData['start_import']) && !empty($postData['start_import'])){
+
+
+                        if(isset($postData['file_name']) && !empty($postData['file_name'])){
+
+
+
+                            $catalogImportModel = new CatalogImport();
+                            //echo $_SERVER['DOCUMENT_ROOT'];
+                            //die();
+                            $catalogImportModel->filePath = $erpParams['upload_folder'].$postData['file_name'];
+                            //$catalogImportModel->filePath = '/webapp/upload/erp/list1502263897108.txt';
+
+                            //$catalogImportModel->import();
+                            return 'ok';
+
+                        }
+
+
+
+                        //echo $file;
+
+                    }
+
+
+
+                }
+            }
+
+
+        }
+
+
+        //throw new HttpException(404, 'Страница не найдена');
+
+        //\Yii::$app->pr->print_r2(\Yii::$app->request->post());
+
+        return 'error';
+    }
 
 }

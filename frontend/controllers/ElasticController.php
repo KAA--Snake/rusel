@@ -214,6 +214,6 @@ class ElasticController extends Controller
             ->limit($paginator->limit)
             ->all();*/
 
-        return $this->render('findByName', compact('customers', 'query'));
+        //return $this->render('findByName', compact('customers', 'query'));
     }
 }
