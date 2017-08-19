@@ -9,67 +9,31 @@
 namespace frontend\controllers;
 
 
+use common\models\elasticsearch\Product;
 use yii\data\Pagination;
 use yii\web\Controller;
 use common\models\elasticsearch\Customer;
 
 class ElasticController extends Controller
 {
-    /**
-     * Создаем индекс для модели customer
-     */
-    public function actionCreateIndex(){
 
-        Customer::createIndex();
-
-        //return $this->render('map-index', []);
-    }
-
-
-    //обычное заполнение
-    public function actionAddTestCustomers(){
-        for($i = 1; $i <= 350; $i++){
-            $elasticModel = new Customer();
-            $elasticModel->name = 'Smu'.$i;
-            $elasticModel->surname = 'Solo'.$i;
-            $elasticModel->primaryKey = $i;
-            if ($elasticModel->insert()) {
-                //echo "Added Successfully <br>";
-            } else {
-                echo "Error <br>";
-            }
-        }
-
-        //return $this->render('map-index', []);
-    }
-
-    //suggest заполнение
-    public function actionAddTestCustomers222(){
-        for($i = 1; $i <= 350; $i++){
-            $elasticModel = new Customer();
-            $elasticModel->name = [
-                'input' => 'Smu'.$i,
-               // 'weight' => $i,
-            ];
-
-
-
-            $elasticModel->surname = 'Solo'.$i;
-            $elasticModel->primaryKey = $i;
-            if ($elasticModel->insert()) {
-               // echo "Added Successfully <br>";
-            } else {
-                echo "Error <br>";
-            }
-        }
-    }
 
 
     /**
-     * Удаление индекса (при желании)
+     * Удаление индекса
      */
-    public function actionDeleteIndex(){
-        Customer::deleteIndex();
+    public function actionDelProducts(){
+        $productModel = new Product();
+        $productModel->clearAllProducts();
+    }
+
+    /**
+     * Создаем индекс для модели
+     */
+    public function actionCreateMap(){
+        $productModel = new Product();
+        $productModel->mapIndex();
+
     }
 
 

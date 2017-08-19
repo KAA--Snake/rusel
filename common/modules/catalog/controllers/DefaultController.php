@@ -2,7 +2,7 @@
 
 namespace common\modules\catalog\controllers;
 
-use common\modules\catalog\models\mongo\Product;
+use common\models\elasticsearch\Product;
 use common\modules\catalog\models\Section;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -59,6 +59,31 @@ class DefaultController extends Controller
     public function actionIndex($pathForParse = false)
     {
 
+        /** для нулевого уровня каталога показываем только главные разделы */
+        if(!$pathForParse){
+
+            $sectionModel = new Section();
+            $rootSections = $sectionModel->getRootSections();
+
+            return $this->render('catalogRoot', ['rootSections' => $rootSections]);
+        }
+
+
+
+        /** карточка товара */
+        $productModel = new Product();
+
+        //$product = $productModel->getProductById(6654);
+
+        $product = $productModel->getProductByUrl($pathForParse);
+        if($product){
+            $this->layout = 'catalogDetail';
+            return $this->render('productDetail', ['product' => $product]);
+        }
+
+
+
+
         /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ */
         if(!empty(\Yii::$app->request->get('product'))){
             $returnData = [
@@ -73,9 +98,6 @@ class DefaultController extends Controller
 
 
 
-
-
-
         /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - корзина */
         if(!empty(\Yii::$app->request->get('cart'))){
 
@@ -84,25 +106,7 @@ class DefaultController extends Controller
         }
 
 
-        /** для нулевого уровня каталога показываем только главные разделы */
-        if(!$pathForParse){
 
-            $sectionModel = new Section();
-            $rootSections = $sectionModel->getRootSections();
-
-            return $this->render('catalogRoot', ['rootSections' => $rootSections]);
-        }
-
-        /** есть ли такой товар @TODO сделать реализацию карточки товара (здесь) */
-        $productModel = new \common\models\elasticsearch\Product();
-
-        //$product = $productModel->getProductById(6654);
-
-        $product = $productModel->getProductByUrl($pathForParse);
-        if($product){
-            $this->layout = 'catalogDetail';
-            return $this->render('productDetail', ['product' => $product]);
-        }
 
 
         /**

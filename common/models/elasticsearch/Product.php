@@ -9,6 +9,7 @@
 namespace common\models\elasticsearch;
 
 use common\helpers\translit\Translit;
+use common\modules\catalog\models\elastic\Elastic;
 use common\modules\catalog\models\Section;
 
 use Elasticsearch\Client;
@@ -18,49 +19,116 @@ use yii\elasticsearch\Exception;
 
 class Product extends Model
 {
-    /** @var Client $elasticClient*/
-    private static $elasticClient; //здесь будет содержаться сам клиент поиска
 
     const productData = [
         'index' => 'product',
         'type' => 'product_type',
     ];
 
-    public function __construct(array $config = [])
-    {
-        //получаем клиента для поиска
-        static::getElasticClient();
 
-        parent::__construct($config);
+    public function clearAllProducts(){
+
+        $params = [
+            "query" => [
+                'index' => 'product',
+                "match_all" => new \stdClass()
+            ]
+        ];
+        $ch = curl_init( 'http://elasticsearch:9200/product' );
+        # Setup request to send json via POST.
+        /*$payload = json_encode( array(
+            "login"=> 'elastic',
+            "password"=> 'changeme',
+        ) );*/
+        //curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($ch, CURLOPT_USERPWD, Elastic::$user . ":" . Elastic::$pass);
+
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        //var_dump($result);
     }
 
 
-
-    public static function getElasticClient(){
-
-        if(!isset(static::$elasticClient)){
-            $hosts = [
-                // This is effectively equal to: "https://username:password!#$?*abc@foo.com:9200/"
-                [
-                    'host' => 'elasticsearch',
-                    'port' => '9200',
-                    'scheme' => 'http',
-                    'user' => 'elastic',
-                    'pass' => 'changeme'
-                ],
-
-            ];
-
-            static::$elasticClient = ClientBuilder::create()           // Instantiate a new ClientBuilder
-            ->setHosts($hosts)      // Set the hosts
-            ->build();              // Build the client object
-
-            return static::$elasticClient;
-        }
+    /**
+     * первоначаьлный маппинг
+     */
+    public function mapIndex(){
 
 
-        return static::$elasticClient;
+        $client = ClientBuilder::create()->build();
+        $params = [
+            'index' => 'product',
+            'body' => [
+                //'settings' => [
+                //    'number_of_shards' => 3,
+                //    'number_of_replicas' => 2
+                //],
+                'mappings' => [
+                    'product_type' => [
+                        '_source' => [
+                            'enabled' => true
+                        ],
+                        'properties' => [
+                            'url' => [
+                                'type' => 'text',
+                                //'analyzer' => 'standard'
+                            ],
+                            'url' => [
+                                'type' => 'keyword',
+                                //'analyzer' => 'standard'
+                            ],
+                            'section_id' => [
+                                'type' => 'integer'
+                            ],
+                            'id' => [
+                                'type' => 'integer'
+                            ],
+                            'sort' => [
+                                'type' => 'integer'
+                            ],
+                            'artikul' => [
+                                'type' => 'keyword'
+                            ],
+
+                            'properties.proizvoditel' => [
+                                'type' => 'keyword'
+                            ],
+                            'properties.prinadlejnosti' => [
+                                'type' => 'keyword'
+                            ],
+
+                            'other_properties' => [
+                                'type' => 'nested'
+                            ],
+
+
+                            'prices' => [
+                                'type' => 'nested'
+                            ],
+
+                            'quantity' => [
+                                'type' => 'nested'
+                            ],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        // Create the index with mappings and settings now
+        $response = Elastic::getElasticClient()->indices()->create($params);
+
+        // Update the index mapping
+       // static::getElasticClient()->indices()->create($params);
+
     }
+
 
 
     public function attributes(){
@@ -97,35 +165,6 @@ class Product extends Model
 
 
 
-    /** удаляет все индексы для товаров*/
-    public function deleteAll(){
-        $params = [
-             "query" => [
-                 'index' => 'product',
-                 "match_all" => new \stdClass()
-             ]
-        ];
-        $ch = curl_init( 'http://elasticsearch:9200/product' );
-        # Setup request to send json via POST.
-        /*$payload = json_encode( array(
-            "login"=> 'elastic',
-            "password"=> 'changeme',
-        ) );*/
-        //curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        curl_setopt($ch, CURLOPT_USERPWD, 'elastic' . ":" . 'changeme');
-
-
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        //var_dump($result);
-    }
-
-
     public function addProduct($productData){
 
         $params = [
@@ -139,7 +178,7 @@ class Product extends Model
         $params = self::productData+$params;
 
         try{
-            $response = static::getElasticClient()->index($params);
+            $response = Elastic::getElasticClient()->index($params);
 
         }catch(\Exception $e){
 
@@ -151,80 +190,63 @@ class Product extends Model
             \Yii::$app->pr->print_r2($params);
         }
 
-        //$response = static::getElasticClient()->update($params);
+        //$response = Elastic::getElasticClient()->update($params);
 
     }
 
 
-
-    public function getProductById($productId){
+    /**
+     * Получает список товаров по ИД раздела
+     *
+     * @param $productId
+     * @return array
+     */
+    public function getProductsBySectionId($sectionId){
         $params = [
-            //'index' => 'product',
-            //'type' => 'product_type',
-            //'id' => $productId
-            'id' => 6654
+            'body' => [
+                'query' => [
+                    'term' => [
+                        'section_id' => $sectionId
+                    ]
+                ]
+            ]
         ];
 
         $params = static::productData + $params;
 
+        $response = Elastic::getElasticClient()->search($params);
+
+        \Yii::$app->pr->print_r2($params);
+        \Yii::$app->pr->print_r2($response);
+
+
+        if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
+            return $response['hits']['hits'][0]['_source'];
+        }
+
+
+        //die();
+        return false;
         //\Yii::$app->pr->print_r2($params);
 
 
-        return static::getElasticClient()->get($params);
+        //return Elastic::getElasticClient()->get($params);
         //var_dump($response);
 
         //\Yii::$app->pr->print_r2($response);
     }
 
 
-
+    /**
+     * Получает товар по его св-ву url
+     *
+     * @param $productUrl
+     * @return bool
+     */
     public function getProductByUrl($productUrl)
     {
 
-
-        /*$elModel = new \common\models\elasticsearch\Product();
-        $elModel->deleteAll();
-
-        die();*/
-
-        /*$client = ClientBuilder::create()->build();
-        $params = [
-            'index' => 'product',
-            'body' => [
-                //'settings' => [
-                //    'number_of_shards' => 3,
-                //    'number_of_replicas' => 2
-                //],
-                'mappings' => [
-                    'product_type' => [
-                        '_source' => [
-                            'enabled' => true
-                        ],
-                        'properties' => [
-                            'url' => [
-                                'type' => 'keyword',
-                                //'analyzer' => 'standard'
-                            ],
-                            //'age' => [
-                            //    'type' => 'integer'
-                            //]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        // Create the index with mappings and settings now
-        $response = static::getElasticClient()->indices()->create($params);
-
-        // Update the index mapping
-       // static::getElasticClient()->indices()->create($params);
-
-        die();*/
-
-
         $url = str_replace('/', '|', $productUrl);
-
 
         $params = [
             'body' => [
@@ -255,7 +277,7 @@ class Product extends Model
 
         $params = static::productData + $params;
 
-        $response = static::getElasticClient()->search($params);
+        $response = Elastic::getElasticClient()->search($params);
 
         if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
             return $response['hits']['hits'][0]['_source'];

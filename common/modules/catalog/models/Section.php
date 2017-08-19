@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use common\helpers\translit\Translit;
 use yii\helpers\Url;
+use common\models\elasticsearch\Product;
 
 /**
  * This is the model class for table "public.section".
@@ -250,9 +251,12 @@ class Section extends \yii\db\ActiveRecord
 
 
         /** @TODO достаем товары привязанные к текущему разделу */
+        $productModel = new Product();
+
+        $sectionProducts = $productModel->getProductsBySectionId($returnData['currentSection']['unique_id']);
+
         //$returnData['currentSectionProducts'] = ...
-        //@todo это ФЕЙКОВЫЕ ДАННЫЕ, УДАЛИТЬ ИХ ПОТОМ И СДЕЛАТЬ НОМРАЛЬНЫМИ !
-        //$returnData['currentSectionProducts'] = ['someDataForTest' => true];
+
 
         return $returnData;
     }
