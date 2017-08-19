@@ -3,8 +3,10 @@
     use yii\helpers\Url;
 
     //здесь выводится все по товару
-    //\Yii::$app->pr->print_r2($product);
+    \Yii::$app->pr->print_r2($product['properties']['preview_text']);
+    print_r($product['properties']);
 
+    $product_proizvoditel = $product['properties']['proizvoditel'];
     ?>
 
     <div class="product_cards_block _detail">
@@ -15,7 +17,7 @@
                     <a href="">DF-0394 HJ75</a>
                 </div>
                 <div class="firm_name">
-                    <a href="">Bionic</a>
+                    <a href=""><?=$product_proizvoditel;?></a>
                 </div>
                 <div class="firm_descr">
                     Оборудование для плат
