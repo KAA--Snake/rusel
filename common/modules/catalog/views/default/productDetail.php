@@ -3,8 +3,8 @@
     use yii\helpers\Url;
 
     //здесь выводится все по товару
-    \Yii::$app->pr->print_r2($product['properties']['preview_text']);
-    print_r($product['properties']);
+    //\Yii::$app->pr->print_r2($product['properties']['preview_text']);
+    //print_r($product['properties']);
 
     $product_proizvoditel = $product['properties']['proizvoditel'];
     ?>

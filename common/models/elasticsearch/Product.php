@@ -198,6 +198,46 @@ class Product extends Model
 
     }
 
+    /**
+     * Прикручивает к выборке связанные товары
+     *
+     * @param $productsList
+     * @return bool
+     */
+    public function setAccessoriedProducts(&$productsList){
+
+        foreach($productsList as &$oneProduct){
+
+            if(!empty($oneProduct['_source']['properties']['prinadlejnosti'])){
+
+                $ids = explode(';', $oneProduct['_source']['properties']['prinadlejnosti']);
+                //\Yii::$app->pr->print_r2($ids);
+                $params = [
+                    'body' => [
+                        //'from' => 0,
+                        //'size' => 3,
+                        'query' => [
+                            'ids' => [
+                                'values' => $ids
+                            ]
+                        ]
+                    ]
+                ];
+
+                $params = static::productData + $params;
+                $response = Elastic::getElasticClient()->search($params);
+
+               /* \Yii::$app->pr->print_r2($params);
+                \Yii::$app->pr->print_r2($response);*/
+                $oneProduct['_source']['accessories'] = $response['hits']['hits'];
+
+            }
+        }
+
+        return true;
+    }
+
+
 
     /**
      * Получает список товаров по ИД раздела
@@ -206,8 +246,13 @@ class Product extends Model
      * @return array
      */
     public function getProductsBySectionId($sectionId){
+
+        /** @TODO СДЕЛАТЬ ПАГИНАЦИЮ ТУТ from и size*/
+
         $params = [
             'body' => [
+                //'from' => 0,
+                //'size' => 3,
                 'query' => [
                     'term' => [
                         'section_id' => $sectionId
@@ -224,6 +269,10 @@ class Product extends Model
         \Yii::$app->pr->print_r2($response);*/
 
         if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
+
+            /** заполним выборку аксессуарами */
+            $this->setAccessoriedProducts($response['hits']['hits']);
+
             return $response['hits']['hits'];
         }
 
@@ -252,8 +301,10 @@ class Product extends Model
 
         $params = [
             'body' => [
+                //'from' => 0,
+                //'size' => 3,
                 'query' => [
-                    'match' => [
+                    'term' => [
                         'url' => $url
                     ]
                 ]
@@ -261,13 +312,15 @@ class Product extends Model
         ];
 
 
-        /*$json = '{
+        $json = '{
+            "from" : 0,
+            "size" : 3,
             "query" : {
                 "term" : {
-                    "section_id" : "165"
+                    "uri" : "'.$url.'"
                 }
             }
-        }';*/
+        }';
 
         /*$params = [
             'body' => $json
@@ -280,6 +333,10 @@ class Product extends Model
         $params = static::productData + $params;
 
         $response = Elastic::getElasticClient()->search($params);
+
+        /*\Yii::$app->pr->print_r2($params);
+        \Yii::$app->pr->print_r2($response);
+        die();*/
 
         if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
             return $response['hits']['hits'][0]['_source'];
