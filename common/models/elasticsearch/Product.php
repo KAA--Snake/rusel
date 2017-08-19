@@ -220,14 +220,12 @@ class Product extends Model
 
         $response = Elastic::getElasticClient()->search($params);
 
-        \Yii::$app->pr->print_r2($params);
-        \Yii::$app->pr->print_r2($response);
-
+       /* \Yii::$app->pr->print_r2($params);
+        \Yii::$app->pr->print_r2($response);*/
 
         if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
-            return $response['hits']['hits'][0]['_source'];
+            return $response['hits']['hits'];
         }
-
 
         //die();
         return false;

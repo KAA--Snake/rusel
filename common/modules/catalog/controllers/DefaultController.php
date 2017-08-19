@@ -139,6 +139,7 @@ class DefaultController extends Controller
         /** если раздел содержит товары, выведем их список */
         if( !empty($sectionData['currentSectionProducts']) ){
 
+            $this->layout = 'catalogFullWidth';
             return $this->render('sectionProducts', $returnData);
         }
         /** если раздел не содержит товаров, но есть список подразделов, выведем их*/

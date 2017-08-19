@@ -252,11 +252,7 @@ class Section extends \yii\db\ActiveRecord
 
         /** @TODO достаем товары привязанные к текущему разделу */
         $productModel = new Product();
-
-        $sectionProducts = $productModel->getProductsBySectionId($returnData['currentSection']['unique_id']);
-
-        //$returnData['currentSectionProducts'] = ...
-
+        $returnData['currentSectionProducts'] = $productModel->getProductsBySectionId($returnData['currentSection']['unique_id']);
 
         return $returnData;
     }
