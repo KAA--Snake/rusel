@@ -184,10 +184,14 @@ class Product extends Model
 
             $message = json_decode($e->getMessage());
 
-            echo '<br/>'.$params['id'].'|'.'ERROR'.'|'.$message->error->reason;
+            $mesObj = [
+                'ID' => $params['id'],
+                'ERR_DESC' => $message->error->reason
+            ];
 
-            //@TODO закомментить отладку ниже, оставить толкь ото что выше
-            \Yii::$app->pr->print_r2($params);
+            $_SESSION['ERRORS'][] = $mesObj;
+
+            //\Yii::$app->pr->print_r2($params);
         }
 
         //$response = Elastic::getElasticClient()->update($params);
@@ -314,8 +318,6 @@ class Product extends Model
 
         /** сгенерим урл из урла раздела/урла товара */
         $product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
-
-        //\Yii::$app->pr->print_r2($product);
 
         $this->addProduct($product);
 

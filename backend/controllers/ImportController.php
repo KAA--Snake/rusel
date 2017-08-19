@@ -179,7 +179,7 @@ class ImportController extends Controller
 
                         if(isset($postData['file_name']) && !empty($postData['file_name'])){
 
-
+                            unset($_SESSION['ERRORS']);
 
                             $catalogImportModel = new CatalogImport();
                             //echo $_SERVER['DOCUMENT_ROOT'];
@@ -187,8 +187,13 @@ class ImportController extends Controller
                             $catalogImportModel->filePath = $erpParams['upload_folder'].$postData['file_name'];
                             //$catalogImportModel->filePath = '/webapp/upload/erp/list1502263897108.txt';
 
-                            //$catalogImportModel->import();
-                            return 'ok';
+                            $catalogImportModel->import();
+                            //return json_encode(['IMPORT_RESULT' => 'DONE']);
+
+                            return json_encode([
+                                'RESULT' => 'DONE',
+                                'ERRORS' => $_SESSION['ERRORS']
+                            ]);
 
                         }
 
@@ -207,11 +212,11 @@ class ImportController extends Controller
         }
 
 
-        //throw new HttpException(404, 'Страница не найдена');
+        throw new HttpException(404, 'Страница не найдена');
 
         //\Yii::$app->pr->print_r2(\Yii::$app->request->post());
 
-        return 'error';
+        //return 'error';
     }
 
 }
