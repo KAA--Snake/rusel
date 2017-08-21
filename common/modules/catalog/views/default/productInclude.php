@@ -34,7 +34,9 @@ use yii\helpers\Url;
             </div>
 
             <div class="card_part img">
-                <img src="<?= Url::to('@catImages/'.$oneProduct['_source']['properties']['main_picture']); ?>" alt="">
+                <?php if(isset($oneProduct['_source']['properties']['main_picture']) && !is_array($oneProduct['_source']['properties']['main_picture'])){ ?>
+                    <img src="<?= Url::to('@catImages/'.$oneProduct['_source']['properties']['main_picture']); ?>" alt="">
+                <?php } ?>
             </div>
 
             <div class="card_part in_stock">
@@ -42,38 +44,38 @@ use yii\helpers\Url;
                 //флаг- есть ли хоть 1 товар в доступных ?
                 $isAnyAvailable = false;?>
 
-                <?php if($oneProduct['_source']['quantity']['stock']['count'] > 0){
+                <?php if(isset($oneProduct['_source']['quantity']['stock']['count']) && $oneProduct['_source']['quantity']['stock']['count'] > 0){
                     $isAnyAvailable = true;
                     ?>
                     <div class="in_stock_item available">
                         Доступно:
-                                <span class="avilable_count">
+                        <span class="avilable_count">
                                     <?= $oneProduct['_source']['quantity']['stock']['count'];?> шт.
 
-                                    <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
-                                        <?= $oneProduct['_source']['quantity']['stock']['description'];?>
-                                    <?php }?>
+                            <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
+                                <?= $oneProduct['_source']['quantity']['stock']['description'];?>
+                            <?php }?>
 
                                 </span>
                     </div>
                 <?php } ?>
 
-                <?php if($oneProduct['_source']['quantity']['partner_stock']['count'] > 0){
+                <?php if(isset($oneProduct['_source']['quantity']['partner_stock']['count']) && $oneProduct['_source']['quantity']['partner_stock']['count'] > 0){
                     $isAnyAvailable = true;
                     ?>
                     <div class="in_stock_item available">
                         Доступно:
-                                <span class="avilable_count">
+                        <span class="avilable_count">
                                     <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> шт.
 
-                                    <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
-                                        <?= $oneProduct['_source']['quantity']['partner_stock']['description'];?>
-                                    <?php }?>
+                            <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description']) && !is_array($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
+                                <?= $oneProduct['_source']['quantity']['partner_stock']['description'];?>
+                            <?php }?>
                                 </span>
                     </div>
                 <?php } ?>
 
-                <?php if($oneProduct['_source']['quantity']['for_order']['description'] != ''){
+                <?php if(isset($oneProduct['_source']['quantity']['for_order']['description']) && !is_array(['_source']['quantity']['for_order']['description'])){
                     $overText = 'Сверх доступного:';
                     if(!$isAnyAvailable){
                         $overText = 'Под заказ:';
@@ -83,7 +85,7 @@ use yii\helpers\Url;
                         <?= $overText;?>
                         <span class="preorder_count">
 
-                                <?php if(!empty($oneProduct['_source']['quantity']['for_order']['description'])){?>
+                                <?php if(!empty($oneProduct['_source']['quantity']['for_order']['description']) && !is_array($oneProduct['_source']['quantity']['for_order']['description'])){?>
                                     <?= $oneProduct['_source']['quantity']['for_order']['description'];?>
                                 <?php }?>
 
@@ -95,13 +97,13 @@ use yii\helpers\Url;
                 <br>
                 <div class="in_stock_item pack">
                     Упаковка:
-                        <span class="pack_count">
+                    <span class="pack_count">
                             <?= $oneProduct['_source']['product_logic']['norma_upakovki'];?> шт
                         </span>
                 </div>
                 <div class="in_stock_item minorder">
                     Мин.заказ:
-                        <span class="minorder_count">
+                    <span class="minorder_count">
                             <?= $oneProduct['_source']['product_logic']['min_zakaz'];?> шт
                         </span>
                 </div>
