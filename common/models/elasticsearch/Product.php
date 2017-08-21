@@ -354,7 +354,7 @@ class Product extends Model
      */
     public function saveProduct(&$product){
 
-        $product['code'] = str_ireplace(['/','\\'], '', $product['code']);
+
 
         /**
          * если не задан код, берем его транслитом из артикула
@@ -369,6 +369,8 @@ class Product extends Model
                 $product['code'] = $product['name'];
             }
             $product['code'] = Translit::t($product['code']);
+        }else{
+            $product['code'] = str_ireplace(['/','\\'], '', $product['code']);
         }
 
         /** сгенерим урл из урла раздела/урла товара */
