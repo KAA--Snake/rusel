@@ -115,9 +115,10 @@ class ImportController extends Controller
                 /** надо чистить товары */
                 /** @TODO СДЕЛАТЬ ПРОВЕРКУ НА АДМИНА !!*/
 
-                //$elModel = new \common\models\elasticsearch\Product();
-                //$elModel->deleteAll();
-                //$isProductsClear = true;
+                $productModel = new \common\models\elasticsearch\Product();
+                $productModel->clearAllProducts();
+                $productModel->mapIndex();
+                $isProductsClear = true;
 
             }
 
