@@ -80,22 +80,27 @@ use yii\helpers\Url;
                         </div>
                     <?php } ?>
 
-                    <?php if(isset($oneProduct['_source']['quantity']['for_order']['description']) && !is_array(['_source']['quantity']['for_order']['description'])){
-                        $overText = 'Сверх доступного:';
-                        if(!$isAnyAvailable){
-                            $overText = 'Под заказ:';
-                        }
-                        ?>
-                        <div class="in_stock_item preorder">
-                            <?= $overText;?>
-                            <span class="preorder_count">
+                    <?php if( isset($oneProduct['_source']['quantity']['for_order']['description']) ){
 
-                                <?php if(!empty($oneProduct['_source']['quantity']['for_order']['description']) && !is_array($oneProduct['_source']['quantity']['for_order']['description'])){?>
-                                    <?= $oneProduct['_source']['quantity']['for_order']['description'];?>
-                                <?php }?>
+                        if(!is_array($oneProduct['_source']['quantity']['for_order']['description'])){
 
-                            </span>
-                        </div>
+
+                            $overText = 'Сверх доступного:';
+                            if(!$isAnyAvailable){
+                                $overText = 'Под заказ:';
+                            }
+                            ?>
+                            <div class="in_stock_item preorder">
+                                <?= $overText;?>
+                                <span class="preorder_count">
+
+                                    <?php if(!empty($oneProduct['_source']['quantity']['for_order']['description']) && !is_array($oneProduct['_source']['quantity']['for_order']['description'])){?>
+                                        <?= $oneProduct['_source']['quantity']['for_order']['description'];?>
+                                    <?php }?>
+
+                                </span>
+                            </div>
+                        <?php } ?>
                     <?php } ?>
 
 
@@ -116,9 +121,6 @@ use yii\helpers\Url;
 
                 <div class="card_part prices">
                     <?php if(!empty($oneProduct['_source']['marketing']['price']) && $oneProduct['_source']['marketing']['price'] > 0){ ?>
-                       <?php
-                        //\Yii::$app->pr->print_r2($oneProduct['_source']['marketing']['name']);
-                        ?>
 
                         <div class="special_tape"><?= $oneProduct['_source']['marketing']['name']; ?></div>
                         <div class="price_vars">
@@ -128,31 +130,54 @@ use yii\helpers\Url;
                             </div>
                         </div>
 
-
                     <?php }else{ ?>
 
                         <div class="price_vars">
-                            <?php if(!empty($oneProduct['_source']['prices']) && count($oneProduct['_source']['prices']) > 0){ ?>
-                                <?php foreach($oneProduct['_source']['prices'] as $onePrice){
+                            <?php
+                            if(!empty($oneProduct['_source']['prices']) && count($oneProduct['_source']['prices']) > 0){
 
-                                    if(count($onePrice) > 0){
-                                        foreach($onePrice as $singlePrices){ ?>
-
-                                            <div class="price_var_item clear">
-                                                <span class="count fll"><?= $singlePrices['range'];?></span>
-                                                <span class="price flr"><?= $singlePrices['value'];?> Р/шт</span>
-                                            </div>
-
-
-                                    <?php }
-                                    }
-                                    //\Yii::$app->pr->print_r2($onePrice);
+                                if(isset($oneProduct['_source']['prices']['price_not_available'])){
                                     ?>
 
+                                    <div class="price_var_item clear">
+                                        <span class="price flr"><?= $oneProduct['_source']['prices']['price_not_available']['value'];?></span>
+                                    </div>
 
-                                <?php } ?>
+                                <?php
 
-                            <?php } ?>
+                                }else{
+
+                                    if(isset($oneProduct['_source']['prices']['price_range']['value'])){
+                                        ?>
+
+                                        <div class="price_var_item clear">
+                                            <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
+                                            <span class="price flr"><?= $oneProduct['_source']['prices']['price_range']['value'];?> Р/шт</span>
+                                        </div>
+
+                                        <?php
+
+                                    }else{
+
+                                        foreach($oneProduct['_source']['prices'] as $onePrice){
+
+                                            if(count($onePrice) > 0){
+                                                foreach($onePrice as $singlePrices){
+                                                    ?>
+
+                                                    <div class="price_var_item clear">
+                                                        <span class="count fll"><?= $singlePrices['range'];?></span>
+                                                        <span class="price flr"><?= $singlePrices['value'];?> Р/шт</span>
+                                                    </div>
+
+                                                    <?php
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            ?>
                         </div>
 
                     <?php } ?>

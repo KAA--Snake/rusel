@@ -78,7 +78,7 @@ class DefaultController extends Controller
         $product = $productModel->getProductByUrl($pathForParse);
         if($product){
             $this->layout = 'catalogDetail';
-            return $this->render('productDetail', ['product' => $product]);
+            return $this->render('productDetail', ['oneProduct' => $product]);
         }
 
 

@@ -123,31 +123,59 @@ use yii\helpers\Url;
                         </div>
                     </div>
 
-
                 <?php }else{ ?>
 
                     <div class="price_vars">
-                        <?php if(!empty($oneProduct['_source']['prices']) && count($oneProduct['_source']['prices']) > 0){ ?>
-                            <?php foreach($oneProduct['_source']['prices'] as $onePrice){
+                        <?php
+                        if(!empty($oneProduct['_source']['prices']) && count($oneProduct['_source']['prices']) > 0){
 
-                                if(count($onePrice) > 0){
-                                    foreach($onePrice as $singlePrices){ ?>
+                            if(isset($oneProduct['_source']['prices']['price_not_available'])){
 
-                                        <div class="price_var_item clear">
-                                            <span class="count fll"><?= $singlePrices['range'];?></span>
-                                            <span class="price flr"><?= $singlePrices['value'];?> Р/шт</span>
-                                        </div>
-
-
-                                    <?php }
-                                }
-                                //\Yii::$app->pr->print_r2($onePrice);
                                 ?>
 
+                                <div class="price_var_item clear">
+                                    <span class="price flr"><?= $oneProduct['_source']['prices']['price_not_available']['value'];?></span>
+                                </div>
 
-                            <?php } ?>
+                                <?php
 
-                        <?php } ?>
+                            }else{
+
+                                if(isset($oneProduct['_source']['prices']['price_range']['value'])){
+                                    //\Yii::$app->pr->print_r2($oneProduct['_source']['prices']['price_range']);
+                                    ?>
+
+                                    <div class="price_var_item clear">
+                                        <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
+                                        <span class="price flr"><?= $oneProduct['_source']['prices']['price_range']['value'];?> Р/шт</span>
+                                    </div>
+
+                                    <?php
+
+                                }else{
+
+                                    foreach($oneProduct['_source']['prices'] as $onePrice){
+                                        //\Yii::$app->pr->print_r2($onePrice);
+                                        //die();
+                                        if(count($onePrice) > 0){
+                                            foreach($onePrice as $singlePrices){
+
+                                                //die();
+                                                ?>
+
+                                                <div class="price_var_item clear">
+                                                    <span class="count fll"><?= $singlePrices['range'];?></span>
+                                                    <span class="price flr"><?= $singlePrices['value'];?> Р/шт</span>
+                                                </div>
+
+                                                <?php
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        ?>
                     </div>
 
                 <?php } ?>
