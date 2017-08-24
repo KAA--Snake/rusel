@@ -17,193 +17,216 @@ use yii\helpers\Url;
             ?>
 
             <div class="product_card js-tab_collapsed">
-                <div class="card_part name">
-                    <div class="model">
-                        <a href="<?=$url;?>"><?=$oneProduct['_source']['artikul'];?></a>
-                    </div>
-                    <div class="firm_name">
-                        <?php /** @TODO здесь будет ссылка на фильтр по производителю !!*/?>
-                        <a href=""><?=$oneProduct['_source']['properties']['proizvoditel'];?></a>
-                    </div>
-                    <div class="firm_descr">
-                        <?=$oneProduct['_source']['name'];?>
-                    </div>
-                    <?php if(!empty($oneProduct['_source']['other_properties'])){?>
-                        <div class="more js-expand-tabs">
-                            <a href="">Подробнее ↓</a>
-                        </div>
-                    <?php }?>
-                </div>
+                <table class="product_card_inner_wrap">
+                    <tr>
+                        <td>
+                            <div class="card_part name">
+                                <div class="model">
+                                    <a href="<?=$url;?>"><?=$oneProduct['_source']['artikul'];?></a>
+                                </div>
+                                <div class="firm_name">
+                                    <?php /** @TODO здесь будет ссылка на фильтр по производителю !!*/?>
+                                    <a href=""><?=$oneProduct['_source']['properties']['proizvoditel'];?></a>
+                                </div>
+                                <div class="firm_descr">
+                                    <?=$oneProduct['_source']['name'];?>
+                                </div>
+                                <?php if(!empty($oneProduct['_source']['other_properties'])){?>
+                                    <div class="more js-expand-tabs">
+                                        <a href="">Подробнее ↓</a>
+                                    </div>
+                                <?php }?>
+                            </div>
+                        </td>
+                        <td>
 
+                        </td>
+                        <td>
+                            <div class="card_part img">
+                                <?php if(isset($oneProduct['_source']['properties']['main_picture']) && !is_array($oneProduct['_source']['properties']['main_picture'])){ ?>
+                                    <img src="<?= Url::to('@catImages/'.$oneProduct['_source']['properties']['main_picture']); ?>" alt="">
+                                <?php } ?>
+                            </div>
+                        </td>
+                        <td class="left_bordered">
+                            <div class="card_part in_stock">
+                                <?php
+                                //флаг- есть ли хоть 1 товар в доступных ?
+                                $isAnyAvailable = false;?>
 
-
-
-                <div class="card_part img">
-                    <?php if(isset($oneProduct['_source']['properties']['main_picture']) && !is_array($oneProduct['_source']['properties']['main_picture'])){ ?>
-                        <img src="<?= Url::to('@catImages/'.$oneProduct['_source']['properties']['main_picture']); ?>" alt="">
-                    <?php } ?>
-                </div>
-
-                <div class="card_part in_stock">
-                    <?php
-                    //флаг- есть ли хоть 1 товар в доступных ?
-                    $isAnyAvailable = false;?>
-
-                    <?php if(isset($oneProduct['_source']['quantity']['stock']['count']) && $oneProduct['_source']['quantity']['stock']['count'] > 0){
-                        $isAnyAvailable = true;
-                        ?>
-                        <div class="in_stock_item available">
-                            Доступно:
-                                <span class="avilable_count">
+                                <?php if(isset($oneProduct['_source']['quantity']['stock']['count']) && $oneProduct['_source']['quantity']['stock']['count'] > 0){
+                                    $isAnyAvailable = true;
+                                    ?>
+                                    <div class="in_stock_item available">
+                                        Доступно:
+                                        <span class="avilable_count">
                                     <?= $oneProduct['_source']['quantity']['stock']['count'];?> шт.
 
-                                    <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
-                                        <?= $oneProduct['_source']['quantity']['stock']['description'];?>
-                                    <?php }?>
+                                            <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
+                                                <?= $oneProduct['_source']['quantity']['stock']['description'];?>
+                                            <?php }?>
 
                                 </span>
-                        </div>
-                    <?php } ?>
+                                    </div>
+                                <?php } ?>
 
-                    <?php if(isset($oneProduct['_source']['quantity']['partner_stock']['count']) && $oneProduct['_source']['quantity']['partner_stock']['count'] > 0){
-                        $isAnyAvailable = true;
-                        ?>
-                        <div class="in_stock_item available">
-                            Доступно:
-                                <span class="avilable_count">
+                                <?php if(isset($oneProduct['_source']['quantity']['partner_stock']['count']) && $oneProduct['_source']['quantity']['partner_stock']['count'] > 0){
+                                    $isAnyAvailable = true;
+                                    ?>
+                                    <div class="in_stock_item available">
+                                        Доступно:
+                                        <span class="avilable_count">
                                     <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> шт.
 
-                                    <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description']) && !is_array($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
-                                        <?= $oneProduct['_source']['quantity']['partner_stock']['description'];?>
-                                    <?php }?>
+                                            <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description']) && !is_array($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
+                                                <?= $oneProduct['_source']['quantity']['partner_stock']['description'];?>
+                                            <?php }?>
                                 </span>
-                        </div>
-                    <?php } ?>
+                                    </div>
+                                <?php } ?>
 
-                    <?php if( isset($oneProduct['_source']['quantity']['for_order']['description']) ){
+                                <?php if( isset($oneProduct['_source']['quantity']['for_order']['description']) ){
 
-                        if(!is_array($oneProduct['_source']['quantity']['for_order']['description'])){
+                                    if(!is_array($oneProduct['_source']['quantity']['for_order']['description'])){
 
 
-                            $overText = 'Сверх доступного:';
-                            if(!$isAnyAvailable){
-                                $overText = 'Под заказ:';
-                            }
-                            ?>
-                            <div class="in_stock_item preorder">
-                                <?= $overText;?>
-                                <span class="preorder_count">
+                                        $overText = 'Дополнительно:';
+                                        if(!$isAnyAvailable){
+                                            $overText = 'Под заказ:';
+                                        }
+                                        ?>
+
+                                        <?php
+                                        if(!$isAnyAvailable){ ?>
+                                            <div class="in_stock_item available">Доступно: <span class="avilable_count">0 шт.</span></div>
+                                        <?php } ?>
+
+
+                                        <div class="in_stock_item preorder">
+                                            <?= $overText;?>
+                                            <span class="preorder_count">
 
                                     <?php if(!empty($oneProduct['_source']['quantity']['for_order']['description']) && !is_array($oneProduct['_source']['quantity']['for_order']['description'])){?>
                                         <?= $oneProduct['_source']['quantity']['for_order']['description'];?>
                                     <?php }?>
 
                                 </span>
-                            </div>
-                        <?php } ?>
-                    <?php } ?>
+                                        </div>
+                                    <?php } ?>
+                                <?php }else{ ?>
+                                    <div class="in_stock_item available">Доступно: <span class="avilable_count">0 шт.</span></div>
+                                <?php } ?>
 
 
-                    <br>
-                    <div class="in_stock_item pack">
-                        Упаковка:
-                        <span class="pack_count">
+                                <br>
+                                <div class="in_stock_item pack">
+                                    Упаковка:
+                                    <span class="pack_count">
                             <?= $oneProduct['_source']['product_logic']['norma_upakovki'];?> шт
                         </span>
-                    </div>
-                    <div class="in_stock_item minorder">
-                        Мин.заказ:
-                        <span class="minorder_count">
+                                </div>
+                                <div class="in_stock_item minorder">
+                                    Мин.заказ:
+                                    <span class="minorder_count">
                             <?= $oneProduct['_source']['product_logic']['min_zakaz'];?> шт
                         </span>
-                    </div>
-                </div>
-
-                <div class="card_part prices">
-                    <?php if(!empty($oneProduct['_source']['marketing']['price']) && $oneProduct['_source']['marketing']['price'] > 0){ ?>
-
-                        <div class="special_tape"><?= $oneProduct['_source']['marketing']['name']; ?></div>
-                        <div class="price_vars">
-                            <div class="price_var_item clear">
-                                <span class="count fll">1+<!-- - НЕТ ДАННЫХ ДЛЯ ЭТОГО ПОЛЯ В ВЫГРУЗКЕ !--></span>
-                                <span class="price flr"><?= $oneProduct['_source']['marketing']['price']; ?> Р/шт</span>
+                                </div>
                             </div>
-                        </div>
+                        </td>
+                        <td class="left_bordered">
+                            <div class="card_part prices">
+                                <?php if(!empty($oneProduct['_source']['marketing']['price']) && $oneProduct['_source']['marketing']['price'] > 0){ ?>
 
-                    <?php }else{ ?>
-
-                        <div class="price_vars">
-                            <?php
-                            if(!empty($oneProduct['_source']['prices']) && count($oneProduct['_source']['prices']) > 0){
-
-                                if(isset($oneProduct['_source']['prices']['price_not_available'])){
-                                    ?>
-
-                                    <div class="price_var_item clear">
-                                        <span class="price flr"><?= $oneProduct['_source']['prices']['price_not_available']['value'];?></span>
+                                    <div class="special_tape"><?= $oneProduct['_source']['marketing']['name']; ?></div>
+                                    <div class="price_vars">
+                                        <div class="price_var_item clear">
+                                            <span class="count fll">1+<!-- - НЕТ ДАННЫХ ДЛЯ ЭТОГО ПОЛЯ В ВЫГРУЗКЕ !--></span>
+                                            <span class="price flr"><?= $oneProduct['_source']['marketing']['price']; ?> Р/шт</span>
+                                        </div>
                                     </div>
 
-                                <?php
+                                <?php }else{ ?>
 
-                                }else{
-
-                                    if(isset($oneProduct['_source']['prices']['price_range']['value'])){
-                                        ?>
-
-                                        <div class="price_var_item clear">
-                                            <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
-                                            <span class="price flr"><?= $oneProduct['_source']['prices']['price_range']['value'];?> Р/шт</span>
-                                        </div>
-
+                                    <div class="price_vars">
                                         <?php
+                                        if(!empty($oneProduct['_source']['prices']) && count($oneProduct['_source']['prices']) > 0){
 
-                                    }else{
+                                            if(isset($oneProduct['_source']['prices']['price_not_available'])){
+                                                ?>
 
-                                        foreach($oneProduct['_source']['prices'] as $onePrice){
+                                                <div class="price_var_item clear">
+                                                    <span class="price flr"><?= $oneProduct['_source']['prices']['price_not_available']['value'];?></span>
+                                                </div>
 
-                                            if(count($onePrice) > 0){
-                                                foreach($onePrice as $singlePrices){
+                                                <?php
+
+                                            }else{
+
+                                                if(isset($oneProduct['_source']['prices']['price_range']['value'])){
                                                     ?>
 
                                                     <div class="price_var_item clear">
-                                                        <span class="count fll"><?= $singlePrices['range'];?></span>
-                                                        <span class="price flr"><?= $singlePrices['value'];?> Р/шт</span>
+                                                        <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
+                                                        <span class="price flr"><?= $oneProduct['_source']['prices']['price_range']['value'];?> Р/шт</span>
                                                     </div>
 
                                                     <?php
+
+                                                }else{
+
+                                                    foreach($oneProduct['_source']['prices'] as $onePrice){
+
+                                                        if(count($onePrice) > 0){
+                                                            foreach($onePrice as $singlePrices){
+                                                                ?>
+
+                                                                <div class="price_var_item clear">
+                                                                    <span class="count fll"><?= $singlePrices['range'];?></span>
+                                                                    <span class="price flr"><?= $singlePrices['value'];?> Р/шт</span>
+                                                                </div>
+
+                                                                <?php
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                }
-                            }
-                            ?>
-                        </div>
+                                        ?>
+                                    </div>
 
-                    <?php } ?>
+                                <?php } ?>
 
-                </div>
+                            </div>
+                        </td>
+                        <td class="left_bordered">
+                            <?php /** @TODO этот блок не готов- сделать как будет функционал покупок !! */?>
+                            <div class="card_part order">
+                                <input type="text" class="order_input" placeholder="Введите количество">
 
-                <?php /** @TODO этот блок не готов- сделать как будет функционал покупок !! */?>
-                <div class="card_part order">
-                    <input type="text" class="order_input" placeholder="Введите количество">
+                                <div class="ordered_input hidden">
+                                    <span class="ordered_icon"></span>
+                                    <span class="ordered_count">25 000 шт.</span>
+                                    <span class="ordered_price">252 000 Р.</span>
+                                </div>
 
-                    <div class="ordered_input hidden">
-                        <span class="ordered_icon"></span>
-                        <span class="ordered_count">25 000 шт.</span>
-                        <span class="ordered_price">252 000 Р.</span>
-                    </div>
+                                <div class="ordered_btn add">Добавить в запрос</div>
+                            </div>
+                            <?php /**-------------------------------------------------------------------------*/?>
+                        </td>
+                    </tr>
+                </table>
 
-                    <div class="ordered_btn add">Добавить в запрос</div>
-                </div>
-                <?php /**-------------------------------------------------------------------------*/?>
 
                 <div class="product_card_more collapsed">
                     <div class="product_tab">
                         <ul class="product_specs_list">
                             <li class="product_tab_item"><a href="#params">Параметры</a></li>
                             <li class="product_tab_item"><a href="#techdoc">Техническая документация</a></li>
+            <?php /** товары внутри вкладки принадлежности*/ ?>
+            <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
                             <li class="product_tab_item"><a href="#appurtenant">Принадлежности</a></li>
+            <?php }?>
                         </ul>
                         <div class="product_tab_content" id="params">
                             <table class="params_tab">
@@ -223,14 +246,16 @@ use yii\helpers\Url;
                             </p>
 
                         </div>
+                        <?php /** товары внутри вкладки принадлежности*/ ?>
+                        <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
                         <div class="product_tab_content" id="appurtenant">
 
-                            <?php /** товары внутри вкладки принадлежности*/ ?>
-                            <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
+
                                 <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
-                            <?php }?>
+
 
                         </div>
+                        <?php }?>
                     </div>
                     <div class="hide_tabs_wrap">
                         <div class="hide_tabs_btn">Свернуть</div>
@@ -266,7 +291,7 @@ use yii\helpers\Url;
 
         <div class="card_part in_stock">
             <div class="in_stock_item available">Доступно: <span class="avilable_count">123 шт. (1-2 дня)</span></div>
-            <div class="in_stock_item preorder">Сверх доступного: <span class="preorder_count">4-5 недель</span></div>
+            <div class="in_stock_item preorder">Дополнительно: <span class="preorder_count">4-5 недель</span></div>
             <br>
             <div class="in_stock_item pack">Упаковка: <span class="pack_count">50 шт</span></div>
             <div class="in_stock_item minorder">Мин.заказ: <span class="minorder_count">100 шт</span></div>
