@@ -4,6 +4,7 @@ use yii\helpers\Url;
 
 
 //\Yii::$app->pr->print_r2($currentSectionProducts);
+
 //die();
 
 ?>
@@ -14,6 +15,7 @@ use yii\helpers\Url;
     <?php if(count($currentSectionProducts) > 0){?>
         <?php foreach($currentSectionProducts as $oneProduct){
             $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['_source']['url']).'/');
+            //\Yii::$app->pr->print_r2($oneProduct);
             ?>
 
             <div class="product_card js-tab_collapsed">
@@ -85,6 +87,11 @@ use yii\helpers\Url;
                                     </div>
                                 <?php } ?>
 
+                                <?php
+                                if(!$isAnyAvailable){ ?>
+                                    <div class="in_stock_item available">Доступно: <span class="avilable_count">0 шт.</span></div>
+                                <?php } ?>
+
                                 <?php if( isset($oneProduct['_source']['quantity']['for_order']['description']) ){
 
                                     if(!is_array($oneProduct['_source']['quantity']['for_order']['description'])){
@@ -96,10 +103,7 @@ use yii\helpers\Url;
                                         }
                                         ?>
 
-                                        <?php
-                                        if(!$isAnyAvailable){ ?>
-                                            <div class="in_stock_item available">Доступно: <span class="avilable_count">0 шт.</span></div>
-                                        <?php } ?>
+
 
 
                                         <div class="in_stock_item preorder">
@@ -113,8 +117,6 @@ use yii\helpers\Url;
                                 </span>
                                         </div>
                                     <?php } ?>
-                                <?php }else{ ?>
-                                    <div class="in_stock_item available">Доступно: <span class="avilable_count">0 шт.</span></div>
                                 <?php } ?>
 
 

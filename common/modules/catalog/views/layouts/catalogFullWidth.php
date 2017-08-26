@@ -246,6 +246,18 @@ AppAsset::register($this);
                 ]) ?>
                 <?= Alert::widget() ?>
                 <?= $content ?>
+
+                <div class="pagination_block">
+                    <ul class="pagination_list">
+                        <li class="pagination_item prev"><a href=""></a></li>
+                        <li class="pagination_item active"><a href="">1</a></li>
+                        <li class="pagination_item"><a href="">2</a></li>
+                        <li class="pagination_item"><a href="">3</a></li>
+                        <li class="pagination_item">...</li>
+                        <li class="pagination_item"><a href="">999</a></li>
+                        <li class="pagination_item next"><a href=""></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 

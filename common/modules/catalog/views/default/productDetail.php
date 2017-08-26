@@ -78,7 +78,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                             if(!is_array($oneProduct['quantity']['for_order']['description'])){
 
 
-                                $overText = 'Дополнительно:';
+                                $overText = 'Сверх доступного:';
                                 if(!$isAnyAvailable){
                                     $overText = 'Под заказ:';
                                 }
