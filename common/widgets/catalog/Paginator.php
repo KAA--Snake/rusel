@@ -214,19 +214,32 @@ class Paginator extends Widget
         //\Yii::$app->pr->print_r2($this->pagination);
 
         $total_pages = ceil($this->pagination['totalCount'] / $this->pagination['max_elements_cnt']);
+        $currentPage = $this->pagination['current_page'];//, текущая выбранная страница
 
         $prevPage = $currentPage - 1;
         $nextPage = $currentPage + 1;
 
+        //\Yii::$app->pr->print_r2($prevPage);
+        //\Yii::$app->pr->print_r2($nextPage);
+
+        if($prevPage >= 1){
+            $hrefPrevPage = $this->getHref($prevPage);
+        }
+
+        if($nextPage <= $total_pages){
+            $hrefNextPage = $this->getHref($nextPage);
+        }
 
         //'totalPages' => $total_pages, всего страниц
         //'totalElementsCount' => $this->pagination['totalCount'], общее кол-во элементов
-        $currentPage = $this->pagination['current_page'];//, текущая выбранная страница
+
 ?>
 <div class="pagination_block">
     <ul class="pagination_list">
 
-        <li class="pagination_item prev"><a href=""></a></li>
+        <? if(isset($hrefPrevPage)) {?>
+            <li class="pagination_item prev"><a href="<?=$hrefPrevPage;?>"></a></li>
+        <?}?>
 
         <?
         $counter = 1;
@@ -262,15 +275,16 @@ class Paginator extends Widget
             $counter++;
         }
 ?>
-        <li class="pagination_item next"><a href=""></a></li>
-
+        <? if(isset($hrefNextPage)) {?>
+            <li class="pagination_item next"><a href="<?=$hrefNextPage;?>"></a></li>
+        <?}?>
     </ul>
 </div>
 
 <?
         //\Yii::$app->pr->print_r2($total_pages);
 
-
+        return;
 
 
         return $this->render('catalog_paginator', [
