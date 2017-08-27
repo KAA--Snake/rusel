@@ -159,20 +159,16 @@ AppAsset::register($this);
             </div>
 
             <div class="breadcrumbs_menu col_1180">
-                <ul class="breadcrumbs_list">
-                    <li class="breadcrumbs_item breadcrumbs_head">Навигация по каталогу:</li>
-                    <li class="breadcrumbs_item">
-                        <a href="">Измерительные приборы</a>
-                        <span class="arrow_next">→</span>
-                    </li>
-                    <li class="breadcrumbs_item">
-                        <a href="">Комутационная апаратура</a>
-                        <span class="arrow_next">→</span>
-                    </li>
-                    <li class="breadcrumbs_item current">
-                        Пружинные проходные клеммы
-                    </li>
-                </ul>
+                <?= Breadcrumbs::widget([
+                    'options'       =>  [
+                        //'id'        =>  'breadCrumbs',
+                        'class'        =>  'breadcrumbs_list',
+                    ],
+                    'homeLink' => ['label' => 'Навигация по каталогу:'],
+                    'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // for main
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]);?>
+
             </div>
 
             <div class="goods_filter_block col_1180">
@@ -241,9 +237,7 @@ AppAsset::register($this);
 
 
             <div class="content_inner_wrap left0 col_1180">
-                <?= Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
+
                 <?= Alert::widget() ?>
                 <?= $content ?>
 

@@ -332,8 +332,15 @@ AppAsset::register($this);
 
         <div class="content_inner_wrap col_940 clear">
             <?= Breadcrumbs::widget([
+                'options'       =>  [
+                    //'id'        =>  'breadCrumbs',
+                    'class'        =>  'breadcrumbs_list',
+                ],
+                'homeLink' => ['label' => 'Навигация по каталогу:'],
+                'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // template for all links
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
+            ]);?>
+
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>

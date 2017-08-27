@@ -436,6 +436,52 @@ class Section extends \yii\db\ActiveRecord
 
 
     /**
+     * Находит всех родителей для текущего раздела
+     *
+     * @param $section
+     * @return array
+     */
+    public function getParents($section){
+        //\Yii::$app->pr->print_r2($section->getAttributes());
+
+        /** @var Section $section */
+
+        if(is_numeric($section->lft)){
+
+            $ltn = 'lft < ' . $section->lft;
+            $mtn = 'rgt > ' . $section->rgt;
+
+
+            //$subsectionsQuery = static::find()->andWhere(['and', $mtn, $ltn]);
+            $parents = static::find()
+                ->select(['url', 'upper(name) as label'])
+                ->andWhere($ltn)
+                ->andWhere($mtn)
+                //->andWhere('depth_level < ' . $section->depth_level)
+                ->orderBy('depth_level ASC')
+                ->asArray()
+                ->all();
+
+            //\Yii::$app->pr->print_r2($parents);
+            $parents[] = [
+                //'url' => $section->getAttribute('url'),  //для последнего урл не будет
+                'label' => mb_strtoupper($section->name),
+                'finalItem' => true,
+            ];
+
+            return $parents;
+
+
+        }
+
+        return [];
+
+        //die();
+
+    }
+
+
+    /**
      * Выводит в каталоге список
      *
      * @param $oneSibling
