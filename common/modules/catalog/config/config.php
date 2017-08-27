@@ -18,6 +18,6 @@ return [
         'max_sections_cnt' => 30,
 
         //макс число выводимых товаров в списке
-        'max_products_cnt' => 100,
+        'max_products_cnt' => 2,
     ]
 ];

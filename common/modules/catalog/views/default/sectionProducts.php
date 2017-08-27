@@ -1,9 +1,10 @@
 <?php
 
 use yii\helpers\Url;
+use common\widgets\catalog\Paginator;
 
 
-//\Yii::$app->pr->print_r2($currentSectionProducts);
+//\Yii::$app->pr->print_r2($paginator);
 
 //die();
 
@@ -405,3 +406,10 @@ use yii\helpers\Url;
     <?php */?>
 
 </div>
+
+<?
+echo Paginator::widget([
+    'pagination' => $paginator,
+]);
+?>
+

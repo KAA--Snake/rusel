@@ -15,6 +15,7 @@ use common\modules\catalog\models\Section;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use yii\base\Model;
+use yii\data\Pagination;
 use yii\elasticsearch\Exception;
 
 class Product extends Model
@@ -249,10 +250,35 @@ class Product extends Model
 
         /** @TODO СДЕЛАТЬ ПАГИНАЦИЮ ТУТ from и size*/
 
+        $maxSizeCnt = \Yii::$app->getModule('catalog')->params['max_products_cnt'];
+        $from = 0;
+        $page = 1; //изначально первая страница
+
+        $pagination = [];
+        $pagination['max_elements_cnt'] = $maxSizeCnt;
+        $pagination['current_page'] = $page;
+        //echo $pagination->offset;
+        //\Yii::$app->pr->print_r2($pagination);
+        //die();
+        $pagePicked = \Yii::$app->request->get('page');
+
+        $needPage = $pagePicked -1;
+
+        if(isset($pagePicked) && $pagePicked > 0){
+
+            //echo 'page = ' . $page . '<br />';
+            //echo '$maxSizeCnt = ' . $maxSizeCnt . '<br />';
+            $from = $needPage * $maxSizeCnt;
+
+            //\Yii::$app->pr->print_r2($from);
+
+            $pagination['current_page'] = $pagePicked;
+        }
+
         $params = [
             'body' => [
-                //'from' => 0,
-                //'size' => 3,
+                'from' => $from,
+                'size' => $maxSizeCnt,
                 'query' => [
                     'term' => [
                         'section_id' => $sectionId
@@ -265,16 +291,26 @@ class Product extends Model
 
         $response = Elastic::getElasticClient()->search($params);
 
-       /* \Yii::$app->pr->print_r2($params);
-        \Yii::$app->pr->print_r2($response);*/
+        //\Yii::$app->pr->print_r2($params);
+        //\Yii::$app->pr->print_r2($response);
+        $returnData = [];
 
         if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
 
+            //заполняем totalCnt
+            $pagination['totalCount'] = $response['hits']['total'];
+
+
             /** заполним выборку аксессуарами */
             $this->setAccessoriedProducts($response['hits']['hits']);
+            $returnData['products'] = $response['hits']['hits'];
 
-            return $response['hits']['hits'];
+            $returnData['paginator'] = $pagination;
+
+            return $returnData;
         }
+
+
 
         //die();
         return false;
@@ -328,6 +364,7 @@ class Product extends Model
 
         //\Yii::$app->pr->print_r2($params);
         //\Yii::$app->pr->print_r2($response);
+       // die();
         //print_r($response);
 
         $params = static::productData + $params;

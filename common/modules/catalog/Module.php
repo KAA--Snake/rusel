@@ -64,6 +64,18 @@ class Module extends \yii\base\Module implements BootstrapInterface
             $catalogDir.'/admin/product/' => $catalogDir.'/admin/product/index',
             $catalogDir.'/<pathForParse:.+>'=> $catalogDir.'/default',
             $catalogDir => $catalogDir.'/default',
+
+
+            /*'/catalog/admin/section/' => '/catalog/admin/section/index',
+            '/catalog/admin/product/' => '/catalog/admin/product/index',
+            '/catalog/<pathForParse:.+>'=> '/catalog/default',*/
+
+
+
+
+
+            '/catalog' => '/catalog/default',
+
             //'catalog/test/test2' => 'catalog/default',
         ], true);
     }

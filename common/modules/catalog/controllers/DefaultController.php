@@ -67,10 +67,7 @@ class DefaultController extends Controller
         }
 
         $sectionModel = new Section();
-
         $breadCrumbsObj = new BreadCrumbs();
-
-
 
         //$sectionModel->getBreadCrumbsForPath();
 
@@ -85,8 +82,6 @@ class DefaultController extends Controller
 
         /** карточка товара */
         $productModel = new Product();
-
-        //$product = $productModel->getProductById(6654);
 
         $product = $productModel->getProductByUrl($pathForParse);
         if($product){
@@ -103,9 +98,6 @@ class DefaultController extends Controller
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
 
-        //var_dump($sectionData);
-        //die();
-
         if( $sectionData['currentSection'] ){
 
             $returnData = [
@@ -113,6 +105,7 @@ class DefaultController extends Controller
                 'groupedSiblings' => $sectionData['groupedSiblings'],
                 'unGroupedSiblings' => $sectionData['unGroupedSiblings'],
                 'currentSectionProducts' => $sectionData['currentSectionProducts'],
+                'paginator' => $sectionData['paginator']
             ];
         }else{
             /** если ничего не нашлось, выбросим 404 */

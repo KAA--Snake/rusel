@@ -3,13 +3,13 @@ use yii\helpers\Url;
 
 /** @var \common\modules\catalog\models\Section $rootSections */
 
-echo '<br /><br />Корневой раздел каталога. Список разделов:catalogRoot.php <br /><br />';
+echo '<br /><br />Корневой раздел каталога. <br /><br />';
 
 if(count($rootSections) > 0){
     ?>
 <div class="tree_exmpl_wrap">
     <ul class="tree_exmpl">
-        <li class="higher_lvl_tree_item">higher level
+        <li class="higher_lvl_tree_item">
             <ul>
     <?php
     foreach($rootSections as $category){
@@ -36,7 +36,7 @@ if(count($rootSections) > 0){
             </ul>
         </li>
 
-        <li class="higher_lvl_tree_item">higher level 1
+        <li class="higher_lvl_tree_item">
             <ul>
                 <?php
                 foreach($rootSections as $category){
