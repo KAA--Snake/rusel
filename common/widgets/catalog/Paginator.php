@@ -211,9 +211,14 @@ class Paginator extends Widget
 
     public function run()
     {
-        //\Yii::$app->pr->print_r2($this->pagination);
+
 
         $total_pages = ceil($this->pagination['totalCount'] / $this->pagination['max_elements_cnt']);
+
+        /** если всего 1 страница. то пагинатор не показываем*/
+        if($total_pages <= 1) return;
+
+
         $currentPage = $this->pagination['current_page'];//, текущая выбранная страница
 
         $prevPage = $currentPage - 1;
@@ -249,7 +254,7 @@ class Paginator extends Widget
             $href = $this->getHref($i);
 
             if($currentPage == $i){
-                echo '<li class="pagination_item active"><a href="'.$href.'">'.$i.'</a></li>';
+                echo '<li class="pagination_item active"><a href="">'.$i.'</a></li>';
             }else{
                 echo '<li class="pagination_item"><a href="'.$href.'">'.$i.'</a></li>';
             }
