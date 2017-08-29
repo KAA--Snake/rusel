@@ -37,14 +37,32 @@ use common\modules\catalog\models\Section;
                     </td>
                     <td class="left_bordered">
                         <div class="card_part in_stock">
-                            <div class="in_stock_item available">Доступно: <span class="avilable_count">123 шт. (1-2 дня)</span>
-                            </div>
-                            <div class="in_stock_item preorder">Сверх доступного: <span class="preorder_count">4-5 недель</span>
-                            </div>
-                            <br>
-                            <div class="in_stock_item pack">Упаковка: <span class="pack_count">50 шт</span></div>
-                            <div class="in_stock_item minorder">Мин.заказ: <span class="minorder_count">100 шт</span>
-                            </div>
+                            <table class="instock">
+                                <tr>
+                                    <td class="instock_def">Доступно: </td>
+                                    <td class="instock_count">123 шт. 1-2 дня</td>
+                                </tr>
+                                <tr>
+                                    <td class="instock_def"></td>
+                                    <td class="instock_count partner">123 шт. 1-2 дня</td>
+                                </tr>
+                                <tr>
+                                    <td class="instock_def gray">Доп. заказ: </td>
+                                    <td class="instock_count">1-2 дня</td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                    <td><br></td>
+                                </tr>
+                                <tr>
+                                    <td class="instock_def">Упаковка: </td>
+                                    <td class="instock_count">123 шт. 1-2 дня</td>
+                                </tr>
+                                <tr>
+                                    <td class="instock_def gray">Мин. партия: </td>
+                                    <td class="instock_count">123 шт. 1-2 дня</td>
+                                </tr>
+                            </table>
                         </div>
                     </td>
                     <td class="left_bordered">
@@ -187,7 +205,7 @@ use common\modules\catalog\models\Section;
                         <div class="card_part in_stock">
                             <div class="in_stock_item available">Доступно: <span class="avilable_count">123 шт. (1-2 дня)</span>
                             </div>
-                            <div class="in_stock_item preorder">Сверх доступного: <span class="preorder_count">4-5 недель</span>
+                            <div class="in_stock_item preorder">Дополнительно: <span class="preorder_count">4-5 недель</span>
                             </div>
                             <br>
                             <div class="in_stock_item pack">Упаковка: <span class="pack_count">50 шт</span></div>

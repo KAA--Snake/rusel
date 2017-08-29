@@ -159,6 +159,7 @@ AppAsset::register($this);
             </div>
 
             <div class="breadcrumbs_menu col_1180">
+                <?/*?>
                 <ul class="breadcrumbs_list">
                     <li class="breadcrumbs_item breadcrumbs_head">Навигация по каталогу:</li>
                     <li class="breadcrumbs_item">
@@ -177,9 +178,16 @@ AppAsset::register($this);
                         DF-0394 HJ75
                     </li>
                 </ul>
+                <?*/?>
                 <?= Breadcrumbs::widget([
+                    'options'       =>  [
+                        //'id'        =>  'breadCrumbs',
+                        'class'        =>  'breadcrumbs_list',
+                    ],
+                    'homeLink' => ['label' => 'Навигация по каталогу:'],
+                    'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // template for all links
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
+                ]);?>
             </div>
 
 
