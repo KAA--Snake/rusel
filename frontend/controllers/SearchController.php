@@ -4,7 +4,7 @@
  */
 namespace frontend\controllers;
 
-set_time_limit(0);
+//set_time_limit(0);
 
 use common\models\B_iblock_element;
 use common\models\elasticsearch\Element;
@@ -266,4 +266,15 @@ class SearchController extends Controller
         Element::deleteIndex();
         return 'index deleted';
     }
+
+
+    /**
+     * Поиск по списку из файла (загружаешь файл и тп)
+     */
+    public function actionByList(){
+
+
+        return $this->render('listSearch');
+    }
+
 }
