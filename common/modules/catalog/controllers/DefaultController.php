@@ -3,6 +3,7 @@
 namespace common\modules\catalog\controllers;
 
 use common\models\elasticsearch\Product;
+use common\modules\catalog\models\BreadCrumbs;
 use common\modules\catalog\models\Section;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -58,11 +59,20 @@ class DefaultController extends Controller
      */
     public function actionIndex($pathForParse = false)
     {
+        /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - корзина */
+        if(!empty(\Yii::$app->request->get('cart'))){
+
+            $this->layout = 'catalogDetail';
+            return $this->render('cartOrder');
+        }
+
+        $sectionModel = new Section();
+        $breadCrumbsObj = new BreadCrumbs();
+
+        //$sectionModel->getBreadCrumbsForPath();
 
         /** для нулевого уровня каталога показываем только главные разделы */
         if(!$pathForParse){
-
-            $sectionModel = new Section();
             $rootSections = $sectionModel->getRootSections();
 
             return $this->render('catalogRoot', ['rootSections' => $rootSections]);
@@ -73,8 +83,6 @@ class DefaultController extends Controller
         /** карточка товара */
         $productModel = new Product();
 
-        //$product = $productModel->getProductById(6654);
-
         $product = $productModel->getProductByUrl($pathForParse);
         if($product){
             $this->layout = 'catalogDetail';
@@ -82,44 +90,13 @@ class DefaultController extends Controller
         }
 
 
-
-
-        /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ */
-        if(!empty(\Yii::$app->request->get('product'))){
-            $returnData = [
-                'currentSection' => [],
-                'groupedSiblings' => [],
-                'unGroupedSiblings' => [],
-                'currentSectionProducts' => [],
-            ];
-            $this->layout = 'catalogFullWidth';
-            return $this->render('sectionProducts', $returnData);
-        }
-
-
-
-        /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - корзина */
-        if(!empty(\Yii::$app->request->get('cart'))){
-
-            $this->layout = 'catalogDetail';
-            return $this->render('cartOrder');
-        }
-
-
-
-
-
         /**
          * Ниже вывод раздела/списка товаров в разделе
          */
-        $sectionModel = new Section();
         $sectionData = $sectionModel->getSectionByUrl($pathForParse, 5);
 
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
-
-        //var_dump($sectionData);
-        //die();
 
         if( $sectionData['currentSection'] ){
 
@@ -128,6 +105,7 @@ class DefaultController extends Controller
                 'groupedSiblings' => $sectionData['groupedSiblings'],
                 'unGroupedSiblings' => $sectionData['unGroupedSiblings'],
                 'currentSectionProducts' => $sectionData['currentSectionProducts'],
+                'paginator' => $sectionData['paginator']
             ];
         }else{
             /** если ничего не нашлось, выбросим 404 */
@@ -140,15 +118,26 @@ class DefaultController extends Controller
         if( !empty($sectionData['currentSectionProducts']) ){
 
             $this->layout = 'catalogFullWidth';
+
+            $breadcrumbs = $breadCrumbsObj->getForCatalogSection($sectionData['currentSection']);
+            $this->view->params['breadcrumbs'] = $breadcrumbs;
+
             return $this->render('sectionProducts', $returnData);
         }
         /** если раздел не содержит товаров, но есть список подразделов, выведем их*/
         else if( !empty($sectionData['groupedSiblings']) ){
 
+            $breadcrumbs = $breadCrumbsObj->getForCatalogSection($sectionData['currentSection']);
+            $this->view->params['breadcrumbs'] = $breadcrumbs;
+
             return $this->render('sectionsList', $returnData);
         }
         /** последний подраздел, но без списка товаров (по идее сюда не должно заходить, т.к. товары должны быть!)*/
         else if( $sectionData['currentSection'] ){
+
+            $breadcrumbs = $breadCrumbsObj->getForCatalogSection($sectionData['currentSection']);
+            $this->view->params['breadcrumbs'] = $breadcrumbs;
+
             return $this->render('sectionsList', $returnData);
         }
 
