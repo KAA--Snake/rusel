@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: sergey
@@ -6,8 +7,10 @@
  * Time: 12:20
  */
 
+
 namespace backend\controllers;
 
+set_time_limit(0);
 
 use common\modules\catalog\models\mongo\Product;
 use common\modules\catalog\models\Section;
