@@ -196,10 +196,16 @@ class ImportController extends Controller
                             $catalogImportModel->import();
                             //return json_encode(['IMPORT_RESULT' => 'DONE']);
 
-                            return json_encode([
+
+
+                            $resUlt = [
                                 'RESULT' => 'DONE',
                                 'ERRORS' => $_SESSION['ERRORS']
-                            ]);
+                            ];
+                            $catalogImportModel->sendRespondToErp($postData['file_name'], $resUlt);
+
+                            return true;
+                            //return json_encode();
 
                         }
 
@@ -224,5 +230,7 @@ class ImportController extends Controller
 
         //return 'error';
     }
+
+
 
 }

@@ -131,4 +131,34 @@ class CatalogImport extends Model
     }
 
 
+    /**
+     * Отправляет запрос на ерп сервер по окончанию обработки выгрузки
+     */
+    public function sendRespondToErp($fileName, $result){
+
+        $ch = curl_init( 'https://31.132.168.141:9999/exchange' );
+        # Setup request to send json via POST.
+
+        $payload = json_encode( array(
+            'type' => 'site_answer',
+            'answer' => $fileName,
+            'result' => $result,
+        ) );
+
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        //curl_setopt($ch, CURLOPT_USERPWD, Elastic::$user . ":" . Elastic::$pass);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+    }
+
 }
