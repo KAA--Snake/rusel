@@ -373,6 +373,7 @@ use common\modules\catalog\models\Section;
                         <input type="text" id="org" name="org" class="_order_inp">
                         <div class="org_tooltip"><span class="org_tooltip_arrow"></span>Введите название, ИНН или адрес</div>
                     </div>
+                    <div class="selected_org"></div>
                 </div>
             </div>
         </div>

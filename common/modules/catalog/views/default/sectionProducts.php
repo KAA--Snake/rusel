@@ -63,7 +63,7 @@ use common\widgets\catalog\Paginator;
                                         $isAnyAvailable = true;
                                         ?>
                                         <tr>
-                                            <td class="instock_def">Доступно: </td>
+                                            <td class="instock_def">Доступно:</td>
                                             <td class="instock_count">
                                                 <?= $oneProduct['_source']['quantity']['stock']['count'];?> шт.
 
@@ -78,7 +78,7 @@ use common\widgets\catalog\Paginator;
                                         $isAnyAvailablePartner = true;
                                         ?>
                                         <tr>
-                                            <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно: <?php }?></td>
+                                            <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно;<?php }?></td>
                                             <td class="instock_count partner">
                                                 <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> шт.
 
@@ -92,7 +92,7 @@ use common\widgets\catalog\Paginator;
 
                                     <?php if(!$isAnyAvailable && !$isAnyAvailablePartner) {?>
                                         <tr>
-                                            <td class="instock_def">Доступно: </td>
+                                            <td class="instock_def">Доступно:</td>
                                             <td class="instock_count">0 шт.</td>
                                         </tr>
                                     <?php }?>
@@ -100,12 +100,12 @@ use common\widgets\catalog\Paginator;
                                     <?php if( isset($oneProduct['_source']['quantity']['for_order']['description']) ){
 
                                         if(!is_array($oneProduct['_source']['quantity']['for_order']['description'])){
-                                            $overText = 'Доп. заказ: ';
+                                            $overText = 'Доп. заказ:';
                                             if(!$isAnyAvailable && !$isAnyAvailablePartner) {
-                                                $overText = 'Под заказ: ';
+                                                $overText = 'Под заказ:';
                                             }?>
                                             <tr>
-                                                <td class="instock_def gray"><?= $overText;?></td>
+                                                <td class="instock_def"><?= $overText;?></td>
                                                 <td class="instock_count">
                                                     <?php if(!empty($oneProduct['_source']['quantity']['for_order']['description']) && !is_array($oneProduct['_source']['quantity']['for_order']['description'])){?>
                                                         <?= $oneProduct['_source']['quantity']['for_order']['description'];?>
@@ -126,7 +126,7 @@ use common\widgets\catalog\Paginator;
                                     </tr>
 
                                     <tr>
-                                        <td class="instock_def gray">Мин. партия: </td>
+                                        <td class="instock_def">Мин. партия: </td>
                                         <td class="instock_count"><?= $oneProduct['_source']['product_logic']['min_zakaz'];?> шт</td>
                                     </tr>
                                 </table>
