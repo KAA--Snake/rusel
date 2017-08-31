@@ -155,8 +155,12 @@ class CatalogImport extends Model
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+        curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));
 
         $result = curl_exec($ch);
+        file_put_contents('test_result', print_r($result, true));
+        file_put_contents('test_payload', print_r($payload, true));
+
         curl_close($ch);
 
     }
