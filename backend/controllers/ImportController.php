@@ -47,6 +47,56 @@ class ImportController extends Controller
     //public $modelClass = 'common\modules\catalog\models\import\CsvImport';
 
 
+    public function actionSendt(){
+        //return 'dddd';
+        print_r(\Yii::$app->request->post());
+        return;
+    }
+
+    public function actionSend(){
+
+        $ch = curl_init( 'http://rusel24.fvds.ru/admin/import/sendt/' );
+        # Setup request to send json via POST.
+
+        $resUlt = [
+            'RES' => 'DONE',
+            'ERRORS' => ['no' => 'errors']
+        ];
+
+        $payload = array(
+            'type' => 'site_answer',
+            'answer' => 'somefile.xml',
+            'result' => $resUlt,
+        ) ;
+
+        $payload = http_build_query($payload);
+
+        file_put_contents('test_result_payload', $payload);
+
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        //curl_setopt($ch, CURLOPT_USERPWD, Elastic::$user . ":" . Elastic::$pass);
+        //curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
+        //curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
+        //curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+        //curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+
+        $result = curl_exec($ch);
+        file_put_contents('test_result_self', print_r($result, true));
+        //file_put_contents('test_payload_self', print_r($payload, true));
+
+        curl_close($ch);
+
+
+    }
+
+
+
+
 
     public function actionCreate(){
         $catalogModule = \Yii::$app->getModule('catalog');
@@ -199,7 +249,7 @@ class ImportController extends Controller
 
 
                             $resUlt = [
-                                'RESULT' => 'DONE',
+                                'RES' => 'DONE',
                                 'ERRORS' => $_SESSION['ERRORS']
                             ];
                             $catalogImportModel->sendRespondToErp($postData['file_name'], $resUlt);

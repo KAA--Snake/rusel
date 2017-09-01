@@ -136,17 +136,21 @@ class CatalogImport extends Model
      */
     public function sendRespondToErp($fileName, $result){
 
-        $ch = curl_init( 'https://31.132.168.141:9999/exchange' );
+        $ch = curl_init( 'https://31.132.168.141:9999/exchange?type=site_answer&answer='.$fileName );
         # Setup request to send json via POST.
 
-        $payload = json_encode( array(
+        file_put_contents('result.res', json_encode($result));
+
+        $payload = array(
             'type' => 'site_answer',
             'answer' => $fileName,
-            'result' => $result,
-        ) );
+            'file' => '@result.res',
+        ) ;
+
+        //$payload = http_build_query($payload);
 
         curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        //curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
         //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -155,11 +159,11 @@ class CatalogImport extends Model
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
-        curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+        //curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));
 
         $result = curl_exec($ch);
         file_put_contents('test_result', print_r($result, true));
-        file_put_contents('test_payload', print_r($payload, true));
+        //file_put_contents('test_payload', print_r($payload, true));
 
         curl_close($ch);
 
