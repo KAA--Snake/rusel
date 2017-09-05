@@ -6,6 +6,7 @@
 //\Yii::$app->pr->print_r2($currentSectionProducts);
 //die();
 use yii\helpers\Url;
+use common\modules\catalog\models\currency\Currency;
 
 ?>
 
@@ -57,7 +58,7 @@ use yii\helpers\Url;
                                     <tr>
                                         <td class="instock_def">Доступно:</td>
                                         <td class="instock_count">
-                                            <?= $oneProduct['_source']['quantity']['stock']['count'];?> шт.
+                                            <?= $oneProduct['_source']['quantity']['stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>.
 
                                             <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
                                                 <?= $oneProduct['_source']['quantity']['stock']['description'];?>
@@ -72,7 +73,7 @@ use yii\helpers\Url;
                                     <tr>
                                         <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно:<?php }?></td>
                                         <td class="instock_count partner">
-                                            <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> шт.
+                                            <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>.
 
                                             <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description']) && !is_array($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
                                                 <?= $oneProduct['_source']['quantity']['partner_stock']['description'];?>
@@ -85,7 +86,7 @@ use yii\helpers\Url;
                                 <?php if(!$isAnyAvailable && !$isAnyAvailablePartner) {?>
                                     <tr>
                                         <td class="instock_def">Доступно:</td>
-                                        <td class="instock_count">0 шт.</td>
+                                        <td class="instock_count">0 <?= $oneProduct['_source']['ed_izmerenia'];?>.</td>
                                     </tr>
                                 <?php }?>
 
@@ -114,12 +115,12 @@ use yii\helpers\Url;
 
                                 <tr>
                                     <td class="instock_def">Упаковка: </td>
-                                    <td class="instock_count"><?= $oneProduct['_source']['product_logic']['norma_upakovki'];?> шт</td>
+                                    <td class="instock_count"><?= $oneProduct['_source']['product_logic']['norma_upakovki'];?> <?= $oneProduct['_source']['ed_izmerenia'];?></td>
                                 </tr>
 
                                 <tr>
                                     <td class="instock_def">Мин. партия: </td>
-                                    <td class="instock_count"><?= $oneProduct['_source']['product_logic']['min_zakaz'];?> шт</td>
+                                    <td class="instock_count"><?= $oneProduct['_source']['product_logic']['min_zakaz'];?> <?= $oneProduct['_source']['ed_izmerenia'];?></td>
                                 </tr>
                             </table>
                         </div>
@@ -135,7 +136,9 @@ use yii\helpers\Url;
                                 <div class="price_vars">
                                     <div class="price_var_item clear">
                                         <span class="count fll">1+<!-- - НЕТ ДАННЫХ ДЛЯ ЭТОГО ПОЛЯ В ВЫГРУЗКЕ !--></span>
-                                        <span class="price flr"><?= $oneProduct['_source']['marketing']['price']; ?> Р/шт</span>
+                                        <span class="price flr"><?= $oneProduct['_source']['marketing']['price']; ?>
+                                            <?=Currency::getCurrencyName($oneProduct['_source']['marketing']['currency']);?>/<?= $oneProduct['_source']['ed_izmerenia'];?>
+                                        </span>
                                     </div>
                                 </div>
 
@@ -163,7 +166,7 @@ use yii\helpers\Url;
 
                                                 <div class="price_var_item clear">
                                                     <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
-                                                    <span class="price flr"><?= $oneProduct['_source']['prices']['price_range']['value'];?> р./шт</span>
+                                                    <span class="price flr"><?= $oneProduct['_source']['prices']['price_range']['value'];?> <?=Currency::getCurrencyName($oneProduct['_source']['prices']['price_range']['currency']);?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                                 </div>
 
                                                 <?php
@@ -181,7 +184,7 @@ use yii\helpers\Url;
 
                                                             <div class="price_var_item clear">
                                                                 <span class="count fll"><?= $singlePrices['range'];?></span>
-                                                                <span class="price flr"><?= $singlePrices['value'];?> р./шт</span>
+                                                                <span class="price flr"><?= $singlePrices['value'];?> <?=Currency::getCurrencyName($singlePrices['currency']);?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                                             </div>
 
                                                             <?php

@@ -304,6 +304,7 @@ class Product extends Model
             /** заполним выборку аксессуарами */
             $this->setAccessoriedProducts($response['hits']['hits']);
             $returnData['products'] = $response['hits']['hits'];
+            //\Yii::$app->pr->print_r2($returnData['products']);
 
             $returnData['paginator'] = $pagination;
 

@@ -4,7 +4,7 @@ return [
         'importFolderName' => 'upload_xml',
         'allowedExtensions' => ['xml', 'csv', 'txt'],
         'catalogDir' => '/catalog', //первоначальный адрес в УРЛ (по нему будут строиться пути в каталоге и тп)
-        'uploadImagesDir' => '/webapp/upload/images/',
+        'uploadImagesDir' => '/upload/images/',
         /** ниже настройки каталога*/
 
         //пароль для ерп
