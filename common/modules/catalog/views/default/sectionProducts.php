@@ -78,7 +78,7 @@ use common\widgets\catalog\Paginator;
                                         $isAnyAvailablePartner = true;
                                         ?>
                                         <tr>
-                                            <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно;<?php }?></td>
+                                            <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно:<?php }?></td>
                                             <td class="instock_count partner">
                                                 <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> шт.
 

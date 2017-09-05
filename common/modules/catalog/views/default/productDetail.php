@@ -40,83 +40,81 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                     <div class="card_part in_stock">
                         <?php
                         //флаг- есть ли хоть 1 товар в доступных ?
-                        $isAnyAvailable = false;?>
+                        $isAnyAvailable = false;
+                        $isAnyAvailablePartner = false;?>
 
-                        <?php if(isset($oneProduct['quantity']['stock']['count']) && $oneProduct['quantity']['stock']['count'] > 0){
-                            $isAnyAvailable = true;
-                            ?>
-                            <div class="in_stock_item available">
-                                Доступно:
-                                <span class="avilable_count">
-                        <?= $oneProduct['quantity']['stock']['count'];?> шт.
-
-                                    <?php if(!empty($oneProduct['quantity']['stock']['description'])){?>
-                                        <?= $oneProduct['quantity']['stock']['description'];?>
-                                    <?php }?>
-
-                    </span>
-                            </div>
-                        <?php } ?>
-
-                        <?php if(isset($oneProduct['quantity']['partner_stock']['count']) && $oneProduct['quantity']['partner_stock']['count'] > 0){
-                            $isAnyAvailable = true;
-                            ?>
-                            <div class="in_stock_item available">
-                                Доступно:
-                                <span class="avilable_count">
-                        <?= $oneProduct['quantity']['partner_stock']['count'];?> шт.
-
-                                    <?php if(!empty($oneProduct['quantity']['partner_stock']['description']) && !is_array($oneProduct['quantity']['partner_stock']['description'])){?>
-                                        <?= $oneProduct['quantity']['partner_stock']['description'];?>
-                                    <?php }?>
-                    </span>
-                            </div>
-                        <?php } ?>
-
-                        <?php if( isset($oneProduct['quantity']['for_order']['description']) ){
-
-                            if(!is_array($oneProduct['quantity']['for_order']['description'])){
-
-
-                                $overText = 'Сверх доступного:';
-                                if(!$isAnyAvailable){
-                                    $overText = 'Под заказ:';
-                                }
+                        <table class="instock">
+                            <?php if(isset($oneProduct['quantity']['stock']['count']) && $oneProduct['quantity']['stock']['count'] > 0){
+                                $isAnyAvailable = true;
                                 ?>
+                                <tr>
+                                    <td class="instock_def">Доступно:</td>
+                                    <td class="instock_count">
+                                        <?= $oneProduct['quantity']['stock']['count'];?> шт.
 
-                                <?php
-                                if(!$isAnyAvailable){ ?>
-                                    <div class="in_stock_item available">Доступно: <span class="avilable_count">0 шт.</span></div>
-                                <?php } ?>
-                                <div class="in_stock_item preorder">
-                                    <?= $overText;?>
-                                    <span class="preorder_count">
-
-                        <?php if(!empty($oneProduct['quantity']['for_order']['description']) && !is_array($oneProduct['quantity']['for_order']['description'])){?>
-                            <?= $oneProduct['quantity']['for_order']['description'];?>
-                        <?php }?>
-
-                    </span>
-                                </div>
+                                        <?php if(!empty($oneProduct['quantity']['stock']['description'])){?>
+                                            <?= $oneProduct['quantity']['stock']['description'];?>
+                                        <?php }?>
+                                    </td>
+                                </tr>
                             <?php } ?>
-                        <?php }else{ ?>
-                            <div class="in_stock_item available">Доступно: <span class="avilable_count">0 шт.</span></div>
-                        <?php } ?>
 
+                            <?php if(isset($oneProduct['quantity']['partner_stock']['count']) && $oneProduct['quantity']['partner_stock']['count'] > 0){
+                                $isAnyAvailablePartner = true;
+                                ?>
+                                <tr>
+                                    <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно:<?php }?></td>
+                                    <td class="instock_count partner">
+                                        <?= $oneProduct['quantity']['partner_stock']['count'];?> шт.
 
-                        <br>
-                        <div class="in_stock_item pack">
-                            Упаковка:
-                            <span class="pack_count">
-                <?= $oneProduct['product_logic']['norma_upakovki'];?> шт
-            </span>
-                        </div>
-                        <div class="in_stock_item minorder">
-                            Мин.заказ:
-                            <span class="minorder_count">
-                <?= $oneProduct['product_logic']['min_zakaz'];?> шт
-            </span>
-                        </div>
+                                        <?php if(!empty($oneProduct['quantity']['partner_stock']['description']) && !is_array($oneProduct['quantity']['partner_stock']['description'])){?>
+                                            <?= $oneProduct['quantity']['partner_stock']['description'];?>
+                                        <?php }?>
+                                    </td>
+                                </tr>
+
+                            <?php } ?>
+
+                            <?php if(!$isAnyAvailable && !$isAnyAvailablePartner) {?>
+                                <tr>
+                                    <td class="instock_def">Доступно:</td>
+                                    <td class="instock_count">0 шт.</td>
+                                </tr>
+                            <?php }?>
+
+                            <?php if( isset($oneProduct['quantity']['for_order']['description']) ){
+
+                                if(!is_array($oneProduct['quantity']['for_order']['description'])){
+                                    $overText = 'Доп. заказ:';
+                                    if(!$isAnyAvailable && !$isAnyAvailablePartner) {
+                                        $overText = 'Под заказ:';
+                                    }?>
+                                    <tr>
+                                        <td class="instock_def"><?= $overText;?></td>
+                                        <td class="instock_count">
+                                            <?php if(!empty($oneProduct['quantity']['for_order']['description']) && !is_array($oneProduct['quantity']['for_order']['description'])){?>
+                                                <?= $oneProduct['quantity']['for_order']['description'];?>
+                                            <?php }?>
+                                        </td>
+                                    </tr>
+
+                                <?php } ?>
+                            <?php } ?>
+                            <tr>
+                                <td><br></td>
+                                <td><br></td>
+                            </tr>
+
+                            <tr>
+                                <td class="instock_def">Упаковка: </td>
+                                <td class="instock_count"><?= $oneProduct['product_logic']['norma_upakovki'];?> шт</td>
+                            </tr>
+
+                            <tr>
+                                <td class="instock_def">Мин. партия: </td>
+                                <td class="instock_count"><?= $oneProduct['product_logic']['min_zakaz'];?> шт</td>
+                            </tr>
+                        </table>
                     </div>
                 </td>
                 <td class="left_bordered">

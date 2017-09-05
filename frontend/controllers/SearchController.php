@@ -14,6 +14,7 @@ class SearchController extends Controller
 {
 
     private $elementModel;
+    public $layout = 'searchFullWidth';
 
 
     public function actionByName(){
