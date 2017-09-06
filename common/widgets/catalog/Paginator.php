@@ -308,7 +308,6 @@ class Paginator extends Widget
                                     echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
                                     echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
 
-
                                 }else{
                                     //echo 'else';
                                     echo '<li class="pagination_item"><a href="'.$this->getHref(1).'">1</a></li>';
@@ -319,13 +318,11 @@ class Paginator extends Widget
 
                                 }
 
-
                                 echo '<li class="pagination_item active"><a href="">'.$i.'</a></li>';
                             }else{
                                 echo '<li class="pagination_item"><a href="'.$href.'">'.$i.'</a></li>';
                             }
                         }
-
 
                     }else{//если выбранная страница НЕ помещается в последние 5 значений
                         //echo 'если выбранная страница НЕ помещается в последние 5 значений';
@@ -348,7 +345,6 @@ class Paginator extends Widget
                             echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
                         }
 
-
                         //не показываем ... если текущая страница + 2 меньше максимальной
                         if($pagePlus2 < $total_pages){
                             echo '<li class="pagination_item">...</li>';
@@ -356,16 +352,8 @@ class Paginator extends Widget
                         }
 
                     }
-
-
-
-
                 }
-
-
             }
-
-
 
         }else{
             //здесь пагинатор с меньшим чем 4 кол-вом макс страниц
@@ -379,47 +367,6 @@ class Paginator extends Widget
             }
         }
 
-
-
-        //for($i=$currentPage; $i <= $total_pages; $i++){
-        for($i=1; $i <= $total_pages; $i++){
-
-            $href = $this->getHref($i);
-
-            $pagePlus1 = $currentPage + 1;
-            $pagePlus2 = $currentPage + 2;
-            $pagePlus3 = $currentPage + 3;
-
-            $pageMinus1 = $currentPage - 1;
-            $pageMinus2 = $currentPage - 2;
-            $pageMinus3 = $currentPage - 3;
-
-            /*if($currentPage == $i){
-                echo '<li class="pagination_item active"><a href="">'.$i.'</a></li>';
-            }else{
-                echo '<li class="pagination_item"><a href="'.$href.'">'.$i.'</a></li>';
-            }*/
-
-
-            /*if($counter <= 4){
-
-                if($currentPage == $i){
-                    echo '<li class="pagination_item active"><a href="">'.$i.'</a></li>';
-                }else{
-                    echo '<li class="pagination_item"><a href="'.$href.'">'.$i.'</a></li>';
-                }
-
-
-            }else if($counter == 5){
-                echo '<li class="pagination_item">...</li>';
-                //echo '<li class="pagination_item"><a href="">'.$total_pages.'</a></li>';
-            }else if($counter == $total_pages){
-                echo '<li class="pagination_item"><a href="'.$href.'">'.$total_pages.'</a></li>';
-            }
-
-
-            $counter++;*/
-        }
 ?>
         <? if(isset($hrefNextPage)) {?>
             <li class="pagination_item next"><a href="<?=$hrefNextPage;?>"></a></li>
