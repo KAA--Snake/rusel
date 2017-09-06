@@ -173,8 +173,7 @@ AppAsset::register($this);
 
             <div class="goods_filter_block col_1180">
                 <div class="goods_filter_wrap">
-                    <div class="filter_counter">Найдено: <span class="filter_num">345</span> позиций</div>
-                    <div class="divider"></div>
+
                     <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
                     <div class="divider"></div>
                     <div class="filter_params_applied" data-empty="Фильтр не применен">Фильтр не применен
@@ -231,6 +230,24 @@ AppAsset::register($this);
                             <input type="hidden" name="nomin_tok" value="">
                         </form>
                         <input type="submit" form="filter-form" class="apply_filter_btn" value="Применить фильтр">
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub_filter_wrap clear">
+                <div class="filter_counter fll">
+                    Найдено: <span class="filter_num">345</span> позиций
+                </div>
+                <div class="catalog_render_count flr">
+                    На странице: <span class="count_num_selected js-selected_count_vars">50</span> строк
+                    <div class="count_vars hidden">
+                       <div class="top_corner"></div>
+                        <ul class="count_vars_list">
+                            <li class="count_vars_item">25</li>
+                            <li class="count_vars_item">50</li>
+                            <li class="count_vars_item">100</li>
+                            <li class="count_vars_item">200</li>
+                        </ul>
                     </div>
                 </div>
             </div>

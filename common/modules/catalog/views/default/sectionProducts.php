@@ -35,7 +35,7 @@ use common\modules\catalog\models\currency\Currency;
                                 <div class="firm_descr">
                                     <?=$oneProduct['_source']['name'];?>
                                 </div>
-                                <?php if(!empty($oneProduct['_source']['other_properties'])){?>
+                                <?php if(!empty($oneProduct['_source']['other_properties']) || (isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0)){?>
                                     <div class="more js-expand-tabs">
                                         <a href="">Подробнее ↓</a>
                                     </div>

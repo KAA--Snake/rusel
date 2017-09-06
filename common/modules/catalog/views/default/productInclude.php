@@ -30,7 +30,7 @@ use common\modules\catalog\models\currency\Currency;
                             <div class="firm_descr">
                                 <?=$oneProduct['_source']['name'];?>
                             </div>
-                            <?php if(!empty($oneProduct['_source']['other_properties'])){?>
+                            <?php if(!empty($oneProduct['_source']['other_properties']) || (isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0)){?>
                                 <div class="more js-expand-tabs">
                                     <a href="">Подробнее ↓</a>
                                 </div>
@@ -222,11 +222,11 @@ use common\modules\catalog\models\currency\Currency;
             <div class="product_card_more collapsed">
                 <div class="product_tab">
                     <ul class="product_specs_list">
-                        <li class="product_tab_item"><a href="#params">Параметры</a></li>
-                        <li class="product_tab_item"><a href="#techdoc">Техническая документация</a></li>
+                        <li class="product_tab_item"><a href="#params_inc">Параметры</a></li>
+                        <li class="product_tab_item"><a href="#techdoc_inc">Техническая документация</a></li>
 
                     </ul>
-                    <div class="product_tab_content" id="params">
+                    <div class="product_tab_content" id="params_inc">
                         <table class="params_tab">
                             <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
                                 <?php foreach($oneProduct['_source']['other_properties']['property'] as $singleProp){ ?>
@@ -238,7 +238,7 @@ use common\modules\catalog\models\currency\Currency;
                             <?php }?>
                         </table>
                     </div>
-                    <div class="product_tab_content" id="techdoc">
+                    <div class="product_tab_content" id="techdoc_inc">
                         <p>
                             какая то Техническая документация
                         </p>
