@@ -40,11 +40,11 @@ use common\modules\catalog\models\Section;
                             <table class="instock">
                                 <tr>
                                     <td class="instock_def">Доступно: </td>
-                                    <td class="instock_count">123 шт. 1-2 дня</td>
+                                    <td class="instock_count">123 шт 1-2 дня</td>
                                 </tr>
                                 <tr>
                                     <td class="instock_def"></td>
-                                    <td class="instock_count partner">123 шт. 1-2 дня</td>
+                                    <td class="instock_count partner">123 шт 1-2 дня</td>
                                 </tr>
                                 <tr>
                                     <td class="instock_def gray">Доп. заказ: </td>
@@ -56,11 +56,11 @@ use common\modules\catalog\models\Section;
                                 </tr>
                                 <tr>
                                     <td class="instock_def">Упаковка: </td>
-                                    <td class="instock_count">123 шт. 1-2 дня</td>
+                                    <td class="instock_count">123 шт 1-2 дня</td>
                                 </tr>
                                 <tr>
                                     <td class="instock_def gray">Мин. партия: </td>
-                                    <td class="instock_count">123 шт. 1-2 дня</td>
+                                    <td class="instock_count">123 шт 1-2 дня</td>
                                 </tr>
                             </table>
                         </div>
@@ -71,15 +71,15 @@ use common\modules\catalog\models\Section;
                             <div class="price_vars">
                                 <div class="price_var_item clear">
                                     <span class="count fll">1+</span>
-                                    <span class="price flr">100.00 &#8381;/шт</span>
+                                    <span class="price flr">100.00 &#8381;/шт/span>
                                 </div>
                                 <div class="price_var_item clear">
                                     <span class="count fll">1+</span>
-                                    <span class="price flr">100.00 &#8381;/шт</span>
+                                    <span class="price flr">100.00 &#8381;/шт/span>
                                 </div>
                                 <div class="price_var_item clear">
                                     <span class="count fll">1+</span>
-                                    <span class="price flr">100.00 Р/шт</span>
+                                    <span class="price flr">100.00 Р/шт/span>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@ use common\modules\catalog\models\Section;
 
                             <div class="ordered_input hidden">
                                 <span class="ordered_icon"></span>
-                                <span class="ordered_count">25 000 шт.</span>
+                                <span class="ordered_count">25 000 шт</span>
                                 <span class="ordered_price">252 000 Р.</span>
                             </div>
 
@@ -203,13 +203,13 @@ use common\modules\catalog\models\Section;
                     </td>
                     <td class="left_bordered">
                         <div class="card_part in_stock">
-                            <div class="in_stock_item available">Доступно: <span class="avilable_count">123 шт. (1-2 дня)</span>
+                            <div class="in_stock_item available">Доступно: <span class="avilable_count">123 шт (1-2 дня)</span>
                             </div>
                             <div class="in_stock_item preorder">Дополнительно: <span class="preorder_count">4-5 недель</span>
                             </div>
                             <br>
-                            <div class="in_stock_item pack">Упаковка: <span class="pack_count">50 шт</span></div>
-                            <div class="in_stock_item minorder">Мин.заказ: <span class="minorder_count">100 шт</span>
+                            <div class="in_stock_item pack">Упаковка: <span class="pack_count">50 шт/span></div>
+                            <div class="in_stock_item minorder">Мин.заказ: <span class="minorder_count">100 шт/span>
                             </div>
                         </div>
                     </td>
@@ -219,15 +219,15 @@ use common\modules\catalog\models\Section;
                             <div class="price_vars">
                                 <div class="price_var_item clear">
                                     <span class="count fll">1+</span>
-                                    <span class="price flr">100.00 &#8381;/шт</span>
+                                    <span class="price flr">100.00 &#8381;/шт/span>
                                 </div>
                                 <div class="price_var_item clear">
                                     <span class="count fll">1+</span>
-                                    <span class="price flr">100.00 &#8381;/шт</span>
+                                    <span class="price flr">100.00 &#8381;/шт/span>
                                 </div>
                                 <div class="price_var_item clear">
                                     <span class="count fll">1+</span>
-                                    <span class="price flr">100.00 Р/шт</span>
+                                    <span class="price flr">100.00 Р/шт/span>
                                 </div>
                             </div>
                         </div>
@@ -238,7 +238,7 @@ use common\modules\catalog\models\Section;
 
                             <div class="ordered_input hidden">
                                 <span class="ordered_icon"></span>
-                                <span class="ordered_count">25 000 шт.</span>
+                                <span class="ordered_count">25 000 шт</span>
                                 <span class="ordered_price">252 000 Р.</span>
                             </div>
 

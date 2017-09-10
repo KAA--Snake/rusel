@@ -18,7 +18,7 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=0.5">-->
+    <meta name="viewport" content="width=device-width, initial-scale=0.6">
     <meta name="format-detection" content="telephone=no">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>

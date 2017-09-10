@@ -50,7 +50,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                                 <tr>
                                     <td class="instock_def">Доступно:</td>
                                     <td class="instock_count">
-                                        <?= $oneProduct['quantity']['stock']['count'];?> шт.
+                                        <?= $oneProduct['quantity']['stock']['count'];?> шт
 
                                         <?php if(!empty($oneProduct['quantity']['stock']['description'])){?>
                                             <?= $oneProduct['quantity']['stock']['description'];?>
@@ -65,7 +65,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                                 <tr>
                                     <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно:<?php }?></td>
                                     <td class="instock_count partner">
-                                        <?= $oneProduct['quantity']['partner_stock']['count'];?> шт.
+                                        <?= $oneProduct['quantity']['partner_stock']['count'];?> шт
 
                                         <?php if(!empty($oneProduct['quantity']['partner_stock']['description']) && !is_array($oneProduct['quantity']['partner_stock']['description'])){?>
                                             <?= $oneProduct['quantity']['partner_stock']['description'];?>
@@ -78,7 +78,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                             <?php if(!$isAnyAvailable && !$isAnyAvailablePartner) {?>
                                 <tr>
                                     <td class="instock_def">Доступно:</td>
-                                    <td class="instock_count">0 шт.</td>
+                                    <td class="instock_count">0 шт</td>
                                 </tr>
                             <?php }?>
 
@@ -107,12 +107,12 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
                             <tr>
                                 <td class="instock_def">Упаковка: </td>
-                                <td class="instock_count"><?= $oneProduct['product_logic']['norma_upakovki'];?> шт</td>
+                                <td class="instock_count"><?= $oneProduct['product_logic']['norma_upakovki'];?> шт/td>
                             </tr>
 
                             <tr>
                                 <td class="instock_def">Мин. партия: </td>
-                                <td class="instock_count"><?= $oneProduct['product_logic']['min_zakaz'];?> шт</td>
+                                <td class="instock_count"><?= $oneProduct['product_logic']['min_zakaz'];?> шт/td>
                             </tr>
                         </table>
                     </div>
@@ -125,7 +125,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                             <div class="price_vars">
                                 <div class="price_var_item clear">
                                     <span class="count fll">1+<!-- - НЕТ ДАННЫХ ДЛЯ ЭТОГО ПОЛЯ В ВЫГРУЗКЕ !--></span>
-                                    <span class="price flr"><?= $oneProduct['marketing']['price']; ?> Р/шт</span>
+                                    <span class="price flr"><?= $oneProduct['marketing']['price']; ?> Р/шт/span>
                                 </div>
                             </div>
 
@@ -151,7 +151,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
                                             <div class="price_var_item clear">
                                                 <span class="count fll"><?= $oneProduct['prices']['price_range']['range'];?></span>
-                                                <span class="price flr"><?= $oneProduct['prices']['price_range']['value'];?> Р/шт</span>
+                                                <span class="price flr"><?= $oneProduct['prices']['price_range']['value'];?> Р/шт/span>
                                             </div>
 
                                             <?php
@@ -166,7 +166,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
                                                         <div class="price_var_item clear">
                                                             <span class="count fll"><?= $singlePrices['range'];?></span>
-                                                            <span class="price flr"><?= $singlePrices['value'];?> Р/шт</span>
+                                                            <span class="price flr"><?= $singlePrices['value'];?> Р/шт/span>
                                                         </div>
 
                                                         <?php
@@ -190,7 +190,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
                         <div class="ordered_input hidden">
                             <span class="ordered_icon"></span>
-                            <span class="ordered_count">25 000 шт.</span>
+                            <span class="ordered_count">25 000 шт</span>
                             <span class="ordered_price">252 000 Р.</span>
                         </div>
 

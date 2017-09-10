@@ -58,7 +58,7 @@ use common\modules\catalog\models\currency\Currency;
                                     <tr>
                                         <td class="instock_def">Доступно:</td>
                                         <td class="instock_count">
-                                            <?= $oneProduct['_source']['quantity']['stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>.
+                                            <?= $oneProduct['_source']['quantity']['stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>
 
                                             <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
                                                 <?= $oneProduct['_source']['quantity']['stock']['description'];?>
@@ -73,7 +73,7 @@ use common\modules\catalog\models\currency\Currency;
                                     <tr>
                                         <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно:<?php }?></td>
                                         <td class="instock_count partner">
-                                            <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>.
+                                            <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>
 
                                             <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description']) && !is_array($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
                                                 <?= $oneProduct['_source']['quantity']['partner_stock']['description'];?>
@@ -86,7 +86,7 @@ use common\modules\catalog\models\currency\Currency;
                                 <?php if(!$isAnyAvailable && !$isAnyAvailablePartner) {?>
                                     <tr>
                                         <td class="instock_def">Доступно:</td>
-                                        <td class="instock_count">0 <?= $oneProduct['_source']['ed_izmerenia'];?>.</td>
+                                        <td class="instock_count">0 <?= $oneProduct['_source']['ed_izmerenia'];?></td>
                                     </tr>
                                 <?php }?>
 
@@ -208,7 +208,7 @@ use common\modules\catalog\models\currency\Currency;
 
                             <div class="ordered_input hidden">
                                 <span class="ordered_icon"></span>
-                                <span class="ordered_count">25 000 шт.</span>
+                                <span class="ordered_count">25 000 шт</span>
                                 <span class="ordered_price">252 000 Р.</span>
                             </div>
 

@@ -11,8 +11,8 @@ use common\modules\catalog\models\Section;
  *  Все объекты описаны нотациями.
  * (пример нотации - @var \common\modules\catalog\models\Section $oneSibling )
  *
- *  И в шторме поэтому можешь смотреть подсказки при ctrl+space на этих переменных.
- *  Главное не удаляй нотации для переменных, чтобы не пропадало автозаполнение шторма.
+ *  И в штрме поэтому можешь смотреть подсказки при ctrl+space на этих переменных.
+ *  Главное не удаляй нотации для переменных, чтобы не пропадало автозаполнение штрма.
  *
  */
 
@@ -43,6 +43,7 @@ $sectionModel = new Section();
 //$sectionModel->listTree($groupedSiblings);
 
 ?>
+
 <h1><?= $currentSection->name; ?></h1>
 
 <!--static markup--------------------------------------------------------------------->
@@ -60,6 +61,7 @@ $sectionModel = new Section();
                 <div class="catalog_tree_wrap fll">
                     <h2>
                         <a class="tree_header active" href="<?= Url::toRoute(['@catalogDir/' . $oneSibling->url]); ?>"><?= $oneSibling->name; ?></a>
+                        <div class="tree_header_icon <?php if (count($oneSibling->childs) > 0) { ?>active<? }else{ ?>inactive<? } ?>"></div>
                     </h2>
                     <?php if (count($oneSibling->childs) > 0) { ?>
                         <div class="tree_list">

@@ -10,7 +10,87 @@ use common\modules\catalog\models\currency\Currency;
 //die();
 
 ?>
+<div class="content_inner_wrap left0 col_1180">
+<div class="goods_filter_block col_1180">
+    <div class="goods_filter_wrap">
 
+        <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
+        <div class="divider"></div>
+        <div class="filter_params_applied" data-empty="Фильтр не применен">Фильтр не применен
+        </div>
+        <div class="divider"></div>
+        <div class="filter_reset_btn">Сброс</div>
+    </div>
+    <div class="filter_selector_wrap collapsed">
+        <table class="filter_tab">
+            <tr class="filter_selector_item">
+                <td data-param="producer" class="name">Производитель:</td>
+                <td class="tags">
+                    <ul class="tag_list">
+                        <li data-tag="ETI" class="tag_item">ETI</li>
+                        <li data-tag="Eaton/Moeller" class="tag_item">Eaton/Moeller</li>
+                        <li data-tag="Efapel" class="tag_item">Efapel</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr class="filter_selector_item">
+                <td data-param="nomin_tok" class="name">Ном. ток (А):</td>
+                <td class="tags">
+                    <ul class="tag_list">
+                        <li data-tag="0.125" class="tag_item">0.125</li>
+                        <li data-tag="0.16" class="tag_item">0.16</li>
+                        <li data-tag="0.5" class="tag_item">0.5</li>
+                        <li data-tag="0.6" class="tag_item">0.6</li>
+                        <li data-tag="0.7" class="tag_item">0.7</li>
+                        <li data-tag="0.8" class="tag_item">0.8</li>
+                        <li data-tag="0.9" class="tag_item">0.9</li>
+                        <li data-tag="1" class="tag_item">1</li>
+                        <li data-tag="2" class="tag_item">2</li>
+                        <li data-tag="3" class="tag_item">3</li>
+                        <li data-tag="4" class="tag_item">4</li>
+                        <li data-tag="5" class="tag_item">5</li>
+                        <li data-tag="7" class="tag_item">7</li>
+                        <li data-tag="9" class="tag_item">9</li>
+                        <li data-tag="10" class="tag_item">10</li>
+                        <li data-tag="12" class="tag_item">12</li>
+                        <li data-tag="16" class="tag_item">16</li>
+                        <li data-tag="20" class="tag_item">20</li>
+                        <li data-tag="30" class="tag_item">30</li>
+                        <li data-tag="50" class="tag_item">50</li>
+                        <li data-tag="100" class="tag_item">100</li>
+                        <li data-tag="1000" class="tag_item">1000</li>
+                        <li data-tag="15000" class="tag_item">15000</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <div class="apply_filter_btn_wrap">
+            <form action="" class="filter_form hidden" name="filter-form" id="filter-form">
+                <input type="hidden" name="producer" value="">
+                <input type="hidden" name="nomin_tok" value="">
+            </form>
+            <input type="submit" form="filter-form" class="apply_filter_btn" value="Применить фильтр">
+        </div>
+    </div>
+</div>
+
+<div class="sub_filter_wrap clear">
+    <div class="filter_counter fll">
+        Найдено: <span class="filter_num">345</span> позиций
+    </div>
+    <div class="catalog_render_count flr">
+        На странице: <span class="count_num_selected js-selected_count_vars">50</span> строк
+        <div class="count_vars hidden">
+            <div class="top_corner"></div>
+            <ul class="count_vars_list">
+                <li class="count_vars_item"><a href="">25</a></li>
+                <li class="count_vars_item"><a href="">50</a></li>
+                <li class="count_vars_item"><a href="">100</a></li>
+                <li class="count_vars_item"><a href="">200</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div class="product_cards_block">
 
@@ -81,7 +161,7 @@ use common\modules\catalog\models\currency\Currency;
                                         <tr>
                                             <td class="instock_def"> <?php if(!$isAnyAvailable) {?>Доступно:<?php }?></td>
                                             <td class="instock_count partner">
-                                                <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>.
+                                                <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>
 
                                                 <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description']) && !is_array($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
                                                     <?= $oneProduct['_source']['quantity']['partner_stock']['description'];?>
@@ -94,7 +174,7 @@ use common\modules\catalog\models\currency\Currency;
                                     <?php if(!$isAnyAvailable && !$isAnyAvailablePartner) {?>
                                         <tr>
                                             <td class="instock_def">Доступно:</td>
-                                            <td class="instock_count">0 <?= $oneProduct['_source']['ed_izmerenia'];?>.</td>
+                                            <td class="instock_count">0 <?= $oneProduct['_source']['ed_izmerenia'];?></td>
                                         </tr>
                                     <?php }?>
 
@@ -207,7 +287,7 @@ use common\modules\catalog\models\currency\Currency;
 
                                 <div class="ordered_input hidden">
                                     <span class="ordered_icon"></span>
-                                    <span class="ordered_count">25 000 шт.</span>
+                                    <span class="ordered_count">25 000 шт</span>
                                     <span class="ordered_price">252 000 Р.</span>
                                 </div>
 
@@ -291,26 +371,26 @@ use common\modules\catalog\models\currency\Currency;
         </div>
 
         <div class="card_part in_stock">
-            <div class="in_stock_item available">Доступно: <span class="avilable_count">123 шт. (1-2 дня)</span></div>
+            <div class="in_stock_item available">Доступно: <span class="avilable_count">123 шт (1-2 дня)</span></div>
             <div class="in_stock_item preorder">Дополнительно: <span class="preorder_count">4-5 недель</span></div>
             <br>
-            <div class="in_stock_item pack">Упаковка: <span class="pack_count">50 шт</span></div>
-            <div class="in_stock_item minorder">Мин.заказ: <span class="minorder_count">100 шт</span></div>
+            <div class="in_stock_item pack">Упаковка: <span class="pack_count">50 шт/span></div>
+            <div class="in_stock_item minorder">Мин.заказ: <span class="minorder_count">100 шт/span></div>
         </div>
         <div class="card_part prices">
             <div class="special_tape">Специальная цена</div>
             <div class="price_vars">
                 <div class="price_var_item clear">
                     <span class="count fll">1+</span>
-                    <span class="price flr">100.00 Р/шт</span>
+                    <span class="price flr">100.00 Р/шт/span>
                 </div>
                 <div class="price_var_item clear">
                     <span class="count fll">1+</span>
-                    <span class="price flr">100.00 Р/шт</span>
+                    <span class="price flr">100.00 Р/шт/span>
                 </div>
                 <div class="price_var_item clear">
                     <span class="count fll">1+</span>
-                    <span class="price flr">100.00 Р/шт</span>
+                    <span class="price flr">100.00 Р/шт/span>
                 </div>
             </div>
         </div>
@@ -319,7 +399,7 @@ use common\modules\catalog\models\currency\Currency;
 
             <div class="ordered_input hidden">
                 <span class="ordered_icon"></span>
-                <span class="ordered_count">25 000 шт.</span>
+                <span class="ordered_count">25 000 шт</span>
                 <span class="ordered_price">252 000 Р.</span>
             </div>
 
@@ -411,3 +491,4 @@ echo Paginator::widget([
 ]);
 ?>
 
+</div>
