@@ -251,19 +251,24 @@ use common\modules\catalog\models\currency\Currency;
                                 <?php }?>
                             <?php }?>
                         </table>
+                        <div class="hide_tabs_wrap">
+                            <div class="hide_tabs_btn">Свернуть</div>
+                        </div>
                     </div>
                     <div class="product_tab_content" id="techdoc_inc">
                         <p>
                             какая то Техническая документация
                         </p>
-
+                        <div class="hide_tabs_wrap">
+                            <div class="hide_tabs_btn">Свернуть</div>
+                        </div>
                     </div>
 
 
                 </div>
-                <div class="hide_tabs_wrap">
+                <!--<div class="hide_tabs_wrap">
                     <div class="hide_tabs_btn">Свернуть</div>
-                </div>
+                </div>-->
             </div>
 
         </div>

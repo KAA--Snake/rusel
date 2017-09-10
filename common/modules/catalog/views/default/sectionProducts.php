@@ -342,12 +342,18 @@ use common\modules\catalog\models\currency\Currency;
                                     <?php }?>
                                 <?php }?>
                             </table>
+                            <div class="hide_tabs_wrap">
+                                <div class="hide_tabs_btn">Свернуть</div>
+                            </div>
                         </div>
                         <div class="product_tab_content" id="techdoc">
                             <p>
                                 какая то Техническая документация
                             </p>
 
+                            <div class="hide_tabs_wrap">
+                                <div class="hide_tabs_btn">Свернуть</div>
+                            </div>
                         </div>
                         <?php /** товары внутри вкладки принадлежности*/ ?>
                         <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
@@ -357,12 +363,15 @@ use common\modules\catalog\models\currency\Currency;
                                 <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
 
 
+                            <div class="hide_tabs_wrap">
+                                <div class="hide_tabs_btn">Свернуть</div>
+                            </div>
                         </div>
                         <?php }?>
                     </div>
-                    <div class="hide_tabs_wrap">
+                    <!--<div class="hide_tabs_wrap">
                         <div class="hide_tabs_btn">Свернуть</div>
-                    </div>
+                    </div>-->
                 </div>
 
             </div>
