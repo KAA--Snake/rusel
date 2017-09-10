@@ -4,8 +4,9 @@ use yii\helpers\Url;
 use common\widgets\catalog\Paginator;
 use common\modules\catalog\models\currency\Currency;
 
-
-//\Yii::$app->pr->print_r2($currentSectionProducts);
+//echo Url::current(['perPage' => '50']);
+//echo ;
+//\Yii::$app->pr->print_r2(\Yii::$app->request->resolve());
 
 //die();
 
@@ -79,14 +80,14 @@ use common\modules\catalog\models\currency\Currency;
         Найдено: <span class="filter_num"><?=$totalProductsFound;?></span> позиций
     </div>
     <div class="catalog_render_count flr">
-        На странице: <span class="count_num_selected js-selected_count_vars">50</span> строк
+        На странице: <span class="count_num_selected js-selected_count_vars"><?=$perPage;?></span> строк
         <div class="count_vars hidden">
             <div class="top_corner"></div>
             <ul class="count_vars_list">
-                <li class="count_vars_item"><a href="">25</a></li>
-                <li class="count_vars_item"><a href="">50</a></li>
-                <li class="count_vars_item"><a href="">100</a></li>
-                <li class="count_vars_item"><a href="">200</a></li>
+                <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage', '25');?>">25</a></li>
+                <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage',  '50');?>">50</a></li>
+                <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage',  '100');?>">100</a></li>
+                <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage',  '200');?>">200</a></li>
             </ul>
         </div>
     </div>

@@ -255,6 +255,14 @@ class Product extends Model
         $page = 1; //изначально первая страница
 
         $pagination = [];
+
+
+        $perPagePicked = \Yii::$app->request->get('perPage');
+
+        if(isset($perPagePicked) && $perPagePicked > 0){
+            $maxSizeCnt = $perPagePicked;
+        }
+
         $pagination['max_elements_cnt'] = $maxSizeCnt;
         $pagination['current_page'] = $page;
         //echo $pagination->offset;

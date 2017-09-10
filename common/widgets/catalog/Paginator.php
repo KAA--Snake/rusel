@@ -207,6 +207,34 @@ class Paginator extends Widget
     }
 
 
+    public static function addToUrl($paramName, $paramValue){
+        $pathinfo = \Yii::$app->request->getPathInfo();
+        $queryParams = \Yii::$app->request->getQueryParams();
+
+        //\Yii::$app->pr->print_r2($queryParams);
+        unset($queryParams[$paramName]);
+        //unset($queryParams[0]);
+
+
+
+        $queryParams[$paramName] = $paramValue;
+        //\Yii::$app->pr->print_r2($_SERVER['QUERY_STRING']);
+        //die();
+        //$path = parse_url($pathinfo.'?'.$_SERVER['QUERY_STRING']);
+
+        //parse_str($_SERVER['QUERY_STRING'], $res);
+
+        //\Yii::$app->pr->print_r2($queryParams);
+        $newQuery = urlencode(http_build_query($queryParams));
+        $newQuery = http_build_query($queryParams);
+        //\Yii::$app->pr->print_r2($newQuery);
+        //return Url::to(['/'.$pathinfo.'?'.$newQuery]);
+        $new_addr = '/'.$pathinfo.'?'.$newQuery;
+
+        return $new_addr;
+    }
+
+
 
 
     public function run()

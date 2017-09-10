@@ -59,6 +59,13 @@ class DefaultController extends Controller
      */
     public function actionIndex($pathForParse = false)
     {
+
+        $perPage = \Yii::$app->getModule('catalog')->params['max_products_cnt'];
+        $isNeedPerPage = \Yii::$app->request->get('perPage');
+        if(isset($isNeedPerPage)){
+            $perPage = $isNeedPerPage;
+        }
+
         /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - корзина */
         if(!empty(\Yii::$app->request->get('cart'))){
 
@@ -107,6 +114,7 @@ class DefaultController extends Controller
                 'currentSectionProducts' => $sectionData['currentSectionProducts'],
                 'paginator' => $sectionData['paginator'],
                 'totalProductsFound' => $sectionData['totalProductsFound'],
+                'perPage' => $perPage,
             ];
         }else{
             /** если ничего не нашлось, выбросим 404 */
