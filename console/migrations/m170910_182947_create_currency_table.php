@@ -22,6 +22,7 @@ class m170910_182947_create_currency_table extends Migration
             'id' => $this->primaryKey(),
             'currency_id' => $this->integer()->notNull()->unsigned(),
             'course_to_rub' => $this->float(2)->notNull(),
+            'currency_code' => $this->string()->notNull(),
         ]);
     }
 

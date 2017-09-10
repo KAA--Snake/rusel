@@ -6,7 +6,7 @@ use common\modules\catalog\models\currency\Currency;
 
 //echo Url::current(['perPage' => '50']);
 //echo ;
-//\Yii::$app->pr->print_r2(\Yii::$app->request->resolve());
+//\Yii::$app->pr->print_r2($currentSectionProducts);
 
 //die();
 
@@ -218,12 +218,20 @@ use common\modules\catalog\models\currency\Currency;
                             <div class="card_part prices">
                                 <?php if(!empty($oneProduct['_source']['marketing']['price']) && $oneProduct['_source']['marketing']['price'] > 0){ ?>
 
+                                    <?
+                                    //\Yii::$app->pr->print_r2($oneProduct['_source']['marketing']);
+                                    $price = Currency::getPriceForCurrency(
+                                        $oneProduct['_source']['marketing']['currency'],
+                                        $oneProduct['_source']['marketing']['price'],
+                                        2
+                                    );
+                                    ?>
                                     <div class="special_tape"><?= $oneProduct['_source']['marketing']['name']; ?></div>
                                     <div class="price_vars">
                                         <div class="price_var_item clear">
                                             <span class="count fll">1+<!-- - НЕТ ДАННЫХ ДЛЯ ЭТОГО ПОЛЯ В ВЫГРУЗКЕ !--></span>
-                                            <span class="price flr"><?= $oneProduct['_source']['marketing']['price']; ?>
-                                                <?=Currency::getCurrencyName($oneProduct['_source']['marketing']['currency']);?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
+                                            <span class="price flr"><?=$price;?>
+                                                <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                         </div>
                                     </div>
 
@@ -249,7 +257,14 @@ use common\modules\catalog\models\currency\Currency;
 
                                                     <div class="price_var_item clear">
                                                         <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
-                                                        <span class="price flr"><?= $oneProduct['_source']['prices']['price_range']['value'];?> <?=Currency::getCurrencyName($oneProduct['_source']['prices']['price_range']['currency']);?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
+                                                        <?
+                                                        $price = Currency::getPriceForCurrency(
+                                                            $oneProduct['_source']['prices']['price_range']['currency'],
+                                                            $oneProduct['_source']['prices']['price_range']['value'],
+                                                            2
+                                                        );
+                                                        ?>
+                                                        <span class="price flr"><?=$price;?> <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                                     </div>
 
                                                     <?php
@@ -260,11 +275,17 @@ use common\modules\catalog\models\currency\Currency;
 
                                                         if(count($onePrice) > 0){
                                                             foreach($onePrice as $singlePrices){
+
+                                                                $price = Currency::getPriceForCurrency(
+                                                                    $singlePrices['currency'],
+                                                                    $singlePrices['value'],
+                                                                    2
+                                                                );
                                                                 ?>
 
                                                                 <div class="price_var_item clear">
                                                                     <span class="count fll"><?= $singlePrices['range'];?></span>
-                                                                    <span class="price flr"><?= $singlePrices['value'];?> <?=Currency::getCurrencyName($singlePrices['currency']);?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
+                                                                    <span class="price flr"><?=$price;?> <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                                                 </div>
 
                                                                 <?php

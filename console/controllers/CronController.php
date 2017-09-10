@@ -14,11 +14,14 @@ use yii\console\Controller;
 
 class CronController extends Controller
 {
+
+    /**
+     * Получает валюты по крону
+     */
     public function actionGetCurrency(){
 
         Currency::updateCurrencies();
-        //echo 'it works';
-        //file_put_contents('cronTest', 'it worked');
+        file_put_contents('CronGetCurrency', date("d/m/Y"));
     }
 
 

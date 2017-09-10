@@ -37,6 +37,7 @@ class Currency extends \yii\db\ActiveRecord
         return [
             [['currency_id', 'course_to_rub'], 'required'],
             [['currency_id', ], 'integer'],
+            [['currency_code', ], 'string'],
             //[['course_to_rub', ], 'integer|float'],
         ];
     }
@@ -46,7 +47,7 @@ class Currency extends \yii\db\ActiveRecord
             'id',
             'currency_id',
             'course_to_rub',
-
+            'currency_code',
         ];
     }
 
@@ -70,6 +71,7 @@ class Currency extends \yii\db\ActiveRecord
             $attr= [
                 'currency_id' => intval($el->NumCode),
                 'course_to_rub' => floatval($price),
+                'currency_code' => strval($el->CharCode),
             ];
             $selfCurrency->setAttributes($attr);
 
@@ -114,23 +116,37 @@ class Currency extends \yii\db\ActiveRecord
             'currency_id' => $currencyId
         ])->one();
 
+        //print_r($currency);
+
         if($precision){
-            return floor($currency->course_to_rub * $price);
+            return round($currency->course_to_rub * $price, 2);
         }
 
         return $currency->course_to_rub * $price;
 
     }
 
-    public static function showCurrencies(){
-        $model = static::find()->where([])->asArray()->all();
 
-        print_r($model);
-    }
+    /**
+     * Возвращает код (название) валюты по ее ИД
+     * @TODO сделать кеширование !!!
+     *
+     * @param $currencyId
+     * @return mixed|string
+     */
+    public static function getCurrencyName($currencyId=false){
 
-    public static function getCurrencyName($currencyCode){
+        if($currencyId == 643 || $currencyId == 810 || !$currencyId){
+            return 'р';
+        }
 
-        return 'p';
+        $currency = static::find()->where([
+            'currency_id' => $currencyId
+        ])->one();
+
+        return $currency->currency_code;
+
+        //return 'p';
     }
 
 }
