@@ -5,7 +5,7 @@ use common\widgets\catalog\Paginator;
 use common\modules\catalog\models\currency\Currency;
 
 
-//\Yii::$app->pr->print_r2($paginator);
+//\Yii::$app->pr->print_r2($currentSectionProducts);
 
 //die();
 
@@ -76,7 +76,7 @@ use common\modules\catalog\models\currency\Currency;
 
 <div class="sub_filter_wrap clear">
     <div class="filter_counter fll">
-        Найдено: <span class="filter_num">345</span> позиций
+        Найдено: <span class="filter_num"><?=$totalProductsFound;?></span> позиций
     </div>
     <div class="catalog_render_count flr">
         На странице: <span class="count_num_selected js-selected_count_vars">50</span> строк

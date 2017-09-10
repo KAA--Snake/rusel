@@ -307,6 +307,7 @@ class Product extends Model
             //\Yii::$app->pr->print_r2($returnData['products']);
 
             $returnData['paginator'] = $pagination;
+            $returnData['totalProductsFound'] =  $response['hits']['total'];
 
             return $returnData;
         }

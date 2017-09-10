@@ -105,7 +105,8 @@ class DefaultController extends Controller
                 'groupedSiblings' => $sectionData['groupedSiblings'],
                 'unGroupedSiblings' => $sectionData['unGroupedSiblings'],
                 'currentSectionProducts' => $sectionData['currentSectionProducts'],
-                'paginator' => $sectionData['paginator']
+                'paginator' => $sectionData['paginator'],
+                'totalProductsFound' => $sectionData['totalProductsFound'],
             ];
         }else{
             /** если ничего не нашлось, выбросим 404 */
