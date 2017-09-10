@@ -66,6 +66,13 @@ class SiteController extends Controller
         ];
     }
 
+
+    public function actionCron(){
+
+    }
+
+
+
     /**
      * Displays homepage.
      *

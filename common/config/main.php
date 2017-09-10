@@ -14,10 +14,17 @@ return [
             ],
         ],
         //основная база mysql
-        'db' => [
+        /*'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=mysql;port=3306;dbname=yii',
             'username' => 'root',
+            'password' => 'pass',
+            'charset' => 'utf8',
+        ],*/
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'pgsql:host=postgres;port=5432;dbname=yii_pg',
+            'username' => 'serg',
             'password' => 'pass',
             'charset' => 'utf8',
         ],
@@ -53,9 +60,9 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
 
-        'errorHandler' => [
+        /*'errorHandler' => [
             'errorAction' => 'site/error',
-        ],
+        ],*/
 
         'urlManager' => [
             'enablePrettyUrl' => true,
