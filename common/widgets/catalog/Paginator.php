@@ -213,6 +213,7 @@ class Paginator extends Widget
 
         //\Yii::$app->pr->print_r2($queryParams);
         unset($queryParams[$paramName]);
+        unset($queryParams['pathForParse']);
         //unset($queryParams[0]);
 
 

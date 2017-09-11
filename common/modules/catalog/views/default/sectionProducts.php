@@ -324,30 +324,34 @@ use common\modules\catalog\models\currency\Currency;
                 <div class="product_card_more collapsed">
                     <div class="product_tab">
                         <ul class="product_specs_list">
-                            <li class="product_tab_item"><a href="#params">Параметры</a></li>
+                            <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
+                                <li class="product_tab_item"><a href="#params">Параметры</a></li>
+                            <?}?>
                             <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){?>
                                 <li class="product_tab_item"><a href="#techdoc">Техническая документация</a></li>
                             <?}?>
-            <?php /** товары внутри вкладки принадлежности*/ ?>
-            <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
-                            <li class="product_tab_item"><a href="#appurtenant">Принадлежности</a></li>
-            <?php }?>
+                            <?php /** товары внутри вкладки принадлежности*/ ?>
+                            <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
+                                <li class="product_tab_item"><a href="#appurtenant">Принадлежности</a></li>
+                            <?php }?>
                         </ul>
-                        <div class="product_tab_content" id="params">
-                            <table class="params_tab">
-                                <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
-                                    <?php foreach($oneProduct['_source']['other_properties']['property'] as $singleProp){ ?>
-                                        <tr>
-                                            <td class="param_name"><?= $singleProp['name']; ?></td>
-                                            <td class="param_value"><?= $singleProp['value']; ?></td>
-                                        </tr>
-                                    <?php }?>
-                                <?php }?>
-                            </table>
-                            <div class="hide_tabs_wrap">
-                                <div class="hide_tabs_btn">Свернуть</div>
+                        <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
+                            <div class="product_tab_content" id="params">
+                                <table class="params_tab">
+
+                                        <?php foreach($oneProduct['_source']['other_properties']['property'] as $singleProp){ ?>
+                                            <tr>
+                                                <td class="param_name"><?= $singleProp['name']; ?></td>
+                                                <td class="param_value"><?= $singleProp['value']; ?></td>
+                                            </tr>
+                                        <?php }?>
+
+                                </table>
+                                <div class="hide_tabs_wrap">
+                                    <div class="hide_tabs_btn">Свернуть</div>
+                                </div>
                             </div>
-                        </div>
+                        <?php }?>
                         <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){
                             $docs = explode(';', $oneProduct['_source']['properties']['teh_doc_file']);
                             //\Yii::$app->pr->print_r2($docs);
@@ -373,16 +377,16 @@ use common\modules\catalog\models\currency\Currency;
                         <?}?>
                         <?php /** товары внутри вкладки принадлежности*/ ?>
                         <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
-                        <div class="product_tab_content" id="appurtenant">
+                            <div class="product_tab_content" id="appurtenant">
 
 
-                                <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
+                                    <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
 
 
-                            <div class="hide_tabs_wrap">
-                                <div class="hide_tabs_btn">Свернуть</div>
+                                <div class="hide_tabs_wrap">
+                                    <div class="hide_tabs_btn">Свернуть</div>
+                                </div>
                             </div>
-                        </div>
                         <?php }?>
                     </div>
                     <!--<div class="hide_tabs_wrap">
