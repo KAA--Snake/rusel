@@ -237,7 +237,9 @@ use common\modules\catalog\models\currency\Currency;
                 <div class="product_tab">
                     <ul class="product_specs_list">
                         <li class="product_tab_item"><a href="#params_inc">Параметры</a></li>
-                        <li class="product_tab_item"><a href="#techdoc_inc">Техническая документация</a></li>
+                        <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){?>
+                            <li class="product_tab_item"><a href="#techdoc_inc">Техническая документация</a></li>
+                        <?}?>
 
                     </ul>
                     <div class="product_tab_content" id="params_inc">
@@ -255,14 +257,30 @@ use common\modules\catalog\models\currency\Currency;
                             <div class="hide_tabs_btn">Свернуть</div>
                         </div>
                     </div>
-                    <div class="product_tab_content" id="techdoc_inc">
-                        <p>
-                            какая то Техническая документация
-                        </p>
-                        <div class="hide_tabs_wrap">
-                            <div class="hide_tabs_btn">Свернуть</div>
+
+                    <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){
+                        $docs = explode(';', $oneProduct['_source']['properties']['teh_doc_file']);
+                        //\Yii::$app->pr->print_r2($docs);
+
+                        ?>
+                        <div class="product_tab_content" id="techdoc">
+
+                            <?if(count($docs) > 0){?>
+                                <?foreach($docs as $oneDoc){
+                                    if(empty($oneDoc)) continue;
+                                    ?>
+
+                                    <p>
+                                        <a href="<?=Url::to('@catDocs/'.$oneDoc);?>" target="_blank"><?//=$oneDoc;?></a>
+                                    </p>
+
+                                <?}?>
+                            <?}?>
+                            <div class="hide_tabs_wrap">
+                                <div class="hide_tabs_btn">Свернуть</div>
+                            </div>
                         </div>
-                    </div>
+                    <?}?>
 
 
                 </div>

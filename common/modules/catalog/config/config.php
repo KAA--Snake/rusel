@@ -5,6 +5,7 @@ return [
         'allowedExtensions' => ['xml', 'csv', 'txt'],
         'catalogDir' => '/catalog', //первоначальный адрес в УРЛ (по нему будут строиться пути в каталоге и тп)
         'uploadImagesDir' => '/upload/images/',
+        'uploadFilesDir' => '/upload/files/',
         /** ниже настройки каталога*/
 
         //пароль для ерп

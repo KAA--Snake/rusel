@@ -325,7 +325,9 @@ use common\modules\catalog\models\currency\Currency;
                     <div class="product_tab">
                         <ul class="product_specs_list">
                             <li class="product_tab_item"><a href="#params">Параметры</a></li>
-                            <li class="product_tab_item"><a href="#techdoc">Техническая документация</a></li>
+                            <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){?>
+                                <li class="product_tab_item"><a href="#techdoc">Техническая документация</a></li>
+                            <?}?>
             <?php /** товары внутри вкладки принадлежности*/ ?>
             <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
                             <li class="product_tab_item"><a href="#appurtenant">Принадлежности</a></li>
@@ -346,15 +348,29 @@ use common\modules\catalog\models\currency\Currency;
                                 <div class="hide_tabs_btn">Свернуть</div>
                             </div>
                         </div>
-                        <div class="product_tab_content" id="techdoc">
-                            <p>
-                                какая то Техническая документация
-                            </p>
+                        <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){
+                            $docs = explode(';', $oneProduct['_source']['properties']['teh_doc_file']);
+                            //\Yii::$app->pr->print_r2($docs);
 
-                            <div class="hide_tabs_wrap">
-                                <div class="hide_tabs_btn">Свернуть</div>
+                            ?>
+                            <div class="product_tab_content" id="techdoc">
+
+                                <?if(count($docs) > 0){?>
+                                    <?foreach($docs as $oneDoc){
+                                        if(empty($oneDoc)) continue;
+                                    ?>
+
+                                        <p>
+                                            <a href="<?=Url::to('@catDocs/'.$oneDoc);?>" target="_blank"><?//=$oneDoc;?></a>
+                                        </p>
+
+                                    <?}?>
+                                <?}?>
+                                <div class="hide_tabs_wrap">
+                                    <div class="hide_tabs_btn">Свернуть</div>
+                                </div>
                             </div>
-                        </div>
+                        <?}?>
                         <?php /** товары внутри вкладки принадлежности*/ ?>
                         <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
                         <div class="product_tab_content" id="appurtenant">

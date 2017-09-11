@@ -39,6 +39,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
         //die();
         \Yii::setAlias('@catalogDir', $this->params['catalogDir']);
         \Yii::setAlias('@catImages', $this->params['uploadImagesDir']);
+        \Yii::setAlias('@catDocs', $this->params['uploadFilesDir']);
 
 
     }
