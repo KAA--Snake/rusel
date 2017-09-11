@@ -267,18 +267,18 @@ use common\modules\catalog\models\currency\Currency;
                         //\Yii::$app->pr->print_r2($docs);
 
                         ?>
-                        <div class="product_tab_content" id="techdoc">
+                        <div class="product_tab_content" id="techdoc_inc">
 
                             <?if(count($docs) > 0){?>
-                                <?foreach($docs as $oneDoc){
-                                    if(empty($oneDoc)) continue;
-                                    ?>
-
-                                    <p>
-                                        <a href="<?=Url::to('@catDocs/'.$oneDoc);?>" target="_blank"><?//=$oneDoc;?></a>
-                                    </p>
-
-                                <?}?>
+                                <ul class="docs_list">
+                                    <?foreach($docs as $oneDoc){
+                                        if(empty($oneDoc)) continue;
+                                        ?>
+                                        <li class="docs_item pdf">
+                                            <a class="docs_file_link " href="<?=Url::to('@catDocs/'.$oneDoc);?>"><?=$oneDoc;?></a>
+                                        </li>
+                                    <?}?>
+                                </ul>
                             <?}?>
                             <div class="hide_tabs_wrap">
                                 <div class="hide_tabs_btn">Свернуть</div>

@@ -360,15 +360,15 @@ use common\modules\catalog\models\currency\Currency;
                             <div class="product_tab_content" id="techdoc">
 
                                 <?if(count($docs) > 0){?>
+                                    <ul class="docs_list">
                                     <?foreach($docs as $oneDoc){
                                         if(empty($oneDoc)) continue;
                                     ?>
-
-                                        <p>
-                                            <a href="<?=Url::to('@catDocs/'.$oneDoc);?>" target="_blank"><?//=$oneDoc;?></a>
-                                        </p>
-
+                                        <li class="docs_item pdf">
+                                            <a class="docs_file_link " href="<?=Url::to('@catDocs/'.$oneDoc);?>"><?=$oneDoc;?></a>
+                                        </li>
                                     <?}?>
+                                    </ul>
                                 <?}?>
                                 <div class="hide_tabs_wrap">
                                     <div class="hide_tabs_btn">Свернуть</div>
