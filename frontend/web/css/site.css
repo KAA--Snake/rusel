@@ -76,9 +76,11 @@ table {
 .ml240{
     margin-left: 240px;
 }
-.hidden,
-.collapsed{
+.hidden{
     display: none;
+}
+.bold{
+    font-weight: 700;
 }
 
 html,
@@ -95,6 +97,9 @@ body *{
 }
 body div{
     position: relative;
+}
+a{
+    color: #336699;
 }
 
 .wrap {
