@@ -121,7 +121,7 @@ class Currency extends \yii\db\ActiveRecord
         //$print_number = "$ " .  number_format ($number, 2, ".", ",") ;
 
         if($precision){
-            $number = number_format ($currency->course_to_rub * $price, 2, ".", ",");
+            $number = number_format ($currency->course_to_rub * $price, 2, ".", " ");
             return $number;
             //return round($currency->course_to_rub * $price, 2);
         }
