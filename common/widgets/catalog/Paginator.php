@@ -9,11 +9,8 @@
 namespace common\widgets\catalog;
 
 
-use common\modules\catalog\models\Section;
 use yii\base\Widget;
-use yii\widgets\LinkPager;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 class Paginator extends Widget
 {
@@ -54,7 +51,7 @@ class Paginator extends Widget
 
 
 
-    public function createUrl($page, $paginator, $pageSize = null, $absolute = false)
+    public function createUrl($page, $paginator, $pageSize = null)
     {
 
         $page = (int) $page;
@@ -70,16 +67,16 @@ class Paginator extends Widget
         } else {
             unset($params[$paginator->pageParam]);
         }
-        if ($pageSize <= 0) {
+        /*if ($pageSize <= 0) {
             $pageSize = $paginator->getPageSize();
-        }
+        }*/
         if ($pageSize != $paginator->defaultPageSize) {
             $params[$paginator->pageSizeParam] = $pageSize;
         } else {
             unset($params[$paginator->pageSizeParam]);
         }
         $params[0] = $paginator->route === null ? \Yii::$app->controller->getRoute() : $paginator->route;
-        $urlManager = $paginator->urlManager === null ? \Yii::$app->getUrlManager() : $paginator->urlManager;
+        //$urlManager = $paginator->urlManager === null ? \Yii::$app->getUrlManager() : $paginator->urlManager;
 
         $pathinfo = \Yii::$app->request->getPathInfo();
         $queryParams = \Yii::$app->request->getQueryParams();
@@ -95,16 +92,16 @@ class Paginator extends Widget
         //parse_str($_SERVER['QUERY_STRING'], $res);
 
         //\Yii::$app->pr->print_r2($queryParams);
-        $newQuery = urlencode(http_build_query($queryParams));
+        //$newQuery = urlencode(http_build_query($queryParams));
         $newQuery = http_build_query($queryParams);
         //\Yii::$app->pr->print_r2($newQuery);
         //return Url::to(['/'.$pathinfo.'?'.$newQuery]);
         return '/'.$pathinfo.'?'.$newQuery;
 
 
-        return Url::toRoute(['/'.$pathinfo, $params]);
+        //return Url::toRoute(['/'.$pathinfo, $params]);
 
-        return Url::toRoute(['/'.$pathinfo]);
+        //return Url::toRoute(['/'.$pathinfo]);
 
         /*if ($absolute) {
             return $urlManager->createAbsoluteUrl($params);
@@ -115,6 +112,7 @@ class Paginator extends Widget
 
     protected function renderPageButtons()
     {
+        /*
         $pageCount = $this->pagination->getPageCount();
         if ($pageCount < 2 && $this->hideOnSinglePage) {
             return '';
@@ -158,15 +156,16 @@ class Paginator extends Widget
         }
 
         return Html::tag('div', implode("\n", $buttons), $this->options);
+        */
     }
 
 
-    protected function registerLinkTags(){
+    /*protected function registerLinkTags(){
         $view = $this->getView();
         foreach ($this->pagination->getLinks() as $rel => $href) {
             $view->registerLinkTag(['rel' => $rel, 'href' => '/catalog/'], $rel);
         }
-    }
+    }*/
 
 
 
@@ -197,7 +196,7 @@ class Paginator extends Widget
         //parse_str($_SERVER['QUERY_STRING'], $res);
 
         //\Yii::$app->pr->print_r2($queryParams);
-        $newQuery = urlencode(http_build_query($queryParams));
+        //$newQuery = urlencode(http_build_query($queryParams));
         $newQuery = http_build_query($queryParams);
         //\Yii::$app->pr->print_r2($newQuery);
         //return Url::to(['/'.$pathinfo.'?'.$newQuery]);
@@ -214,6 +213,7 @@ class Paginator extends Widget
         //\Yii::$app->pr->print_r2($queryParams);
         unset($queryParams[$paramName]);
         unset($queryParams['pathForParse']);
+        //unset($queryParams['perPage']);
         //unset($queryParams[0]);
 
 
@@ -226,7 +226,7 @@ class Paginator extends Widget
         //parse_str($_SERVER['QUERY_STRING'], $res);
 
         //\Yii::$app->pr->print_r2($queryParams);
-        $newQuery = urlencode(http_build_query($queryParams));
+        //$newQuery = urlencode(http_build_query($queryParams));
         $newQuery = http_build_query($queryParams);
         //\Yii::$app->pr->print_r2($newQuery);
         //return Url::to(['/'.$pathinfo.'?'.$newQuery]);
@@ -245,7 +245,7 @@ class Paginator extends Widget
         $total_pages = ceil($this->pagination['totalCount'] / $this->pagination['max_elements_cnt']);
 
         /** если всего 1 страница. то пагинатор не показываем*/
-        if($total_pages <= 1) return;
+        if($total_pages <= 1) return true;
 
 
         $currentPage = $this->pagination['current_page'];//, текущая выбранная страница
@@ -276,19 +276,19 @@ class Paginator extends Widget
         <?}?>
 
         <?
-        $counter = 1;
-        $hrefTotal = $this->getHref($total_pages);
+        //$counter = 1;
+        //$hrefTotal = $this->getHref($total_pages);
 
         if($total_pages >= 5){
             $pagePlus1 = $currentPage + 1;
             $pagePlus2 = $currentPage + 2;
             $pagePlus3 = $currentPage + 3;
-            $pagePlus4 = $currentPage + 4;
+            //$pagePlus4 = $currentPage + 4;
 
             $pageMinus1 = $currentPage - 1;
             $pageMinus2 = $currentPage - 2;
             $pageMinus3 = $currentPage - 3;
-            $pageMinus4 = $currentPage - 4;
+            //$pageMinus4 = $currentPage - 4;
 
             if($currentPage == 1){
                 echo '<li class="pagination_item active"><a href="'.$this->getHref(1).'">1</a></li>';
@@ -422,118 +422,16 @@ class Paginator extends Widget
 <?
         //\Yii::$app->pr->print_r2($total_pages);
 
-        return;
+        return true;
 
 
-        return $this->render('catalog_paginator', [
+        /*return $this->render('catalog_paginator', [
             'totalPages' => $total_pages,
             'totalElementsCount' => $this->pagination['totalCount'],
             'currentPage' => $this->pagination['current_page'],
-        ]);
+        ]);*/
     }
 
 
-
-    function run3(){
-
-        $per_page = 2;
-
-        $total_pages = ceil($this->pagination['totalCount'] / $this->pagination['max_elements_cnt']);
-
-        /** если всего 1 страница. то пагинатор не показываем*/
-        if($total_pages <= 1) return;
-
-
-        $page = $this->pagination['current_page'];//, текущая выбранная страница
-
-        $prevPage = $currentPage - 1;
-        $nextPage = $currentPage + 1;
-
-
-        $adjacents = 0;
-
-        $prevlabel = "&lsaquo; Prev";
-        $nextlabel = "Next &rsaquo;";
-        $lastlabel = "Last &rsaquo;&rsaquo;";
-
-        $page = ($page == 0 ? 1 : $page);
-        $start = ($page - 1) * $per_page;
-
-        $prev = $page - 1;
-        $next = $page + 1;
-
-        //$lastpage = ceil($total_pages/$per_page);
-        $lastpage = $total_pages;
-
-        $lpm1 = $lastpage - 1; // //last page minus 1
-
-        $pagination = "";
-        if($lastpage > 1){
-            $pagination .= "<ul class='pagination'>";
-            $pagination .= "<li class='page_info'>Page {$page} of {$lastpage}</li>";
-
-            if ($page > 1) $pagination.= "<li><a href='{$url}page={$prev}'>{$prevlabel}</a></li>";
-
-            if ($lastpage < 3 + ($adjacents * 2)){
-                for ($counter = 1; $counter <= $lastpage; $counter++){
-                    if ($counter == $page)
-                        $pagination.= "<li><a class='current'>{$counter}</a></li>";
-                    else
-                        $pagination.= "<li><a href='{$url}page={$counter}'>{$counter}</a></li>";
-                }
-
-            } elseif($lastpage > 3 + ($adjacents * 2)){
-
-                if($page < 1 + ($adjacents * 2)) {
-
-                    for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++){
-                        if ($counter == $page)
-                            $pagination.= "<li><a class='current'>{$counter}</a></li>";
-                        else
-                            $pagination.= "<li><a href='{$url}page={$counter}'>{$counter}</a></li>";
-                    }
-                    $pagination.= "<li class='dot'>...</li>";
-                    $pagination.= "<li><a href='{$url}page={$lpm1}'>{$lpm1}</a></li>";
-                    $pagination.= "<li><a href='{$url}page={$lastpage}'>{$lastpage}</a></li>";
-
-                } elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2)) {
-
-                    $pagination.= "<li><a href='{$url}page=1'>1</a></li>";
-                    $pagination.= "<li><a href='{$url}page=2'>2</a></li>";
-                    $pagination.= "<li class='dot'>...</li>";
-                    for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++) {
-                        if ($counter == $page)
-                            $pagination.= "<li><a class='current'>{$counter}</a></li>";
-                        else
-                            $pagination.= "<li><a href='{$url}page={$counter}'>{$counter}</a></li>";
-                    }
-                    $pagination.= "<li class='dot'>..</li>";
-                    $pagination.= "<li><a href='{$url}page={$lpm1}'>{$lpm1}</a></li>";
-                    $pagination.= "<li><a href='{$url}page={$lastpage}'>{$lastpage}</a></li>";
-
-                } else {
-
-                    $pagination.= "<li><a href='{$url}page=1'>1</a></li>";
-                    $pagination.= "<li><a href='{$url}page=2'>2</a></li>";
-                    $pagination.= "<li class='dot'>..</li>";
-                    for ($counter = $lastpage - (2 + ($adjacents * 2)); $counter <= $lastpage; $counter++) {
-                        if ($counter == $page)
-                            $pagination.= "<li><a class='current'>{$counter}</a></li>";
-                        else
-                            $pagination.= "<li><a href='{$url}page={$counter}'>{$counter}</a></li>";
-                    }
-                }
-            }
-
-            if ($page < $counter - 1) {
-                $pagination.= "<li><a href='{$url}page={$next}'>{$nextlabel}</a></li>";
-                $pagination.= "<li><a href='{$url}page=$lastpage'>{$lastlabel}</a></li>";
-            }
-
-            $pagination.= "</ul>";
-        }
-
-        echo $pagination;
-    }
 
 }

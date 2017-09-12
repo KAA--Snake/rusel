@@ -54,7 +54,7 @@ class Currency extends \yii\db\ActiveRecord
 
     /**
      * получает валюты с центробанка на текущий день
-     * @return array
+     * @return boolean
      */
     public static function updateCurrencies(){
         $file = @simplexml_load_file("http://www.cbr.ru/scripts/XML_daily.asp?date_req=".date("d/m/Y"));
@@ -84,7 +84,7 @@ class Currency extends \yii\db\ActiveRecord
 
                 }
 
-            }catch(Exception $e){
+            }catch(\Exception $e){
                 $trn->rollback();
 
                 /*$error = '<br />' . $e->getMessage() . '<br />';
@@ -118,11 +118,17 @@ class Currency extends \yii\db\ActiveRecord
 
         //print_r($currency);
 
+        //$print_number = "$ " .  number_format ($number, 2, ".", ",") ;
+
         if($precision){
-            return round($currency->course_to_rub * $price, 2);
+            $number = number_format ($currency->course_to_rub * $price, 2, ".", ",");
+            return $number;
+            //return round($currency->course_to_rub * $price, 2);
         }
 
-        return $currency->course_to_rub * $price;
+        $number = number_format ($currency->course_to_rub * $price, 2, ".", ",");
+        return $number;
+        //return $currency->course_to_rub * $price;
 
     }
 
