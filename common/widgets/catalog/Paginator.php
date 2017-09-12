@@ -245,7 +245,7 @@ class Paginator extends Widget
         $total_pages = ceil($this->pagination['totalCount'] / $this->pagination['max_elements_cnt']);
 
         /** если всего 1 страница. то пагинатор не показываем*/
-        if($total_pages <= 1) return true;
+        if($total_pages <= 1) return false;
 
 
         $currentPage = $this->pagination['current_page'];//, текущая выбранная страница
@@ -422,7 +422,7 @@ class Paginator extends Widget
 <?
         //\Yii::$app->pr->print_r2($total_pages);
 
-        return true;
+        return false;
 
 
         /*return $this->render('catalog_paginator', [
