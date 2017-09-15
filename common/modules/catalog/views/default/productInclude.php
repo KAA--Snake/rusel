@@ -61,7 +61,7 @@ use common\modules\catalog\models\currency\Currency;
                                             <?= $oneProduct['_source']['quantity']['stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>
 
                                             <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
-                                                <?= $oneProduct['_source']['quantity']['stock']['description'];?>
+                                                <span class="count_tooltip_trigger"><?= $oneProduct['_source']['quantity']['stock']['description'];?><span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span class="corner"></span></span></span>
                                             <?php }?>
                                         </td>
                                     </tr>
@@ -76,7 +76,7 @@ use common\modules\catalog\models\currency\Currency;
                                             <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>
 
                                             <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description']) && !is_array($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
-                                                <?= $oneProduct['_source']['quantity']['partner_stock']['description'];?>
+                                                <span class="count_tooltip_trigger"><?= $oneProduct['_source']['quantity']['partner_stock']['description'];?><span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span class="corner"></span></span></span>
                                             <?php }?>
                                         </td>
                                     </tr>

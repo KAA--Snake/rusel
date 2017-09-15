@@ -111,22 +111,26 @@ class Currency extends \yii\db\ActiveRecord
 
         if(!$currencyId) return (1 * $price);
 
+        $course = 1;
 
         $currency = static::find()->where([
             'currency_id' => $currencyId
         ])->one();
 
-        //print_r($currency);
+
+        if($currency){
+            $course = $currency->course_to_rub;
+        }
 
         //$print_number = "$ " .  number_format ($number, 2, ".", ",") ;
 
         if($precision){
-            $number = number_format ($currency->course_to_rub * $price, 2, ".", " ");
+            $number = number_format ($course * $price, 2, ".", " ");
             return $number;
             //return round($currency->course_to_rub * $price, 2);
         }
 
-        $number = number_format ($currency->course_to_rub * $price, 2, ".", ",");
+        $number = number_format ($course * $price, 2, ".", ",");
         return $number;
         //return $currency->course_to_rub * $price;
 

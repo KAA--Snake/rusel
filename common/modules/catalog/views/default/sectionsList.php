@@ -60,8 +60,11 @@ $sectionModel = new Section();
                 </div>-->
                 <div class="catalog_tree_wrap fll">
                     <h2>
-                        <a class="tree_header active" href="<?= Url::toRoute(['@catalogDir/' . $oneSibling->url]); ?>"><?= $oneSibling->name; ?></a>
-                        <div class="tree_header_icon <?php if (count($oneSibling->childs) > 0) { ?>active<? }else{ ?>inactive<? } ?>"></div>
+                        <a class="tree_header active" href="<?= Url::toRoute(['@catalogDir/' . $oneSibling->url]); ?>">
+                            <span class="red_icon"></span>
+                            <?= $oneSibling->name; ?>
+                            <div class="tree_header_icon <?php if (count($oneSibling->childs) > 0) { ?>active<? }else{ ?>inactive<? } ?>"></div>
+                        </a>
                     </h2>
                     <?php if (count($oneSibling->childs) > 0) { ?>
                         <div class="tree_list">
