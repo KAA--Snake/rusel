@@ -21,7 +21,7 @@ class CronController extends Controller
     public function actionGetCurrency(){
 
         Currency::updateCurrencies();
-        file_put_contents('CronGetCurrency', date("d/m/Y"));
+        file_put_contents('/webapp/CronGetCurrency', date("d/m/Y"));
     }
 
 
