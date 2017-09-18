@@ -54,7 +54,7 @@ class BreadCrumbs
             $currentSection = $sectionModel->getSectionByUniqueId($product['section_id']);
 
             $parents = $sectionModel->getParents($currentSection);
-            //\Yii::$app->pr->print_r2($parents);
+            //\Yii::$app->pr->print_r2($product);
             //здесь делаем наполнение шаблонов для хлебных крошек
             $this->__fillProductItems($parents, $product);
             return $parents;
@@ -153,7 +153,7 @@ class BreadCrumbs
         /** добавим текущий товар (но без ссылки на него) */
         if($product){
             $parentSections[] = [
-                'label' => $product['name'],
+                'label' => $product['artikul'],
                 //'url' => $product['url'],
                 'template' => '
                     <li class="breadcrumbs_item">
