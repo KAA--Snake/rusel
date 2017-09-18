@@ -134,25 +134,20 @@ class Section extends \yii\db\ActiveRecord
 
 
     /**
-     * Получает раздел каталога и всех его потомков по unique_id раздела,
-     * можно указать максимальную глубину для подразделов
+     * Получает раздел каталога по unique_id,
      *
      * @param $sectionUniqueId
-     * @param bool $maxDepthLevel
      * @return array
      */
-    public function getSectionByUniqueId($sectionUniqueId, $maxDepthLevel=false){
+    public function getSectionByUniqueId($sectionUniqueId){
         $returnData = [];
-        $siblingSections = [];
 
         $currentSection = static::find()->andWhere([
             'unique_id' => $sectionUniqueId
         ])->one();
 
-        $returnData['currentSection'] = $currentSection;
-        $returnData['siblingSections'] = $siblingSections;
 
-        return $returnData;
+        return $currentSection;
     }
 
 
@@ -471,7 +466,7 @@ class Section extends \yii\db\ActiveRecord
 
             //\Yii::$app->pr->print_r2($parents);
             $parents[] = [
-                //'url' => $section->getAttribute('url'),  //для последнего урл не будет
+                'url' => $section->getAttribute('url'),  //для последнего урл не будет
                 //'label' => mb_strtoupper($section->name),
                 'label' => $section->name,
                 'finalItem' => true,

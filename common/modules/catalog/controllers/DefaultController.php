@@ -91,7 +91,13 @@ class DefaultController extends Controller
         $productModel = new Product();
 
         $product = $productModel->getProductByUrl($pathForParse);
+        //\Yii::$app->pr->print_r2($product);
         if($product){
+
+            //получаем breadcrumbs
+            $breadcrumbs = $breadCrumbsObj->getForCatalogProduct($product);
+            $this->view->params['breadcrumbs'] = $breadcrumbs;
+
             $this->layout = 'catalogDetail';
             return $this->render('productDetail', ['oneProduct' => $product]);
         }

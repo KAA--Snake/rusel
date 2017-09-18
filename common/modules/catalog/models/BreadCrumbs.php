@@ -29,6 +29,9 @@ class BreadCrumbs
     }
 
 
+    /**
+     * пока не используется...подумать нужна ли ?
+     */
     public function getBreadCrumbs(){
         $breadcrumbs = $this->getForCatalogProduct();
 
@@ -38,17 +41,32 @@ class BreadCrumbs
 
 
     /**
-     * Возвращает массив для карточки товара
+     * Возвращает массив  хлебных крошек для карточки товара
+     * @param $product
+     * @return array
      */
-    public function getForCatalogProduct(){
-        $productModel = new Product();
-        //выбрать раздел для него
+    public function getForCatalogProduct($product){
+
+        /** если раздел задан, то достанем его родителей*/
+        if($product['section_id']){
+
+            $sectionModel = new Section();
+            $currentSection = $sectionModel->getSectionByUniqueId($product['section_id']);
+
+            $parents = $sectionModel->getParents($currentSection);
+            //\Yii::$app->pr->print_r2($parents);
+            //здесь делаем наполнение шаблонов для хлебных крошек
+            $this->__fillProductItems($parents, $product);
+            return $parents;
+        }
 
         //выбрать для этого раздела предков
     }
 
     /**
      * Возвращает массив для разделов
+     * @param bool $section
+     * @return array
      */
     public function getForCatalogSection($section = false){
         $sectionModel = new Section();
@@ -79,9 +97,10 @@ class BreadCrumbs
 
 
     /**
-     * формирует шаблон для хлебных крошек для выбранных $parentSections
+     * формирует шаблон для хлебных крошек для выбранных $parentSections для списков товаров
      *
-     * @param $oneSection
+     * @param $parentSections
+     * @internal param $oneSection
      */
     private function __fillSectionItems(&$parentSections){
         foreach($parentSections as &$oneSection){
@@ -108,6 +127,45 @@ class BreadCrumbs
 
             //\Yii::$app->pr->print_r2($oneSection);
         }
+    }
+
+
+    /**
+     * формирует шаблон для хлебных крошек для выбранных $parentSections в карточке товара
+     *
+     * @param $parentSections
+     * @param $product
+     */
+    private function __fillProductItems(&$parentSections, &$product){
+        foreach($parentSections as &$oneSection){
+
+            $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
+
+            $oneSection['template'] = '
+                    <li class="breadcrumbs_item">
+                        {link}
+                        <span class="arrow_next">→</span>
+                    </li>
+            ';
+            //\Yii::$app->pr->print_r2($oneSection);
+        }
+
+        /** добавим текущий товар (но без ссылки на него) */
+        if($product){
+            $parentSections[] = [
+                'label' => $product['name'],
+                //'url' => $product['url'],
+                'template' => '
+                    <li class="breadcrumbs_item">
+                        {link}
+                    </li>
+            ',
+
+            ];
+            //\Yii::$app->pr->print_r2($parentSections);
+        }
+
+
     }
 
 
