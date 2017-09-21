@@ -12,14 +12,14 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/site.css',
 
         'css/vendor/jquery-ui.structure.css',
         /*'css/vendor/jquery-ui.theme.css',*/
         'css/vendor/jquery.jscrollpane.css',
         'css/vendor/slick.css',
         'css/vendor/slick-theme.css',
-        /*'css/vendor/jstree/style.css',*/
-        'css/site.css',
+        'https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/css/suggestions.min.css',
         'css/site_main.css',
     ];
     public $js = [
@@ -28,7 +28,8 @@ class AppAsset extends AssetBundle
         'js/vendor/jquery.mousewheel.js',
         'js/vendor/jquery.jscrollpane.min.js',
         'js/vendor/slick.min.js',
-        'js/vendor/jstree.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js',
+        'https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/js/jquery.suggestions.min.js',
         'js/script.js',
     ];
     public $depends = [

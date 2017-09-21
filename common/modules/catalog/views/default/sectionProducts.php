@@ -6,7 +6,7 @@ use common\modules\catalog\models\currency\Currency;
 
 //echo Url::current(['perPage' => '50']);
 //echo ;
-//\Yii::$app->pr->print_r2($currentSectionProducts);
+//\Yii::$app->pr->print_r2($this->params);
 
 //die();
 
@@ -66,11 +66,15 @@ use common\modules\catalog\models\currency\Currency;
             </tr>
         </table>
         <div class="apply_filter_btn_wrap">
-            <form action="" class="filter_form hidden" name="filter-form" id="filter-form">
+
+            <form action="" method="get" class="filter_form hidden" name="productFilterForm" id="filter-form">
+                <?/*?><input type="hidden" name="page" value="<?=$this->params['page'];?>"><?*/?>
+                <input type="hidden" name="perPage" value="<?=$this->params['perPage'];?>">
+
                 <input type="hidden" name="producer" value="">
                 <input type="hidden" name="nomin_tok" value="">
-
             </form>
+
             <input type="submit" form="filter-form" class="apply_filter_btn" value="Применить фильтр">
         </div>
     </div>
@@ -326,6 +330,9 @@ use common\modules\catalog\models\currency\Currency;
                 <div class="product_card_more collapsed">
                     <div class="product_tab">
                         <ul class="product_specs_list">
+                            <?php if(isset($oneProduct['_source']['properties']['detail_text']) && count($oneProduct['_source']['properties']['detail_text']) > 0){ ?>
+                                <li class="product_tab_item"><a href="#description">Описание</a></li>
+                            <?php }?>
                             <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
                                 <li class="product_tab_item"><a href="#params">Параметры</a></li>
                             <?}?>
@@ -336,7 +343,20 @@ use common\modules\catalog\models\currency\Currency;
                             <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
                                 <li class="product_tab_item"><a href="#appurtenant">Принадлежности</a></li>
                             <?php }?>
+
                         </ul>
+                        <?php if(isset($oneProduct['_source']['properties']['detail_text']) && count($oneProduct['_source']['properties']['detail_text']) > 0){ ?>
+                            <div class="product_tab_content" id="description">
+
+
+                                    <?=$oneProduct['_source']['properties']['detail_text'];?>
+
+
+                                <div class="hide_tabs_wrap">
+                                    <div class="hide_tabs_btn">Свернуть</div>
+                                </div>
+                            </div>
+                        <?php }?>
                         <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
                             <div class="product_tab_content" id="params">
                                 <table class="params_tab">

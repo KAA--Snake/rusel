@@ -61,6 +61,7 @@ class DefaultController extends Controller
     {
 
         $perPage = \Yii::$app->getModule('catalog')->params['max_products_cnt'];
+
         $isNeedPerPage = \Yii::$app->request->get('perPage');
         if(isset($isNeedPerPage)){
             $perPage = $isNeedPerPage;
@@ -77,6 +78,14 @@ class DefaultController extends Controller
         $breadCrumbsObj = new BreadCrumbs();
 
         //$sectionModel->getBreadCrumbsForPath();
+
+        /*$page = \Yii::$app->request->get('page');
+        if(!$page){
+            $page = 1;
+        }
+        $this->view->params['page'] = $page;*/
+        $this->view->params['perPage'] = $perPage;
+
 
         /** для нулевого уровня каталога показываем только главные разделы */
         if(!$pathForParse){
