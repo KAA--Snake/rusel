@@ -8,6 +8,7 @@ use yii\helpers\Url;
 
 $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 ?>
+<?php //Yii::$app->pr->print_r2($oneProduct);?>
 
 <div class="product_cards_block _detail">
 
@@ -53,7 +54,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                                         <?= $oneProduct['quantity']['stock']['count'];?> шт
 
                                         <?php if(!empty($oneProduct['quantity']['stock']['description'])){?>
-                                            <?= $oneProduct['quantity']['stock']['description'];?>
+                                            <span class="count_tooltip_trigger"><?= $oneProduct['quantity']['stock']['description'];?> <span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span class="corner"></span></span></span>
                                         <?php }?>
                                     </td>
                                 </tr>
@@ -68,7 +69,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                                         <?= $oneProduct['quantity']['partner_stock']['count'];?> шт
 
                                         <?php if(!empty($oneProduct['quantity']['partner_stock']['description']) && !is_array($oneProduct['quantity']['partner_stock']['description'])){?>
-                                            <?= $oneProduct['quantity']['partner_stock']['description'];?>
+                                            <span class="count_tooltip_trigger"><?= $oneProduct['quantity']['partner_stock']['description'];?><span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span class="corner"></span></span></span>
                                         <?php }?>
                                     </td>
                                 </tr>
@@ -107,12 +108,12 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
                             <tr>
                                 <td class="instock_def">Упаковка: </td>
-                                <td class="instock_count"><?= $oneProduct['product_logic']['norma_upakovki'];?> шт/td>
+                                <td class="instock_count"><?= $oneProduct['product_logic']['norma_upakovki'];?> шт</td>
                             </tr>
 
                             <tr>
                                 <td class="instock_def">Мин. партия: </td>
-                                <td class="instock_count"><?= $oneProduct['product_logic']['min_zakaz'];?> шт/td>
+                                <td class="instock_count"><?= $oneProduct['product_logic']['min_zakaz'];?> шт</td>
                             </tr>
                         </table>
                     </div>
@@ -125,7 +126,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                             <div class="price_vars">
                                 <div class="price_var_item clear">
                                     <span class="count fll">1+<!-- - НЕТ ДАННЫХ ДЛЯ ЭТОГО ПОЛЯ В ВЫГРУЗКЕ !--></span>
-                                    <span class="price flr"><?= $oneProduct['marketing']['price']; ?> Р/шт/span>
+                                    <span class="price flr"><?= $oneProduct['marketing']['price']; ?> р/шт</span>
                                 </div>
                             </div>
 
@@ -151,7 +152,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
                                             <div class="price_var_item clear">
                                                 <span class="count fll"><?= $oneProduct['prices']['price_range']['range'];?></span>
-                                                <span class="price flr"><?= $oneProduct['prices']['price_range']['value'];?> Р/шт/span>
+                                                <span class="price flr"><?= $oneProduct['prices']['price_range']['value'];?> Р/шт</span>
                                             </div>
 
                                             <?php
@@ -166,7 +167,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
                                                         <div class="price_var_item clear">
                                                             <span class="count fll"><?= $singlePrices['range'];?></span>
-                                                            <span class="price flr"><?= $singlePrices['value'];?> Р/шт/span>
+                                                            <span class="price flr"><?= $singlePrices['value'];?> р/шт</span>
                                                         </div>
 
                                                         <?php
@@ -202,40 +203,58 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
         </table>
     </div>
 
-    <div class="_detail_section product_params">
-        <h2>Параметры</h2>
-        <table class="params_tab">
-            <?php if(!empty($oneProduct['other_properties']['property']) && count($oneProduct['other_properties']['property']) > 0){ ?>
-                <?php foreach($oneProduct['other_properties']['property'] as $singleProp){ ?>
+
+    <?php if(isset($oneProduct['properties']['detail_text'])) { ?>
+        <div class="_detail_section description">
+            <h2>Описание</h2>
+
+            <?=$oneProduct['properties']['detail_text'];?>
+
+        </div>
+    <?php }?>
+
+    <?php if (!empty($oneProduct['other_properties']['property']) && count($oneProduct['other_properties']['property']) > 0) { ?>
+        <div class="_detail_section product_params">
+            <h2>Параметры</h2>
+            <table class="params_tab">
+
+                <?php foreach ($oneProduct['other_properties']['property'] as $singleProp) { ?>
                     <tr>
                         <td class="param_name"><?= $singleProp['name']; ?></td>
                         <td class="param_value"><?= $singleProp['value']; ?></td>
                     </tr>
-                <?php }?>
-            <?php }?>
-        </table>
-    </div>
+                <?php } ?>
 
-    <div class="_detail_section tech_docs">
-        <h2>Техническая документация</h2>
-        <ul class="docs_list">
-            <li class="docs_item pdf">
-                <a class="docs_file_link " href="">Инструкция.pdf</a>
-            </li>
-        </ul>
-    </div>
+            </table>
+        </div>
+    <?php } ?>
+
+    <? if (isset($oneProduct['properties']['teh_doc_file'])) {
+        $docs = explode(';', $oneProduct['properties']['teh_doc_file']);
+        //\Yii::$app->pr->print_r2($docs);
+
+        ?>
+        <div class="_detail_section tech_docs">
+            <h2>Техническая документация</h2>
+            <? if (count($docs) > 0) { ?>
+                <ul class="docs_list">
+                    <? foreach ($docs as $oneDoc) {
+                        if (empty($oneDoc)) continue;
+                        ?>
+                        <li class="docs_item pdf">
+                            <a class="docs_file_link " href="<?= Url::to('@catDocs/' . $oneDoc); ?>"><?= $oneDoc; ?></a>
+                        </li>
+                    <? } ?>
+                </ul>
+            <? } ?>
+        </div>
+    <? } ?>
 
     <?php /** товары внутри вкладки принадлежности*/ ?>
     <?php if(isset($oneProduct['accessories']) && count($oneProduct['accessories']) > 0){ ?>
     <div class="_detail_section _appurtenants">
         <h2>Принадлежности</h2>
-
-
-
             <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['accessories']]); ?>
-
-
-
     </div>
     <?php }?>
 </div>
