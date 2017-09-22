@@ -59,6 +59,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
         $app->getUrlManager()->suffix = '/';
 
         $app->getUrlManager()->addRules([
+            //['class' => 'yii\rest\UrlRule', 'controller' => 'pek'],
             //'POST /admin/import/' => 'import/create',
            //'POST admin/import' => 'import/create',
             $catalogDir.'/admin/section/' => $catalogDir.'/admin/section/index',
