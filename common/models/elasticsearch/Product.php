@@ -386,6 +386,9 @@ class Product extends Model
         die();*/
 
         if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
+
+            /** заполним аксессуарами (если они есть) */
+            $this->setAccessoriedProducts($response['hits']['hits']);
             return $response['hits']['hits'][0]['_source'];
         }
 
