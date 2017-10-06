@@ -2,14 +2,16 @@
 /yii
 /yii_test
 /yii_test.bat
-#.gitignore
+.gitignore
 *.xml
 *.md
 
 *upload_xml/
 
-frontend/web/
-backend/web/
+#frontend/web/
+#backend/web/
+
+upload/
 
 
 # phpstorm project files
