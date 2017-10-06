@@ -99,6 +99,9 @@ AppAsset::register($this);
 </div>
 
 <footer class="footer">
+
+    <? echo \Yii::$app->view->renderFile('@app/views/includes/layout_v1/footer.php');?>
+    <?/* этот блок перенесен в frontend/views/includes/layout_v1/footer.php и его можно отсюда теперь удалить ?>
     <div class="mw1180 clear">
         <div class="footer-left fll">© <?= date('Y') ?> ООО"РУСЭЛ24" Все права защищены.</div>
 
@@ -141,6 +144,7 @@ AppAsset::register($this);
             </div>
         </div>
     </div>
+    <?*/?>
 </footer>
 
 <?php $this->endBody() ?>
