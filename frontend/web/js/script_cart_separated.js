@@ -10,26 +10,26 @@ $(document).ready(function () {
         arrows:false
     });
 
-    /* $('.js-dropdown-catalog').hover(
-         function (e) {
-             e.stopImmediatePropagation();
-             if(!$(this).hasClass('showed')){
-                 $('.gc_list-lvl0').slideDown();
-                 $(this).addClass('showed');
-             }
-         },
-         function (e) {
-             e.stopImmediatePropagation();
-             if ($(this).hasClass('showed')) {
+   /* $('.js-dropdown-catalog').hover(
+        function (e) {
+            e.stopImmediatePropagation();
+            if(!$(this).hasClass('showed')){
+                $('.gc_list-lvl0').slideDown();
+                $(this).addClass('showed');
+            }
+        },
+        function (e) {
+            e.stopImmediatePropagation();
+            if ($(this).hasClass('showed')) {
 
-                 $('.gc_list-lvl0').slideUp();
-                 $(this).removeClass('showed');
-             }
-         }
-     );*/
+                $('.gc_list-lvl0').slideUp();
+                $(this).removeClass('showed');
+            }
+        }
+    );*/
 
     $('.js-recall_popup_trigger').click(function () {
-        $('.popup_container.recall').fadeIn();
+            $('.popup_container.recall').fadeIn();
     });
 
     $('.js-recall_popup_close').click(function () {
@@ -261,24 +261,12 @@ $(document).ready(function () {
             for( var p in queryParams) {
                 for(var i=0;i<queryParams[p].length;i++){
                     $('.tag_item').each(function () {
-                        var filterParamCat = $(this).closest('td.tags').prev('td.name');
-                        if(filterParamCat.data('param') == p && $(this).data('tag') == queryParams[p][i]) {
-
-                            /*selectedFliterLine.append('<span data-param="'+ p +'" class="selected_tag">'+ queryParams[p][i] + '</span>');*/
-
-                            if(selectedFliterLine.find('.applied_param_' + p).data('param') == p) {
-
-                                selectedFliterLine.find('.applied_param_' + p).next('.applied_param_values').append('; <span>'+ queryParams[p][i] + '</span>');
-                            }else{
-                                selectedFliterLine.append('<div class="applied_param_block"><div class="applied_param_name applied_param_' + p + '" data-param="'+ p +'">' + filterParamCat.text() + '</div><div class="applied_param_values"><span>'+ queryParams[p][i] + '</span></div> </div><div class="divider"></div>');
-                            }
-
-                            console.log(selectedFliterLine.find('.applied_param_name').data('param'));
-
-                            $(this).addClass('selected');
-                            $('#filter-form').find('input[name="'+ p +'"]').val(
-                                queryParams[p].length !== 1 ? queryParams[p].join('|') : queryParams[p][0]);
-                        }
+                       if($(this).closest('td.tags').prev('td.name').data('param') == p && $(this).data('tag') == queryParams[p][i]) {
+                           selectedFliterLine.append('<span data-param="'+ p +'" class="selected_tag">'+ queryParams[p][i] + '</span>');
+                           $(this).addClass('selected');
+                           $('#filter-form').find('input[name="'+ p +'"]').val(
+                               queryParams[p].length !== 1 ? queryParams[p].join('|') : queryParams[p][0]);
+                       }
                     });
                 }
             }
@@ -300,12 +288,12 @@ $(document).ready(function () {
                 finishSearchQuery.push(vars[i]);
                 if(param == 'page'){
                     formData.set(param,1);
-                    // console.log(param);
-                    // console.log(formData.get(param));
+                    console.log(param);
+                    console.log(formData.get(param));
                 }else{
                     formData.set(param, vars[i].slice(vars[i].indexOf('=')+1));
-                    // console.log(param);
-                    // console.log(formData.get(param));
+                    console.log(param);
+                    console.log(formData.get(param));
                 }
 
                 for(var pair of formData.entries()) {

@@ -17,7 +17,7 @@ use common\modules\catalog\models\currency\Currency;
 
         <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
         <div class="divider"></div>
-        <div class="filter_params_applied" data-empty="Фильтр не применен">Фильтр не применен
+        <div class="filter_params_applied" data-empty="&nbsp;&nbsp;&nbsp;Фильтр не применен">&nbsp;&nbsp;&nbsp;Фильтр не применен
         </div>
         <div class="divider"></div>
         <div class="filter_reset_btn">Сброс</div>
@@ -121,7 +121,7 @@ use common\modules\catalog\models\currency\Currency;
                                 <div class="firm_descr">
                                     <?=$oneProduct['_source']['name'];?>
                                 </div>
-                                <?php if(!empty($oneProduct['_source']['other_properties']) || (isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0)){?>
+                                <?php if(!empty($oneProduct['_source']['other_properties']['property']) || !empty($oneProduct['_source']['properties']['teh_doc_file']) || !empty($oneProduct['_source']['properties']['detail_text']) || (isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0)){?>
                                     <div class="more js-expand-tabs">
                                         <a href="">Подробнее ↓</a>
                                     </div>
@@ -250,7 +250,7 @@ use common\modules\catalog\models\currency\Currency;
                                             if(isset($oneProduct['_source']['prices']['price_not_available'])){
                                                 ?>
 
-                                                <div class="price_var_item clear">
+                                                <div class="price_var_item js-price_not_available clear">
                                                     <span class="price flr"><?= $oneProduct['_source']['prices']['price_not_available']['value'];?></span>
                                                 </div>
 
@@ -261,7 +261,7 @@ use common\modules\catalog\models\currency\Currency;
                                                 if(isset($oneProduct['_source']['prices']['price_range']['value'])){
                                                     ?>
 
-                                                    <div class="price_var_item clear">
+                                                    <div class="price_var_item js-price_available clear">
                                                         <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
                                                         <?
                                                         $price = Currency::getPriceForCurrency(
@@ -289,7 +289,7 @@ use common\modules\catalog\models\currency\Currency;
                                                                 );
                                                                 ?>
 
-                                                                <div class="price_var_item clear">
+                                                                <div class="price_var_item js-price_available clear">
                                                                     <span class="count fll"><?= $singlePrices['range'];?></span>
                                                                     <span class="price flr"><?=$price;?> <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                                                 </div>
@@ -309,24 +309,30 @@ use common\modules\catalog\models\currency\Currency;
                             </div>
                         </td>
                         <td class="left_bordered">
-                            <?php /** @TODO этот блок не готов- сделать как будет функционал покупок !! */?>
-                            <div class="card_part order">
-                                <input type="text" class="order_input" placeholder="Введите количество">
 
-                                <div class="ordered_input hidden">
-                                    <span class="ordered_icon"></span>
-                                    <span class="ordered_count">25 000 шт</span>
-                                    <span class="ordered_price">252 000 Р.</span>
+                            <div class="card_part order js-order_data" data-product_id="<?=$oneProduct['_id'];?>">
+
+                                <div class="order_block">
+                                    <input type="text" class="order_input js-order_count" placeholder="Введите количество">
+                                    <div class="order_btn add js-add_to_cart"></div>
                                 </div>
 
-                                <div class="ordered_btn add">Добавить в запрос</div>
+                                <div class="ordered_block hidden">
+                                    <div class="ordered_icon_close flr"></div>
+                                    <div class="ordered_count">В запросе: <span class="bold"> </span></div>
+                                    <br>
+                                    <div class="ordered_price">На сумму: <span class="bold">3 566 Р.</span></div>
+
+                                </div>
+
+
                             </div>
                             <?php /**-------------------------------------------------------------------------*/?>
                         </td>
                     </tr>
                 </table>
 
-
+                <?php /*\Yii::$app->pr->print_r2($oneProduct);*/?>
                 <div class="product_card_more collapsed">
                     <div class="product_tab">
                         <ul class="product_specs_list">
@@ -345,7 +351,8 @@ use common\modules\catalog\models\currency\Currency;
                             <?php }?>
 
                         </ul>
-                        <?php if(isset($oneProduct['_source']['properties']['detail_text']) && count($oneProduct['_source']['properties']['detail_text']) > 0){ ?>
+
+                        <?php if(isset($oneProduct['_source']['properties']['detail_text'])) { ?>
                             <div class="product_tab_content" id="description">
 
 
@@ -357,6 +364,7 @@ use common\modules\catalog\models\currency\Currency;
                                 </div>
                             </div>
                         <?php }?>
+
                         <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
                             <div class="product_tab_content" id="params">
                                 <table class="params_tab">

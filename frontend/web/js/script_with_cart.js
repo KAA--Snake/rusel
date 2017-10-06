@@ -10,26 +10,26 @@ $(document).ready(function () {
         arrows:false
     });
 
-    /* $('.js-dropdown-catalog').hover(
-         function (e) {
-             e.stopImmediatePropagation();
-             if(!$(this).hasClass('showed')){
-                 $('.gc_list-lvl0').slideDown();
-                 $(this).addClass('showed');
-             }
-         },
-         function (e) {
-             e.stopImmediatePropagation();
-             if ($(this).hasClass('showed')) {
+   /* $('.js-dropdown-catalog').hover(
+        function (e) {
+            e.stopImmediatePropagation();
+            if(!$(this).hasClass('showed')){
+                $('.gc_list-lvl0').slideDown();
+                $(this).addClass('showed');
+            }
+        },
+        function (e) {
+            e.stopImmediatePropagation();
+            if ($(this).hasClass('showed')) {
 
-                 $('.gc_list-lvl0').slideUp();
-                 $(this).removeClass('showed');
-             }
-         }
-     );*/
+                $('.gc_list-lvl0').slideUp();
+                $(this).removeClass('showed');
+            }
+        }
+    );*/
 
     $('.js-recall_popup_trigger').click(function () {
-        $('.popup_container.recall').fadeIn();
+            $('.popup_container.recall').fadeIn();
     });
 
     $('.js-recall_popup_close').click(function () {
@@ -112,8 +112,49 @@ $(document).ready(function () {
 
 
 
+    getCityList();
+    $('.js-city-select').selectmenu();
+    $('.js-city-select').on('selectmenuchange', function () {
+        getDeliveryTime(this.value);
+    });
 
 
+
+
+    $('.js-delivery-radio').click(function(e) {
+        if(this.checked && $(this).hasClass('js-delivery-full')){
+            $('.js-delivery-input').show();
+            if($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') == -1 && $('.delivery_time_text').text().length > 0){
+                $('.delivery_time_text').append(' + 1-2 раб.дн. до двери.');
+            }
+        }else if(this.checked && $(this).hasClass('js-delivery-half')) {
+            $('.js-delivery-input.js-delivery-full').hide();
+            $('.js-delivery-input.js-delivery-half').show();
+            if($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') == -1 && $('.delivery_time_text').text().length > 0){
+                $('.delivery_time_text').text($('.delivery_time_text').text().slice(0, $('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.')));
+            }
+        }else {
+            $('.js-delivery-input').hide();
+            $('.delivery_time_text').text('');
+        }
+    });
+
+    $("#org").suggestions({
+        token: "240612ffd28e9888533a15c054c025ea2968155f",
+        type: "PARTY",
+        count: 10,
+        /* Вызывается, когда пользователь выбирает одну из подсказок */
+        onSelect: showSuggestion
+    });
+
+    $("#delivery_address").suggestions({
+        token: "240612ffd28e9888533a15c054c025ea2968155f",
+        type: "ADDRESS",
+        /* Вызывается, когда пользователь выбирает одну из подсказок */
+        onSelect: function(suggestion) {
+            console.log(suggestion);
+        }
+    });
 
     $('.js-expand-tabs').click(function(e){
         e.preventDefault();
@@ -261,24 +302,12 @@ $(document).ready(function () {
             for( var p in queryParams) {
                 for(var i=0;i<queryParams[p].length;i++){
                     $('.tag_item').each(function () {
-                        var filterParamCat = $(this).closest('td.tags').prev('td.name');
-                        if(filterParamCat.data('param') == p && $(this).data('tag') == queryParams[p][i]) {
-
-                            /*selectedFliterLine.append('<span data-param="'+ p +'" class="selected_tag">'+ queryParams[p][i] + '</span>');*/
-
-                            if(selectedFliterLine.find('.applied_param_' + p).data('param') == p) {
-
-                                selectedFliterLine.find('.applied_param_' + p).next('.applied_param_values').append('; <span>'+ queryParams[p][i] + '</span>');
-                            }else{
-                                selectedFliterLine.append('<div class="applied_param_block"><div class="applied_param_name applied_param_' + p + '" data-param="'+ p +'">' + filterParamCat.text() + '</div><div class="applied_param_values"><span>'+ queryParams[p][i] + '</span></div> </div><div class="divider"></div>');
-                            }
-
-                            console.log(selectedFliterLine.find('.applied_param_name').data('param'));
-
-                            $(this).addClass('selected');
-                            $('#filter-form').find('input[name="'+ p +'"]').val(
-                                queryParams[p].length !== 1 ? queryParams[p].join('|') : queryParams[p][0]);
-                        }
+                       if($(this).closest('td.tags').prev('td.name').data('param') == p && $(this).data('tag') == queryParams[p][i]) {
+                           selectedFliterLine.append('<span data-param="'+ p +'" class="selected_tag">'+ queryParams[p][i] + '</span>');
+                           $(this).addClass('selected');
+                           $('#filter-form').find('input[name="'+ p +'"]').val(
+                               queryParams[p].length !== 1 ? queryParams[p].join('|') : queryParams[p][0]);
+                       }
                     });
                 }
             }
@@ -300,12 +329,12 @@ $(document).ready(function () {
                 finishSearchQuery.push(vars[i]);
                 if(param == 'page'){
                     formData.set(param,1);
-                    // console.log(param);
-                    // console.log(formData.get(param));
+                    console.log(param);
+                    console.log(formData.get(param));
                 }else{
                     formData.set(param, vars[i].slice(vars[i].indexOf('=')+1));
-                    // console.log(param);
-                    // console.log(formData.get(param));
+                    console.log(param);
+                    console.log(formData.get(param));
                 }
 
                 for(var pair of formData.entries()) {
@@ -378,5 +407,88 @@ function buildQueryFilter() {
     return filterParams;
 }
 
+function join(arr /*, separator */) {
+    var separator = arguments.length > 1 ? arguments[1] : ", ";
+    return arr.filter(function(n){return n}).join(separator);
+}
+
+function typeDescription(type) {
+    var TYPES = {
+        'INDIVIDUAL': 'Индивидуальный предприниматель',
+        'LEGAL': 'Организация'
+    }
+    return TYPES[type];
+}
+
+function showSuggestion(suggestion) {
+    $('.selected_org').html(
+        '<p>'+ suggestion.data.name.full_with_opf +'</p>' +
+        '<p>Адрес: '+ suggestion.data.address.value +'</p>' +
+        '<p>ИНН: '+ suggestion.data.inn +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;КПП: '+ suggestion.data.kpp +'</p>'
+    );
+    var data = suggestion.data;
+    if (!data)
+        return;
+
+    $("#type").text(
+        typeDescription(data.type) + " (" + data.type + ")"
+    );
+
+    if (data.name)
+        $("#name_short").val(join([data.opf && data.opf.short || "", data.name.short || data.name.full], " "));
+
+    if (data.name && data.name.full)
+        $("#name_full").val(join([data.opf && data.opf.full || "", data.name.full], " "));
+
+    $("#inn_kpp").val(join([data.inn, data.kpp], " / "));
+
+    if (data.address)
+        $("#address").val(data.address.value);
+}
+
+function getCityList() {
+    $.getJSON('/admin/pek/get-towns',function (data) {
+        var cityList = {};
+        var citySelector = $('.js-city-select');
+
+        for (var k in data){
+            for (var x in data[k]) {
+
+                if(x < 0){
+                    cityList[x] = k;
+                    citySelector.append('<option value="' + x + '">' + cityList[x] + '</option>')
+                }
+            }
+        }
+        console.log(cityList);
+        return cityList
+    });
+};
+
+function getDeliveryTime(cityId) {
+    var delivery_var = document.getElementById('delivery_var3').checked;
+    var url = 'http://rusel24.fvds.ru/admin/pek/get-delivery/?delivery=' + cityId;
+    var dop_text = ' + 1-2 раб.дн. до двери.';
+    $.getJSON(url, function (data) {
+        if(!delivery_var){
+            dop_text = '';
+        }
+        if(data.periods_days) {
+            $('.delivery_time_text').text('Срок доставки '+ data.auto[1] +' ориентировочно : '+ data.periods_days +' раб.дн.' + dop_text);
+        }else{
+            $('.delivery_time_text').text('');
+        }
 
 
+    });
+};
+
+function getCityList3() {
+    $.get({
+        url: 'https://api.exline.systems/public/v1/regions/origin',
+        success: function (data) {
+            return data;
+        },
+        //dataType: 'json'
+    });
+};

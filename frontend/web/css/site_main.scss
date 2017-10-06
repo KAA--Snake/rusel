@@ -239,7 +239,7 @@ $white:#ffffff;
         .gc_header{
           width: 220px;
           height: 70px;
-          background: $blue url("../img/catalog_icon.png") no-repeat 176px center;;
+          background: $blue;
           padding-left: 20px;
           color: $white;
           font-size: 18px;
@@ -251,6 +251,19 @@ $white:#ffffff;
           &:hover{
             background-color: #7194b8;
             transition: 0.2s;
+          }
+          .cat_icon{
+            width: 30px;
+            height: 20px;
+            position: absolute;
+            top: 9px;
+            right: 20px;
+            svg{
+
+              path{
+                fill:#fff;
+              }
+            }
           }
         }
         .gc_list{
@@ -453,8 +466,26 @@ $white:#ffffff;
           font-size: 14px;
           font-weight: 300;
           line-height: 50px;
-          padding: 0 16px;
+          /*padding: 0 16px;*/
           flex-grow:2;
+          max-height: 50px;
+          .applied_param_block{
+            display: inline-block;
+            height: 50px;
+            vertical-align: top;
+            margin: 0 16px;
+            .applied_param_name{
+              font-size: 12px;
+              line-height: 20px;
+              margin-top: 5px;
+            }
+            .applied_param_values{
+              font-size: 12px;
+              line-height: 20px;
+              color: $blue;
+            }
+          }
+
           .selected_tag{
             display: inline-block;
             margin-right: 6px;
@@ -466,6 +497,7 @@ $white:#ffffff;
             text-transform: uppercase;
             padding: 0 14px;
           }
+
         }
         .filter_reset_btn{
           display: inline-block;
@@ -820,7 +852,7 @@ $white:#ffffff;
               line-height: 1;
               text-transform: uppercase;
               margin-bottom: 16px;
-              border-left: 4px solid #9f0f18;
+              /*border-left: 4px solid #9f0f18;*/
               padding-left: 8px;
               a{
                 color: #282828;
@@ -830,6 +862,14 @@ $white:#ffffff;
                 text-transform: uppercase;
                 margin-bottom: 16px;
                 text-decoration: none;
+                .red_icon{
+                  width: 10px;
+                  height: 10px;
+                  background: #9f0f18;
+                  display: inline-block;
+                  vertical-align: middle;
+                  margin-right: 10px;
+                }
               }
               .tree_header_icon{
                 width: 23px;
@@ -1011,8 +1051,8 @@ $white:#ffffff;
             align-self: center;
             &.name{
               margin-left: 20px;
-              width: 406px;
-              max-width: 406px;
+              width: 396px;
+              max-width: 396px;
               .model{
                 /*margin-top: 13px;*/
                 margin-bottom: 6px;
@@ -1107,7 +1147,47 @@ $white:#ffffff;
                   line-height: 14px;
                   font-weight: 600;
                   text-align: left;
+                  .count_tooltip_trigger{
+                    cursor: pointer;
+                    color: $blue;
+                    text-decoration: underline;
+                    .count_tooltip{
+                      display: none;
 
+                    }
+                    &:hover{
+                      .count_tooltip{
+                        position: absolute;
+                        display: block;
+                        background: #fff;
+                        color: #000;
+                        border: 1px solid $blue;
+                        width: 340px;
+                        line-height: 26px;
+                        text-align: center;
+                        z-index: 10;
+                        top: -40px;
+                        left: 50%;
+                        box-shadow: 3px 3px 18px -4px #000;
+                        margin-left: -130px;
+                        .corner{
+                          width: 10px;
+                          height: 10px;
+                          background: #fff;
+                          position: absolute;
+                          left: 50%;
+                          bottom: -6px;
+                          margin-left: -5px;
+                          border-left: 1px solid #336699;
+                          border-bottom: 1px solid #336699;
+                          transform: rotate(-45deg);
+                          z-index: 11;
+                          box-shadow: 3px 3px 18px -4px #000;
+                        }
+                      }
+
+                    }
+                  }
                 }
               }
             }
@@ -1145,48 +1225,70 @@ $white:#ffffff;
             }
             &.order{
               padding-left: 20px;
-              width: 214px;
+              width: 190px;
               /*border-left: 1px solid #e6e6e6;*/
-              .order_input{
-                width: 160px;
-                height: 30px;
-                border: 1px solid #dfdfdf;
-                border-radius: 0;
-                box-shadow: none;
-                color: rgba(51,51,51, 0.5);
-                color: #333333;
-                font-size: 12px;
-                font-weight: 400;
-                line-height: 28px;
-                padding: 0;
-                padding-left: 10px;
-                margin-bottom: 10px;
+              .order_block{
                 transition: 0.2s;
-                outline: none;
-                &:focus,&:active,&:hover{
-                  border: 1px solid $blue;
-                  color: rgba(51,51,51, 1);
+                .order_input{
+                  width: 140px;
+                  height: 30px;
+                  border: 1px solid #dfdfdf;
+                  border-radius: 0;
+                  box-shadow: none;
+                  color: rgba(51,51,51, 0.5);
+                  color: #333333;
+                  font-size: 12px;
+                  font-weight: 400;
+                  line-height: 28px;
+                  padding: 0;
+                  padding-left: 8px;
+                  margin-bottom: 10px;
                   transition: 0.2s;
+                  outline: none;
+                  &:focus,&:active,&:hover{
+                    border: 1px solid $blue;
+                    color: rgba(51,51,51, 1);
+                    transition: 0.2s;
+                  }
+                }
+                .order_btn{
+                  width: 30px;
+                  height: 30px;
+                  cursor: pointer;
+                  float: right;
+                  &.add{
+                    background:url('../img/order_add.png') no-repeat center $blue;
+                  }
+                  &.remove{}
                 }
               }
-              .ordered_input{
-                .ordered_icon{}
-                .ordered_count{}
-                .ordered_price{}
-              }
-              .ordered_btn{
-                width: 160px;
-                line-height: 30px;
-                text-align: center;
-                color: $blue;
-                font-size: 12px;
-                font-weight: 400;
-                cursor: pointer;
-                &.add{
-                  border: 1px solid $blue;
-                  color: $blue;
+
+
+
+              .ordered_block{
+                .ordered_icon_close{
+                  width: 30px;
+                  height: 30px;
+                  background: url("../img/order_cancel.svg") no-repeat center #9f0f18;
+                  cursor: pointer;
+                  margin-top: 2px;
                 }
-                &.remove{}
+                .ordered_count{
+                  display: inline-block;
+                  color: #000000;
+                  width: 140px;
+                  font-size: 12px;
+                  font-weight: 400;
+                  line-height: 14px;
+                }
+                .ordered_price{
+                  display: inline-block;
+                  color: #000000;
+                  width: 140px;
+                  font-size: 12px;
+                  font-weight: 400;
+                  line-height: 14px;
+                }
               }
             }
           }
@@ -1249,6 +1351,11 @@ $white:#ffffff;
                 &#appurtenant{
                   padding-left: 0;
                   padding-right: 0;
+                }
+                &#description{
+                  font-size: 12px;
+                  line-height: 24px;
+                  font-weight: 300;
                 }
                 .params_tab{
                   width: 484px;
@@ -1321,6 +1428,11 @@ $white:#ffffff;
             padding: 20px;
             background-color: $white;
             margin-bottom: 20px;
+            &.description{
+              font-size: 12px;
+              line-height: 24px;
+              font-weight: 300;
+            }
             &._appurtenants{
               padding: 0px;
               h2{
@@ -1390,6 +1502,13 @@ $white:#ffffff;
               line-height: 24px;
             }
           }
+          .delivery_time_text{
+            margin: 20px;
+            margin-left: 0;
+            p{
+              line-height: 24px;
+            }
+          }
           h1{
             color: #282828;
             font-size: 25px;
@@ -1451,6 +1570,7 @@ $white:#ffffff;
               width:100%;
               outline: none;
               transition: 0.2s;
+              max-height: 200px;
               &:focus,&:active,&:hover{
                 border: 1px solid $blue;
                 color: rgba(51,51,51, 1);
@@ -1763,14 +1883,19 @@ $white:#ffffff;
 
     &.phone{
       .icon{
-        background: url(../img/phone.png) no-repeat center;
+        /*background: url(../img/phone.png) no-repeat center;*/
         width: 30px;
+        svg{
+          path{
+            fill:$blue;
+          }
+        }
 
       }
     }
     &.mail{
       .icon{
-        background: url(../img/mail.png) no-repeat center;
+        /*//background: url(../img/mail.png) no-repeat center;*/
         width: 37px;
 
       }
@@ -1778,9 +1903,14 @@ $white:#ffffff;
     &.order{
       cursor: pointer;
       .icon{
-        background: url(../img/order.png) no-repeat center;
+        /*background: url(../img/order.png) no-repeat center;*/
         width: 30px;
         transition: 0.2s;
+        svg{
+          path{
+            fill:$blue;
+          }
+        }
       }
       .contact{
         .top,
@@ -1802,9 +1932,14 @@ $white:#ffffff;
       &:hover{
         background-color: $blue;
         .icon{
-          background: url(../img/order-hover.png) no-repeat center;
+          /*background: url(../img/order-hover.png) no-repeat center;*/
           width: 30px;
           transition: 0.2s;
+          svg{
+            path{
+              fill:$white;
+            }
+          }
         }
         .contact{
           .top,
@@ -1991,6 +2126,7 @@ $white:#ffffff;
     background: $white;
     border: 1px solid #dfdfdf;
     border-top: none;
+    max-height: 310px;
   }
 
 }

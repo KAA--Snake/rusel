@@ -30,7 +30,7 @@ use common\modules\catalog\models\currency\Currency;
                             <div class="firm_descr">
                                 <?=$oneProduct['_source']['name'];?>
                             </div>
-                            <?php if(!empty($oneProduct['_source']['other_properties']) || (isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0)){?>
+                            <?php if(!empty($oneProduct['_source']['other_properties']['property']) || !empty($oneProduct['_source']['properties']['teh_doc_file']) || !empty($oneProduct['_source']['properties']['detail_text']) || (isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0)){?>
                                 <div class="more js-expand-tabs">
                                     <a href="">Подробнее ↓</a>
                                 </div>
@@ -236,6 +236,9 @@ use common\modules\catalog\models\currency\Currency;
             <div class="product_card_more collapsed">
                 <div class="product_tab">
                     <ul class="product_specs_list">
+                        <?php if(isset($oneProduct['_source']['properties']['detail_text']) && count($oneProduct['_source']['properties']['detail_text']) > 0){ ?>
+                            <li class="product_tab_item"><a href="#description">Описание</a></li>
+                        <?php }?>
                         <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
                             <li class="product_tab_item"><a href="#params_inc">Параметры</a></li>
                         <?}?>
@@ -244,6 +247,18 @@ use common\modules\catalog\models\currency\Currency;
                         <?}?>
 
                     </ul>
+                    <?php if(isset($oneProduct['_source']['properties']['detail_text']) && count($oneProduct['_source']['properties']['detail_text']) > 0){ ?>
+                        <div class="product_tab_content" id="description">
+
+
+                            <?=$oneProduct['_source']['properties']['detail_text'];?>
+
+
+                            <div class="hide_tabs_wrap">
+                                <div class="hide_tabs_btn">Свернуть</div>
+                            </div>
+                        </div>
+                    <?php }?>
                     <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
                         <div class="product_tab_content" id="params_inc">
                             <table class="params_tab">

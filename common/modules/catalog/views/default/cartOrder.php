@@ -336,7 +336,7 @@ use common\modules\catalog\models\Section;
             <h2>Варианты ответа на запрос</h2>
 
             <div class="form_part_wrap">
-                <input type="radio" id="var1" name="answer_var" class="radio_btn" value="">
+                <input type="radio" id="var1" name="answer_var" class="radio_btn" checked="checked" value="">
                 <label for="var1">Коммерческое предложение</label>
 
                 <input type="radio" id="var2" name="answer_var" class="radio_btn" value="">
@@ -382,7 +382,7 @@ use common\modules\catalog\models\Section;
             <h2>Требуемые условия поставки</h2>
 
             <div class="form_part_wrap">
-                <input type="radio" id="delivery_var1" name="delivery_var" class="radio_btn js-delivery-radio js-delivery-self_dispatch" value="1">
+                <input type="radio" id="delivery_var1" name="delivery_var" class="radio_btn js-delivery-radio js-delivery-self_dispatch" value="1" checked="checked">
                 <label for="delivery_var1">Самовывоз с пункта выдачи заказов (бесплатная услуга)
                     <span class="address">Адрес:
                     <a href=""><span class="addres_icon"></span> ул. Пушкина 24, дом 254, офис 25</a>
@@ -402,7 +402,7 @@ use common\modules\catalog\models\Section;
 
 
             <div class="form_part_wrap">
-                <div class="address_subheader">
+                <div class="address_subheader hidden">
                     Адрес грузополучателя:
                 </div>
 
@@ -410,10 +410,7 @@ use common\modules\catalog\models\Section;
                     <div class="col col_3">
                         <label class="text_label" for="delivery_city">Выбрать город</label>
                         <select class="_order_sel js-city-select" name="delivery_city" id="delivery_city">
-                            <option value="1">Москва</option>
-                            <option value="2">Питер</option>
-                            <option value="3">Екатеринбург</option>
-                            <option value="4">Мурманск</option>
+
                         </select>
                     </div>
                     <div class="col col_3">
@@ -433,7 +430,10 @@ use common\modules\catalog\models\Section;
                     </div>
                 </div>
             </div>
+            <div class="delivery_time_text"></div>
         </div>
+
+
 
         <div class="_order_section _comment">
             <h2>Примечание к запросу</h2>
