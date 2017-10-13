@@ -102,11 +102,12 @@ use common\modules\catalog\models\currency\Currency;
 
     <?php if(count($currentSectionProducts) > 0){?>
         <?php foreach($currentSectionProducts as $oneProduct){
+            $json = json_encode($oneProduct);
             $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['_source']['url']).'/');
             //\Yii::$app->pr->print_r2($oneProduct);
             ?>
 
-            <div class="product_card js-tab_collapsed">
+            <div class="product_card js-product_card js-tab_collapsed">
                 <table class="product_card_inner_wrap">
                     <tr>
                         <td>
@@ -310,18 +311,38 @@ use common\modules\catalog\models\currency\Currency;
                         </td>
                         <td class="left_bordered">
 
-                            <div class="card_part order js-order_data" data-product_id="<?=$oneProduct['_id'];?>">
+                            <div class="card_part order js-order_data"
+                                 data-product-prices="<?=urlencode(json_encode($oneProduct['_source']['prices']));?>"
+                                 data-product-norma_upakovki="<?=urlencode(json_encode($oneProduct['_source']['product_logic']['norma_upakovki']));?>"
+                                 data-product-min_zakaz="<?=urlencode(json_encode($oneProduct['_source']['product_logic']['min_zakaz']));?>"
+                                 data-product-partner-count="<?=urlencode(json_encode($oneProduct['_source']['quantity']['partner_stock']['count']));?>"
+                                 data-product-count="<?=urlencode(json_encode($oneProduct['_source']['quantity']['stock']['count']));?>"
+                                 data-product-marketing-price="<?=urlencode(json_encode($oneProduct['_source']['marketing']['price']));?>"
+                                 data-product_id="<?=$oneProduct['_id'];?>"
+                            >
 
                                 <div class="order_block">
                                     <input type="text" class="order_input js-order_count" placeholder="Введите количество">
-                                    <div class="order_btn add js-add_to_cart"></div>
+                                    <div class="order_btn add js-add_to_cart">
+                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                                   viewBox="0 0 35 35" enable-background="new 0 0 35 35" xml:space="preserve">
+                                            <g>
+                                                <path d="M28.5,0l-0.8,4H0.5l2.5,15.1h21.5l-0.7,3.5H4v1.7H25l4.8-22.7h4.7V0H28.5z M24.8,17.5H4.4L2.4,5.7h24.8L24.8,17.5z"/>
+                                                <path d="M4.9,27.3c-2.1,0-3.8,1.7-3.8,3.8S2.8,35,4.9,35s3.8-1.7,3.8-3.8S7,27.3,4.9,27.3z M6.4,32.7c-0.4,0.4-1,0.6-1.5,0.6
+                                                    c-1.2,0-2.2-1-2.2-2.2s1-2.2,2.2-2.2S7,30,7,31.2C7,31.7,6.8,32.3,6.4,32.7z"/>
+                                                <path d="M22.9,27.3c-2.1,0-3.8,1.7-3.8,3.8s1.7,3.8,3.8,3.8s3.8-1.7,3.8-3.8S25,27.3,22.9,27.3z M22.9,33.3c-1.2,0-2.2-1-2.2-2.2
+                                                    s1-2.2,2.2-2.2s2.2,1,2.2,2.2S24.1,33.3,22.9,33.3z"/>
+                                            </g>
+                                        </svg>
+                                    </div>
+
                                 </div>
 
                                 <div class="ordered_block hidden">
-                                    <div class="ordered_icon_close flr"></div>
+                                    <div class="ordered_icon_close js-cancel-order flr"></div>
                                     <div class="ordered_count">В запросе: <span class="bold"> </span></div>
                                     <br>
-                                    <div class="ordered_price">На сумму: <span class="bold">3 566 Р.</span></div>
+                                    <div class="ordered_price">На сумму: <span class="bold">0 Р.</span></div>
 
                                 </div>
 

@@ -1,5 +1,5 @@
 <div class="mw1180 clear">
-    <div class="footer-left fll">© <?= date('Y') ?> ООО"РУСЭЛ24" Все права защищены.</div>
+    <div class="footer-left fll">© <?= date('Y') ?> ООО"РУСЭЛ243" Все права защищены.</div>
 
     <div class="footer-right flr">
         <div class="contact_block">

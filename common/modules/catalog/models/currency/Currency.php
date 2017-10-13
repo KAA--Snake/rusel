@@ -159,4 +159,25 @@ class Currency extends \yii\db\ActiveRecord
         //return 'p';
     }
 
+
+    /**
+     * Отдает массив со всеми курсами валют
+     *
+     * @TODO сделать кеширование !!!
+     * @return array
+     */
+    public static function getAllCurrencies(){
+        $currencies = static::find()->asArray()->all();
+
+        /** формируем массив индексируя его ключами кода валюты */
+        $retData = [];
+        if($currencies){
+            foreach ($currencies as $oneCurrency){
+                $retData[$oneCurrency['currency_id']] = $oneCurrency['course_to_rub'];
+            }
+        }
+
+        return $retData;
+    }
+
 }

@@ -1229,6 +1229,39 @@ $white:#ffffff;
               /*border-left: 1px solid #e6e6e6;*/
               .order_block{
                 transition: 0.2s;
+                .count_tooltip{
+                  position: absolute;
+                  display: block;
+                  background: #fff;
+                  color: #000;
+                  border: 1px solid $blue;
+                  width: 300px;
+                  line-height: 20px;
+                  text-align: left;
+                  z-index: 10;
+                  top: -74px;
+                  left: 50%;
+                  box-shadow: 3px 3px 18px -4px #000;
+                  margin-left: -200px;
+                  padding-left: 10px;
+                  padding-right: 10px;
+                  font-size: 14px;
+                  font-weight: 300;
+                  .corner{
+                    width: 10px;
+                    height: 10px;
+                    background: #fff;
+                    position: absolute;
+                    left: 65%;
+                    bottom: -6px;
+                    margin-left: -5px;
+                    border-left: 1px solid #336699;
+                    border-bottom: 1px solid #336699;
+                    transform: rotate(-45deg);
+                    z-index: 11;
+                    box-shadow: 3px 3px 18px -4px #000;
+                  }
+                }
                 .order_input{
                   width: 140px;
                   height: 30px;
@@ -1257,7 +1290,13 @@ $white:#ffffff;
                   cursor: pointer;
                   float: right;
                   &.add{
-                    background:url('../img/order_add.png') no-repeat center $blue;
+                    background:$blue;
+                    padding: 6px;
+                    svg{
+                      path{
+                        fill:$white;
+                      }
+                    }
                   }
                   &.remove{}
                 }
