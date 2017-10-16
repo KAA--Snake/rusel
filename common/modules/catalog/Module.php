@@ -62,6 +62,8 @@ class Module extends \yii\base\Module implements BootstrapInterface
             //['class' => 'yii\rest\UrlRule', 'controller' => 'pek'],
             //'POST /admin/import/' => 'import/create',
            //'POST admin/import' => 'import/create',
+            //$catalogDir.'/ajax-cart/' => $catalogDir.'/cart/get-cart/',
+            $catalogDir.'/cart/' => '/cart/',
             $catalogDir.'/admin/section/' => $catalogDir.'/admin/section/index',
             $catalogDir.'/admin/product/' => $catalogDir.'/admin/product/index',
             $catalogDir.'/<pathForParse:.+>'=> $catalogDir.'/default',

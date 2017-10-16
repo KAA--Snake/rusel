@@ -239,12 +239,12 @@ class Product extends Model
     }
 
 
-
     /**
      * Получает список товаров по ИД раздела
      *
-     * @param $productId
+     * @param $sectionId
      * @return array
+     * @internal param $productId
      */
     public function getProductsBySectionId($sectionId){
 
@@ -331,6 +331,44 @@ class Product extends Model
         //var_dump($response);
 
         //\Yii::$app->pr->print_r2($response);
+    }
+
+
+    /**
+     * Отдает список товаров по их ИДам
+     *
+     * @param $ids
+     * @return array
+     */
+    public function getProductsByIds($ids=[]){
+
+        if(count($ids) <= 0){
+            return [];
+        }
+
+        $params = [
+            'body' => [
+                //'from' => $from,
+                //'size' => $maxSizeCnt,
+                'query' => [
+                    'constant_score' => [
+                        'filter' => [
+                            'terms' => [
+                                'id' => $ids
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $params = static::productData + $params;
+
+        //\Yii::$app->pr->print_r2(json_encode($params));
+
+        $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+
+        return $response;
     }
 
 
