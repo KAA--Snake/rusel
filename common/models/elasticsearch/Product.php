@@ -287,6 +287,9 @@ class Product extends Model
             'body' => [
                 'from' => $from,
                 'size' => $maxSizeCnt,
+                'sort' => [
+                    'artikul' => ['order' => 'asc']
+                ],
                 'query' => [
                     'term' => [
                         'section_id' => $sectionId
