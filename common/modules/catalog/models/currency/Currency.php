@@ -109,7 +109,9 @@ class Currency extends \yii\db\ActiveRecord
      */
     public static function getPriceForCurrency($currencyId=false, $price, $precision=false){
 
-        if(!$currencyId) return (1 * $price);
+        if($currencyId == 643 || $currencyId == 810 || !$currencyId){
+            return 1 * $price;
+        }
 
         $course = 1;
 
@@ -175,6 +177,9 @@ class Currency extends \yii\db\ActiveRecord
             foreach ($currencies as $oneCurrency){
                 $retData[$oneCurrency['currency_id']] = $oneCurrency['course_to_rub'];
             }
+            //добавляем рубли
+            $retData[643] = 1;
+            $retData[810] = 1;
         }
 
         return $retData;
