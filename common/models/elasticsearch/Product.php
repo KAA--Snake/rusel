@@ -371,6 +371,10 @@ class Product extends Model
 
         $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
 
+        //добавляем аксессуары к продуктам
+        $this->setAccessoriedProducts($response);
+
+
         return $response;
     }
 
