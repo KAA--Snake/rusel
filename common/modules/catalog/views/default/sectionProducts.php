@@ -236,7 +236,7 @@ use common\modules\catalog\models\currency\Currency;
                                     <div class="special_tape"><?= $oneProduct['_source']['marketing']['name']; ?></div>
                                     <div class="price_vars">
                                         <div class="price_var_item clear">
-                                            <span class="count fll">1+<!-- - НЕТ ДАННЫХ ДЛЯ ЭТОГО ПОЛЯ В ВЫГРУЗКЕ !--></span>
+                                            <span class="count fll"></span>
                                             <span class="price flr"><?=$price;?>
                                                 <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                         </div>
@@ -318,6 +318,7 @@ use common\modules\catalog\models\currency\Currency;
                                  data-product-partner-count="<?=urlencode(json_encode($oneProduct['_source']['quantity']['partner_stock']['count']));?>"
                                  data-product-count="<?=urlencode(json_encode($oneProduct['_source']['quantity']['stock']['count']));?>"
                                  data-product-marketing-price="<?=urlencode(json_encode($oneProduct['_source']['marketing']['price']));?>"
+                                 data-product-marketing-price-currency="<?=urlencode(json_encode($oneProduct['_source']['marketing']['price']));?>"
                                  data-product_id="<?=$oneProduct['_id'];?>"
                             >
 

@@ -278,12 +278,21 @@ $white:#ffffff;
             .gc_item{
               position: relative;
               background-color: $blue;
-              padding:16px 22px 16px 17px;
               border-top: 1px solid #76cef3;
               cursor: pointer;
               border-left: 5px solid $blue;
               transition: 0.2s;
               transition-property: border-left;
+              a{
+                position: relative;
+                top:0;
+                bottom: 0;
+                left:0;
+                right: 0;
+                padding: 16px 22px 16px 17px;
+
+                display: block;
+              }
               span{
                 display: inline-block;
                 width: 60%;
@@ -829,6 +838,7 @@ $white:#ffffff;
         text-transform: uppercase;
         margin-top: 10px;
         margin-bottom: 30px;
+        margin-left: 20px;
       }
       .catalog_tree_container{
         .tree_container{
@@ -1051,8 +1061,8 @@ $white:#ffffff;
             align-self: center;
             &.name{
               margin-left: 20px;
-              width: 396px;
-              max-width: 396px;
+              width: 416px;
+              max-width: 416px;
               .model{
                 /*margin-top: 13px;*/
                 margin-bottom: 6px;
@@ -1105,11 +1115,14 @@ $white:#ffffff;
               }
             }
             &.img{
-              min-width: 138px;
+              min-width: 100px;
+              padding-right: 20px;
+
               img{
-                padding-right: 20px;
-                width: 138px;
+
+                width: 100px;
                 height: auto;
+                box-sizing: content-box;
               }
             }
 
@@ -1153,7 +1166,6 @@ $white:#ffffff;
                     text-decoration: underline;
                     .count_tooltip{
                       display: none;
-
                     }
                     &:hover{
                       .count_tooltip{
@@ -1305,6 +1317,64 @@ $white:#ffffff;
 
 
               .ordered_block{
+                .count_tooltip{
+                  position: absolute;
+                  display: block;
+                  background: #fff;
+                  color: #000;
+                  border: 1px solid $blue;
+                  width: 300px;
+                  line-height: 20px;
+                  text-align: left;
+                  z-index: 10;
+                  top: -52px;
+                  left: 50%;
+                  box-shadow: 3px 3px 18px -4px #000;
+                  margin-left: -200px;
+                  padding-left: 10px;
+                  padding-right: 10px;
+                  font-size: 14px;
+                  font-weight: 300;
+                  text-align: center;
+                  .order_buttons_block{
+                    display: block;
+                    text-align: center;
+                    .order_button{
+                      display: inline-block;
+                      cursor: pointer;
+                      line-height: 28px;
+                      color: $white;
+                      text-align: center;
+                      padding: 0 10px;
+                      margin-bottom: 8px;
+                      margin-top: 8px;
+                      &+.order_button{
+                        margin-left: 30px;
+                      }
+                    }
+                    .approve_delete_pos{
+                      background: #9f0f18;
+                    }
+                    .decline_delete_pos{
+                      background: $blue;
+                    }
+                  }
+
+                  .corner{
+                    width: 10px;
+                    height: 10px;
+                    background: #fff;
+                    position: absolute;
+                    left: 65%;
+                    bottom: -6px;
+                    margin-left: -5px;
+                    border-left: 1px solid #336699;
+                    border-bottom: 1px solid #336699;
+                    transform: rotate(-45deg);
+                    z-index: 11;
+                    box-shadow: 3px 3px 18px -4px #000;
+                  }
+                }
                 .ordered_icon_close{
                   width: 30px;
                   height: 30px;
@@ -1554,6 +1624,8 @@ $white:#ffffff;
             font-weight: 700;
             line-height: 19px;
             text-transform: uppercase;
+            margin-left: 20px;
+            margin-top: -10px;
           }
           h2{
             color: #333333;
@@ -1599,7 +1671,7 @@ $white:#ffffff;
               }
             }
             ._order_sel{
-              height: 40px;
+              height: 44px;
               padding-left: 10px;
               border: 1px solid #dfdfdf;
               background-color: rgba(237, 249, 254, 0);
@@ -1893,6 +1965,9 @@ $white:#ffffff;
     }
     .contact{
       display: inline-block;
+      a{
+        text-decoration: none;
+      }
       .top{
         text-align: right;
         color: #333333;

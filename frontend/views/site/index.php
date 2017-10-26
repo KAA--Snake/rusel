@@ -84,8 +84,10 @@ $this->title = 'My Yii Application';
 </svg>
                         </div>
                         <div class="contact">
-                            <div class="top">Форма запроса</div>
-                            <div class="bottom">Выбрано: <span class="order_count">25</span></div>
+                            <a href="/cart/">
+                                <div class="top">Форма запроса</div>
+                                <div class="bottom">Выбрано: <span class="order_count">0</span></div>
+                            </a>
                         </div>
                     </div>
                 </div>

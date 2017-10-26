@@ -10,12 +10,14 @@ use common\modules\catalog\models\currency\Currency;
 
 ?>
 
-<?php if(count($currentSectionProducts) > 0){ ?>
-
+<?php if(count($currentSectionProducts) > 0){?>
     <?php foreach($currentSectionProducts as $oneProduct){
-    $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['_source']['url']).'/');
-    ?>
-        <div class="product_card product_card_inner js-tab_collapsed">
+        $json = json_encode($oneProduct);
+        $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['_source']['url']).'/');
+        //\Yii::$app->pr->print_r2($oneProduct);
+        ?>
+
+        <div class="product_card product_card_inner js-product_card js-tab_collapsed">
             <table class="product_card_inner_wrap">
                 <tr>
                     <td>
@@ -36,6 +38,9 @@ use common\modules\catalog\models\currency\Currency;
                                 </div>
                             <?php }?>
                         </div>
+                    </td>
+                    <td>
+
                     </td>
                     <td>
                         <div class="card_part img">
@@ -61,7 +66,8 @@ use common\modules\catalog\models\currency\Currency;
                                             <?= $oneProduct['_source']['quantity']['stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>
 
                                             <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
-                                                <span class="count_tooltip_trigger"><?= $oneProduct['_source']['quantity']['stock']['description'];?><span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span class="corner"></span></span></span>
+                                                <span class="count_tooltip_trigger"><?= $oneProduct['_source']['quantity']['stock']['description'];?> <span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span class="corner"></span></span></span>
+
                                             <?php }?>
                                         </td>
                                     </tr>
@@ -128,6 +134,7 @@ use common\modules\catalog\models\currency\Currency;
                     <td class="left_bordered">
                         <div class="card_part prices">
                             <?php if(!empty($oneProduct['_source']['marketing']['price']) && $oneProduct['_source']['marketing']['price'] > 0){ ?>
+
                                 <?
                                 //\Yii::$app->pr->print_r2($oneProduct['_source']['marketing']);
                                 $price = Currency::getPriceForCurrency(
@@ -136,14 +143,12 @@ use common\modules\catalog\models\currency\Currency;
                                     2
                                 );
                                 ?>
-
                                 <div class="special_tape"><?= $oneProduct['_source']['marketing']['name']; ?></div>
                                 <div class="price_vars">
                                     <div class="price_var_item clear">
-                                        <span class="count fll">1+<!-- - НЕТ ДАННЫХ ДЛЯ ЭТОГО ПОЛЯ В ВЫГРУЗКЕ !--></span>
+                                        <span class="count fll"></span>
                                         <span class="price flr"><?=$price;?>
-                                            <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?>
-                                        </span>
+                                            <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                     </div>
                                 </div>
 
@@ -154,10 +159,9 @@ use common\modules\catalog\models\currency\Currency;
                                     if(!empty($oneProduct['_source']['prices']) && count($oneProduct['_source']['prices']) > 0){
 
                                         if(isset($oneProduct['_source']['prices']['price_not_available'])){
-
                                             ?>
 
-                                            <div class="price_var_item clear">
+                                            <div class="price_var_item js-price_not_available clear">
                                                 <span class="price flr"><?= $oneProduct['_source']['prices']['price_not_available']['value'];?></span>
                                             </div>
 
@@ -166,16 +170,17 @@ use common\modules\catalog\models\currency\Currency;
                                         }else{
 
                                             if(isset($oneProduct['_source']['prices']['price_range']['value'])){
-                                                //\Yii::$app->pr->print_r2($oneProduct['_source']['prices']['price_range']);
-
-                                                $price = Currency::getPriceForCurrency(
-                                                    $oneProduct['_source']['prices']['price_range']['currency'],
-                                                    $oneProduct['_source']['prices']['price_range']['value'],
-                                                    2
-                                                );
                                                 ?>
-                                                <div class="price_var_item clear">
+
+                                                <div class="price_var_item js-price_available clear">
                                                     <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
+                                                    <?
+                                                    $price = Currency::getPriceForCurrency(
+                                                        $oneProduct['_source']['prices']['price_range']['currency'],
+                                                        $oneProduct['_source']['prices']['price_range']['value'],
+                                                        2
+                                                    );
+                                                    ?>
                                                     <span class="price flr"><?=$price;?> <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                                 </div>
 
@@ -184,19 +189,18 @@ use common\modules\catalog\models\currency\Currency;
                                             }else{
 
                                                 foreach($oneProduct['_source']['prices'] as $onePrice){
-                                                    //\Yii::$app->pr->print_r2($onePrice);
-                                                    //die();
+
                                                     if(count($onePrice) > 0){
                                                         foreach($onePrice as $singlePrices){
+
                                                             $price = Currency::getPriceForCurrency(
                                                                 $singlePrices['currency'],
                                                                 $singlePrices['value'],
                                                                 2
                                                             );
-                                                            //die();
                                                             ?>
 
-                                                            <div class="price_var_item clear">
+                                                            <div class="price_var_item js-price_available clear">
                                                                 <span class="count fll"><?= $singlePrices['range'];?></span>
                                                                 <span class="price flr"><?=$price;?> <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                                             </div>
@@ -216,23 +220,51 @@ use common\modules\catalog\models\currency\Currency;
                         </div>
                     </td>
                     <td class="left_bordered">
-                        <?php /** @TODO этот блок не готов- сделать как будет функционал покупок !! */?>
-                        <div class="card_part order">
-                            <input type="text" class="order_input" placeholder="Введите количество">
 
-                            <div class="ordered_input hidden">
-                                <span class="ordered_icon"></span>
-                                <span class="ordered_count">25 000 шт</span>
-                                <span class="ordered_price">252 000 Р.</span>
+                        <div class="card_part order js-order_data"
+                             data-product-prices="<?=urlencode(json_encode($oneProduct['_source']['prices']));?>"
+                             data-product-norma_upakovki="<?=urlencode(json_encode($oneProduct['_source']['product_logic']['norma_upakovki']));?>"
+                             data-product-min_zakaz="<?=urlencode(json_encode($oneProduct['_source']['product_logic']['min_zakaz']));?>"
+                             data-product-partner-count="<?=urlencode(json_encode($oneProduct['_source']['quantity']['partner_stock']['count']));?>"
+                             data-product-count="<?=urlencode(json_encode($oneProduct['_source']['quantity']['stock']['count']));?>"
+                             data-product-marketing-price="<?=urlencode(json_encode($oneProduct['_source']['marketing']['price']));?>"
+                             data-product-marketing-price-currency="<?=urlencode(json_encode($oneProduct['_source']['marketing']['currency']));?>"
+                             data-product_id="<?=$oneProduct['_id'];?>"
+                        >
+
+                            <div class="order_block">
+                                <input type="text" class="order_input js-order_count" placeholder="Введите количество">
+                                <div class="order_btn add js-add_to_cart">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                         viewBox="0 0 35 35" enable-background="new 0 0 35 35" xml:space="preserve">
+                                            <g>
+                                                <path d="M28.5,0l-0.8,4H0.5l2.5,15.1h21.5l-0.7,3.5H4v1.7H25l4.8-22.7h4.7V0H28.5z M24.8,17.5H4.4L2.4,5.7h24.8L24.8,17.5z"/>
+                                                <path d="M4.9,27.3c-2.1,0-3.8,1.7-3.8,3.8S2.8,35,4.9,35s3.8-1.7,3.8-3.8S7,27.3,4.9,27.3z M6.4,32.7c-0.4,0.4-1,0.6-1.5,0.6
+                                                    c-1.2,0-2.2-1-2.2-2.2s1-2.2,2.2-2.2S7,30,7,31.2C7,31.7,6.8,32.3,6.4,32.7z"/>
+                                                <path d="M22.9,27.3c-2.1,0-3.8,1.7-3.8,3.8s1.7,3.8,3.8,3.8s3.8-1.7,3.8-3.8S25,27.3,22.9,27.3z M22.9,33.3c-1.2,0-2.2-1-2.2-2.2
+                                                    s1-2.2,2.2-2.2s2.2,1,2.2,2.2S24.1,33.3,22.9,33.3z"/>
+                                            </g>
+                                        </svg>
+                                </div>
+
                             </div>
 
-                            <div class="ordered_btn add">Добавить в запрос</div>
+                            <div class="ordered_block hidden">
+                                <div class="ordered_icon_close js-cancel-order flr"></div>
+                                <div class="ordered_count">В запросе: <span class="bold"> </span></div>
+                                <br>
+                                <div class="ordered_price">На сумму: <span class="bold">0 Р.</span></div>
+
+                            </div>
+
+
                         </div>
                         <?php /**-------------------------------------------------------------------------*/?>
                     </td>
                 </tr>
             </table>
 
+            <?php /*\Yii::$app->pr->print_r2($oneProduct);*/?>
             <div class="product_card_more collapsed">
                 <div class="product_tab">
                     <ul class="product_specs_list">
@@ -240,14 +272,19 @@ use common\modules\catalog\models\currency\Currency;
                             <li class="product_tab_item"><a href="#description">Описание</a></li>
                         <?php }?>
                         <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
-                            <li class="product_tab_item"><a href="#params_inc">Параметры</a></li>
+                            <li class="product_tab_item"><a href="#params">Параметры</a></li>
                         <?}?>
                         <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){?>
-                            <li class="product_tab_item"><a href="#techdoc_inc">Техническая документация</a></li>
+                            <li class="product_tab_item"><a href="#techdoc">Техническая документация</a></li>
                         <?}?>
+                        <?php /** товары внутри вкладки принадлежности*/ ?>
+                        <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
+                            <li class="product_tab_item"><a href="#appurtenant">Принадлежности</a></li>
+                        <?php }?>
 
                     </ul>
-                    <?php if(isset($oneProduct['_source']['properties']['detail_text']) && count($oneProduct['_source']['properties']['detail_text']) > 0){ ?>
+
+                    <?php if(isset($oneProduct['_source']['properties']['detail_text'])) { ?>
                         <div class="product_tab_content" id="description">
 
 
@@ -259,16 +296,17 @@ use common\modules\catalog\models\currency\Currency;
                             </div>
                         </div>
                     <?php }?>
+
                     <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
-                        <div class="product_tab_content" id="params_inc">
+                        <div class="product_tab_content" id="params">
                             <table class="params_tab">
 
-                                    <?php foreach($oneProduct['_source']['other_properties']['property'] as $singleProp){ ?>
-                                        <tr>
-                                            <td class="param_name"><?= $singleProp['name']; ?></td>
-                                            <td class="param_value"><?= $singleProp['value']; ?></td>
-                                        </tr>
-                                    <?php }?>
+                                <?php foreach($oneProduct['_source']['other_properties']['property'] as $singleProp){ ?>
+                                    <tr>
+                                        <td class="param_name"><?= $singleProp['name']; ?></td>
+                                        <td class="param_value"><?= $singleProp['value']; ?></td>
+                                    </tr>
+                                <?php }?>
 
                             </table>
                             <div class="hide_tabs_wrap">
@@ -276,13 +314,12 @@ use common\modules\catalog\models\currency\Currency;
                             </div>
                         </div>
                     <?php }?>
-
                     <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){
                         $docs = explode(';', $oneProduct['_source']['properties']['teh_doc_file']);
                         //\Yii::$app->pr->print_r2($docs);
 
                         ?>
-                        <div class="product_tab_content" id="techdoc_inc">
+                        <div class="product_tab_content" id="techdoc">
 
                             <?if(count($docs) > 0){?>
                                 <ul class="docs_list">
@@ -300,8 +337,19 @@ use common\modules\catalog\models\currency\Currency;
                             </div>
                         </div>
                     <?}?>
+                    <?php /** товары внутри вкладки принадлежности*/ ?>
+                    <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
+                        <div class="product_tab_content" id="appurtenant">
 
 
+                            <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
+
+
+                            <div class="hide_tabs_wrap">
+                                <div class="hide_tabs_btn">Свернуть</div>
+                            </div>
+                        </div>
+                    <?php }?>
                 </div>
                 <!--<div class="hide_tabs_wrap">
                     <div class="hide_tabs_btn">Свернуть</div>
@@ -309,10 +357,8 @@ use common\modules\catalog\models\currency\Currency;
             </div>
 
         </div>
-
-    <?php } ?>
-
-<?php } ?>
+    <?php }?>
+<?php }?>
 
 
 

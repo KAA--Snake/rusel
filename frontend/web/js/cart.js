@@ -1,32 +1,19 @@
 $(document).ready(function () {
 
     getCityList();
-
-    $('.js-city-select').selectmenu();
-    $('.js-city-select').on('selectmenuchange', function () {
-        getDeliveryTime(this.value);
-    });
+    cartCheck();
+    orderLinkCountUpdate();
 
 
-    $('.js-delivery-radio').click(function (e) {
-        if (this.checked && $(this).hasClass('js-delivery-full')) {
-            $('.js-delivery-input').show();
-            $('.address_subheader').show();
-            if ($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') == -1 && $('.delivery_time_text').text().length > 0) {
-                $('.delivery_time_text').append(' + 1-2 раб.дн. до двери.');
-            }
-        } else if (this.checked && $(this).hasClass('js-delivery-half')) {
-            $('.js-delivery-input.js-delivery-full').hide();
-            $('.js-delivery-input.js-delivery-half').show();
-            $('.address_subheader').show();
-            if ($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') !== -1 && $('.delivery_time_text').text().length > 0) {
-                $('.delivery_time_text').text($('.delivery_time_text').text().slice(0, $('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.')));
-            }
-        } else {
-            $('.js-delivery-input').hide();
-            $('.address_subheader').hide();
-            $('.delivery_time_text').text('');
-        }
+
+
+
+    $('.js-order-type').click(function () {
+       if(this.checked && $(this).hasClass('org_required')){
+           $('.js-org').attr('data-validation', 'required');
+       }else{
+           $('.js-org').attr('data-validation', '');
+       }
     });
 
     $("#org").suggestions({
@@ -45,6 +32,51 @@ $(document).ready(function () {
             /*console.log(suggestion);*/
         }
     });
+
+    /*$('.js-city-select').selectmenu();*/
+    $('.js-city-select').on('change', function () {
+        getDeliveryTime(this.value);
+    });
+
+    /*$('.order_request_form').on('submit', function (e) {
+        e.preventDefault();
+        if(!$('.js-city-select').val().length){
+            $('.delivery_city-button').css({
+                'border':'1px solid red'
+            });
+        }
+    })*/
+
+    $('.js-delivery-radio').click(function (e) {
+        if (this.checked && $(this).hasClass('js-delivery-full')) {
+            $('.js-delivery-input').show();
+            $('.address_subheader').show();
+            $('.js-delivery-input input').attr('data-validation', 'required');
+            $('#delivery_city').attr('data-validation', 'required');
+
+            if ($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') == -1 && $('.delivery_time_text').text().length > 0) {
+                $('.delivery_time_text').append(' + 1-2 раб.дн. до двери.');
+            }
+        } else if (this.checked && $(this).hasClass('js-delivery-half')) {
+            $('.js-delivery-input.js-delivery-full').hide();
+            $('.js-delivery-input.js-delivery-full input').attr('data-validation', '');
+            $('.js-delivery-input.js-delivery-half').show();
+            $('.js-delivery-input.js-delivery-half input').attr('data-validation', 'required');
+            $('#delivery_city').attr('data-validation', 'required');
+            $('.address_subheader').show();
+            if ($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') !== -1 && $('.delivery_time_text').text().length > 0) {
+                $('.delivery_time_text').text($('.delivery_time_text').text().slice(0, $('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.')));
+            }
+        } else {
+            $('.js-delivery-input').hide();
+            $('.js-delivery-input input').attr('data-validation', '');
+            $('#delivery_city').attr('data-validation', '');
+            $('.address_subheader').hide();
+            $('.delivery_time_text').text('');
+        }
+    });
+
+
 
     $('.js-cancel-order').click(function () {
         var productContainer = $(this).closest('.js-order_data'),
@@ -67,9 +99,32 @@ $(document).ready(function () {
             orderPrice = 0;
 
 
-        cartPositionDelete(productID, productCount);
-        orderedBlock.hide().addClass('hidden');
-        productContainer.find('.js-order_count').val('');
+        if(document.location.pathname == '/cart/'){
+            $(this).closest('.ordered_block').append('<span class="count_tooltip">Удалить позицию из формы запроса? <br><span class="order_buttons_block"><span class="order_button approve_delete_pos">да</span> <span class="order_button decline_delete_pos">нет</span></span> <span class="corner"></span></span>');
+
+            $('.approve_delete_pos').click(function () {
+                cartPositionDelete(productID, productCount);
+                productContainer.closest('.js-product_card').remove();
+
+                var sum = 0;
+                $('.ordered_price .bold').each(function () {
+                    sum += parseFloat($(this).text());
+                });
+                $('.sum_amount').text(sum.toFixed(2) + ' руб');
+
+            });
+            $('.decline_delete_pos').click(function () {
+                $(this).closest('.count_tooltip').remove();
+            });
+        }else{
+            cartPositionDelete(productID, productCount);
+            orderedBlock.hide().addClass('hidden');
+            productContainer.find('.js-order_count').val('');
+
+
+        }
+
+
 
     });
 
@@ -78,6 +133,7 @@ $(document).ready(function () {
             productData = {
                 productCount: JSON.parse(decodeURIComponent(productContainer.data().productCount)),
                 productMarketingPrice: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPrice)),
+                productMarketingPriceCurrency: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPriceCurrency)),
                 productMin_zakaz: JSON.parse(decodeURIComponent(productContainer.data().productMin_zakaz)),
                 productNorma_upakovki: JSON.parse(decodeURIComponent(productContainer.data().productNorma_upakovki)),
                 productPartnerCount: JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)),
@@ -93,23 +149,38 @@ $(document).ready(function () {
             orderValue = productID + '|' + productCount,
             orderPrice = 0;
 
+        if(productCount.length == 0) {
+            return false;
+        }
+
+
         if(!productData.productPrices.price_not_available) {
             if(productData.productPrices.price_range) {
-                if(productData.productMarketingPrice !== null) {
-                    orderPrice = parseInt(productData.productMarketingPrice);
-                }else{
-                    for(var r=0;r<productData.productPrices.price_range.length;r++){
 
-                        var rn = r+1 == productData.productPrices.price_range.length ? productData.productPrices.price_range.length-1 : r+1;
-                        if(parseInt(productData.productPrices.price_range[r].range) <= productCount && parseInt(productData.productPrices.price_range[rn].range) > productCount) {
-                            orderPrice = parseFloat(productData.productPrices.price_range[r].value).toFixed(2);
-                            break;
-                        }else{
-                            orderPrice = parseFloat(productData.productPrices.price_range[rn].value).toFixed(2);
+                if(productData.productMarketingPrice !== null) {
+                    var sd = +productData.productMarketingPriceCurrency;
+                    orderPrice = +productData.productMarketingPrice * getRateOfExchange(sd);
+                }else{
+                    if(productData.productPrices.price_range.length){
+                        for(var r=0;r<productData.productPrices.price_range.length;r++){
+
+                            var rn = r+1 == productData.productPrices.price_range.length ? productData.productPrices.price_range.length-1 : r+1;
+                            if(parseInt(productData.productPrices.price_range[r].range) <= productCount && parseInt(productData.productPrices.price_range[rn].range) > productCount) {
+                                orderPrice = parseFloat(+productData.productPrices.price_range[r].value * getRateOfExchange(productData.productPrices.price_range[r].currency)).toFixed(2);
+                                break;
+                            }else{
+                                orderPrice = parseFloat(+productData.productPrices.price_range[rn].value * getRateOfExchange(productData.productPrices.price_range[rn].currency)).toFixed(2);
+                            }
                         }
+                    }else{
+                        orderPrice = parseFloat(+productData.productPrices.price_range.value * getRateOfExchange(productData.productPrices.price_range.currency)).toFixed(2);
                     }
                 }
-
+            }
+        }else{
+            if(productData.productMarketingPrice !== null) {
+                var sd = +productData.productMarketingPriceCurrency;
+                orderPrice = +productData.productMarketingPrice * getRateOfExchange(sd);
             }
         }
 
@@ -117,21 +188,29 @@ $(document).ready(function () {
         orderedPriceField.html((productCount * orderPrice).toFixed(2) + ' р');
 
         if(parseInt(productData.productCount) == 0) {
-            orderedBlock.hide().addClass('hidden');
-            if(productCount < parseInt(productData.productMin_zakaz)){
-                orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно соответствовать минимальной партии.<span class="corner"></span></span>');
-                setTimeout(function () {
+            if(parseInt(productData.productPartnerCount) == 0 || productData.productPartnerCount == null){
+                orderedBlock.hide().addClass('hidden');
+                if(productCount < parseInt(productData.productMin_zakaz)){
+                    orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно соответствовать минимальной партии.<span class="corner"></span></span>');
+                    setTimeout(function () {
+                        orderInput.find('.count_tooltip').fadeOut(function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                }else if(productCount % parseInt(productData.productNorma_upakovki) != 0){
+                    orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно быть кратно упаковке.<span class="corner"></span></span>');
+                    setTimeout(function () {
+                        orderInput.find('.count_tooltip').fadeOut(function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                }else{
                     orderInput.find('.count_tooltip').fadeOut(function () {
                         $(this).remove();
                     });
-                }, 5000);
-            }else if(productCount % parseInt(productData.productNorma_upakovki) != 0){
-                orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно быть кратно упаковке.<span class="corner"></span></span>');
-                setTimeout(function () {
-                    orderInput.find('.count_tooltip').fadeOut(function () {
-                        $(this).remove();
-                    });
-                }, 5000);
+                    orderedBlock.show().removeClass('hidden');
+                    cartUpdate(productID, productCount);
+                }
             }else{
                 orderInput.find('.count_tooltip').fadeOut(function () {
                     $(this).remove();
@@ -139,6 +218,7 @@ $(document).ready(function () {
                 orderedBlock.show().removeClass('hidden');
                 cartUpdate(productID, productCount);
             }
+
         }else{
             orderInput.find('.count_tooltip').fadeOut(function () {
                $(this).remove();
@@ -149,7 +229,7 @@ $(document).ready(function () {
 
         /*orderInput.hide();*/
 
-
+        productContainer.find('.js-order_count').val('');
         console.log(productData);
     });
 
@@ -159,26 +239,177 @@ $(document).ready(function () {
         'repeat': 16,
         'greedy': false
     });
+
+    $.validate({
+        form : '#order_request_form',
+        lang : 'ru'
+    });
+
 });
+
+function getRateOfExchange(code) {
+    var currencies = 0;
+    $.ajax({
+        url: 'http://rusel24.fvds.ru/ajax/get-currencies/',
+        async: false,
+        success: function (data) {
+            if (data[code]) {
+                currencies = +data[code];
+            }
+        }
+    });
+    return currencies;
+};
+
 function cartCheck() {
     var catalogLength = $('.js-product_card').length;
     var cartString = cookie.getCookie('cart') ? cookie.getCookie('cart') : '';
     if(cartString.length > 0 && catalogLength > 0){
-        
+        var cartArr = cartString.length ? cartString.split('&') : [];
+        for(var i=0;i<cartArr.length;i++){
+            var x = cartArr[i].split('|');
+
+            $('.js-product_card').each(function () {
+                if( $(this).find('.js-order_data').data().product_id == x[0] ){
+
+
+                    var productContainer = $(this).find('.js-order_data'),
+                        productData = {
+                            productCount: JSON.parse(decodeURIComponent(productContainer.data().productCount)),
+                            productMarketingPrice: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPrice)),
+                            productMarketingPriceCurrency: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPriceCurrency)),
+                            productMin_zakaz: JSON.parse(decodeURIComponent(productContainer.data().productMin_zakaz)),
+                            productNorma_upakovki: JSON.parse(decodeURIComponent(productContainer.data().productNorma_upakovki)),
+                            productPartnerCount: JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)),
+                            productPrices: JSON.parse(decodeURIComponent(productContainer.data().productPrices)),
+                            product_id: JSON.parse(decodeURIComponent(productContainer.data().product_id))
+                        },
+                        productID = productContainer.data('product_id'),
+                        productCount = +x[1],
+                        orderInput = productContainer.find('.order_block'),
+                        orderedBlock = productContainer.find('.ordered_block'),
+                        orderedCountField = orderedBlock.find('.ordered_count .bold'),
+                        orderedPriceField = orderedBlock.find('.ordered_price .bold'),
+                        orderValue = productID + '|' + productCount,
+                        orderPrice = 0;
+
+                    if(!productData.productPrices.price_not_available) {
+                        if(productData.productPrices.price_range) {
+
+                            if(productData.productMarketingPrice !== null) {
+                                var sd = +productData.productMarketingPriceCurrency;
+                                orderPrice = +productData.productMarketingPrice * getRateOfExchange(sd);
+                            }else{
+                                if(productData.productPrices.price_range.length){
+                                    for(var r=0;r<productData.productPrices.price_range.length;r++){
+
+                                        var rn = r+1 == productData.productPrices.price_range.length ? productData.productPrices.price_range.length-1 : r+1;
+                                        if(parseInt(productData.productPrices.price_range[r].range) <= productCount && parseInt(productData.productPrices.price_range[rn].range) > productCount) {
+                                            orderPrice = parseFloat(+productData.productPrices.price_range[r].value * getRateOfExchange(productData.productPrices.price_range[r].currency)).toFixed(2);
+                                            break;
+                                        }else{
+                                            orderPrice = parseFloat(+productData.productPrices.price_range[rn].value * getRateOfExchange(productData.productPrices.price_range[rn].currency)).toFixed(2);
+                                        }
+                                    }
+                                }else{
+                                    orderPrice = parseFloat(+productData.productPrices.price_range.value * getRateOfExchange(productData.productPrices.price_range.currency)).toFixed(2);
+                                }
+                            }
+
+                        }
+                    }else{
+                        if(productData.productMarketingPrice !== null) {
+                            var sd = +productData.productMarketingPriceCurrency;
+                            orderPrice = +productData.productMarketingPrice * getRateOfExchange(sd);
+                        }
+                    }
+
+                    orderedCountField.html(productCount + ' шт');
+                    orderedPriceField.html((productCount * orderPrice).toFixed(2) + ' р');
+
+                    if(parseInt(productData.productCount) == 0) {
+                        if(parseInt(productData.productPartnerCount) == 0){
+                            orderedBlock.hide().addClass('hidden');
+                            if(productCount < parseInt(productData.productMin_zakaz)){
+                                orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно соответствовать минимальной партии.<span class="corner"></span></span>');
+                                setTimeout(function () {
+                                    orderInput.find('.count_tooltip').fadeOut(function () {
+                                        $(this).remove();
+                                    });
+                                }, 5000);
+                            }else if(productCount % parseInt(productData.productNorma_upakovki) != 0){
+                                orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно быть кратно упаковке.<span class="corner"></span></span>');
+                                setTimeout(function () {
+                                    orderInput.find('.count_tooltip').fadeOut(function () {
+                                        $(this).remove();
+                                    });
+                                }, 5000);
+                            }else{
+                                orderInput.find('.count_tooltip').fadeOut(function () {
+                                    $(this).remove();
+                                });
+                                orderedBlock.show().removeClass('hidden');
+                                cartUpdate(productID, productCount);
+                            }
+                        }else{
+                            orderInput.find('.count_tooltip').fadeOut(function () {
+                                $(this).remove();
+                            });
+                            orderedBlock.show().removeClass('hidden');
+                            cartUpdate(productID, productCount);
+                        }
+
+                    }else{
+                        orderInput.find('.count_tooltip').fadeOut(function () {
+                            $(this).remove();
+                        });
+                        orderedBlock.show().removeClass('hidden');
+                        cartUpdate(productID, productCount);
+                    }
+                }
+            });
+
+
+        }
     }
-}
+    if(document.location.pathname == '/cart/'){
+        if(cartString.length == 0) {
+            $('.product_cards_block._order').html('<h1>Вы еще не добавили ни одного товара к заказу</h1>')
+        }
+        var sum = 0;
+        $('.ordered_price .bold').each(function () {
+            sum += parseFloat($(this).text());
+        });
+        $('.sum_amount').text(sum.toFixed(2) + ' руб');
+    }
+};
 
 function cartPositionDelete(id, count) {
     var cartString = cookie.getCookie('cart') ? cookie.getCookie('cart') : '';
     var cartArr = cartString.length ? cartString.split('&') : [];
+
     for(var i=0;i<cartArr.length;i++){
         if(cartArr[i].indexOf(id) !== -1){
             cartArr.splice(i,1);
         }
     }
+
     console.log(cartArr);
-    cookie.setCookie('cart', cartArr.join('&'));
+
+    $('.contact_item.order .order_count').text(cartArr.length);
+    cookie.setCookie('cart', cartArr.join('&'), {
+        path:'/',
+        expires:'Tue, 19 Jan 2038 03:14:07 GMT'
+    });
+};
+
+function orderLinkCountUpdate() {
+    var cartString = cookie.getCookie('cart') ? cookie.getCookie('cart') : '';
+    var cartArr = cartString.length ? cartString.split('&') : [];
+
+    $('.contact_item.order .order_count').text(cartArr.length);
 }
+
 function cartUpdate(id, count) {
     var cartString = cookie.getCookie('cart') ? cookie.getCookie('cart') : '';
     var cartArr = cartString.length ? cartString.split('&') : [];
@@ -187,11 +418,26 @@ function cartUpdate(id, count) {
                 cartArr[i] = id + '|' + count;
         }
     }
+
+    cartString = cartArr.join('&');
+
     if(cartString.indexOf(id + '|' + count) == -1) {
         cartArr.push(id + '|' + count);
     }
     console.log(cartArr);
-    cookie.setCookie('cart', cartArr.join('&'));
+    $('.contact_item.order .order_count').text(cartArr.length);
+    cookie.setCookie('cart', cartArr.join('&'), {
+        path:'/',
+        expires:'Tue, 19 Jan 2038 03:14:07 GMT'
+    });
+
+    if(document.location.pathname == '/cart/'){
+        var sum = 0;
+        $('.ordered_price .bold').each(function () {
+            sum += parseFloat($(this).text());
+        });
+        $('.sum_amount').text(sum.toFixed(2) + ' руб');
+    }
 }
 
 
