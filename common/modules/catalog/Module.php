@@ -63,11 +63,19 @@ class Module extends \yii\base\Module implements BootstrapInterface
             //'POST /admin/import/' => 'import/create',
            //'POST admin/import' => 'import/create',
             //$catalogDir.'/ajax-cart/' => $catalogDir.'/cart/get-cart/',
-            $catalogDir.'/cart/' => '/cart/',
+            $catalogDir.'/cart/' => '/cart/', //корзина
+
             $catalogDir.'/admin/section/' => $catalogDir.'/admin/section/index',
+            $catalogDir.'/admin/section/<id:\d+>' => $catalogDir.'/admin/section/view',
+            $catalogDir.'/admin/section/<action:\w+>/<id:\d+>' => $catalogDir.'/admin/section/<action>',
+            $catalogDir.'/admin/section/<action:\w+>' => $catalogDir.'/admin/section/<action>',
+
+            //производители
+            $catalogDir.'/admin/manufacturer/' => $catalogDir.'/admin/manufacturer/index',
             $catalogDir.'/admin/manufacturer/<id:\d+>' => $catalogDir.'/admin/manufacturer/view',
             $catalogDir.'/admin/manufacturer/<action:\w+>/<id:\d+>' => $catalogDir.'/admin/manufacturer/<action>',
             $catalogDir.'/admin/manufacturer/<action:\w+>' => $catalogDir.'/admin/manufacturer/<action>',
+
             //$catalogDir.'/admin/product/' => $catalogDir.'/admin/product/index',
             $catalogDir.'/<pathForParse:.+>'=> $catalogDir.'/default',
             $catalogDir => $catalogDir.'/default',

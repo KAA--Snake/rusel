@@ -25,6 +25,12 @@ class m171031_072348_create_manufacturer_table extends Migration
             'm_id'
         );
 
+        //create m_name index
+        $this->createIndex(
+            'idx-unique-m_name',
+            'manufacturer',
+            'm_name'
+        );
 
     }
 
@@ -36,6 +42,12 @@ class m171031_072348_create_manufacturer_table extends Migration
         // drops index for column `m_id`
         $this->dropIndex(
             'idx-unique-m_id',
+            'manufacturer'
+        );
+
+        // drops index for column `m_name`
+        $this->dropIndex(
+            'idx-unique-m_name',
             'manufacturer'
         );
 

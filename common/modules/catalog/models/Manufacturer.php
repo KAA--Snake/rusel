@@ -97,5 +97,22 @@ class Manufacturer extends \yii\db\ActiveRecord
     }
 
 
+    /**
+     * Возвращает производителя по его названию
+     *
+     * @param string $name
+     * @return array
+     */
+    public function getByName($name=''){
+        if($name == '') return [];
+
+        $result = static::find()->andWhere([
+            'm_name' => $name
+        ])->one();
+
+        return $result;
+
+    }
+
 
 }
