@@ -65,7 +65,10 @@ class Module extends \yii\base\Module implements BootstrapInterface
             //$catalogDir.'/ajax-cart/' => $catalogDir.'/cart/get-cart/',
             $catalogDir.'/cart/' => '/cart/',
             $catalogDir.'/admin/section/' => $catalogDir.'/admin/section/index',
-            $catalogDir.'/admin/product/' => $catalogDir.'/admin/product/index',
+            $catalogDir.'/admin/manufacturer/<id:\d+>' => $catalogDir.'/admin/manufacturer/view',
+            $catalogDir.'/admin/manufacturer/<action:\w+>/<id:\d+>' => $catalogDir.'/admin/manufacturer/<action>',
+            $catalogDir.'/admin/manufacturer/<action:\w+>' => $catalogDir.'/admin/manufacturer/<action>',
+            //$catalogDir.'/admin/product/' => $catalogDir.'/admin/product/index',
             $catalogDir.'/<pathForParse:.+>'=> $catalogDir.'/default',
             $catalogDir => $catalogDir.'/default',
 

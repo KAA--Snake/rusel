@@ -318,7 +318,7 @@ use common\modules\catalog\models\currency\Currency;
                                  data-product-partner-count="<?=urlencode(json_encode($oneProduct['_source']['quantity']['partner_stock']['count']));?>"
                                  data-product-count="<?=urlencode(json_encode($oneProduct['_source']['quantity']['stock']['count']));?>"
                                  data-product-marketing-price="<?=urlencode(json_encode($oneProduct['_source']['marketing']['price']));?>"
-                                 data-product-marketing-price-currency="<?=urlencode(json_encode($oneProduct['_source']['marketing']['price']));?>"
+                                 data-product-marketing-price-currency="<?=urlencode(json_encode($oneProduct['_source']['marketing']['currency']));?>"
                                  data-product_id="<?=$oneProduct['_id'];?>"
                             >
 

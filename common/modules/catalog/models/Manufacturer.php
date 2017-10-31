@@ -21,6 +21,8 @@ use common\models\elasticsearch\Product;
 class Manufacturer extends \yii\db\ActiveRecord
 {
 
+    private $catalogModule;
+
     public function __construct(){
         //сохраняем ссылку на модуль, чтоб не тягать постоянно
         $this->catalogModule = \Yii::$app->getModule('catalog');
