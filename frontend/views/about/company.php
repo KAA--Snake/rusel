@@ -99,7 +99,7 @@ use common\widgets\Alert;
                                 <div class="icon"></div>
                                 <div class="contact">
                                     <div class="top">Форма запроса</div>
-                                    <div class="bottom">Выбрано: <span class="order_count">25</span></div>
+                                    <div class="bottom">Выбрано: <span class="order_count">0</span></div>
                                 </div>
                             </div>
                         </div>

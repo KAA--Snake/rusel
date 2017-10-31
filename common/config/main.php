@@ -69,6 +69,7 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
+                'manufacturer/<manufacturer:.*>' => 'manufacturer/index',
                 //test for mng/elastic
                // 'catalog/<pathForParse:[\w_\/-]+>'=> 'catalog/default',
                 //'search/by-name/<name:.*>' => 'search/by-name',

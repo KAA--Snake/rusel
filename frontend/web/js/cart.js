@@ -131,12 +131,12 @@ $(document).ready(function () {
     $('.js-add_to_cart').click(function () {
         var productContainer = $(this).closest('.js-order_data'),
             productData = {
-                productCount: JSON.parse(decodeURIComponent(productContainer.data().productCount)),
+                productCount: JSON.parse(decodeURIComponent(productContainer.data().productCount)) == null ? '0' : JSON.parse(decodeURIComponent(productContainer.data().productCount)),
                 productMarketingPrice: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPrice)),
                 productMarketingPriceCurrency: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPriceCurrency)),
                 productMin_zakaz: JSON.parse(decodeURIComponent(productContainer.data().productMin_zakaz)),
                 productNorma_upakovki: JSON.parse(decodeURIComponent(productContainer.data().productNorma_upakovki)),
-                productPartnerCount: JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)),
+                productPartnerCount: JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)) == null ? '0' : JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)),
                 productPrices: JSON.parse(decodeURIComponent(productContainer.data().productPrices)),
                 product_id: JSON.parse(decodeURIComponent(productContainer.data().product_id))
             },
@@ -160,6 +160,7 @@ $(document).ready(function () {
                 if(productData.productMarketingPrice !== null) {
                     var sd = +productData.productMarketingPriceCurrency;
                     orderPrice = +productData.productMarketingPrice * getRateOfExchange(sd);
+
                 }else{
                     if(productData.productPrices.price_range.length){
                         for(var r=0;r<productData.productPrices.price_range.length;r++){
@@ -181,6 +182,9 @@ $(document).ready(function () {
             if(productData.productMarketingPrice !== null) {
                 var sd = +productData.productMarketingPriceCurrency;
                 orderPrice = +productData.productMarketingPrice * getRateOfExchange(sd);
+                console.log('productData.productMarketingPrice = ' + productData.productMarketingPrice);
+                console.log('sd = ' + sd);
+                console.log('orderPrice = ' + orderPrice);
             }
         }
 
@@ -273,7 +277,7 @@ function cartCheck() {
                 if( $(this).find('.js-order_data').data().product_id == x[0] ){
 
 
-                    var productContainer = $(this).find('.js-order_data'),
+                    var productContainer = $(this).find('.js-order_data').first(),
                         productData = {
                             productCount: JSON.parse(decodeURIComponent(productContainer.data().productCount)),
                             productMarketingPrice: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPrice)),
@@ -292,6 +296,7 @@ function cartCheck() {
                         orderedPriceField = orderedBlock.find('.ordered_price .bold'),
                         orderValue = productID + '|' + productCount,
                         orderPrice = 0;
+
 
                     if(!productData.productPrices.price_not_available) {
                         if(productData.productPrices.price_range) {
@@ -374,7 +379,7 @@ function cartCheck() {
     }
     if(document.location.pathname == '/cart/'){
         if(cartString.length == 0) {
-            $('.product_cards_block._order').html('<h1>Вы еще не добавили ни одного товара к заказу</h1>')
+            $('.product_cards_block._order').html('<h1>Вы еще не добавили ни одного наименования в запрос</h1>')
         }
         var sum = 0;
         $('.ordered_price .bold').each(function () {

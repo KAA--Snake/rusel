@@ -77,11 +77,11 @@ class Product extends Model
                         ],
                         'properties' => [
                             'url' => [
-                                'type' => 'text',
+                                'type' => 'keyword',
                                 //'analyzer' => 'standard'
                             ],
-                            'url' => [
-                                'type' => 'keyword',
+                            'proizv_id' => [
+                                'type' => 'integer',
                                 //'analyzer' => 'standard'
                             ],
                             'section_id' => [
@@ -377,6 +377,57 @@ class Product extends Model
 
         return $response;
     }
+
+
+    /**
+     * Получает список товаров по списку их производителей
+     * properties.proizv_id
+     *
+     * @param $manufacturersIds
+     * @return array
+     * @internal param $manufacturersList
+     */
+    public function getProductByManufacturer($manufacturersIds){
+
+        if(count($manufacturersIds) <= 0){
+            return [];
+        }
+
+        $params = [
+            'body' => [
+                //'from' => $from,
+                //'size' => $maxSizeCnt,
+                'query' => [
+                    'constant_score' => [
+                        'filter' => [
+                            'terms' => [
+                                'properties.proizv_id' => $manufacturersIds
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $params = static::productData + $params;
+
+        //\Yii::$app->pr->print_r2($params);
+
+        $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+
+        //\Yii::$app->pr->print_r2($response);
+
+        //добавляем аксессуары к продуктам
+        $this->setAccessoriedProducts($response);
+
+        //\Yii::$app->pr->print_r2($response);
+
+        return $response;
+
+
+    }
+
+
 
 
     /**
