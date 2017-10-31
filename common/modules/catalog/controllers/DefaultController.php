@@ -15,7 +15,21 @@ class DefaultController extends Controller
 {
     public $layout = 'catalog';
 
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
 
+            'manufacturers' => [
+                'class' => 'common\modules\catalog\behaviours\Manufacturers_beh',
+                /*'in_attribute' => 'name',
+                'out_attribute' => 'slug',
+                'translit' => true*/
+            ]
+        ];
+    }
 
     public function import(){
         $section = new Section();
@@ -60,6 +74,8 @@ class DefaultController extends Controller
     public function actionIndex($pathForParse = false)
     {
 
+        //\Yii::$app->pr->print_r2($this->view->params);
+
         $perPage = \Yii::$app->getModule('catalog')->params['max_products_cnt'];
 
         $isNeedPerPage = \Yii::$app->request->get('perPage');
@@ -100,7 +116,7 @@ class DefaultController extends Controller
         $productModel = new Product();
 
         $product = $productModel->getProductByUrl($pathForParse);
-        //\Yii::$app->pr->print_r2($product);
+        //
         if($product){
 
             //получаем breadcrumbs

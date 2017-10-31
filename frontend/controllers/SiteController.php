@@ -47,6 +47,12 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+            'manufacturers' => [
+                'class' => 'common\modules\catalog\behaviours\Manufacturers_beh',
+                /*'in_attribute' => 'name',
+                'out_attribute' => 'slug',
+                'translit' => true*/
+            ]
         ];
     }
 

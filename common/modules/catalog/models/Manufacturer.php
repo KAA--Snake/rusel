@@ -114,5 +114,19 @@ class Manufacturer extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     * Возвращает список всех производителей
+     *
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getAllManufacturers(){
+        $result = static::find()
+            ->orderBy('m_name')
+            ->asArray()
+            ->all();
+
+        return $result;
+    }
+
 
 }

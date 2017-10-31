@@ -15,7 +15,18 @@ class SearchController extends Controller
     public $layout = 'searchFullWidth';
 
 
+    public function behaviors()
+    {
+        return [
 
+            'manufacturers' => [
+                'class' => 'common\modules\catalog\behaviours\Manufacturers_beh',
+                /*'in_attribute' => 'name',
+                'out_attribute' => 'slug',
+                'translit' => true*/
+            ]
+        ];
+    }
 
     /**
      * Первая страница поиска (выводит шаблон поиска по списку артикулов (через файл)

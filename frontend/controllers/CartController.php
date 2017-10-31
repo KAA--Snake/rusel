@@ -14,6 +14,20 @@ use yii\web\Controller;
 
 class CartController extends Controller
 {
+
+    public function behaviors()
+    {
+        return [
+
+            'manufacturers' => [
+                'class' => 'common\modules\catalog\behaviours\Manufacturers_beh',
+                /*'in_attribute' => 'name',
+                'out_attribute' => 'slug',
+                'translit' => true*/
+            ]
+        ];
+    }
+
     /**
      * Отдает аякс со списком товаров из корзины.
      * Сами ИДы товаров берет из куки Cart

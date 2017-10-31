@@ -147,22 +147,9 @@ AppAsset::register($this);
             <div class="col_220 fll">
 
                 <div class="supply_program">
-                    <div class="sp_header sp_collapsed">ПРОГРАММА ПОСТАВОК</div>
-                    <div class="sp_body">
-                        <div class="sp_filter_block">
-                            <input type="text" class="sp_filter" placeholder="Поиск производителя">
-                        </div>
-                        <ul class="sp_list js-scroll-pane">
-                            <!--<li class="sp_item subheader">ПОпулярные:</li>-->
-                            <li class="sp_item"><a href="">AAVID Thermalloy</a></li>
-                            <li class="sp_item"><a href="">3M</a></li>
-                            <li class="sp_item"><a href="">3MTOUCH</a></li>
-                            <li class="sp_item"><a href="">AAVID</a></li>
-                            <li class="sp_item"><a href="">ADESTO</a></li>
-                            <li class="sp_item"><a href="">ADI</a></li>
-                            <li class="sp_item"><a href="">ADVANTECH</a></li>
-                        </ul>
-                    </div>
+                    <? echo $this->render('@app/views/includes/manufacturers.php', [
+                        'manufacturers' => $this->params['manufacturers'],
+                    ]);?>
                 </div>
 
             </div>
