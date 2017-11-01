@@ -28,6 +28,7 @@ class Section extends \yii\db\ActiveRecord
     private $reParented = [];
     private $url;
     private $right; //правая граница дерева
+    public $childs;
 
     //сюда падает уровень вложенности при рекурсивном составлении дерева
     public $recursiveLevel = 1;
