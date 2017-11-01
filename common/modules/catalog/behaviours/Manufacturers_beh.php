@@ -16,9 +16,9 @@ use yii\web\Controller;
 
 class Manufacturers_beh extends Behavior
 {
-    public $in_attribute = 'name';
+/*    public $in_attribute = 'name';
     public $out_attribute = 'slug';
-    public $translit = true;
+    public $translit = true;*/
 
     public function events()
     {
@@ -29,7 +29,7 @@ class Manufacturers_beh extends Behavior
 
 
     /**
-     * Отдает список всех производителей
+     * Отдает список всех производителей и сохраняет его прямо в лейаут
      *
      * @return array|ActiveRecord[]
      */
@@ -37,12 +37,10 @@ class Manufacturers_beh extends Behavior
 
         $manufacturersModel = new Manufacturer();
         $manufacturers = $manufacturersModel->getAllManufacturers();
-
         //\Yii::$app->pr->print_r2($manufacturers);
-
         $this->owner->view->params['manufacturers'] = $manufacturers;
 
-        return $manufacturers;
+        return true;
     }
 
 }

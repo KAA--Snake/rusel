@@ -1,6 +1,6 @@
 <?php
 //\Yii::$app->pr->print_r2($manufacturers);
-//$manufacturers
+
 use yii\helpers\Url;
 ?>
 <div class="sp_header sp_collapsed">ПРОГРАММА ПОСТАВОК</div>

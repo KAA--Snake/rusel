@@ -10,6 +10,7 @@ namespace frontend\controllers;
 
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\Manufacturer;
+use common\modules\catalog\models\Section;
 use yii\web\Controller;
 
 class ManufacturerController extends Controller
@@ -44,19 +45,27 @@ class ManufacturerController extends Controller
         $manufacturer = $manufacturerModel->getByName($manufacturer);
 
         if(empty($manufacturer->m_id) || !isset($manufacturer->m_id)) {
-            return $this->render('byManufacturers', ['productsList' => []]);
+            return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);
         }
         //\Yii::$app->pr->print_r2($manufacturer);
 
         $productModel = new Product();
         $products = $productModel->getProductByManufacturer([$manufacturer->m_id]);
 
+        if(count($products) <= 0){
+            return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);
+        }
+
         //\Yii::$app->pr->print_r2($products);
 
         /** @TODO вынимаем структуру разделов для этих товаров. */
+        $sectionModel = new Section();
+        $groupedSections = $sectionModel->getTreeForProducts($products);
 
-
-
-        return $this->render('byManufacturers', ['productsList' => $products]);
+        return $this->render('productsList', [
+            'productsList' => $products,
+            'manufacturer' => $manufacturer->m_name,
+            'groupedSections' => $groupedSections,
+        ]);
     }
 }

@@ -33,7 +33,9 @@ class Section extends \yii\db\ActiveRecord
     public $recursiveLevel = 1;
     public $subLevel = 1;
 
-    public $childs;
+    private $unsortedSections; //сюда падают ВСЕ разделы без сортировки. Нужен для рекурсии
+
+    public $not_show;
 
     //для хранения ссылки на модуль
     private $catalogModule;
@@ -267,7 +269,6 @@ class Section extends \yii\db\ActiveRecord
         $tree = array();
 
         foreach ($data as $id => $node) {
-
             if ($node->parent_id == $rootID) {
                 //unset($data[$id]);
                 //continue;
@@ -548,7 +549,73 @@ class Section extends \yii\db\ActiveRecord
     }
 
 
+    /**
+     * Выводит в каталоге список
+     *
+     * @param $oneSibling
+     * @return array
+     * @internal param int $level
+     * @internal param $groupedSiblings
+     * @internal param $data
+     * @internal param int $rootID
+     */
+    public function listTree2($oneSibling){
 
+        //\Yii::$app->pr->print_r2($oneSibling);
+
+        if($this->recursiveLevel === 1){
+            $sub = '';
+            echo '<ul class="catalog_tree lv'.$this->recursiveLevel.'">';
+        }else{
+            $sub = ' sublvl';
+            echo '<ul class="catalog_tree lv'.$this->recursiveLevel.' sublvl collapsed">';
+        }
+
+
+
+        $overallChildsCnt = count($oneSibling);
+
+        $cnt = 0;
+        foreach ($oneSibling as $id => $oneChild) {
+            $classFst= '';
+            if($cnt == 0 && $this->recursiveLevel === 1){
+                $classFst .= ' ct_first';
+            }
+
+            $cnt++;
+
+            $class='';
+            if($overallChildsCnt == 1){
+                $class .= ' ct_last';
+            }
+
+            if(count($oneChild['childs']) > 0){
+                $class .= ' ct_dir';
+                $class .= ' child_collapsed';
+            }
+
+            echo '<li class="ct_item'.$class.$classFst.$sub.'">';
+
+            $url = Url::toRoute(['@catalogDir/' . $oneChild['url']]);
+            echo '<a href="'.$url.'">'.$oneChild['name'].'</a>';
+
+            if(isset($oneChild['childs']) && count($oneChild['childs']) > 0){
+                $this->recursiveLevel++;
+                $this->listTree2($oneChild['childs']);
+            }
+
+            echo '</li>';
+
+            $overallChildsCnt--;
+            //\Yii::$app->pr->print_r2($node->getAttributes());
+        }
+
+
+
+
+        echo '</ul>';
+        //return $tree;
+    }
 
     /**
      * Генерирует УРЛы для таблицы разделов
@@ -674,6 +741,113 @@ class Section extends \yii\db\ActiveRecord
     }
 
 
+    /**
+     *
+     * Отдает список всех разделов, но ТОЛЬКО для тех товаров, которые имеются в списке $manufacturers
+     *
+     * @param $manufacturers
+     * @return array
+     */
+    public function getTreeForProducts(&$manufacturers){
+        
+        $idsList =[];
+        
+        if(count($manufacturers) > 0){
+            foreach ($manufacturers as $manufacturer) {
+                //\Yii::$app->pr->print_r2($manufacturer);
+                $idsList[$manufacturer['_source']['section_id']] = $manufacturer['_source']['section_id'];
+            }
+        }
 
+        //$idsList = array_unique($idsList);
+        $unsortedSections = static::find()
+            //->where(['unique_id' => $idsList])
+            ->orderBy
+            (
+                ['depth_level' => SORT_DESC]
+                //['parent_id' => SORT_ASC]
+
+            )
+            ->asArray()
+            ->all();
+
+        //индексирование массива ИДами разделов
+        foreach($unsortedSections as $group){
+            $this->unsortedSections[$group['unique_id']] = $group;
+        }
+        unset($unsortedSections);
+
+        $this->deleteUnnecessarySections($idsList);
+
+        //пересобираем заново с уже измененными(убранными) разделами
+        $grouped = $this->buildTreeManufacturer($this->unsortedSections, 0);
+
+        //\Yii::$app->pr->print_r2($this->unsortedSections);
+
+        return $grouped;
+
+    }
+
+
+    /**
+     * Рекурсивно выводит структуру каталога
+     *
+     * @param $data
+     * @param int $rootID
+     * @return array
+     */
+    protected function buildTreeManufacturer(&$data, $rootID = 0) {
+
+        $tree = array();
+
+
+        foreach ($data as $id => $node) {
+
+            if ($node['parent_id'] == $rootID) {
+                unset($data[$id]);
+
+                $node['childs'] = $this->buildTreeManufacturer($data, $node['unique_id']);
+                $tree[$node['unique_id']] = $node;
+            }
+        }
+        return $tree;
+    }
+
+    /**
+     * проходит по всем предкам, проставляет им нужную инфу
+     */
+    protected function deleteUnnecessarySections($idsList){
+        //найдем совпадения
+        foreach($this->unsortedSections as $sectionId => $oneSection){
+
+            if(in_array($sectionId, $idsList)){
+                //echo 'found ! ' . \Yii::$app->pr->print_r2($oneSection) . '<br>';
+
+                //надо найти всех парентов и задать им какое-то св-во, типа ОК
+                $this->setParentsOk($sectionId);
+            }
+        }
+        
+        //после простановки ОК для всех парентов, снова пройдемся и удалим незадействованные разделы
+        foreach ($this->unsortedSections as $g => $unsortedSection) {
+            if(!isset($unsortedSection['have_manufacturer'])){
+                unset($this->unsortedSections[$g]);
+            }
+            
+        }
+        //\Yii::$app->pr->print_r2($oneGroup);
+    }
+
+    protected function setParentsOk($sectionId){
+        $thisSection = $this->unsortedSections[$sectionId];
+
+        //ставим типа ОК для этого раздела
+        $this->unsortedSections[$sectionId]['have_manufacturer'] = true;
+
+        if($thisSection['parent_id'] > 0){
+            //идем выше
+            $this->setParentsOk($thisSection['parent_id']);
+        }
+    }
 
 }

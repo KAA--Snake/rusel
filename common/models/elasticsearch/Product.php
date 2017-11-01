@@ -405,7 +405,8 @@ class Product extends Model
                             ]
                         ]
                     ]
-                ]
+                ],
+
             ]
         ];
 
