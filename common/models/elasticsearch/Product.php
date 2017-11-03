@@ -396,7 +396,7 @@ class Product extends Model
         $params = [
             'body' => [
                 //'from' => $from,
-                //'size' => $maxSizeCnt,
+                'size' => 10000,
                 'query' => [
                     'constant_score' => [
                         'filter' => [

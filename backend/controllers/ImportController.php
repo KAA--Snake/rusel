@@ -27,6 +27,8 @@ class ImportController extends Controller
     //@TODO временно отключаем валидацию токенов для тестирования
     public $enableCsrfValidation = false;
 
+
+
     /**
      * @inheritdoc
      */
@@ -189,6 +191,48 @@ class ImportController extends Controller
             ]
         );
     }
+
+
+    /**
+     * импорт списка производителей
+     *
+     * @return string
+     */
+    public function actionManufacturers(){
+        $catalogModule = \Yii::$app->getModule('catalog');
+        $allowedExtensions = $catalogModule->params['allowedExtensions'];
+
+        $uploaded = false;
+        $isProductsClear = false; //флаг - удалены ли товары
+
+        $model = new CatalogImport();
+
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
+
+            $model->file = UploadedFile::getInstance($model, 'file');
+
+            /** если есть файл- загрузим его @todo перенести логику в модель */
+            if(!empty($model->file)){
+
+                if ($model->upload()) {
+                    // file is uploaded successfully
+                    $uploaded = true;
+
+                    $model->import();
+
+                }
+            }
+
+        }
+
+        return $this->render('manufacturer', [
+                'allowedExtensions' => $allowedExtensions,
+                'uploaded' => $uploaded,
+                'model' => $model
+            ]
+        );
+    }
+
 
 
     /**

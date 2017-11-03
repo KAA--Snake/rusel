@@ -9,6 +9,7 @@
 namespace common\modules\catalog\modules\admin\models\import;
 
 use common\models\elasticsearch\Product;
+use common\modules\catalog\models\Manufacturer;
 use common\modules\catalog\modules\admin\models\import\ProductParser;
 use common\modules\catalog\models\Section;
 use yii\base\Model;
@@ -51,6 +52,34 @@ class CatalogXmlReader
             }
         }
     }
+
+
+    /**
+     *  Парсинг списк апроизводителей
+     */
+    public function parseProizvoditel(){
+        if($this->reader->nodeType == XMLREADER::ELEMENT && $this->reader->localName == 'proizvoditel') {
+
+            /**Если таблица разделов полная, очистим ее*/
+            if(!$this->isTableSectionClear){
+                Manufacturer::deleteAll();
+
+                //флаг - разделы очищены
+                $this->isTableSectionClear = true;
+            }
+
+
+            //задаем модель для записи результата
+            $this->model = new Manufacturer();
+
+            /*$this->reader->read();
+            if($this->reader->nodeType == XMLREADER::TEXT){
+                $ratio['name'] = $this->reader->value;
+            }*/
+            $this->result = simplexml_load_string($this->reader->readOuterXml());
+        }
+    }
+
 
 
     /**

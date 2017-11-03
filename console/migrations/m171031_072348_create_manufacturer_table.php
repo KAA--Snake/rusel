@@ -16,6 +16,8 @@ class m171031_072348_create_manufacturer_table extends Migration
             'id' => $this->primaryKey(),
             'm_id' => $this->integer()->notNull()->unsigned()->unique(),
             'm_name' => $this->string(),
+            'm_text' => $this->string(),
+            'm_group_ids' => $this->string(),
         ]);
 
         //create m_id iindex

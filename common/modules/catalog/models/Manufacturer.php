@@ -79,7 +79,7 @@ class Manufacturer extends \yii\db\ActiveRecord
         return [
             [['m_id'], 'required'],
             [['m_id'], 'integer'],
-            [['m_name'], 'string'],
+            [['m_name', 'm_text', 'm_group_ids'], 'string'],
             [['m_id'], 'unique'],
         ];
     }
@@ -93,6 +93,8 @@ class Manufacturer extends \yii\db\ActiveRecord
             'id' => 'id',
             'm_id' => 'Уникальный ID',
             'm_name' => 'Название',
+            'm_text' => 'Описание',
+            'm_group_ids' => 'ИД групп',
         ];
     }
 
@@ -127,6 +129,67 @@ class Manufacturer extends \yii\db\ActiveRecord
 
         return $result;
     }
+
+
+    /**
+     * Сохранение из парсера (используется при импорте каталога)
+     * @param $proizv
+     * @return bool
+     * @internal param $group
+     */
+    public function saveProizvoditel(&$proizv){
+
+        /*var_dump($proizv);
+        return true;*/
+
+        //\Yii::app()->db_postg->createCommand('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
+
+        $trn = Yii::$app->db_postg->beginTransaction();
+        try {
+
+            $selfSection = new static();
+            $r = [
+                'm_id' => intval($proizv->proizv_id),
+                'm_name' => strval($proizv->proizv_name),
+                'm_text' => strval($proizv->proizv_text),
+                'm_group_ids' => strval($proizv->proizv_group_id),
+            ];
+
+            $selfSection->setAttributes([
+                'm_id' => intval($proizv->proizv_id),
+                'm_name' => strval($proizv->proizv_name),
+                'm_text' => strval($proizv->proizv_text),
+                'm_group_ids' => strval($proizv->proizv_group_id),
+
+            ]);
+            //Yii::$app->pr->print_r2($r);
+
+
+            if ($selfSection->save(true)) {
+
+                $trn->commit();
+
+            } else {
+
+                $error = '<br />Ошибка сохранения <pre>' . $proizv . '</pre><br />';
+                Yii::$app->session->setFlash('error_'.intval($proizv->proizv_id), $error);
+                /*$errors = $selfSection->getErrors();
+                Yii::$app->pr->print_r2($errors);*/
+            }
+
+        } catch(Exception $e){
+            $trn->rollback();
+
+            $error = '<br />' . $e->getMessage() . '<br />';
+            Yii::$app->session->setFlash('error_'.intval($proizv->proizv_id), $error);
+        }
+
+        unset($proizv);
+
+        return true;
+
+    }
+
 
 
 }
