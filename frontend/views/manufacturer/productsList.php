@@ -3,7 +3,7 @@ use yii\helpers\Url;
 use common\modules\catalog\models\Section;
 use common\widgets\catalog\Paginator;
 
-echo 'Поиск по производителю ' . $manufacturer;
+echo 'Поиск по производителю ' . $manufacturer . ':<br><br><br>';
 
 /** список товаров лежит в $productsList */
 

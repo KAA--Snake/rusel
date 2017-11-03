@@ -760,7 +760,8 @@ class Section extends \yii\db\ActiveRecord
             //->where(['unique_id' => $idsList])
             ->orderBy
             (
-                ['depth_level' => SORT_DESC]
+                //['depth_level' => SORT_ASC]
+                ['sort' => SORT_ASC]
                 //['parent_id' => SORT_ASC]
 
             )

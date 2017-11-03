@@ -408,6 +408,9 @@ class Product extends Model
                         ]
                     ]
                 ],
+                'sort' => [
+                    'artikul' => ['order' => 'asc']
+                ],
 
             ]
         ];
