@@ -248,8 +248,6 @@ class Product extends Model
      */
     public function getProductsBySectionId($sectionId){
 
-        /** @TODO СДЕЛАТЬ ПАГИНАЦИЮ ТУТ from и size*/
-
         $maxSizeCnt = \Yii::$app->getModule('catalog')->params['max_products_cnt'];
         $from = 0;
         $page = 1; //изначально первая страница
@@ -393,10 +391,14 @@ class Product extends Model
             return [];
         }
 
+        //пробрасывается в контроллер из Pagination_beh.php
+        $pagination = \Yii::$app->controller->pagination;
+        //\Yii::$app->pr->print_r2($pagination);
+
         $params = [
             'body' => [
-                //'from' => $from,
-                'size' => 10000,
+                'from' => $pagination['from'],
+                'size' => $pagination['maxSizeCnt'],
                 'query' => [
                     'constant_score' => [
                         'filter' => [
@@ -414,14 +416,17 @@ class Product extends Model
 
         //\Yii::$app->pr->print_r2($params);
 
-        $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+        $response = Elastic::getElasticClient()->search($params);
 
-        //\Yii::$app->pr->print_r2($response);
+        $pagination['totalCount'] = $response['hits']['total'];
+
+        $response['productsList'] = $response['hits']['hits'];
+        $response['paginator'] = $pagination;
 
         //добавляем аксессуары к продуктам
         $this->setAccessoriedProducts($response);
 
-        //\Yii::$app->pr->print_r2($response);
+
 
         return $response;
 

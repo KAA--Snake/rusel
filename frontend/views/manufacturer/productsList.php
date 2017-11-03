@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use common\modules\catalog\models\Section;
+use common\widgets\catalog\Paginator;
 
 echo 'Поиск по производителю ' . $manufacturer;
 
@@ -8,12 +9,14 @@ echo 'Поиск по производителю ' . $manufacturer;
 
 /** список раздлелов лежит в $groupedSections */
 
-//\Yii::$app->pr->print_r2($productsList);
+//\Yii::$app->pr->print_r2($paginator);
 
 $sectionModel = new Section();
 
 ?>
+
 <div class="catalog_tree_container fll">
+
     <?php
     if(count($groupedSections) > 0){
         foreach ($groupedSections as $oneSibling) { ?>
@@ -63,3 +66,8 @@ $sectionModel = new Section();
         <hr>
     <?}?>
 </div>
+<?
+echo Paginator::widget([
+    'pagination' => $paginator,
+]);
+?>

@@ -746,19 +746,14 @@ class Section extends \yii\db\ActiveRecord
      *
      * Отдает список всех разделов, но ТОЛЬКО для тех товаров, которые имеются в списке $manufacturers
      *
-     * @param $manufacturers
+     * @param $groupIds
      * @return array
+     * @internal param $manufacturers
      */
-    public function getTreeForProducts(&$manufacturers){
-        
-        $idsList =[];
-        
-        if(count($manufacturers) > 0){
-            foreach ($manufacturers as $manufacturer) {
-                //\Yii::$app->pr->print_r2($manufacturer);
-                $idsList[$manufacturer['_source']['section_id']] = $manufacturer['_source']['section_id'];
-            }
-        }
+    public function getTreeForGroupIds($groupIds){
+
+
+        $idsList = explode(';', $groupIds);
 
         //$idsList = array_unique($idsList);
         $unsortedSections = static::find()

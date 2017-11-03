@@ -16,6 +16,7 @@ use yii\web\Controller;
 class ManufacturerController extends Controller
 {
     public $layout = 'searchFullWidth';
+    public $pagination;
 
 
     public function behaviors()
@@ -27,7 +28,12 @@ class ManufacturerController extends Controller
                 /*'in_attribute' => 'name',
                 'out_attribute' => 'slug',
                 'translit' => true*/
-            ]
+            ],
+            'pagination' => [
+                'class' => 'common\modules\catalog\behaviours\Pagination_beh',
+                'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
+
+            ],
         ];
     }
 
@@ -44,10 +50,10 @@ class ManufacturerController extends Controller
 
         $manufacturer = $manufacturerModel->getByName($manufacturer);
 
-        if(empty($manufacturer->m_id) || !isset($manufacturer->m_id)) {
+        if(empty($manufacturer->m_id) || !isset($manufacturer->m_id) || empty($manufacturer->m_group_ids)) {
             return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);
         }
-        //\Yii::$app->pr->print_r2($manufacturer);
+        //\Yii::$app->pr->print_r2($this->pagination);
 
         $productModel = new Product();
         $products = $productModel->getProductByManufacturer([$manufacturer->m_id]);
@@ -56,16 +62,17 @@ class ManufacturerController extends Controller
             return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);
         }
 
-        //\Yii::$app->pr->print_r2($products);
+        //\Yii::$app->pr->print_r2($this->pagination);
 
-        /** @TODO вынимаем структуру разделов для этих товаров. */
+        /** @TODO вынимаем структуру разделов. */
         $sectionModel = new Section();
-        $groupedSections = $sectionModel->getTreeForProducts($products);
+        $groupedSections = $sectionModel->getTreeForGroupIds($manufacturer->m_group_ids);
 
         return $this->render('productsList', [
-            'productsList' => $products,
+            'productsList' => $products['productsList'],
             'manufacturer' => $manufacturer->m_name,
             'groupedSections' => $groupedSections,
+            'paginator' => $products['paginator'],
         ]);
     }
 }
