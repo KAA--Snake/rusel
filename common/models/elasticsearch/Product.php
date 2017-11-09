@@ -399,6 +399,9 @@ class Product extends Model
             'body' => [
                 'from' => $pagination['from'],
                 'size' => $pagination['maxSizeCnt'],
+                'sort' => [
+                    'artikul' => ['order' => 'asc']
+                ],
                 'query' => [
                     'constant_score' => [
                         'filter' => [
@@ -408,10 +411,6 @@ class Product extends Model
                         ]
                     ]
                 ],
-                'sort' => [
-                    'artikul' => ['order' => 'asc']
-                ],
-
             ]
         ];
 

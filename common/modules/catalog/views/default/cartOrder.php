@@ -3,6 +3,7 @@
 use yii\helpers\Url;
 use common\modules\catalog\models\Section;
 use common\modules\catalog\models\currency\Currency;
+use yii\helpers\Html;
 ?>
 <?
 //\Yii::$app->pr->print_r2($cart);
@@ -10,6 +11,8 @@ use common\modules\catalog\models\currency\Currency;
 
 <div class="product_cards_block _order">
     <h1>Форма запроса</h1>
+
+    <?=$this->render('@frontend/views/includes/flash.php');?>
 
     <div class="_order_section _selected_products">
         <h2>Выбранные наименования</h2>
@@ -281,10 +284,7 @@ use common\modules\catalog\models\currency\Currency;
                                 <?if( isset($oneProduct['_source']['properties']['teh_doc_file']) ){?>
                                     <li class="product_tab_item"><a href="#techdoc">Техническая документация</a></li>
                                 <?}?>
-                                <?php /** товары внутри вкладки принадлежности*/ ?>
-                                <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
-                                    <li class="product_tab_item"><a href="#appurtenant">Принадлежности</a></li>
-                                <?php }?>
+
 
                             </ul>
 
@@ -341,19 +341,7 @@ use common\modules\catalog\models\currency\Currency;
                                     </div>
                                 </div>
                             <?}?>
-                            <?php /** товары внутри вкладки принадлежности*/ ?>
-                            <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
-                                <div class="product_tab_content" id="appurtenant">
 
-
-                                    <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
-
-
-                                    <div class="hide_tabs_wrap">
-                                        <div class="hide_tabs_btn">Свернуть</div>
-                                    </div>
-                                </div>
-                            <?php }?>
                         </div>
                         <!--<div class="hide_tabs_wrap">
                             <div class="hide_tabs_btn">Свернуть</div>
@@ -370,15 +358,18 @@ use common\modules\catalog\models\currency\Currency;
         Итого по выбранным наименованиям: <span class="sum_amount bold">000,00 руб</span>
     </div>
 
-    <form action="" name="order_request_form" id="order_request_form" class="order_request_form">
+    <form action="/order/send/" method="post" name="Order" id="order_request_form" class="order_request_form">
+
+        <?= Html :: hiddenInput(\Yii :: $app->getRequest()->csrfParam, \Yii::$app->getRequest()->getCsrfToken(), []); ?>
+
         <div class="_order_section _order_answer_vars">
             <h2>Варианты ответа на запрос</h2>
 
             <div class="form_part_wrap">
-                <input type="radio" id="var1" name="answer_var" class="radio_btn js-order-type" checked="checked" value="1">
+                <input type="radio" id="var1" name="Order[answer_var]" class="radio_btn js-order-type" checked="checked" value="1">
                 <label for="var1">Коммерческое предложение</label>
 
-                <input type="radio" id="var2" name="answer_var" class="radio_btn js-order-type org_required" value="2">
+                <input type="radio" id="var2" name="Order[answer_var]" class="radio_btn js-order-type org_required" value="2">
                 <label for="var2">Счет на оплату (потребуются данные организации)</label>
             </div>
 
@@ -391,17 +382,17 @@ use common\modules\catalog\models\currency\Currency;
                 <div class="row clear">
                     <div class="col col_3">
                         <label class="text_label" for="fio">ФИО:</label>
-                        <input type="text" id="fio" name="fio" class="_order_inp">
+                        <input type="text" id="fio" name="Order[fio]" class="_order_inp">
                     </div>
 
                     <div class="col col_3">
                         <label class="text_label" for="tel">Телефон:</label>
-                        <input type="text" id="tel" name="tel" class="_order_inp">
+                        <input type="text" id="tel" name="Order[tel]" class="_order_inp">
                     </div>
 
                     <div class="col col_3">
                         <label class="text_label" for="email">E-mail:</label>
-                        <input type="text" id="email" name="email" class="_order_inp" data-validation="email">
+                        <input type="text" id="email" name="Order[email]" class="_order_inp" data-validation="email">
                     </div>
 
                 </div>
@@ -409,7 +400,7 @@ use common\modules\catalog\models\currency\Currency;
                 <div class="row">
                     <div class="col col_1">
                         <label class="text_label" for="org">Организация или ИП:</label>
-                        <input type="text" id="org" name="org" class="_order_inp js-org">
+                        <input type="text" id="org" name="Order[org]" class="_order_inp js-org">
                         <div class="org_tooltip"><span class="org_tooltip_arrow"></span>Введите название, ИНН или адрес</div>
                     </div>
                     <div class="selected_org"></div>
@@ -421,19 +412,19 @@ use common\modules\catalog\models\currency\Currency;
             <h2>Требуемые условия поставки</h2>
 
             <div class="form_part_wrap">
-                <input type="radio" id="delivery_var1" name="delivery_var" class="radio_btn js-delivery-radio js-delivery-self_dispatch" value="1" checked="checked">
+                <input type="radio" id="delivery_var1" name="Order[delivery_var]" class="radio_btn js-delivery-radio js-delivery-self_dispatch" value="1" checked="checked">
                 <label for="delivery_var1">Самовывоз с пункта выдачи заказов (бесплатная услуга)
                     <span class="address">Адрес:
                     <a href=""><span class="addres_icon"></span> ул. Пушкина 24, дом 254, офис 25</a>
                 </span>
                 </label>
 
-                <input type="radio" id="delivery_var2" name="delivery_var" class="radio_btn js-delivery-radio js-delivery-half" value="2">
+                <input type="radio" id="delivery_var2" name="Order[delivery_var]" class="radio_btn js-delivery-radio js-delivery-half" value="2">
                 <label for="delivery_var2">Доставка транспортной компанией до терминала в ближайшем городе покупателя (платная услуга, дополнительно оплачивается покупателем заказа)
                     <a href="">Тарифы</a>
                 </label>
 
-                <input type="radio" id="delivery_var3" name="delivery_var" class="radio_btn js-delivery-radio js-delivery-full" value="3">
+                <input type="radio" id="delivery_var3" name="Order[delivery_var]" class="radio_btn js-delivery-radio js-delivery-full" value="3">
                 <label for="delivery_var3">Доставка транспортной компанией до «двери» покупателя (платная услуга, дополнительно оплачивается получателем заказа)
                     <a href="">Тарифы</a>
                 </label>
@@ -448,24 +439,24 @@ use common\modules\catalog\models\currency\Currency;
                 <div class="row clear js-delivery-input js-delivery-half hidden">
                     <div class="col col_3">
                         <label class="text_label" for="delivery_city">Выбрать город</label>
-                        <select class="_order_sel js-city-select" name="delivery_city" id="delivery_city">
+                        <select class="_order_sel js-city-select" name="Order[delivery_city]" id="delivery_city">
                             <option value=""></option>
                         </select>
                     </div>
                     <div class="col col_3">
                         <label class="text_label" for="delivery_contact_person">Контактное лицо:</label>
-                        <input type="text" id="delivery_contact_person" name="delivery_contact_person" class="_order_inp">
+                        <input type="text" id="delivery_contact_person" name="Order[delivery_contact_person]" class="_order_inp">
                     </div>
                     <div class="col col_3">
                         <label class="text_label" for="delivery_tel">Телефон для связи:</label>
-                        <input type="text" id="delivery_tel" name="delivery_tel" class="_order_inp">
+                        <input type="text" id="delivery_tel" name="Order[delivery_tel]" class="_order_inp">
                     </div>
                 </div>
 
                 <div class="row js-delivery-input js-delivery-full hidden">
                     <div class="col col_1">
                         <label class="text_label" for="delivery_address">Точный адрес для доставки «до двери»:</label>
-                        <input type="text" id="delivery_address" name="delivery_address" class="_order_inp">
+                        <input type="text" id="delivery_address" name="Order[delivery_address]" class="_order_inp">
                     </div>
                 </div>
             </div>
@@ -477,7 +468,7 @@ use common\modules\catalog\models\currency\Currency;
         <div class="_order_section _comment">
             <h2>Примечание к запросу</h2>
             <label class="text_label" for="order_comment">Текст примечания:</label>
-            <textarea name="order_comment" class="order_comment" id="order_comment" cols="30" rows="10"></textarea>
+            <textarea name="Order[order_comment]" class="order_comment" id="order_comment" cols="30" rows="10"></textarea>
         </div>
 
         <div class="_order_submit_wrap">

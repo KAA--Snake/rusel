@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Url;
+use common\modules\catalog\models\currency\Currency;
 
 //здесь выводится все по товару
 //\Yii::$app->pr->print_r2($oneProduct);
@@ -120,13 +121,19 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                 </td>
                 <td class="left_bordered">
                     <div class="card_part prices">
-                        <?php if(!empty($oneProduct['marketing']['price']) && $oneProduct['marketing']['price'] > 0){ ?>
+                        <?php if(!empty($oneProduct['marketing']['price']) && $oneProduct['marketing']['price'] > 0){
+                            $price = Currency::getPriceForCurrency(
+                                $oneProduct['marketing']['currency'],
+                                $oneProduct['marketing']['price'],
+                                2
+                            );
+                            ?>
 
                             <div class="special_tape"><?= $oneProduct['marketing']['name']; ?></div>
                             <div class="price_vars">
                                 <div class="price_var_item clear">
                                     <span class="count fll"></span>
-                                    <span class="price flr"><?= $oneProduct['marketing']['price']; ?> р/шт</span>
+                                    <span class="price flr"><?= $price ?> р/шт</span>
                                 </div>
                             </div>
 
@@ -163,11 +170,18 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
                                                 if(count($onePrice) > 0){
                                                     foreach($onePrice as $singlePrices){
+
+                                                        $price = Currency::getPriceForCurrency(
+                                                            $singlePrices['currency'],
+                                                            $singlePrices['value'],
+                                                            2
+                                                        );
+
                                                         ?>
 
                                                         <div class="price_var_item clear">
                                                             <span class="count fll"><?= $singlePrices['range'];?></span>
-                                                            <span class="price flr"><?= $singlePrices['value'];?> р/шт</span>
+                                                            <span class="price flr"><?= $price;?> р/шт</span>
                                                         </div>
 
                                                         <?php

@@ -10,6 +10,7 @@ namespace frontend\controllers;
 
 
 use common\models\elasticsearch\Product;
+use common\modules\catalog\models\Order;
 use yii\web\Controller;
 
 class CartController extends Controller
@@ -73,8 +74,17 @@ class CartController extends Controller
             //\Yii::$app->pr->print_r2($products);
         }
 
+        $orderModel = new Order();
+        //var_dump(compact('orderModel'));
 
-        return $this->render('@common/modules/catalog/views/default/cartOrder', ['cart' => $products]);
+        //die();
+
+        return $this->render('@common/modules/catalog/views/default/cartOrder',
+            [
+                'cart' => $products,
+                'form_model' => compact('orderModel')
+
+            ]);
 
 
 //die();
