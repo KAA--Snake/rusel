@@ -29,7 +29,7 @@ class OrderController extends Controller
      */
     public function actionSend(){
 
-        Yii::$app->session->addFlash('something', 'ORDER SUCCESSFULL ADDED');
+        Yii::$app->session->addFlash('something', print_r(Yii::$app->request->post()['Order'], true));
 
         $form_model = new Order();
 

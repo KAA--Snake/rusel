@@ -169,4 +169,45 @@ class CatalogImport extends Model
 
     }
 
+
+    /**
+     * Отправляет запрос на ерп сервер данные по созданному заказу
+     * отправка готова, @TODO осталось написать остальной функционал
+     */
+    public function sendOrderToErp($fileName, $result){
+
+        $ch = curl_init( 'https://31.132.168.141:9999/exchange?type=client_query&query='.$fileName );
+        # Setup request to send json via POST.
+
+        file_put_contents('result.res', json_encode($result));
+
+        $payload = array(
+            'type' => 'client_query',
+            'query' => $fileName,
+            'file' => '@result.res',
+        ) ;
+
+        //$payload = http_build_query($payload);
+
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+        //curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        //curl_setopt($ch, CURLOPT_USERPWD, Elastic::$user . ":" . Elastic::$pass);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+        //curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+
+        $result = curl_exec($ch);
+        file_put_contents('test_result', print_r($result, true));
+        //file_put_contents('test_payload', print_r($payload, true));
+
+        curl_close($ch);
+
+    }
+
+
 }

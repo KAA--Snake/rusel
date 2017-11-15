@@ -23,6 +23,13 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
+<!-- Excitel {call button} -->
+<script type="text/javascript">
+    //<![CDATA[
+    (function(){var widget=document.createElement('script');widget.type='text/javascript';widget.async=true;widget.src='//excitel.net/widget-0d05ef9d93eb7cea8a104d6cefcbbee8.js';document.getElementsByTagName('head')[0].appendChild(widget);})();
+    //]]>
+</script>
+<!-- Excitel {/call button} -->
 <body>
 <?php $this->beginBody() ?>
 
