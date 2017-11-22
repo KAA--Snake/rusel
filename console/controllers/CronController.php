@@ -31,7 +31,7 @@ class CronController extends Controller
 
 
     /**
-     * Раббит демон тут
+     * Раббит демон тут, висит через супервизорд
      */
     public function actionRabbitListen()
     {
@@ -42,7 +42,7 @@ class CronController extends Controller
             $channel = $connection->channel();
 
             $channel->queue_declare(
-                'invoice_queue',	#queue name - Имя очереди может содержать до 255 байт UTF-8 символов
+                'main_queue',	#queue name - Имя очереди может содержать до 255 байт UTF-8 символов
                 false,      	#passive - может использоваться для проверки того, инициирован ли обмен, без того, чтобы изменять состояние сервера
                 true,      	#durable - убедимся, что RabbitMQ никогда не потеряет очередь при падении - очередь переживёт перезагрузку брокера
                 false,      	#exclusive - используется только одним соединением, и очередь будет удалена при закрытии соединения
@@ -69,13 +69,13 @@ class CronController extends Controller
              * идентификатор, называемый “тег получателя”.
              */
             $channel->basic_consume(
-                'invoice_queue',    	#очередь
+                'main_queue',    	#очередь
                 '',                  #тег получателя - Идентификатор получателя, валидный в пределах текущего канала. Просто строка
                 false,               #не локальный - TRUE: сервер не будет отправлять сообщения соединениям, которые сам опубликовал
                 false,               #без подтверждения - false: подтверждения включены, true - подтверждения отключены. отправлять соответствующее подтверждение обработчику, как только задача будет выполнена
                 false,                 #эксклюзивная - к очереди можно получить доступ только в рамках текущего соединения
                 false,                 #не ждать - TRUE: сервер не будет отвечать методу. Клиент не должен ждать ответа
-                array($this, 'process')	#функция обратного вызова - метод, который будет принимать сообщение
+                array($this, 'builder')	#функция обратного вызова - метод, который будет принимать сообщение
             );
 
             while(count($channel->callbacks)) {
@@ -87,23 +87,24 @@ class CronController extends Controller
             $connection->close();
         }
         catch(Exception $e){
-            file_put_contents('/webapp/RabbitListen', 'error' .$e->getMessage(), FILE_APPEND);
+            //file_put_contents('/webapp/RabbitListen', 'error' .$e->getMessage(), FILE_APPEND);
 
         }
 
     }
 
     /**
-     * обработка полученного запроса
+     * Паттерн Строитель
+     * На основе переданной сообщения (и очереди) будет строить соответствубщий класс и вызывать его методы
      *
      * @param AMQPMessage $msg
      */
-    public function process(AMQPMessage $msg)
+    public function builder(AMQPMessage $msg)
     {
         //$this->generatePdf()->sendEmail();
 
 
-        file_put_contents('/webapp/RabbitProcess', $msg->body, FILE_APPEND);
+        file_put_contents('/webapp/RabbitProcess', print_r($msg, true));
 
         /**
          * Если получатель умирает, не отправив подтверждения, брокер

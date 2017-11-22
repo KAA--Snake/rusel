@@ -37,13 +37,27 @@ class OrderController extends Controller
 
         if($form_model->load(Yii::$app->request->post())){
 
+
+            /** сначала сохраняем заказ в бд */
+
+
+            \Yii::$app->pr->print_r2(Yii::$app->request->post());
+            $form_model->save();
+            die();
+
+            /** потом отправляем в очередь на отправку заказа в ЕРП */
+
+
+
+
+
             //$connection = new AMQPStreamConnection('rabbit', 5672, 'rabbit_user', 'rabbit3457');
             $connection = new AMQPStreamConnection('rabbit', 5672, 'user', 'pass');
             //$connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
             $channel = $connection->channel();
 
             $channel->queue_declare(
-                'invoice_queue',	#queue name - Имя очереди может содержать до 255 байт UTF-8 символов
+                'main_queue',	#queue name - Имя очереди может содержать до 255 байт UTF-8 символов
                 false,      	#passive - может использоваться для проверки того, инициирован ли обмен, без того, чтобы изменять состояние сервера
                 true,      	#durable - убедимся, что RabbitMQ никогда не потеряет очередь при падении - очередь переживёт перезагрузку брокера
                 false,      	#exclusive - используется только одним соединением, и очередь будет удалена при закрытии соединения
@@ -58,7 +72,7 @@ class OrderController extends Controller
             $channel->basic_publish(
                 $msg,           	#сообщение
                 '',             	#обмен
-                'invoice_queue' 	#ключ маршрутизации (очередь)
+                'main_queue' 	#ключ маршрутизации (очередь)
             );
 
             $channel->close();
@@ -70,7 +84,13 @@ class OrderController extends Controller
             //Yii::$app->pr->print_r2(Yii::$app->request->post());
 
         }
-        //Yii::$app->pr->print_r2();
+
+
+        $file = file_get_contents('/webapp/RabbitProcess');
+
+
+
+        Yii::$app->pr->print_r2($file);
 
     }
 }
