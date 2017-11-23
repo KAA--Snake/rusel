@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
 
 class Order extends ActiveRecord
 {
-    public $answer_var;
+   /* public $answer_var;
     public $fio;
     public $tel;
     public $email;
@@ -26,9 +26,6 @@ class Order extends ActiveRecord
     public $delivery_address;
     public $order_comment;
 
-    public $source = 'rusel24.ru';
-    public $date;
-    public $time;
     public $client_id;
     public $client_ip;
     public $client_geolocation;
@@ -37,9 +34,20 @@ class Order extends ActiveRecord
 
     public $client_inn;
     public $client_kpp;
-    public $delivery_city_index;
+    public $delivery_city_index;*/
 
-    public $products; //сюда будут падать кука с товарами (целиком, пусть парсят сами в ЕРП)
+
+    /*public $date;
+    public $time;*/
+    public $is_sent_to_erp;
+    public $source = 'rusel24.ru';
+    //public $products; //сюда будут падать кука с товарами (целиком, пусть парсят сами в ЕРП)
+
+
+    public static function tableName()
+    {
+        return 'public.order';
+    }
 
 
     public function rules()
@@ -67,12 +75,45 @@ class Order extends ActiveRecord
                 'delivery_tel',
                 'source'
             ], 'string'],
-            ['client_id', 'integer'],
+            [['id','client_id', 'is_sent_to_erp'], 'integer'],
             [[
                 'answer_var',
                 'date',
                 'time',
             ], 'safe'],
+        ];
+    }
+
+    public function rulsess()
+    {
+        return [
+            [['email'], 'required'],
+            [[
+                'email',
+                'client_inn',
+                'client_kpp',
+                'delivery_city_index',
+                'client_ip',
+                'client_geolocation',
+                'products',
+                'fio',
+                'tel',
+                'email',
+                'org',
+                'order_comment',
+                'client_shortname',
+                'delivery_address',
+                'client_fullname',
+                'delivery_var',
+                'delivery_city',
+                'delivery_contact_person',
+                'delivery_tel',
+                'source','id','client_id', 'is_sent_to_erp',
+                'answer_var',
+                'date',
+                'time',
+
+            ], 'safe']
         ];
     }
 
@@ -82,12 +123,22 @@ class Order extends ActiveRecord
             return false;
         }
 
+        //\Yii::$app->pr->print_r2($insert);
+
+
         if(!$this->date){
             $this->date = date('Y-m-d');
         }
         if(!$this->time){
             $this->time = date('h:i:s');
         }
+
+        if(!$this->is_sent_to_erp){
+            $this->is_sent_to_erp = 0;
+        }
+
+        $this->products = $_COOKIE['cart'];
+
         // ...custom code here...
         return true;
     }

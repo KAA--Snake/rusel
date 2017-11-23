@@ -9,7 +9,9 @@
 namespace frontend\controllers;
 
 
+use common\models\erp\Export;
 use common\modules\catalog\models\Order;
+use common\modules\catalog\models\rabbit\Order\RabbitOrder;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use yii\web\Controller;
@@ -31,52 +33,42 @@ class OrderController extends Controller
      */
     public function actionSend(){
 
-        Yii::$app->session->addFlash('something', print_r(Yii::$app->request->post()['Order'], true));
+        //Yii::$app->session->addFlash('something', print_r(Yii::$app->request->post()['Order'], true));
 
         $form_model = new Order();
 
         if($form_model->load(Yii::$app->request->post())){
 
 
+            if(!$form_model->validate()){
+                Yii::$app->session->addFlash('error', 'Ошибка сохранения заказа!');
+                return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+            }
+
             /** сначала сохраняем заказ в бд */
-
-
-            \Yii::$app->pr->print_r2(Yii::$app->request->post());
             $form_model->save();
-            die();
 
-            /** потом отправляем в очередь на отправку заказа в ЕРП */
-
+            $forRabbitSendData = $form_model->getAttributes();
 
 
+            /** потом отправляем в очередь на отправку заказа в ЕРП @TODO раскомментить после тестирования ниже ! */
+            //$rabbitModel = new RabbitOrder('order_queue');
+            //$rabbitModel->sendDataToRabbit(json_encode($forRabbitSendData));
 
 
-            //$connection = new AMQPStreamConnection('rabbit', 5672, 'rabbit_user', 'rabbit3457');
-            $connection = new AMQPStreamConnection('rabbit', 5672, 'user', 'pass');
-            //$connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
-            $channel = $connection->channel();
+            //@TODO ТЕСТОВАЯ ОТПРАВКА НАПРЯМУЮ БЕЗ РАББИТА ! УДАЛИТЬ ПОСЛЕ ТЕСТИРОВАНИЯ !
+            $export = new Export();
+            $export->exportOrder(json_encode($forRabbitSendData));
 
-            $channel->queue_declare(
-                'main_queue',	#queue name - Имя очереди может содержать до 255 байт UTF-8 символов
-                false,      	#passive - может использоваться для проверки того, инициирован ли обмен, без того, чтобы изменять состояние сервера
-                true,      	#durable - убедимся, что RabbitMQ никогда не потеряет очередь при падении - очередь переживёт перезагрузку брокера
-                false,      	#exclusive - используется только одним соединением, и очередь будет удалена при закрытии соединения
-                false       	#autodelete - очередь удаляется, когда отписывается последний подписчик
-            );
 
-            $msg = new AMQPMessage(
-                5738234,
-                array('delivery_mode' => 2) #создаёт сообщение постоянным, чтобы оно не потерялось при падении или закрытии сервера
-            );
 
-            $channel->basic_publish(
-                $msg,           	#сообщение
-                '',             	#обмен
-                'main_queue' 	#ключ маршрутизации (очередь)
-            );
 
-            $channel->close();
-            $connection->close();
+            //$file = file_get_contents('/webapp/RabbitProcess');
+
+
+
+            //Yii::$app->pr->print_r2($file);
+
 
             //$this->redirect()
             //return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
@@ -86,11 +78,7 @@ class OrderController extends Controller
         }
 
 
-        $file = file_get_contents('/webapp/RabbitProcess');
 
-
-
-        Yii::$app->pr->print_r2($file);
 
     }
 }

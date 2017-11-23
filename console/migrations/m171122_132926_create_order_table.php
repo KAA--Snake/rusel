@@ -40,6 +40,8 @@ class m171122_132926_create_order_table extends Migration
             'client_inn' => $this->string(),
             'client_kpp' => $this->string(),
             'delivery_city_index' => $this->integer(),
+
+            'is_sent_to_erp' => $this->integer(),
         ]);
 
         //create date index
@@ -63,6 +65,13 @@ class m171122_132926_create_order_table extends Migration
             'org'
         );
 
+        //create is_sent_to_erp index
+        $this->createIndex(
+            'idx-is_sent_to_erp',
+            'order',
+            'is_sent_to_erp'
+        );
+
     }
 
     /**
@@ -70,7 +79,7 @@ class m171122_132926_create_order_table extends Migration
      */
     public function down()
     {
-        $this->dropTable('order');
+
 
         // drops index for column `date`
         $this->dropIndex(
@@ -89,6 +98,14 @@ class m171122_132926_create_order_table extends Migration
             'idx-org',
             'order'
         );
+
+        // drops index for column `is_sent_to_erp`
+        $this->dropIndex(
+            'idx-is_sent_to_erp',
+            'order'
+        );
+
+        $this->dropTable('order');
     }
 }
 
