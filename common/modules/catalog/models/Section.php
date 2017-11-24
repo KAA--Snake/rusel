@@ -579,7 +579,7 @@ class Section extends \yii\db\ActiveRecord
         $cnt = 0;
         foreach ($oneSibling as $id => $oneChild) {
             $classFst= '';
-            if($cnt == 0 && $this->recursiveLevel === 1){
+            if($cnt == 0 && $this->recursiveLevel === 1 && $overallChildsCnt > 1){
                 $classFst .= ' ct_first';
             }
 
