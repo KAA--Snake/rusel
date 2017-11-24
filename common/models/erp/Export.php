@@ -60,39 +60,31 @@ class Export
      */
     public function sendOrderToErp($order){
 
-        $ch = curl_init( 'https://31.132.168.141:9999/exchange?type=client_query' );
-        # Setup request to send json via POST.
-
         $payload = array(
             'type' => 'client_query',
             'order' => $order,
         );
 
-        echo 'на адрес https://31.132.168.141:9999/exchange?type=client_query <br> ';
+        /*echo 'на адрес https://31.132.168.141:9999/exchange?type=client_query <br> ';
         echo 'уходят следующие данные, используя метод POST: <br> ';
 
-        \Yii::$app->pr->print_r2($payload);
+        \Yii::$app->pr->print_r2($payload);*/
 
-        //var_dump($payload);
+        //$url ="http://rusel24.fvds.ru/test/post/";
+        $url ="https://31.132.168.141:9999/exchange?type=client_query";
 
-        //$payload = http_build_query($payload);
-
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-        //curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        //curl_setopt($ch, CURLOPT_USERPWD, Elastic::$user . ":" . Elastic::$pass);
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt( $ch, CURLOPT_POST, true);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, http_build_query($payload));
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, array("X-HTTP-Method-Override:'POST','Content-Type:application/x-www-form-urlencoded','Content-Length: '" .     strlen(http_build_query($payload))));
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, false);
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
-        //curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));
-
-        $result = curl_exec($ch);
-
-        //file_put_contents('test_result', print_r($result, true));
-        //file_put_contents('test_payload', print_r($payload, true));
+        $result = curl_exec( $ch );
 
         curl_close($ch);
 
@@ -102,15 +94,8 @@ class Export
 
 
     public function exportOrder($order){
-        $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
 
         $result = $this->sendOrderToErp($order);
-
-        echo '<br>';
-        echo 'Ответ от сервера: <br>';
-        \Yii::$app->pr->print_r2($result);
-
-        //var_dump($result);
 
         if($result == 'client_query:ok'){
 

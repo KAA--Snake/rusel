@@ -9,6 +9,7 @@
 namespace common\modules\catalog\models;
 
 
+use common\models\elasticsearch\Product;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 
@@ -76,6 +77,9 @@ class Order extends ActiveRecord
                 'source'
             ], 'string'],
             [['id','client_id', 'is_sent_to_erp'], 'integer'],
+            ['email', 'default', 'value' => date('Y-m-d') ],
+            ['time', 'default', 'value' => date('H:i:s') ],
+            ['products', 'default', 'value' => $this->__getOrderProducts() ],
             [[
                 'answer_var',
                 'date',
@@ -84,38 +88,6 @@ class Order extends ActiveRecord
         ];
     }
 
-    public function rulsess()
-    {
-        return [
-            [['email'], 'required'],
-            [[
-                'email',
-                'client_inn',
-                'client_kpp',
-                'delivery_city_index',
-                'client_ip',
-                'client_geolocation',
-                'products',
-                'fio',
-                'tel',
-                'email',
-                'org',
-                'order_comment',
-                'client_shortname',
-                'delivery_address',
-                'client_fullname',
-                'delivery_var',
-                'delivery_city',
-                'delivery_contact_person',
-                'delivery_tel',
-                'source','id','client_id', 'is_sent_to_erp',
-                'answer_var',
-                'date',
-                'time',
-
-            ], 'safe']
-        ];
-    }
 
     public function beforeSave($insert)
     {
@@ -125,23 +97,53 @@ class Order extends ActiveRecord
 
         //\Yii::$app->pr->print_r2($insert);
 
-
-        if(!$this->date){
-            $this->date = date('Y-m-d');
-        }
-        if(!$this->time){
-            $this->time = date('h:i:s');
-        }
-
-        if(!$this->is_sent_to_erp){
-            $this->is_sent_to_erp = 0;
-        }
-
-        $this->products = $_COOKIE['cart'];
-
         // ...custom code here...
         return true;
     }
+
+
+    /**
+     * Вынимает все товары из куки корзины,
+     * @return mixed
+     * @internal param $order
+     */
+    private function __getOrderProducts(){
+
+
+        $orders = [];
+        $neededIds = [];
+
+        $products = explode('&', $_COOKIE['cart']);
+        //\Yii::$app->pr->print_r2($products);
+        if(count($products) > 0){
+            foreach($products as $oneProduct){
+                $productData = explode('|', $oneProduct);
+
+                $productId = $productData[0];
+                $productCount = $productData[1];
+
+                //заполняем для будущей выборки товаров
+                $neededIds[] = $productId;
+
+                $orders[$productId] = [
+                    'count' => $productCount
+                ];
+
+            }
+        }
+
+        //тепреь делаем выборку
+        //$productsDetailed =
+
+        \Yii::$app->pr->print_r2($orders);
+
+        return '';
+
+        $order = [];
+
+        return $order;
+    }
+
 
 
 }
