@@ -162,6 +162,9 @@ class Order extends ActiveRecord
             BuyHelper::setPriceForOrderProduct($orders[$oneProduct['_source']['id']]);
         }
 
+        //ID|количество|цена|код_валюты
+
+
         //\Yii::$app->pr->print_r2($orders);
         //и возвращаем для сохранения полный json с заказом
         $order = json_encode($orders);
@@ -170,5 +173,62 @@ class Order extends ActiveRecord
     }
 
 
+    /**
+     * Формирует структуру заказа для отправки в ЕРП
+     * структура: ID|количество|цена|код_валюты
+     *
+     * @return array
+     */
+    public function getDataForErp(){
+        $products = json_decode($this->products);
+        $erpProducts = [];
+
+        if(count($products) > 0){
+            foreach($products as $oneProduct){
+                $oneProductStroke = [];
+
+                $oneProductStroke[] = $oneProduct->id;
+                $oneProductStroke[] = $oneProduct->count;
+                $oneProductStroke[] = $oneProduct->price;
+                $oneProductStroke[] = $oneProduct->currency;
+
+                $oneProductStroke = implode('|', $oneProductStroke);
+
+                $erpProducts[] = $oneProductStroke;
+
+
+            }
+        }
+
+        $erpProducts = implode('&', $erpProducts);
+
+
+        return $erpProducts;
+    }
+
+
+
+
+    public function sendMail(){
+        // Set layout params
+
+        //\Yii::$app->mailer->getView()->params['userName'] = $this->username;
+        $params = ['paramExample' => '123'];
+
+        $view = 'created';
+
+        $result = \Yii::$app->mailer->compose([
+            'html' => 'views/order/order.' . $view . '.html.php',
+            'text' => 'views/order/order.' . $view . '.text.php',
+        ], $params)
+            ->setTo(['smu_139@mail.ru' => 'Сергей'])
+            ->setSubject('Поступил новый заказ')
+            ->send();
+
+        // Reset layout params
+        //\Yii::$app->mailer->getView()->params['userName'] = null;
+
+        return $result;
+    }
 
 }

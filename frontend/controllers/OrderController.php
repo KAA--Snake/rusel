@@ -52,16 +52,22 @@ class OrderController extends Controller
              * сначала сохраняем заказ в бд
              * при этом автоматически в заказ подтянутся данные по ценам при сохранении
              */
-
-
             $form_model->save();
 
-            $forRabbitSendData = $form_model->getAttributes();
+            //$forRabbitSendData = $form_model->getAttributes();
 
+            //присоединяем ее к заказу
+            $forRabbitSendData= [];
+
+            //это тут передается для того, чтобы после экспорта обновить данные в заказе
+            $forRabbitSendData['id'] = $form_model->id;
+
+            //получаем строку для ЕРП вида ID|количество|цена|код_валюты&ID|количество|цена|код_валюты& etc...
+            $forRabbitSendData['dataForErp'] = $form_model->getDataForErp();
 
             /** потом отправляем в очередь на отправку заказа в ЕРП @TODO раскомментить после тестирования ниже ! */
-            //$rabbitModel = new RabbitOrder('order_queue');
-            //$rabbitModel->sendDataToRabbit(json_encode($forRabbitSendData));
+            $rabbitModel = new RabbitOrder('order_queue');
+            $rabbitModel->sendDataToRabbit(json_encode($forRabbitSendData));
 
 
             //@TODO ТЕСТОВАЯ ОТПРАВКА НАПРЯМУЮ БЕЗ РАББИТА ! УДАЛИТЬ ПОСЛЕ ТЕСТИРОВАНИЯ !
@@ -69,6 +75,8 @@ class OrderController extends Controller
             $export->exportOrder(json_encode($forRabbitSendData));
 
 
+            /** отправляем письмо о новом заказе */
+            $form_model->sendMail();
 
 
             //$file = file_get_contents('/webapp/RabbitProcess');

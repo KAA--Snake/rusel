@@ -78,8 +78,9 @@ class BuyHelper
                 $allowedBuyPrice['currency'],
                 $allowedBuyPrice['value']
             );
-            $product['buyPrice'] = $price;
-            $product['overallPrice'] = $price * $product['count'];
+            $product['price'] = $price;
+            //$product['overallPrice'] = $price * $product['count'];
+            $product['currency'] = $allowedBuyPrice['currency'];
         }
         //\Yii::$app->pr->print_r2($product);
 

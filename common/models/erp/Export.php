@@ -56,7 +56,8 @@ class Export
 
     /**
      * Отправляет запрос на ерп сервер данные по созданному заказу
-     * отправка готова, @TODO осталось написать остальной функционал
+     * @param $order
+     * @return mixed
      */
     public function sendOrderToErp($order){
 
@@ -93,18 +94,23 @@ class Export
     }
 
 
-    public function exportOrder($order){
+    /**
+     *
+     * Отправляет данные по заказу в ЕРП.
+     *
+     * @param $orderJson
+     * @return bool
+     */
+    public function exportOrder($orderJson){
 
-        $result = $this->sendOrderToErp($order);
+        $orderData = json_decode($orderJson);
+
+        $result = $this->sendOrderToErp(json_encode($orderJson->dataForErp));
 
         if($result == 'client_query:ok'){
 
             //если успешно отправилось, записать в заказ
             $orderModel = new Order();
-
-            $orderData = json_decode($order);
-
-
 
             if(empty($orderData->id) || $orderData->id <= 0){
                 //если нет заказа, прекратим очередь для этого экспорта. Пусть разбираются сами в причине.

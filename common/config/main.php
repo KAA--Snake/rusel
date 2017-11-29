@@ -57,8 +57,8 @@ return [
 
 
             //'viewPath' => '@app/mail',
-            'htmlLayout' => 'layouts/main-html',
-            'textLayout' => 'layouts/main-text',
+            'htmlLayout' => 'layouts/html',
+            'textLayout' => 'layouts/text',
             'messageConfig' => [
                 'charset' => 'UTF-8',
                 'from' => ['ordsite@rusel24.ru' => 'Rusel24.ru'],
