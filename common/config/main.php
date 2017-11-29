@@ -54,6 +54,26 @@ return [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+
+
+            //'viewPath' => '@app/mail',
+            'htmlLayout' => 'layouts/main-html',
+            'textLayout' => 'layouts/main-text',
+            'messageConfig' => [
+                'charset' => 'UTF-8',
+                'from' => ['ordsite@rusel24.ru' => 'Rusel24.ru'],
+            ],
+
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
+                'username' => 'ordsite@rusel24.ru',
+                'password' => 'Sn7ee7HQuQ',
+                'port' => '465', // Port 25 is a very common port too
+                'encryption' => 'ssl', // It is often used, check your provider or mail server specs
+            ],
+
+
         ],
 
         'cache' => [

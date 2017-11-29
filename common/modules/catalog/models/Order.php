@@ -9,6 +9,7 @@
 namespace common\modules\catalog\models;
 
 
+use common\helpers\cart\BuyHelper;
 use common\models\elasticsearch\Product;
 use yii\base\Model;
 use yii\db\ActiveRecord;
@@ -42,7 +43,7 @@ class Order extends ActiveRecord
     public $time;*/
     public $is_sent_to_erp;
     public $source = 'rusel24.ru';
-    //public $products; //сюда будут падать кука с товарами (целиком, пусть парсят сами в ЕРП)
+    //public $products; //сюда будет писаться json с данными по товарам в заказе
 
 
     public static function tableName()
@@ -79,7 +80,7 @@ class Order extends ActiveRecord
             [['id','client_id', 'is_sent_to_erp'], 'integer'],
             ['email', 'default', 'value' => date('Y-m-d') ],
             ['time', 'default', 'value' => date('H:i:s') ],
-            ['products', 'default', 'value' => $this->__getOrderProducts() ],
+            //['products', 'default', 'value' => $this->__getOrderProducts() ],
             [[
                 'answer_var',
                 'date',
@@ -95,6 +96,15 @@ class Order extends ActiveRecord
             return false;
         }
 
+        /**
+         * Заполним поле товарами и их ценой
+         * Если не заполнены товары, сделаем возможным их изменение.,
+         * В будущем чтоб разрешать изменение заказа, надо отрефакторить это условие if(empty($this->products)
+         */
+        if(empty($this->products)){
+
+            $this->products = $this->__getOrderProducts();
+        }
         //\Yii::$app->pr->print_r2($insert);
 
         // ...custom code here...
@@ -108,7 +118,6 @@ class Order extends ActiveRecord
      * @internal param $order
      */
     private function __getOrderProducts(){
-
 
         $orders = [];
         $neededIds = [];
@@ -132,14 +141,30 @@ class Order extends ActiveRecord
             }
         }
 
-        //тепреь делаем выборку
-        //$productsDetailed =
+        //тепреь делаем выборку и формируем данные по заказу
+        $productModel = new Product();
 
-        \Yii::$app->pr->print_r2($orders);
+        $productsDetailed = $productModel->getProductsByIds($neededIds);
 
-        return '';
+        foreach($productsDetailed as $oneProduct){
 
-        $order = [];
+            //отключим пока за ненадобностью полную передачу данных по товарам в заказ. сделаем только нужные поля
+            /*foreach($oneProduct as $key => $subValue){
+                $orders[$oneProduct['_source']['id']][$key] = $subValue;
+            }*/
+
+            $orders[$oneProduct['_source']['id']]['artikul'] = $oneProduct['_source']['artikul'];
+            $orders[$oneProduct['_source']['id']]['id'] = $oneProduct['_source']['id'];
+            $orders[$oneProduct['_source']['id']]['prices'] = $oneProduct['_source']['prices'];
+            $orders[$oneProduct['_source']['id']]['marketing'] = $oneProduct['_source']['marketing'];
+
+            //добавляем к товару текущую цену в пересчете на курс
+            BuyHelper::setPriceForOrderProduct($orders[$oneProduct['_source']['id']]);
+        }
+
+        //\Yii::$app->pr->print_r2($orders);
+        //и возвращаем для сохранения полный json с заказом
+        $order = json_encode($orders);
 
         return $order;
     }

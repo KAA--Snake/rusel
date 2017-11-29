@@ -20,13 +20,12 @@ class m171122_132926_create_order_table extends Migration
             'email' => $this->string(),
             'org' => $this->string(),
             'delivery_var' => $this->string(),
-            'delivery_city' => $this->string(),
             'delivery_contact_person' => $this->string(),
             'delivery_tel' => $this->string(),
             'delivery_address' => $this->string(),
             'order_comment' => $this->string(),
 
-            'products' => $this->string(),
+            'products' => 'json',
 
             'source' => $this->string(),
             'date' => $this->date(),
@@ -39,10 +38,22 @@ class m171122_132926_create_order_table extends Migration
 
             'client_inn' => $this->string(),
             'client_kpp' => $this->string(),
+
+            'delivery_city' => $this->string(),
             'delivery_city_index' => $this->integer(),
+
+            'delivery_time' => $this->string(),
+            'client_address' => $this->string(),
 
             'is_sent_to_erp' => $this->integer(),
         ]);
+
+        //create client_address index
+        $this->createIndex(
+            'idx-client_address',
+            'order',
+            'client_address'
+        );
 
         //create date index
         $this->createIndex(
@@ -80,6 +91,11 @@ class m171122_132926_create_order_table extends Migration
     public function down()
     {
 
+        // drops index for column `client_address`
+        $this->dropIndex(
+            'idx-client_address',
+            'order'
+        );
 
         // drops index for column `date`
         $this->dropIndex(

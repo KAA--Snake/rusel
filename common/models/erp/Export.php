@@ -104,6 +104,8 @@ class Export
 
             $orderData = json_decode($order);
 
+
+
             if(empty($orderData->id) || $orderData->id <= 0){
                 //если нет заказа, прекратим очередь для этого экспорта. Пусть разбираются сами в причине.
                 return true;

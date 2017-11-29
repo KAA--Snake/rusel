@@ -26,6 +26,9 @@ class OrderController extends Controller
         return $this->render('@common/modules/catalog/views/order/orderDone', []);
     }
 
+
+
+
     /**
      *  1. Принимает форму при оформлении заказа.
      *  2. Если все ок, создает заказ то выдает ОК и номер заказа для редиректа на страницу подтверждения
@@ -45,7 +48,12 @@ class OrderController extends Controller
                 return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
             }
 
-            /** сначала сохраняем заказ в бд */
+            /**
+             * сначала сохраняем заказ в бд
+             * при этом автоматически в заказ подтянутся данные по ценам при сохранении
+             */
+
+
             $form_model->save();
 
             $forRabbitSendData = $form_model->getAttributes();
@@ -67,7 +75,7 @@ class OrderController extends Controller
 
 
 
-            //Yii::$app->pr->print_r2($file);
+
 
 
             //$this->redirect()
