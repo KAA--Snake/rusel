@@ -113,7 +113,10 @@ class Export
         //\Yii::$app->pr->print_r2($orderData);
         //return;
 
+
         $result = $this->sendOrderToErp($orderData);
+
+        echo '<br /> ответ ЕРП:'. $result;
 
         if($result == 'client_query:ok'){
 

@@ -73,10 +73,12 @@ class Order extends ActiveRecord
                 'client_shortname',
                 'delivery_address',
                 'client_fullname',
+                'client_address',
                 'delivery_var',
                 'delivery_city',
                 'delivery_contact_person',
                 'delivery_tel',
+                'delivery_time',
                 'source'
             ], 'string'],
             [['id','client_id', 'is_sent_to_erp', 'answer_var'], 'integer'],

@@ -13,6 +13,7 @@
 <p>Телефон: <?=$order->tel;?></p>
 <p>EMAIL: <?=$order->email;?></p>
 <p>Организация: <?=$order->org;?></p>
+<p>Адрес: <?=$order->client_address;?></p>
 <p>ВАРИАНТЫ ОТВЕТА НА ЗАПРОС: <?=$order->answer_var;?></p>
 
 <p>ТРЕБУЕМЫЕ УСЛОВИЯ ПОСТАВКИ: <?=$order->delivery_var;?></p>
@@ -23,6 +24,7 @@
 <p>Контактное лицо: <?=$order->delivery_contact_person;?></p>
 <p>Телефон для связи: <?=$order->delivery_tel;?></p>
 <p>Точный адрес для доставки «до двери»: <?=$order->delivery_address;?></p>
+<p>Время доставки: <?=$order->delivery_time;?></p>
 <p>Текст примечания: <?=$order->order_comment;?></p>
 
 <p>ИД клиента: <?=$order->client_id;?></p>
