@@ -206,7 +206,7 @@ class Product extends Model
      * @return bool
      */
     public function setAccessoriedProducts(&$productsList){
-
+       // \Yii::$app->pr->print_r2($productsList);
         foreach($productsList as &$oneProduct){
 
             if(!empty($oneProduct['_source']['properties']['prinadlejnosti'])){
@@ -422,17 +422,16 @@ class Product extends Model
 
         $pagination['totalCount'] = $response['hits']['total'];
 
-        $response['productsList'] = $response['hits']['hits'];
+        //$response['productsList'] = $response['hits']['hits'];
+
+        //\Yii::$app->pr->print_r2($response);
+
         $response['paginator'] = $pagination;
 
         //добавляем аксессуары к продуктам
-        $this->setAccessoriedProducts($response);
-
-
+        $this->setAccessoriedProducts($response['hits']['hits']);
 
         return $response;
-
-
     }
 
 

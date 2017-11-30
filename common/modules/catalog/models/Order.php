@@ -11,6 +11,7 @@ namespace common\modules\catalog\models;
 
 use common\helpers\cart\BuyHelper;
 use common\models\elasticsearch\Product;
+use yii\base\Exception;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 
@@ -226,14 +227,19 @@ class Order extends ActiveRecord
             $fio = 'Покупатель';
         }
 
-        //отправка уведомления для админа
-        \Yii::$app->mailer->compose([
-            'html' => 'views/order/order.created.admin.php',
-            //'text' => 'views/order/order.created.admin.php',
-        ], $params)
-            ->setTo([$emailParams['admin_order'] => 'Admin'])
-            ->setSubject('Поступил новый заказ (письмо для админа)')
-            ->send();
+        try{
+            //отправка уведомления для админа
+            \Yii::$app->mailer->compose([
+                'html' => 'views/order/order.created.admin.php',
+                //'text' => 'views/order/order.created.admin.php',
+            ], $params)
+                ->setTo([$emailParams['admin_order'] => 'Admin'])
+                ->setSubject('Поступил новый заказ (письмо для админа)')
+                ->send();
+        }catch(Exception $exception){
+            file_put_contents('/webapp/upload/orders_errors', 'Не удалось отправить на почту заказ '.$this->id, FILE_APPEND );
+        }
+
 
 
         if(empty($this->email)){

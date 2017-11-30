@@ -23,8 +23,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                             <a href="<?=$url;?>"><?=$oneProduct['artikul'];?></a>
                         </div>
                         <div class="firm_name">
-                            <?php /** @TODO здесь будет ссылка на фильтр по производителю !!*/?>
-                            <a href=""><?=$oneProduct['properties']['proizvoditel'];?></a>
+                            <a href="/manufacturer/<?=$oneProduct['_source']['properties']['proizvoditel'];?>/"><?=$oneProduct['properties']['proizvoditel'];?></a>
                         </div>
                         <div class="firm_descr">
                             <?=$oneProduct['name'];?>
@@ -199,7 +198,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
                     </div>
                 </td>
                 <td class="left_bordered">
-                    <?php /** @TODO этот блок не готов- сделать как будет функционал покупок !! */?>
+
                     <div class="card_part order js-order_data"
                          data-product-prices="<?=urlencode(json_encode($oneProduct['prices']));?>"
                          data-product-norma_upakovki="<?=urlencode(json_encode($oneProduct['product_logic']['norma_upakovki']));?>"
@@ -295,7 +294,7 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
     <?php if(isset($oneProduct['accessories']) && count($oneProduct['accessories']) > 0){ ?>
     <div class="_detail_section _appurtenants">
         <h2>Принадлежности</h2>
-            <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['accessories']]); ?>
+            <?= $this->render('@common/modules/catalog/views/default/productInclude', ['currentSectionProducts' => $oneProduct['accessories']]); ?>
     </div>
     <?php }?>
 </div>

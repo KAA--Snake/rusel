@@ -442,7 +442,7 @@ $perPage = $paginator['maxSizeCnt'];
                                 <div class="product_tab_content" id="appurtenant">
 
 
-                                    <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
+                                    <?= $this->render('@common/modules/catalog/views/default/productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
 
 
                                     <div class="hide_tabs_wrap">

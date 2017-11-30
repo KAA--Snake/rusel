@@ -26,8 +26,7 @@ use common\modules\catalog\models\currency\Currency;
                                 <a href="<?=$url;?>"><?=$oneProduct['_source']['artikul'];?></a>
                             </div>
                             <div class="firm_name">
-                                <?php /** @TODO здесь будет ссылка на фильтр по производителю !!*/?>
-                                <a href=""><?=$oneProduct['_source']['properties']['proizvoditel'];?></a>
+                                <a href="/manufacturer/<?=$oneProduct['_source']['properties']['proizvoditel'];?>/"><?=$oneProduct['_source']['properties']['proizvoditel'];?></a>
                             </div>
                             <div class="firm_descr">
                                 <?=$oneProduct['_source']['name'];?>
@@ -342,7 +341,7 @@ use common\modules\catalog\models\currency\Currency;
                         <div class="product_tab_content" id="appurtenant">
 
 
-                            <?= $this->render('productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
+                            <?= $this->render('@common/modules/catalog/views/default/productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
 
 
                             <div class="hide_tabs_wrap">

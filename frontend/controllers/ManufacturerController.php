@@ -69,7 +69,7 @@ class ManufacturerController extends Controller
         $groupedSections = $sectionModel->getTreeForGroupIds($manufacturer->m_group_ids);
 
         return $this->render('productsList', [
-            'productsList' => $products['productsList'],
+            'productsList' => $products['hits']['hits'],
             'manufacturer' => $manufacturer->m_name,
             'groupedSections' => $groupedSections,
             'paginator' => $products['paginator'],
