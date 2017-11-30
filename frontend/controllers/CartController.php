@@ -39,6 +39,16 @@ class CartController extends Controller
 
         $this->layout = '@common/modules/catalog/views/layouts/catalogDetail';
 
+        // получаем поля для введенной ранее формы (еси были)
+        $cartFields = \Yii::$app->session->get('cartFields');
+        if($cartFields){
+            $cartFields = json_decode($cartFields);
+        }else{
+            $cartFields = new Order(); //заполняем все поля пустыми значениями (для подстановки во вьюху)
+        }
+
+        //\Yii::$app->pr->print_r2($cartFields);
+
 
         $cart = [];
 
@@ -48,7 +58,10 @@ class CartController extends Controller
             $cart = $_COOKIE['cart'];
             //\Yii::$app->pr->print_r2($cart);
         }else{
-            return $this->render('@common/modules/catalog/views/default/cartOrder', ['cart' => []]);
+            return $this->render('@common/modules/catalog/views/default/cartOrder', [
+                'cart' => [],
+                'cartFields' => $cartFields
+            ]);
         }
 
         $cart = explode('&', $cart);
@@ -82,7 +95,8 @@ class CartController extends Controller
         return $this->render('@common/modules/catalog/views/default/cartOrder',
             [
                 'cart' => $products,
-                'form_model' => compact('orderModel')
+                'form_model' => compact('orderModel'),
+                'cartFields' => $cartFields
 
             ]);
 

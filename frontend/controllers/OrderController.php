@@ -37,6 +37,11 @@ class OrderController extends Controller
         $form_model = new Order();
 
         if($form_model->load(Yii::$app->request->post())){
+            $formData = Yii::$app->request->post()['Order'];
+
+            /** сохраняем сессию для формы */
+            Yii::$app->session->set('cartFields', json_encode($formData));
+            //\Yii::$app->pr->print_r2($formData);
 
             if(!$form_model->validate()){
 
@@ -45,6 +50,7 @@ class OrderController extends Controller
                     Yii::$app->session->addFlash('error', $key.': '.$value[0]);
                 }
 
+                //Yii::$app->session->set('cartFields', json_encode(Yii::$app->request->post()));
                 //return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
                 return $this->redirect('/cart/');
             }

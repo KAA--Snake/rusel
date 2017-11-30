@@ -382,17 +382,17 @@ use yii\helpers\Html;
                 <div class="row clear">
                     <div class="col col_3">
                         <label class="text_label" for="fio">ФИО:</label>
-                        <input type="text" id="fio" name="Order[fio]" class="_order_inp">
+                        <input type="text" id="fio" name="Order[fio]" class="_order_inp" value="<?=$cartFields->fio;?>">
                     </div>
 
                     <div class="col col_3">
                         <label class="text_label" for="tel">Телефон:</label>
-                        <input type="text" id="tel" name="Order[tel]" class="_order_inp">
+                        <input type="text" id="tel" name="Order[tel]" class="_order_inp" value="<?=$cartFields->tel;?>">
                     </div>
 
                     <div class="col col_3">
                         <label class="text_label" for="email">E-mail:</label>
-                        <input type="text" id="email" name="Order[email]" class="_order_inp" data-validation="email">
+                        <input type="text" id="email" name="Order[email]" class="_order_inp" data-validation="email" value="<?=$cartFields->email;?>">
                     </div>
 
                 </div>
@@ -445,18 +445,18 @@ use yii\helpers\Html;
                     </div>
                     <div class="col col_3">
                         <label class="text_label" for="delivery_contact_person">Контактное лицо:</label>
-                        <input type="text" id="delivery_contact_person" name="Order[delivery_contact_person]" class="_order_inp">
+                        <input type="text" id="delivery_contact_person" name="Order[delivery_contact_person]" class="_order_inp" value="<?=$cartFields->delivery_contact_person;?>">
                     </div>
                     <div class="col col_3">
                         <label class="text_label" for="delivery_tel">Телефон для связи:</label>
-                        <input type="text" id="delivery_tel" name="Order[delivery_tel]" class="_order_inp">
+                        <input type="text" id="delivery_tel" name="Order[delivery_tel]" class="_order_inp" value="<?=$cartFields->delivery_tel;?>">
                     </div>
                 </div>
 
                 <div class="row js-delivery-input js-delivery-full hidden">
                     <div class="col col_1">
                         <label class="text_label" for="delivery_address">Точный адрес для доставки «до двери»:</label>
-                        <input type="text" id="delivery_address" name="Order[delivery_address]" class="_order_inp">
+                        <input type="text" id="delivery_address" name="Order[delivery_address]" class="_order_inp" value="<?=$cartFields->delivery_address;?>">
                     </div>
                 </div>
             </div>
@@ -468,7 +468,7 @@ use yii\helpers\Html;
         <div class="_order_section _comment">
             <h2>Примечание к запросу</h2>
             <label class="text_label" for="order_comment">Текст примечания:</label>
-            <textarea name="Order[order_comment]" class="order_comment" id="order_comment" cols="30" rows="10"></textarea>
+            <textarea name="Order[order_comment]" class="order_comment" id="order_comment" cols="30" rows="10"><?=$cartFields->order_comment;?></textarea>
         </div>
 
         <div class="_order_submit_wrap">

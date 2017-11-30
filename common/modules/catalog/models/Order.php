@@ -56,8 +56,8 @@ class Order extends ActiveRecord
     public function rules()
     {
         return [
-            [['email'], 'required'],
-            [['tel'], 'required'],
+            [['email'], 'required', 'message' => 'Не заполнено поле EMAIL'],
+            [['org'], 'required', 'message' => 'Не выбрана "Организация или ИП"'],
             ['email', 'email'],
             [[
                 'client_inn',
