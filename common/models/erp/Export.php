@@ -56,20 +56,25 @@ class Export
 
     /**
      * Отправляет запрос на ерп сервер данные по созданному заказу
-     * @param $order
+     * @param $orderData
      * @return mixed
      */
-    public function sendOrderToErp($order){
+    public function sendOrderToErp($orderData){
+
+        unset($orderData->products); //для Прохора, чтоб он не пугался x_x
+
+        $jsonData = json_encode($orderData);
 
         $payload = array(
             'type' => 'client_query',
-            'order' => $order,
+            'order' => $jsonData,
+
         );
 
-        /*echo 'на адрес https://31.132.168.141:9999/exchange?type=client_query <br> ';
+        echo 'на адрес https://31.132.168.141:9999/exchange?type=client_query <br> ';
         echo 'уходят следующие данные, используя метод POST: <br> ';
 
-        \Yii::$app->pr->print_r2($payload);*/
+        \Yii::$app->pr->print_r2($payload);
 
         //$url ="http://rusel24.fvds.ru/test/post/";
         $url ="https://31.132.168.141:9999/exchange?type=client_query";
@@ -105,7 +110,10 @@ class Export
 
         $orderData = json_decode($orderJson);
 
-        $result = $this->sendOrderToErp(json_encode($orderJson->dataForErp));
+        //\Yii::$app->pr->print_r2($orderData);
+        //return;
+
+        $result = $this->sendOrderToErp($orderData);
 
         if($result == 'client_query:ok'){
 

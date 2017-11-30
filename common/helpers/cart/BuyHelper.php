@@ -80,7 +80,15 @@ class BuyHelper
             );
             $product['price'] = $price;
             //$product['overallPrice'] = $price * $product['count'];
-            $product['currency'] = $allowedBuyPrice['currency'];
+
+            /**
+             * глупый идиотизм. @TODO в нормальном магазе выпилить это
+             * "короче сделай что бы было 643 ) т.е. та валюта в которой цены на сайте"
+             */
+            $product['currency'] = 643;
+
+            /** а здесь ниже нормальный вариант */
+            //$product['currency'] = $allowedBuyPrice['currency'];
         }
         //\Yii::$app->pr->print_r2($product);
 

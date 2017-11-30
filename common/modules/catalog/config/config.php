@@ -20,5 +20,11 @@ return [
 
         //макс число выводимых товаров в списке
         'max_products_cnt' => 25,
+
+        //адреса для рассылки
+        'email' => [
+            'admin_order' => 'ordsite@rusel24.ru'
+            //'admin_order' => 'smu_139@mail.ru'
+        ]
     ]
 ];

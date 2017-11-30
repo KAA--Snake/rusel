@@ -56,6 +56,8 @@ class Order extends ActiveRecord
     {
         return [
             [['email'], 'required'],
+            [['tel'], 'required'],
+            ['email', 'email'],
             [[
                 'client_inn',
                 'client_kpp',
@@ -77,12 +79,11 @@ class Order extends ActiveRecord
                 'delivery_tel',
                 'source'
             ], 'string'],
-            [['id','client_id', 'is_sent_to_erp'], 'integer'],
-            ['email', 'default', 'value' => date('Y-m-d') ],
+            [['id','client_id', 'is_sent_to_erp', 'answer_var'], 'integer'],
+            ['date', 'default', 'value' => date('Y-m-d') ],
             ['time', 'default', 'value' => date('H:i:s') ],
             //['products', 'default', 'value' => $this->__getOrderProducts() ],
             [[
-                'answer_var',
                 'date',
                 'time',
             ], 'safe'],
@@ -148,10 +149,10 @@ class Order extends ActiveRecord
 
         foreach($productsDetailed as $oneProduct){
 
-            //отключим пока за ненадобностью полную передачу данных по товарам в заказ. сделаем только нужные поля
-            /*foreach($oneProduct as $key => $subValue){
+            //полная передачу данных по товарам в заказ
+            foreach($oneProduct as $key => $subValue){
                 $orders[$oneProduct['_source']['id']][$key] = $subValue;
-            }*/
+            }
 
             $orders[$oneProduct['_source']['id']]['artikul'] = $oneProduct['_source']['artikul'];
             $orders[$oneProduct['_source']['id']]['id'] = $oneProduct['_source']['id'];
@@ -162,10 +163,6 @@ class Order extends ActiveRecord
             BuyHelper::setPriceForOrderProduct($orders[$oneProduct['_source']['id']]);
         }
 
-        //ID|количество|цена|код_валюты
-
-
-        //\Yii::$app->pr->print_r2($orders);
         //и возвращаем для сохранения полный json с заказом
         $order = json_encode($orders);
 
@@ -187,21 +184,28 @@ class Order extends ActiveRecord
             foreach($products as $oneProduct){
                 $oneProductStroke = [];
 
+                if(!isset($oneProduct->price) || empty($oneProduct->price)){
+                    $oneProduct->price = 0;
+                }
+                if(!isset($oneProduct->currency) || empty($oneProduct->currency)){
+                    $oneProduct->currency = 643;
+                }
+
                 $oneProductStroke[] = $oneProduct->id;
                 $oneProductStroke[] = $oneProduct->count;
                 $oneProductStroke[] = $oneProduct->price;
                 $oneProductStroke[] = $oneProduct->currency;
 
+                //\Yii::$app->pr->print_r2($oneProductStroke);
+
                 $oneProductStroke = implode('|', $oneProductStroke);
 
                 $erpProducts[] = $oneProductStroke;
-
 
             }
         }
 
         $erpProducts = implode('&', $erpProducts);
-
 
         return $erpProducts;
     }
@@ -210,25 +214,41 @@ class Order extends ActiveRecord
 
 
     public function sendMail(){
-        // Set layout params
 
-        //\Yii::$app->mailer->getView()->params['userName'] = $this->username;
-        $params = ['paramExample' => '123'];
-
+        $params = ['order' => $this]; //передаем текущий заказ
         $view = 'created';
+        $emailParams = \Yii::$app->getModule('catalog')->params['email'];
 
-        $result = \Yii::$app->mailer->compose([
+        $fio = $this->fio;
+        if(empty($fio)){
+            $fio = 'Покупатель';
+        }
+
+        //отправка уведомления для админа
+        \Yii::$app->mailer->compose([
+            'html' => 'views/order/order.created.admin.php',
+            //'text' => 'views/order/order.created.admin.php',
+        ], $params)
+            ->setTo([$emailParams['admin_order'] => 'Admin'])
+            ->setSubject('Поступил новый заказ (письмо для админа)')
+            ->send();
+
+
+        if(empty($this->email)){
+            return false;
+        }
+
+        return true; //пока не делаем рассылку для клиентов
+
+        //шаблоны для клиента - решили не отправлять ничего клиентам
+        /*\Yii::$app->mailer->compose([
             'html' => 'views/order/order.' . $view . '.html.php',
             'text' => 'views/order/order.' . $view . '.text.php',
         ], $params)
-            ->setTo(['smu_139@mail.ru' => 'Сергей'])
-            ->setSubject('Поступил новый заказ')
-            ->send();
+            ->setTo([$this->email => $fio])
+            ->setSubject('Успешно оформлен заказ Rusel24.ru')
+            ->send();*/
 
-        // Reset layout params
-        //\Yii::$app->mailer->getView()->params['userName'] = null;
-
-        return $result;
     }
 
 }

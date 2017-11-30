@@ -215,7 +215,7 @@ AppAsset::register($this);
             <div class="content_inner_wrap left0 col_1180">
 
 
-                <?= Alert::widget() ?>
+                <?//= Alert::widget() ?>
                 <?= $content ?>
             </div>
         </div>
