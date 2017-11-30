@@ -10,7 +10,7 @@ use common\modules\catalog\models\currency\Currency;
 
 /** список раздлелов лежит в $groupedSections */
 
-//\Yii::$app->pr->print_r2($productsList);
+//\Yii::$app->pr->print_r2($groupedSections);
 
 $sectionModel = new Section();
 $totalProductsFound = $paginator['totalCount'];
@@ -24,30 +24,47 @@ $perPage = $paginator['maxSizeCnt'];
         <?php
         if(count($groupedSections) > 0){
             foreach ($groupedSections as $oneSibling) { ?>
+
                 <div class="content_block">
                     <div class="tree_container clear">
                         <!--<div class="tree_img fll">
                             <img src="<?/*= Url::to('@web/img/tree_img3.png'); */?>" alt="<?/*= $currentSection->name; */?>">
                         </div>-->
                         <div class="catalog_tree_wrap fll">
-                            <h2>
-                                <a class="tree_header active" href="<?= Url::toRoute(['@catalogDir/' . $oneSibling['url']]); ?>">
-                                    <span class="red_icon"></span>
-                                    <?= $oneSibling['name']; ?>
-                                    <div class="tree_header_icon <?php if (count($oneSibling['childs']) > 0) { ?>active<? }else{ ?>inactive<? } ?>"></div>
-                                </a>
-                            </h2>
+
+                            <div class="manufacturer_cat_name">
+                                <!--<a href="<?/*= Url::toRoute(['@catalogDir/' . $oneSibling['url']]); */?>"><?/*= $oneSibling['name']; */?></a>-->
+                                <?= $oneSibling['name']; ?>
+                            </div>
+
+
                             <?php if (count($oneSibling['childs']) > 0) {
-                                //if($oneSibling->not_show) continue;
-                                ?>
-                                <div class="tree_list">
+                                foreach ($oneSibling['childs'] as $oneSubSibling) {
 
-                                    <?php
-                                    $sectionModel->recursiveLevel = 1;
-                                    $sectionModel->listTree2($oneSibling['childs']);
                                     ?>
+                                    <h2>
+                                        <a class="tree_header active"
+                                           href="<?= Url::toRoute(['@catalogDir/' . $oneSubSibling['url']]); ?>">
+                                            <span class="red_icon"></span>
+                                            <?= $oneSubSibling['name']; ?>
+                                            <div class="tree_header_icon <?php if (count($oneSubSibling['childs']) > 0) { ?>active<? } else { ?>inactive<? } ?>"></div>
+                                        </a>
+                                    </h2>
 
-                                </div>
+
+                                    <?php if (count($oneSubSibling['childs']) > 0) {
+                                        //if($oneSibling->not_show) continue;
+                                        ?>
+                                        <div class="tree_list">
+
+                                            <?php
+                                            $sectionModel->recursiveLevel = 1;
+                                            $sectionModel->listTree2($oneSubSibling['childs']);
+                                            ?>
+
+                                        </div>
+                                    <?php } ?>
+                                <?php } ?>
                             <?php } ?>
 
                         </div>
@@ -102,7 +119,7 @@ $perPage = $paginator['maxSizeCnt'];
                                     </div>
                                     <div class="firm_name">
                                         <?php /** @TODO здесь будет ссылка на фильтр по производителю !!*/?>
-                                        <a href=""><?=$oneProduct['_source']['properties']['proizvoditel'];?></a>
+                                        <a href="/manufacturer/<?=$oneProduct['_source']['properties']['proizvoditel'];?>/"><?=$oneProduct['_source']['properties']['proizvoditel'];?></a>
                                     </div>
                                     <div class="firm_descr">
                                         <?=$oneProduct['_source']['name'];?>
@@ -375,14 +392,22 @@ $perPage = $paginator['maxSizeCnt'];
                             <?php if(!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0){ ?>
                                 <div class="product_tab_content" id="params">
                                     <table class="params_tab">
-
-                                        <?php foreach($oneProduct['_source']['other_properties']['property'] as $singleProp){ ?>
+                                        <?
+                                        //если св-во всего одно, то там будет не массив, а сразу его св-ва
+                                        if(isset($oneProduct['_source']['other_properties']['property']['name'])){?>
                                             <tr>
-                                                <td class="param_name"><?= $singleProp['name']; ?></td>
-                                                <td class="param_value"><?= $singleProp['value']; ?></td>
+                                                <td class="param_name"><?= $oneProduct['_source']['other_properties']['property']['name']; ?></td>
+                                                <td class="param_value"><?= $oneProduct['_source']['other_properties']['property']['value']; ?></td>
                                             </tr>
-                                        <?php }?>
 
+                                        <?}else{//если доп свойств много
+                                            foreach($oneProduct['_source']['other_properties']['property'] as $singleProp){ ?>
+                                                <tr>
+                                                    <td class="param_name"><?= $singleProp['name']; ?></td>
+                                                    <td class="param_value"><?= $singleProp['value']; ?></td>
+                                                </tr>
+                                            <?}?>
+                                        <?}?>
                                     </table>
                                     <div class="hide_tabs_wrap">
                                         <div class="hide_tabs_btn">Свернуть</div>

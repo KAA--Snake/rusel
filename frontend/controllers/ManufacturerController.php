@@ -62,7 +62,7 @@ class ManufacturerController extends Controller
             return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);
         }
 
-        //\Yii::$app->pr->print_r2($products['paginator']);
+        //\Yii::$app->pr->print_r2($products);
 
         /** @TODO вынимаем структуру разделов. */
         $sectionModel = new Section();
