@@ -304,12 +304,9 @@ use yii\helpers\Html;
                                 <div class="product_tab_content" id="params">
                                     <table class="params_tab">
 
-                                        <?php foreach($oneProduct['_source']['other_properties']['property'] as $singleProp){ ?>
-                                            <tr>
-                                                <td class="param_name"><?= $singleProp['name']; ?></td>
-                                                <td class="param_value"><?= $singleProp['value']; ?></td>
-                                            </tr>
-                                        <?php }?>
+                                        <? echo $this->render('@common/modules/catalog/views/includes/other_props.php', [
+                                            'oneProduct' => $oneProduct['_source'],
+                                        ]);?>
 
                                     </table>
                                     <div class="hide_tabs_wrap">

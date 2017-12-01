@@ -258,12 +258,9 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
             <h2>Параметры</h2>
             <table class="params_tab">
 
-                <?php foreach ($oneProduct['other_properties']['property'] as $singleProp) { ?>
-                    <tr>
-                        <td class="param_name"><?= $singleProp['name']; ?></td>
-                        <td class="param_value"><?= $singleProp['value']; ?></td>
-                    </tr>
-                <?php } ?>
+                <? echo $this->render('@common/modules/catalog/views/includes/other_props.php', [
+                    'oneProduct' => $oneProduct,
+                ]);?>
 
             </table>
         </div>
