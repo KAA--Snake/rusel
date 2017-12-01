@@ -136,6 +136,8 @@ class Export
             return true;
         }
 
+        file_put_contents('/webapp/orderErpError', print_r($orderData, true), FILE_APPEND);
+
         return false;
     }
 

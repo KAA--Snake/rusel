@@ -33,8 +33,7 @@ use yii\helpers\Html;
                                         <a href="<?=$url;?>"><?=$oneProduct['_source']['artikul'];?></a>
                                     </div>
                                     <div class="firm_name">
-                                        <?php /** @TODO здесь будет ссылка на фильтр по производителю !!*/?>
-                                        <a href=""><?=$oneProduct['_source']['properties']['proizvoditel'];?></a>
+                                        <a href="/manufacturer/<?=$oneProduct['_source']['properties']['proizvoditel'];?>/"><?=$oneProduct['_source']['properties']['proizvoditel'];?></a>
                                     </div>
                                     <div class="firm_descr">
                                         <?=$oneProduct['_source']['name'];?>
@@ -439,7 +438,7 @@ use yii\helpers\Html;
                 <div class="row clear js-delivery-input js-delivery-half hidden">
                     <div class="col col_3">
                         <label class="text_label" for="delivery_city">Выбрать город</label>
-                        <select class="_order_sel js-city-select" name="Order[delivery_city]" id="delivery_city">
+                        <select class="_order_sel js-city-select" name="fake[delivery_city]" id="delivery_city">
                             <option value=""></option>
                         </select>
                     </div>
@@ -475,5 +474,19 @@ use yii\helpers\Html;
             <input class="order_submit_btn" type="submit" value="Отправить запрос">
         </div>
 
+        <input type="hidden" name="Order[source]" value="rusel24.ru">
+        <input type="hidden" name="Order[date]" value="">
+        <input type="hidden" name="Order[time]" value="">
+        <input type="hidden" name="Order[client_id]" value="">
+        <input type="hidden" name="Order[client_ip]" value="">
+        <input type="hidden" name="Order[client_geolocation]" value="">
+        <input type="hidden" name="Order[client_shortname]" value="">
+        <input type="hidden" name="Order[client_fullname]" value="">
+        <input type="hidden" name="Order[client_inn]" value="">
+        <input type="hidden" name="Order[client_kpp]" value="">
+        <input type="hidden" class="js-delivery_city_index" name="Order[delivery_city_index]" value="">
+        <input type="hidden" class="js-delivery_city_name" name="Order[delivery_city]" value="">
+        <input type="hidden" class="js-delivery_time" name="Order[delivery_time]" value="">
+        <input type="hidden" class="js-client_address" name="Order[client_address]" value="">
     </form>
 </div>

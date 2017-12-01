@@ -21,7 +21,7 @@ class RabbitOrder extends Rabbit
 
     public function processWork(AMQPMessage $msg){
 
-        //file_put_contents('/webapp/processWork', print_r($order, true));
+        //file_put_contents('/webapp/processWork', print_r($msg->body, true));
 
         $erpExport = new Export();
         if($erpExport->exportOrder($msg->body)){
