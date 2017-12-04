@@ -301,7 +301,7 @@ use common\modules\catalog\models\currency\Currency;
                             <table class="params_tab">
 
                                 <? echo $this->render('@common/modules/catalog/views/includes/other_props.php', [
-                                    'oneProduct' => $oneProduct,
+                                    'oneProduct' => $oneProduct['_source'],
                                 ]);?>
 
                             </table>

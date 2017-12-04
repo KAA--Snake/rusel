@@ -438,7 +438,7 @@ $perPage = $paginator['maxSizeCnt'];
                                 </div>
                             <?}?>
                             <?php /** товары внутри вкладки принадлежности*/ ?>
-                            <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){ ?>
+                            <?php if(isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0){?>
                                 <div class="product_tab_content" id="appurtenant">
 
 
