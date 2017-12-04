@@ -452,7 +452,7 @@ use yii\helpers\Html;
                 <div class="row js-delivery-input js-delivery-full hidden">
                     <div class="col col_1">
                         <label class="text_label" for="delivery_address">Точный адрес для доставки «до двери»:</label>
-                        <input type="text" id="delivery_address" name="Order[delivery_address]" class="_order_inp" value="<?=$cartFields->delivery_address;?>">
+                        <input type="text" id="delivery_address" name="Order[delivery_address]" class="_order_inp">
                     </div>
                 </div>
             </div>
