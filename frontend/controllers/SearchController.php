@@ -35,6 +35,12 @@ class SearchController extends Controller
      */
     public function actionIndex(){
 
+
+
+        if(!empty(Yii::$app->request->post())){
+            return $this->render('listSearchLoaded', []);
+        }
+
         return $this->render('listSearch', []);
     }
 
