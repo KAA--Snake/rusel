@@ -6,6 +6,7 @@ return [
         'catalogDir' => '/catalog', //первоначальный адрес в УРЛ (по нему будут строиться пути в каталоге и тп)
         'uploadImagesDir' => '/upload/images/',
         'uploadFilesDir' => '/upload/files/',
+        'uploadSearchDir' => '/upload/search/', //для загрузки файлов для поиска
         /** ниже настройки каталога*/
 
         //пароль для ерп
