@@ -3,6 +3,7 @@ return [
     'params' => [
         'importFolderName' => 'upload_xml',
         'allowedExtensions' => ['xml', 'csv', 'txt'],
+        'allowedSearchFileExtensions' => ['csv', 'txt', 'xls', 'xlsx'],
         'catalogDir' => '/catalog', //первоначальный адрес в УРЛ (по нему будут строиться пути в каталоге и тп)
         'uploadImagesDir' => '/upload/images/',
         'uploadFilesDir' => '/upload/files/',

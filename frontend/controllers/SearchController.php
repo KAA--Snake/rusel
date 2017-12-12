@@ -76,7 +76,7 @@ class SearchController extends Controller
      */
     public function actionByFile(){
         $catalogModule = Yii::$app->getModule('catalog');
-        $allowedExtensions = $catalogModule->params['allowedExtensions'];
+        $allowedExtensions = $catalogModule->params['allowedSearchFileExtensions'];
 
         $uploaded = false;
 
@@ -97,9 +97,10 @@ class SearchController extends Controller
                     $uploaded = true;
 
                     /** здесь запускается обработка и поиск */
-                    $fileSearchModel->search($filePath);
+                    $searchResult = $fileSearchModel->search($filePath);
 
                     return $this->render('listSearchLoaded', [
+                        'products' => $searchResult,
                         'searchModel' => $fileSearchModel,
                         'allowedExtensions' => $allowedExtensions,
                         'uploaded' => $uploaded,

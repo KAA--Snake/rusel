@@ -9,6 +9,7 @@
 namespace common\modules\catalog\models\search;
 
 
+use common\modules\catalog\models\search\searches\FileSearchFabric;
 use yii\base\Model;
 
 class SearchByFile extends Model
@@ -23,7 +24,7 @@ class SearchByFile extends Model
     public function rules()
     {
         $catalogModule = \Yii::$app->getModule('catalog');
-        $allowedExtensions = $catalogModule->params['allowedExtensions'];
+        $allowedExtensions = $catalogModule->params['allowedSearchFileExtensions'];
 
         return [
             [
@@ -101,7 +102,10 @@ class SearchByFile extends Model
         //$filePath['filePath'];
         //$filePath['extension'];
 
-        return [];
+        $searchModelFabric = new FileSearchFabric($filePath['extension'], $filePath['filePath']);
+        $searchResults = $searchModelFabric->search();
+
+        return $searchResults;
     }
 
 
