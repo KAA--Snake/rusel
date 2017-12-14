@@ -99,6 +99,8 @@ class SearchController extends Controller
                     /** здесь запускается обработка и поиск */
                     $searchResult = $fileSearchModel->search($filePath);
 
+                    \Yii::$app->pr->print_r2($searchResult);
+
                     return $this->render('listSearchLoaded', [
                         'products' => $searchResult,
                         'searchModel' => $fileSearchModel,

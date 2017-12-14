@@ -102,8 +102,8 @@ class SearchByFile extends Model
         //$filePath['filePath'];
         //$filePath['extension'];
 
-        $searchModelFabric = new FileSearchFabric($filePath['extension'], $filePath['filePath']);
-        $searchResults = $searchModelFabric->search();
+        $searchResults = (new FileSearchFabric($filePath['extension'], $filePath['filePath']))->search();
+
 
         return $searchResults;
     }

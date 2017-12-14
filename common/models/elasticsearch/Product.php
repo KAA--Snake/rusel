@@ -94,7 +94,13 @@ class Product extends Model
                                 'type' => 'integer'
                             ],
                             'artikul' => [
-                                'type' => 'keyword'
+                                'type' => 'keyword',
+                                //мульти поле, для сортировки по нему
+                                /*'fields' => [
+                                    'raw' => [
+                                        'type' => 'keyword'
+                                    ]
+                                ]*/
                             ],
 
                             'properties.proizvoditel' => [
@@ -209,6 +215,8 @@ class Product extends Model
        // \Yii::$app->pr->print_r2($productsList);
         foreach($productsList as &$oneProduct){
 
+            //\Yii::$app->pr->print_r2($oneProduct);
+
             if(!empty($oneProduct['_source']['properties']['prinadlejnosti'])){
 
                 $ids = explode(';', $oneProduct['_source']['properties']['prinadlejnosti']);
@@ -228,7 +236,7 @@ class Product extends Model
                 $params = static::productData + $params;
                 $response = Elastic::getElasticClient()->search($params);
 
-               /* \Yii::$app->pr->print_r2($params);
+                /*\Yii::$app->pr->print_r2($params);
                 \Yii::$app->pr->print_r2($response);*/
                 $oneProduct['_source']['accessories'] = $response['hits']['hits'];
 
@@ -375,6 +383,73 @@ class Product extends Model
 
         return $response;
     }
+
+
+    /**
+     * Отдает список товаров по их Артикулам
+     *
+     * @param array $articles
+     * @return array
+     * @internal param $ids
+     */
+    public function getProductsByArticles(array $articles=[]){
+
+        if(count($articles) <= 0){
+            return [];
+        }
+
+        /**
+         *  здесь адова нагрузка
+         */
+        $productsFound = [];
+        foreach($articles as $oneArtikul){
+
+            $params = [
+                'body' => [
+                    //'from' => $from,
+                    //'size' => $maxSizeCnt,
+                    'sort' => [
+                        'artikul' => 'asc'
+                    ],
+                    'query' => [
+                        'prefix' => [
+                            'artikul' => [
+                                'value' => $oneArtikul,
+                                //'boost' => 2.0
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+
+
+            $params = static::productData + $params;
+
+            //\Yii::$app->pr->print_r2(json_encode($params));
+
+            $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+
+            //\Yii::$app->pr->print_r2($response);
+
+            //добавляем аксессуары к продуктам
+            $this->setAccessoriedProducts($response);
+
+            //\Yii::$app->pr->print_r2($response);
+
+            $productsFound[] = $response;
+
+            unset($response);
+
+        }
+
+
+
+
+
+        return $productsFound;
+    }
+
+
 
 
     /**

@@ -241,6 +241,7 @@ class Paginator extends Widget
     public function run()
     {
 
+        if (empty($this->pagination['max_elements_cnt'])) return '';
 
         $total_pages = ceil($this->pagination['totalCount'] / $this->pagination['max_elements_cnt']);
 

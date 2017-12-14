@@ -8,6 +8,8 @@
 
 namespace common\modules\catalog\models\search\searches\byFiles;
 
+use common\models\elasticsearch\Product;
+use Yii;
 
 class XlsSearch extends BaseFileSearch
 {
@@ -19,5 +21,7 @@ class XlsSearch extends BaseFileSearch
     public function search(): array
     {
         // TODO: Implement search() method.
+
+        return $this->getProducts();
     }
 }

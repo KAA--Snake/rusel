@@ -20,5 +20,7 @@ class XlsxSearch extends BaseFileSearch
     public function search(): array
     {
         // TODO: Implement search() method.
+
+        return $this->getProducts();
     }
 }

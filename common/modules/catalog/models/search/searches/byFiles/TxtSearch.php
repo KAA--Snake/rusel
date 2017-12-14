@@ -19,13 +19,38 @@ class TxtSearch extends BaseFileSearch
      */
     public function search(): array
     {
-        echo 'вызов соотв метода: ';
-        echo $this->filePath;
 
+        $fd = fopen($this->filePath, 'r');
 
-        die();
+        if(!$fd){
+            return [];
+        }
 
-        return [];
+        //сюда кладутся артикулы
+        $productArticles = [];
+
+        while(!feof($fd))
+        {
+            $artikle = fgets($fd);
+
+            $artikle = trim($artikle);
+            $artikle = str_replace("\r\n", "", $artikle);
+            $artikle = str_replace("\n", "", $artikle);
+
+            //проверка на минимальную(максимальную) длину артикула
+            if(!$this->_isLengthIsGood($artikle)) continue;
+
+            if(!empty($artikle)){
+                $this->productArticles[] = $artikle;
+            }
+
+        }
+        fclose($fd);
+
+        //var_dump($productArticles);
+        //Yii::$app->pr->print_r2($productArticles);
+        return $this->getProducts();
+
     }
 
 
