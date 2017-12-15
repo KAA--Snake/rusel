@@ -4,40 +4,92 @@
 /** @var $link string */
 /** @var $paramExample string */
 
+$products = (array) json_decode($order->getAttributes()['products']);
+
 ?>
-<p>Текст письма по заказу для админа</p>
 
-<p>Данные по заказу: </p>
+Запрос № <?=$order->id;?>
+<br>
+Дата: <?=$order->date;?>
+<br>
+Время: <?=$order->time;?>
+<br>
+Источник: <?=$order->source;?>
+<br>
+ФИО: <?=$order->fio;?>
+<br>
+Телефон: <?=$order->tel;?>
+<br>
+EMAIL: <?=$order->email;?>
+<br>
+Организация: <?=$order->org;?>
+<br>
+Краткое наименование контрагента: <?=$order->client_shortname;?>
+<br>
+Полное наименование организации: <?=$order->client_fullname;?>
+<br>
+Адрес: <?=$order->client_address;?>
+<br>
+ИНН: <?=$order->client_inn;?>
+<br>
+КПП: <?=$order->client_kpp;?>
+<br>
+Вариант ответа на запрос: <?=$order->answer_var;?>
+<br>
+Требуемые условия поставки: <?=$order->delivery_var;?>
+<br>
+Город доставки: <?=$order->delivery_city;?>
+<br>
+Индекс города: <?=$order->delivery_city_index;?>
+<br>
+Контактное лицо: <?=$order->delivery_contact_person;?>
+<br>
+Телефон для связи: <?=$order->delivery_tel;?>
+<br>
+Точный адрес для доставки «до двери»: <?=$order->delivery_address;?>
+<br>
+Время доставки: <?=$order->delivery_time;?>
+<br>
+Текст примечания: <?=$order->order_comment;?>
+<br>
+ИД клиента: <?=$order->client_id;?>
+<br>
+IP клиента: <?=$order->client_ip;?>
+<br>
+Геолокация: <?=$order->client_geolocation;?>
+<br>
+<br>
+<br>
+<br>
 
-<p>ФИО: <?=$order->fio;?></p>
-<p>Телефон: <?=$order->tel;?></p>
-<p>EMAIL: <?=$order->email;?></p>
-<p>Организация: <?=$order->org;?></p>
-<p>Адрес: <?=$order->client_address;?></p>
-<p>ВАРИАНТЫ ОТВЕТА НА ЗАПРОС: <?=$order->answer_var;?></p>
+Запрошенные наименования:
+<br>
+<br>
+<? foreach($products as $k=>$oneProduct){?>
 
-<p>ТРЕБУЕМЫЕ УСЛОВИЯ ПОСТАВКИ: <?=$order->delivery_var;?></p>
+    <hr>
+    <br>
+    Артикул: <?=$oneProduct->artikul;?>
+    <br>
+    Описание: <?=$oneProduct->_source->name;?>
+    <br>
+    Производитель: <?=$oneProduct->_source->properties->proizvoditel;?>
+    <br>
+    Кол-во: <?=$oneProduct->count;?>
+    <br>
+    Цена: <?=$oneProduct->price;?>
+    <br>
+    Валюта: <?=$oneProduct->currency;?>
+    <br>
+    <?
 
-<p>Город доставки: <?=$order->delivery_city;?></p>
-<p>Индекс города: <?=$order->delivery_city_index;?></p>
+    $summ = (float)$oneProduct->price * (float)$oneProduct->count;
+    $summ = number_format ($summ, 2, ".", "");
+    ?>
 
-<p>Контактное лицо: <?=$order->delivery_contact_person;?></p>
-<p>Телефон для связи: <?=$order->delivery_tel;?></p>
-<p>Точный адрес для доставки «до двери»: <?=$order->delivery_address;?></p>
-<p>Время доставки: <?=$order->delivery_time;?></p>
-<p>Текст примечания: <?=$order->order_comment;?></p>
+    Сумма: <?=$summ;?>
+    <br>
+<?}?>
 
-<p>ИД клиента: <?=$order->client_id;?></p>
-<p>IP клиента: <?=$order->client_ip;?></p>
-<p>Геолокация: <?=$order->client_geolocation;?></p>
 
-<p>Краткое наименование организации: <?=$order->client_shortname;?></p>
-<p>Полное наименование организации: <?=$order->client_fullname;?></p>
 
-<p>ИНН: <?=$order->client_inn;?></p>
-<p>КПП: <?=$order->client_kpp;?></p>
-
-<p>Дата заказа: <?=$order->date;?></p>
-<p>Время заказа: <?=$order->time;?></p>
-
-<p>Источник: <?=$order->source;?></p>

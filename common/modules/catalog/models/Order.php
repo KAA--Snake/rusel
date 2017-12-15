@@ -227,6 +227,12 @@ class Order extends ActiveRecord
             $fio = 'Покупатель';
         }
 
+        //$products = (array) json_decode($this->getAttributes()['products']);
+
+        //\Yii::$app->pr->print_r2((array)$products);
+        //\Yii::$app->pr->print_r2($this->getAttributes()['products']);
+
+
         try{
             //отправка уведомления для админа
             \Yii::$app->mailer->compose([
@@ -234,7 +240,7 @@ class Order extends ActiveRecord
                 //'text' => 'views/order/order.created.admin.php',
             ], $params)
                 ->setTo([$emailParams['admin_order'] => 'Admin'])
-                ->setSubject('Поступил новый заказ (письмо для админа)')
+                ->setSubject('Rusel24.ru: Запрос № '.$this->id. ' ' .date('Y-m-d H:i:s'))
                 ->send();
         }catch(Exception $exception){
             file_put_contents('/webapp/upload/orders_errors', 'Не удалось отправить на почту заказ '.$this->id, FILE_APPEND );
