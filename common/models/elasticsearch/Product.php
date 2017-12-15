@@ -407,7 +407,7 @@ class Product extends Model
             $params = [
                 'body' => [
                     //'from' => $from,
-                    //'size' => $maxSizeCnt,
+                    'size' => 100,
                     'sort' => [
                         'artikul' => 'asc'
                     ],

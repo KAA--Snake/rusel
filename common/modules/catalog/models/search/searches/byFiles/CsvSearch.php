@@ -8,7 +8,7 @@
 
 namespace common\modules\catalog\models\search\searches\byFiles;
 
-
+use Yii;
 class CsvSearch extends BaseFileSearch
 {
 
@@ -21,27 +21,28 @@ class CsvSearch extends BaseFileSearch
 
         $fd = fopen($this->filePath, 'r');
 
-        if(!$fd){
-            return [];
-        }
 
+        while (($data = fgetcsv($fd, 1000, ";")) !== FALSE) {
 
-        while(!feof($fd))
-        {
-            $artikle = fgets($fd);
+            foreach($data as $oneArtikle){
 
-            $artikle = trim($artikle);
-            $artikle = str_replace("\r\n", "", $artikle);
-            $artikle = str_replace("\n", "", $artikle);
-            if(!empty($artikle)){
-                $this->productArticles[] = $artikle;
+                if(!empty($oneArtikle)){
+
+                    $artikle = trim($oneArtikle);
+                    $artikle = str_replace("\r\n", "", $artikle);
+                    $artikle = str_replace("\n", "", $artikle);
+                    if(!empty($artikle)){
+                        $this->productArticles[] = $artikle;
+                    }
+                }
+
             }
 
         }
         fclose($fd);
 
-        //var_dump($productArticles);
-        //Yii::$app->pr->print_r2($productArticles);
+        //var_dump($this->productArticles);
+        //Yii::$app->pr->print_r2($this->productArticles);
 
         return $this->getProducts();
     }
