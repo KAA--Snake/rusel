@@ -9,8 +9,9 @@
 namespace common\modules\catalog\models\search\searches;
 
 use common\models\elasticsearch\Product;
+use Yii;
 
-abstract class BaseSearch implements iSearch
+abstract class BaseSearch
 {
 
     public $productArticles;
@@ -23,7 +24,10 @@ abstract class BaseSearch implements iSearch
     }
 
     protected function _isLengthIsGood($artikul){
-        if(strlen($artikul) < 4 || strlen($artikul) > 100) return false;
+        $catalogModule = Yii::$app->getModule('catalog');
+        $searchConfig = $catalogModule->params['search'];
+
+        if(strlen($artikul) < $searchConfig['min_artikul_length'] || strlen($artikul) > $searchConfig['max_artikul_length']) return false;
 
         return true;
     }

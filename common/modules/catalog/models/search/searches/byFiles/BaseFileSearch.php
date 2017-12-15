@@ -12,8 +12,10 @@ namespace common\modules\catalog\models\search\searches\byFiles;
 use common\modules\catalog\models\search\searches\BaseSearch;
 use common\modules\catalog\models\search\searches\FileSearchDecorator;
 use common\modules\catalog\models\search\searches\FileSearchFabric;
+use common\modules\catalog\models\search\searches\iFileSearch;
 
-class BaseFileSearch extends BaseSearch
+
+class BaseFileSearch extends BaseSearch implements iFileSearch
 {
     public $filePath;
     public $searchModel;
@@ -24,18 +26,6 @@ class BaseFileSearch extends BaseSearch
 
         /** @var FileSearchDecorator searchModel */
         $this->searchModel = (new FileSearchFabric($extension, $this))->getSearchModel();
-    }
-
-
-    /**
-     * @deprecated Временно не используется, т.к. поиск по артикулам будет не по файлам
-     *
-     * Возвращает список найденных товаров
-     * @return array
-     */
-    public function search(): array
-    {
-        return $this->searchModel->search();
     }
 
     /**

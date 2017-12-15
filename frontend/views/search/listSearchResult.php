@@ -18,3 +18,7 @@
         <input type="submit" value="Подтвердить">
     </form>
 <div>
+
+<?
+\Yii::$app->pr->print_r2($productsList);
+?>

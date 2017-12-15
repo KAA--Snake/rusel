@@ -27,6 +27,15 @@ return [
         'email' => [
             'admin_order' => 'ordsite@rusel24.ru'
             //'admin_order' => 'smu_139@mail.ru'
+        ],
+
+        'search' => [
+            'max_by_files_result' => 100,
+            'min_artikul_length' => 4,
+            'max_artikul_length' => 100,
         ]
+
+
+
     ]
 ];

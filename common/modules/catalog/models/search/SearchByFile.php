@@ -93,18 +93,6 @@ class SearchByFile extends Model
         }
     }*/
 
-    /**
-     * Получает выборку по файлу
-     *
-     * @param array $filePath
-     * @return array
-     */
-    public function search($filePath){
-        $searchResults = (new BaseFileSearch($filePath['extension'], $filePath['filePath']))->search();
-
-        return $searchResults;
-    }
-
 
     /**
      * Отдает список артикулов из загруженного файла

@@ -7,6 +7,7 @@ namespace frontend\controllers;
 //set_time_limit(0);
 
 use common\modules\catalog\models\search\SearchByFile;
+use common\modules\catalog\models\search\searches\ProductsSearch;
 use yii\web\Controller;
 use Yii;
 use yii\web\UploadedFile;
@@ -27,7 +28,12 @@ class SearchController extends Controller
                 /*'in_attribute' => 'name',
                 'out_attribute' => 'slug',
                 'translit' => true*/
-            ]
+            ],
+            'pagination' => [
+                'class' => 'common\modules\catalog\behaviours\Pagination_beh',
+                'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
+
+            ],
         ];
     }
 
@@ -133,16 +139,15 @@ class SearchController extends Controller
 
         if(isset(Yii::$app->getRequest()->post()['articles']) && count(Yii::$app->getRequest()->post()['articles']) > 0){
             //\Yii::$app->pr->print_r2(Yii::$app->getRequest()->post()['articles']);
-        }
+            $searchModel = new ProductsSearch();
+            $searchResult = $searchModel->searchByArtikuls(Yii::$app->getRequest()->post()['articles']);
 
+        }
+        //\Yii::$app->pr->print_r2($searchResult);
 
         return $this->render('listSearchResult', [
             'productsList' => $searchResult,
             'artiklesList' => Yii::$app->getRequest()->post()['articles'],
-            //'searchModel' => $fileSearchModel,
-            'allowedExtensions' => $allowedExtensions,
-            //'uploaded' => $uploaded,
-
         ]);
     }
 

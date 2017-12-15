@@ -9,7 +9,7 @@
 namespace common\modules\catalog\models\search\searches;
 
 
-interface iSearch
+interface iFileSearch
 {
 
     //public function search():array;

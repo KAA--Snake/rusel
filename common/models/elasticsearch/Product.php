@@ -208,11 +208,62 @@ class Product extends Model
     /**
      * Прикручивает к выборке связанные товары
      *
+     * @deprecated дальнейшее использование только в статическом методе, т.к. это хелпер.
+     *
      * @param $productsList
      * @return bool
      */
     public function setAccessoriedProducts(&$productsList){
+
+        //оставлено для обратной совместимости
+        return static::setAccessoriedProds($productsList);
+
+
        // \Yii::$app->pr->print_r2($productsList);
+
+        /*foreach($productsList as &$oneProduct){
+
+            //\Yii::$app->pr->print_r2($oneProduct);
+
+            if(!empty($oneProduct['_source']['properties']['prinadlejnosti'])){
+
+                $ids = explode(';', $oneProduct['_source']['properties']['prinadlejnosti']);
+                //\Yii::$app->pr->print_r2($ids);
+                $params = [
+                    'body' => [
+                        //'from' => 0,
+                        //'size' => 3,
+                        'query' => [
+                            'ids' => [
+                                'values' => $ids
+                            ]
+                        ]
+                    ]
+                ];
+
+                $params = static::productData + $params;
+                $response = Elastic::getElasticClient()->search($params);
+
+                //\Yii::$app->pr->print_r2($params);
+                //\Yii::$app->pr->print_r2($response);
+                $oneProduct['_source']['accessories'] = $response['hits']['hits'];
+
+            }
+        }
+
+        return true;*/
+
+    }
+
+    /**
+     * Прикручивает к выборке связанные товары
+     *
+     *
+     * @param $productsList
+     * @return bool
+     */
+    public static function setAccessoriedProds(&$productsList){
+        // \Yii::$app->pr->print_r2($productsList);
         foreach($productsList as &$oneProduct){
 
             //\Yii::$app->pr->print_r2($oneProduct);
@@ -388,6 +439,8 @@ class Product extends Model
     /**
      * Отдает список товаров по их Артикулам
      *
+     * @deprecated в дальнейшем не использовать. Поиск будет идти в ProductSearch
+     *
      * @param array $articles
      * @return array
      * @internal param $ids
@@ -441,10 +494,6 @@ class Product extends Model
             unset($response);
 
         }
-
-
-
-
 
         return $productsFound;
     }
