@@ -392,7 +392,7 @@ class Product extends Model
      * @return array
      * @internal param $ids
      */
-    public function getProductsByArticles(array $articles=[]){
+    public function getProductsByArticles($articles=[]){
 
         if(count($articles) <= 0){
             return [];

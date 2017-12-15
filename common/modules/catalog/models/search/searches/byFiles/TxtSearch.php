@@ -8,6 +8,7 @@
 
 namespace common\modules\catalog\models\search\searches\byFiles;
 
+use Yii;
 
 class TxtSearch extends BaseFileSearch
 {
@@ -26,8 +27,6 @@ class TxtSearch extends BaseFileSearch
             return [];
         }
 
-        //сюда кладутся артикулы
-        $productArticles = [];
 
         while(!feof($fd))
         {
@@ -48,7 +47,7 @@ class TxtSearch extends BaseFileSearch
         fclose($fd);
 
         //var_dump($productArticles);
-        //Yii::$app->pr->print_r2($productArticles);
+
         return $this->getProducts();
 
     }
