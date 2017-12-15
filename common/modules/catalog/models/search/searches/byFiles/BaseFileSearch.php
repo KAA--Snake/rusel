@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: user
+ * User: Sergei
  * Date: 12.12.17
  * Time: 10:10
  */
@@ -10,29 +10,41 @@ namespace common\modules\catalog\models\search\searches\byFiles;
 
 
 use common\modules\catalog\models\search\searches\BaseSearch;
-use common\models\elasticsearch\Product;
+use common\modules\catalog\models\search\searches\FileSearchDecorator;
+use common\modules\catalog\models\search\searches\FileSearchFabric;
 
-abstract class BaseFileSearch extends BaseSearch
+class BaseFileSearch extends BaseSearch
 {
     public $filePath;
-    public $productArticles;
+    public $searchModel;
 
-    public function __construct($filePath){
+    public function __construct($extension, $filePath){
+
         $this->filePath = $filePath;
+
+        /** @var FileSearchDecorator searchModel */
+        $this->searchModel = (new FileSearchFabric($extension, $this))->getSearchModel();
     }
 
 
-    protected function _isLengthIsGood($artikul){
-        if(strlen($artikul) < 4 || strlen($artikul) > 100) return false;
-
-        return true;
+    /**
+     * @deprecated Временно не используется, т.к. поиск по артикулам будет не по файлам
+     *
+     * Возвращает список найденных товаров
+     * @return array
+     */
+    public function search(): array
+    {
+        return $this->searchModel->search();
     }
 
-    protected function getProducts(){
-        $productModel = new Product();
-        $productsList = $productModel->getProductsByArticles($this->productArticles);
-
-        return $productsList;
+    /**
+     * Возвращает список артикулов из файла
+     *
+     * @return array
+     */
+    public function getArticlesList(): array
+    {
+        return $this->searchModel->getArticlesList();
     }
-
 }

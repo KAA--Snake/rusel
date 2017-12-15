@@ -74,14 +74,14 @@ class OrderController extends Controller
             //получаем строку для ЕРП вида ID|количество|цена|код_валюты&ID|количество|цена|код_валюты& etc...
             $forRabbitSendData['dataForErp'] = $form_model->getDataForErp();
 
-            /** потом отправляем в очередь на отправку заказа в ЕРП @TODO раскомментить после тестирования ниже ! */
-            //$rabbitModel = new RabbitOrder('order_queue');
-            //$rabbitModel->sendDataToRabbit(json_encode($forRabbitSendData));
+            /** потом отправляем в очередь на отправку заказа в ЕРП  */
+            $rabbitModel = new RabbitOrder('order_queue');
+            $rabbitModel->sendDataToRabbit(json_encode($forRabbitSendData));
 
 
-            //@TODO ТЕСТОВАЯ ОТПРАВКА НАПРЯМУЮ БЕЗ РАББИТА ! УДАЛИТЬ ПОСЛЕ ТЕСТИРОВАНИЯ !
-            $export = new Export();
-            $export->exportOrder(json_encode($forRabbitSendData));
+            //ТЕСТОВАЯ ОТПРАВКА НАПРЯМУЮ БЕЗ РАББИТА !
+            //$export = new Export();
+            //$export->exportOrder(json_encode($forRabbitSendData));
 
             /** отправляем письмо о новом заказе */
             $form_model->sendMail();

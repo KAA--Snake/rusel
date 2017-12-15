@@ -1,56 +1,54 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: user
+ * User: Sergei
  * Date: 11.12.17
  * Time: 15:05
  */
 
 namespace common\modules\catalog\models\search\searches;
 
+use common\modules\catalog\models\search\searches\byFiles\BaseFileSearch;
 use common\modules\catalog\models\search\searches\byFiles\TxtSearch;
 use common\modules\catalog\models\search\searches\byFiles\CsvSearch;
 use common\modules\catalog\models\search\searches\byFiles\XlsSearch;
 use common\modules\catalog\models\search\searches\byFiles\XlsxSearch;
 
-class FileSearchFabric
+final class FileSearchFabric
 {
 
     /** @var BaseSearch $searchModel */
-    public $searchModel;
+    private $searchModel;
 
-    public $filePath;
 
-    public function __construct($extension, $filePath)
+    /**
+     * FileSearchFabric constructor.
+     * @param $extension
+     * @param $BaseFileSearchObj
+     */
+    public function __construct($extension, BaseFileSearch $BaseFileSearchObj)
     {
 
         switch ($extension){
             case 'txt':
-                $this->searchModel = new TxtSearch($filePath);
-
+                $this->searchModel = new TxtSearch($BaseFileSearchObj);
                 break;
             case 'csv':
-                $this->searchModel = new CsvSearch($filePath);
+                $this->searchModel = new CsvSearch($BaseFileSearchObj);
                 break;
             case 'xls':
-                $this->searchModel = new XlsSearch($filePath);
+                $this->searchModel = new XlsSearch($BaseFileSearchObj);
                 break;
             case 'xlsx':
-                $this->searchModel = new XlsxSearch($filePath);
+                $this->searchModel = new XlsxSearch($BaseFileSearchObj);
                 break;
         }
 
 
     }
 
-
-    /**
-     * Дергает метод поиска для соответствующего объекта BaseFileSearch
-     *
-     * @return array
-     */
-    public function search(){
-        return $this->searchModel->search();
+    public function getSearchModel():FileSearchDecorator{
+        return $this->searchModel;
     }
 
 }

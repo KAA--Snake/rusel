@@ -1,10 +1,8 @@
-
-<? if($uploaded){?>
-    <p>Файл успешно загружен</p>
-
-<? }?>
-
-
+<div>Результат обработки:</div>
+<br />
+<br />
+<br />
+<br />
 <div>
     Были загружены следующие артикулы:
     <form name="by-artikuls" method="post" action="/search/by-artikuls/">
@@ -17,6 +15,6 @@
         <? }?>
         <br />
         <br />
-        <input type="submit" value="Подтвердить" />
+        <input type="submit" value="Подтвердить">
     </form>
 <div>

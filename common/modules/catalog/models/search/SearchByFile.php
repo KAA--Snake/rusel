@@ -9,6 +9,7 @@
 namespace common\modules\catalog\models\search;
 
 
+use common\modules\catalog\models\search\searches\byFiles\BaseFileSearch;
 use common\modules\catalog\models\search\searches\FileSearchFabric;
 use yii\base\Model;
 
@@ -93,20 +94,30 @@ class SearchByFile extends Model
     }*/
 
     /**
-     * Сам главный процесс поиска по файлу
+     * Получает выборку по файлу
      *
      * @param array $filePath
      * @return array
      */
     public function search($filePath){
-        //$filePath['filePath'];
-        //$filePath['extension'];
-
-        $searchResults = (new FileSearchFabric($filePath['extension'], $filePath['filePath']))->search();
-
+        $searchResults = (new BaseFileSearch($filePath['extension'], $filePath['filePath']))->search();
 
         return $searchResults;
     }
+
+
+    /**
+     * Отдает список артикулов из загруженного файла
+     *
+     * @param $filePath
+     * @return array
+     */
+    public function getArticlesFromFile($filePath){
+        $articlesList = (new BaseFileSearch($filePath['extension'], $filePath['filePath']))->getArticlesList();
+
+        return $articlesList;
+    }
+
 
 
 }

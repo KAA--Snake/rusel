@@ -8,9 +8,10 @@
 
 namespace common\modules\catalog\models\search\searches\byFiles;
 
+use common\modules\catalog\models\search\searches\FileSearchDecorator;
 use Yii;
 
-class TxtSearch extends BaseFileSearch
+class TxtSearch extends FileSearchDecorator
 {
 
 
@@ -21,7 +22,7 @@ class TxtSearch extends BaseFileSearch
     public function search(): array
     {
 
-        $fd = fopen($this->filePath, 'r');
+        $fd = fopen($this->BaseFileSearch->filePath, 'r');
 
         if(!$fd){
             return [];
@@ -40,7 +41,7 @@ class TxtSearch extends BaseFileSearch
             if(!$this->_isLengthIsGood($artikle)) continue;
 
             if(!empty($artikle)){
-                $this->productArticles[] = $artikle;
+                $this->BaseFileSearch->productArticles[] = $artikle;
             }
 
         }
@@ -53,4 +54,33 @@ class TxtSearch extends BaseFileSearch
     }
 
 
+    public function getArticlesList(): array
+    {
+        $fd = fopen($this->BaseFileSearch->filePath, 'r');
+
+        if(!$fd){
+            return [];
+        }
+
+
+        while(!feof($fd))
+        {
+            $artikle = fgets($fd);
+
+            $artikle = trim($artikle);
+            $artikle = str_replace("\r\n", "", $artikle);
+            $artikle = str_replace("\n", "", $artikle);
+
+            //проверка на минимальную(максимальную) длину артикула
+            if(!$this->_isLengthIsGood($artikle)) continue;
+
+            if(!empty($artikle)){
+                $this->BaseFileSearch->productArticles[] = $artikle;
+            }
+
+        }
+        fclose($fd);
+
+        return $this->BaseFileSearch->productArticles;
+    }
 }

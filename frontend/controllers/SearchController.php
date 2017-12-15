@@ -72,7 +72,7 @@ class SearchController extends Controller
     }
 
     /**
-     * Обраотка и поиск по товарам из присланного файла.
+     * Обработка и вывод артикулов из присланного файла.
      */
     public function actionByFile(){
         $catalogModule = Yii::$app->getModule('catalog');
@@ -97,13 +97,15 @@ class SearchController extends Controller
                     $uploaded = true;
 
                     /** здесь запускается обработка и поиск */
-                    $searchResult = $fileSearchModel->search($filePath);
+                    //$searchResult = $fileSearchModel->search($filePath);
+                    $artiklesList = $fileSearchModel->getArticlesFromFile($filePath);
 
-                    \Yii::$app->pr->print_r2($searchResult);
+                    //\Yii::$app->pr->print_r2($searchResult);
 
                     return $this->render('listSearchLoaded', [
-                        'products' => $searchResult,
-                        'searchModel' => $fileSearchModel,
+                        'artiklesList' => $artiklesList,
+                        //'products' => $searchResult,
+                        //'searchModel' => $fileSearchModel,
                         'allowedExtensions' => $allowedExtensions,
                         'uploaded' => $uploaded,
 
@@ -120,6 +122,28 @@ class SearchController extends Controller
         //если файл не загружен, редиректим на страницу поиска по файлу
         return $this->redirect('/search/');
 
+    }
+
+
+
+    public function actionByArtikuls(){
+        $catalogModule = Yii::$app->getModule('catalog');
+        $allowedExtensions = $catalogModule->params['allowedSearchFileExtensions'];
+        $searchResult = [];
+
+        if(isset(Yii::$app->getRequest()->post()['articles']) && count(Yii::$app->getRequest()->post()['articles']) > 0){
+            //\Yii::$app->pr->print_r2(Yii::$app->getRequest()->post()['articles']);
+        }
+
+
+        return $this->render('listSearchResult', [
+            'productsList' => $searchResult,
+            'artiklesList' => Yii::$app->getRequest()->post()['articles'],
+            //'searchModel' => $fileSearchModel,
+            'allowedExtensions' => $allowedExtensions,
+            //'uploaded' => $uploaded,
+
+        ]);
     }
 
 }

@@ -11,11 +11,14 @@ namespace common\modules\catalog\models\search\searches;
 
 interface iSearch
 {
+
+    //public function search():array;
+
     /**
      * Возвращает список найденных товаров
      * @return array
      */
-    public function search():array;
+    public function getArticlesList():array;
 
 
 }
