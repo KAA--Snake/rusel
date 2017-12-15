@@ -31,6 +31,10 @@ class CsvSearch extends BaseFileSearch
                     $artikle = trim($oneArtikle);
                     $artikle = str_replace("\r\n", "", $artikle);
                     $artikle = str_replace("\n", "", $artikle);
+
+                    //проверка на минимальную(максимальную) длину артикула
+                    if(!$this->_isLengthIsGood($artikle)) continue;
+
                     if(!empty($artikle)){
                         $this->productArticles[] = $artikle;
                     }
