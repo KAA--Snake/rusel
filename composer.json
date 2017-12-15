@@ -23,7 +23,8 @@
         "yiisoft/yii2-elasticsearch": "^2.0",
         "nizsheanez/yii2-asset-converter": "1.*",
         "elasticsearch/elasticsearch": "~5.0",
-        "php-amqplib/php-amqplib": ">=2.6.1"
+        "php-amqplib/php-amqplib": ">=2.6.1",
+        "phpoffice/phpexcel": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -23,7 +23,7 @@ abstract class BaseFileSearch extends BaseSearch
 
 
     protected function _isLengthIsGood($artikul){
-        if(strlen($artikul) < 5 || strlen($artikul) > 100) return false;
+        if(strlen($artikul) <= 4 || strlen($artikul) > 100) return false;
 
         return true;
     }
