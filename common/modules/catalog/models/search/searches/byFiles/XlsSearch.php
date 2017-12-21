@@ -62,7 +62,8 @@ class XlsSearch extends FileSearchDecorator
         // Получаем активный лист
         $sheet = $xls->getActiveSheet();
 
-        $rowIterator = $sheet->getRowIterator();
+        //здесь проход по всем колонкам. а ниже только по колонке А
+        /*$rowIterator = $sheet->getRowIterator();
         foreach ($rowIterator as $row) {
             // Получили ячейки текущей строки и обойдем их в цикле
             $cellIterator = $row->getCellIterator();
@@ -82,6 +83,30 @@ class XlsSearch extends FileSearchDecorator
                     $this->BaseFileSearch->productArticles[] = $artikle;
                 }
             }
+        }*/
+
+        $highestRow         = $sheet->getHighestRow(); // e.g. 10
+        $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString('A');
+
+        for ($row = 1; $row <= $highestRow; ++ $row) {
+
+            for ($col = 0; $col < $highestColumnIndex; ++ $col) {
+                $cell = $sheet->getCellByColumnAndRow($col, $row);
+                $val = $cell->getValue();
+
+                $artikle = trim($val);
+                $artikle = str_replace("\r\n", "", $artikle);
+                $artikle = str_replace("\n", "", $artikle);
+
+                //проверка на минимальную(максимальную) длину артикула
+                if(!$this->_isLengthIsGood($artikle)) continue;
+
+                if(!empty($artikle)){
+                    $this->BaseFileSearch->productArticles[] = $artikle;
+                }
+
+            }
+
         }
 
         return $this->BaseFileSearch->productArticles;
