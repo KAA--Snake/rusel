@@ -68,7 +68,6 @@ class SearchController extends Controller
         }
 
         return $this->render('listSearch', [
-            'uploadedFileName' => $fileSearchModel->file->baseName . '.' . $fileSearchModel->file->extension,
             'searchModel' => $fileSearchModel,
             'allowedExtensions' => $allowedExtensions,
             'uploaded' => $uploaded,
@@ -108,6 +107,7 @@ class SearchController extends Controller
                     //\Yii::$app->pr->print_r2($searchResult);
 
                     return $this->render('listSearchLoaded', [
+                        'uploadedFileName' => $fileSearchModel->file->baseName . '.' . $fileSearchModel->file->extension,
                         'artiklesList' => $artiklesList,
                         //'products' => $searchResult,
                         //'searchModel' => $fileSearchModel,
