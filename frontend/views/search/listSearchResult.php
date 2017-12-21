@@ -8,7 +8,7 @@ use Yii;
     <div class="file_name_block">
         <div>
             Список:
-            <span class="uploaded_file_name"><?=Yii::$app->session->get('uploadedFileName');?></span>
+            <span class="uploaded_file_name"><?=Yii::$app->session->getFlash('uploadedFileName');?></span>
         </div>
     </div>
 
@@ -23,16 +23,24 @@ use Yii;
 
     <div class="articles_list">
         <? foreach ($artiklesList as $productKey => $oneArticle) {
-            $oneProduct = $productsList[$productKey];
+            $articleProducts = $productsList[$productKey];
+
+            if(isset($articleProducts['error'])){
+                $foundProducts = 0;
+            }else{
+                $foundProducts = count($articleProducts);
+            }
+
+            Yii::$app->pr->print_r2($articleProducts);
             ?>
             <div class="articles_item collapsed">
 
                 <div class="articles_item_head">
                     <span class="article_name">
                         <span class="square_icon"></span>
-                        <?=$oneArticle; ?>
+                        <?=$oneArticle;?>
                     </span>
-                    <span class="article_count">Найдено: <span class="article_count_num"><?=count($productsList[$productKey]);?></span></span>
+                    <span class="article_count">Найдено: <span class="article_count_num"><?=$foundProducts;?></span></span>
                     <span class="article_expand-btn">
                         Подробнее
                         <span class="arrow"></span>
@@ -41,7 +49,7 @@ use Yii;
 
                 <div class="articles_item_body">
 
-                    <?=Yii::$app->pr->print_r2($oneProduct);?>
+                    <?Yii::$app->pr->print_r2($articleProducts);?>
                 </div>
 
                 <div class="articles_item_foot">
