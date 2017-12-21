@@ -62,14 +62,13 @@ class SearchController extends Controller
                     // file is uploaded successfully
                     $uploaded = true;
 
-                    /** @TODO здесь запускается обработка и поиск */
-
                 }
             }
 
         }
 
         return $this->render('listSearch', [
+            'uploadedFileName' => $fileSearchModel->file->baseName . '.' . $fileSearchModel->file->extension,
             'searchModel' => $fileSearchModel,
             'allowedExtensions' => $allowedExtensions,
             'uploaded' => $uploaded,
