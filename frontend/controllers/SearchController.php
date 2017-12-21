@@ -106,6 +106,9 @@ class SearchController extends Controller
 
                     //\Yii::$app->pr->print_r2($searchResult);
 
+                    //пробрасывавем имя файла для последующей страницы
+                    Yii::$app->session->addFlash('uploadedFileName', $fileSearchModel->file->baseName . '.' . $fileSearchModel->file->extension);
+
                     return $this->render('listSearchLoaded', [
                         'uploadedFileName' => $fileSearchModel->file->baseName . '.' . $fileSearchModel->file->extension,
                         'artiklesList' => $artiklesList,
@@ -115,6 +118,8 @@ class SearchController extends Controller
                         'uploaded' => $uploaded,
 
                     ]);
+
+
 
                 }
 

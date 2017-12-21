@@ -14,7 +14,8 @@ use Yii;
 abstract class BaseSearch
 {
 
-    public $productArticles;
+    public  $productArticles;
+    public  $foundGoodResultsCount = 0;
 
     protected function getProducts(){
         $productModel = new Product();
@@ -31,5 +32,10 @@ abstract class BaseSearch
 
         return true;
     }
+
+    public function getGoodResultsCount(){
+        return $this->foundGoodResultsCount;
+    }
+
 
 }

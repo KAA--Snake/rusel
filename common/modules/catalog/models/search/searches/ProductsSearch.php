@@ -20,6 +20,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     public      $productModel;
     public      $searchConfig;
 
+
     public function __construct()
     {
         $this->productModel = new Product();
@@ -43,9 +44,16 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $productsFound = [];
         foreach($artikuls as $oneArtikul){
 
-            if(empty($oneArtikul)) continue;
+            //заполим пустотой неподходящие, чтобы показать их в поиске
+            if(empty($oneArtikul)){
+                $productsFound[] = ['error' => 'пустой артикул !'];
+                continue;
+            }
 
-            if(!$this->_isLengthIsGood($oneArtikul)) continue;
+            if(!$this->_isLengthIsGood($oneArtikul)) {
+                $productsFound[] = ['error' => 'Длина артикула не подходит под условие поиска! (слишком маленькая?)'];
+                continue;
+            }
 
             $params = [
                 'body' => [
@@ -73,9 +81,15 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
 
             //\Yii::$app->pr->print_r2($response);
+            if(!empty($response)){
+                //добавляем аксессуары к продуктам
+                Product::setAccessoriedProds($response);
+                $this->foundGoodResultsCount++;
+            }else{
+                $response = ['error' => 'Товаров не найдено'];
+            }
 
-            //добавляем аксессуары к продуктам
-            Product::setAccessoriedProds($response);
+
 
             //\Yii::$app->pr->print_r2($response);
 
