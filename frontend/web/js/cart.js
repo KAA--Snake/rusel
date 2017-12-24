@@ -6,15 +6,11 @@ $(document).ready(function () {
 
 
 
-
-
-    $('.js-order-type').click(function () {
-       if(this.checked && $(this).hasClass('org_required')){
-           $('.js-org').attr('data-validation', 'required');
-       }else{
-           $('.js-org').attr('data-validation', '');
-       }
+    $('.contact_block .contact_item.order').click(function () {
+        window.location.href = '/cart/';
     });
+
+
 
     $("#org").suggestions({
         token: "240612ffd28e9888533a15c054c025ea2968155f",
@@ -29,13 +25,16 @@ $(document).ready(function () {
         type: "ADDRESS",
         /* Вызывается, когда пользователь выбирает одну из подсказок */
         onSelect: function (suggestion) {
-            /*console.log(suggestion);*/
+            $('input[name="Order[delivery_city_index]"]').val(suggestion.data.postal_code);
         }
     });
 
     /*$('.js-city-select').selectmenu();*/
     $('.js-city-select').on('change', function () {
         getDeliveryTime(this.value);
+        $('.js-delivery_city_index').val(this.value);
+        $('.js-delivery_city_name').val($(this).find('option[value="'+ this.value +'"]').text());
+        //this.value = $(this).find('option[value="'+this.value+'"]');
     });
 
     /*$('.order_request_form').on('submit', function (e) {
@@ -100,7 +99,7 @@ $(document).ready(function () {
 
 
         if(document.location.pathname == '/cart/'){
-            $(this).closest('.ordered_block').append('<span class="count_tooltip">Удалить позицию из формы запроса? <br><span class="order_buttons_block"><span class="order_button approve_delete_pos">да</span> <span class="order_button decline_delete_pos">нет</span></span> <span class="corner"></span></span>');
+            $(this).closest('.ordered_block').append('<span class="count_tooltip">Удалить наименование из формы запроса?<br><span class="order_buttons_block"><span class="order_button approve_delete_pos">да</span> <span class="order_button decline_delete_pos">нет</span></span><span>Для изменения количества в запросе нужно только повторить ввод с новым значением.</span> <span class="corner"></span></span>');
 
             $('.approve_delete_pos').click(function () {
                 cartPositionDelete(productID, productCount);
@@ -141,7 +140,7 @@ $(document).ready(function () {
                 product_id: JSON.parse(decodeURIComponent(productContainer.data().product_id))
             },
             productID = productContainer.data('product_id'),
-            productCount = productContainer.find('.js-order_count').val(),
+            productCount = parseInt(productContainer.find('.js-order_count').val()),
             orderInput = productContainer.find('.order_block'),
             orderedBlock = productContainer.find('.ordered_block'),
             orderedCountField = orderedBlock.find('.ordered_count .bold'),
@@ -149,7 +148,7 @@ $(document).ready(function () {
             orderValue = productID + '|' + productCount,
             orderPrice = 0;
 
-        if(productCount.length == 0) {
+        if(productCount.length == 0 || productCount <= 0) {
             return false;
         }
 
@@ -182,18 +181,19 @@ $(document).ready(function () {
             if(productData.productMarketingPrice !== null) {
                 var sd = +productData.productMarketingPriceCurrency;
                 orderPrice = +productData.productMarketingPrice * getRateOfExchange(sd);
-                console.log('productData.productMarketingPrice = ' + productData.productMarketingPrice);
-                console.log('sd = ' + sd);
-                console.log('orderPrice = ' + orderPrice);
+
             }
         }
 
-        orderedCountField.html(productCount + ' шт');
-        orderedPriceField.html((productCount * orderPrice).toFixed(2) + ' р');
+
 
         if(parseInt(productData.productCount) == 0) {
             if(parseInt(productData.productPartnerCount) == 0 || productData.productPartnerCount == null){
-                orderedBlock.hide().addClass('hidden');
+                var cartStr = cookie.getCookie('cart');
+                if(cartStr.indexOf(productData.product_id) == -1){
+                    orderedBlock.hide().addClass('hidden');
+                }
+                /*cartPositionDelete(productID, productCount);*/
                 if(productCount < parseInt(productData.productMin_zakaz)){
                     orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно соответствовать минимальной партии.<span class="corner"></span></span>');
                     setTimeout(function () {
@@ -214,6 +214,14 @@ $(document).ready(function () {
                     });
                     orderedBlock.show().removeClass('hidden');
                     cartUpdate(productID, productCount);
+                    orderedCountField.html(productCount + ' шт');
+                    orderedPriceField.html((productCount * orderPrice).toFixed(2) + ' р');
+
+                    productContainer.find('.js-order_count').val('');
+                    if(productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0){
+                        orderedPriceField.addClass('tooltip_sum');
+                        orderedPriceField.append('<span class="count_tooltip">Стоимость будет сообщена после обработки запроса.<span class="corner"></span></span>')
+                    }
                 }
             }else{
                 orderInput.find('.count_tooltip').fadeOut(function () {
@@ -221,6 +229,14 @@ $(document).ready(function () {
                 });
                 orderedBlock.show().removeClass('hidden');
                 cartUpdate(productID, productCount);
+                orderedCountField.html(productCount + ' шт');
+                orderedPriceField.html((productCount * orderPrice).toFixed(2) + ' р');
+
+                productContainer.find('.js-order_count').val('');
+                if(productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0){
+                    orderedPriceField.addClass('tooltip_sum');
+                    orderedPriceField.append('<span class="count_tooltip">Стоимость будет сообщена после обработки запроса.<span class="corner"></span></span>')
+                }
             }
 
         }else{
@@ -229,11 +245,19 @@ $(document).ready(function () {
             });
             orderedBlock.show().removeClass('hidden');
             cartUpdate(productID, productCount);
+            orderedCountField.html(productCount + ' шт');
+            orderedPriceField.html((productCount * orderPrice).toFixed(2) + ' р');
+
+            productContainer.find('.js-order_count').val('');
+            if(productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0){
+                orderedPriceField.addClass('tooltip_sum');
+                orderedPriceField.append('<span class="count_tooltip">Стоимость будет сообщена после обработки запроса.<span class="corner"></span></span>')
+            }
+
         }
 
         /*orderInput.hide();*/
 
-        productContainer.find('.js-order_count').val('');
         console.log(productData);
     });
 
@@ -332,6 +356,11 @@ function cartCheck() {
                     orderedCountField.html(productCount + ' шт');
                     orderedPriceField.html((productCount * orderPrice).toFixed(2) + ' р');
 
+                    if(productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0){
+                        orderedPriceField.addClass('tooltip_sum');
+                        orderedPriceField.append('<span class="count_tooltip">Стоимость будет сообщена после обработки запроса.<span class="corner"></span></span>')
+                    }
+
                     if(parseInt(productData.productCount) == 0) {
                         if(parseInt(productData.productPartnerCount) == 0){
                             orderedBlock.hide().addClass('hidden');
@@ -362,6 +391,10 @@ function cartCheck() {
                             });
                             orderedBlock.show().removeClass('hidden');
                             cartUpdate(productID, productCount);
+                            if(productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0){
+                                orderedPriceField.addClass('tooltip_sum');
+                                orderedPriceField.append('<span class="count_tooltip">Стоимость будет сообщена после обработки запроса.<span class="corner"></span></span>')
+                            }
                         }
 
                     }else{
@@ -370,6 +403,10 @@ function cartCheck() {
                         });
                         orderedBlock.show().removeClass('hidden');
                         cartUpdate(productID, productCount);
+                        if(productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0){
+                            orderedPriceField.addClass('tooltip_sum');
+                            orderedPriceField.append('<span class="count_tooltip">Стоимость будет сообщена после обработки запроса.<span class="corner"></span></span>')
+                        }
                     }
                 }
             });
@@ -462,11 +499,20 @@ function typeDescription(type) {
 }
 
 function showSuggestion(suggestion) {
+    console.log(suggestion);
     $('.selected_org').html(
         '<p>' + suggestion.data.name.full_with_opf + '</p>' +
         '<p>Адрес: ' + suggestion.data.address.value + '</p>' +
         '<p>ИНН: ' + suggestion.data.inn + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;КПП: ' + suggestion.data.kpp + '</p>'
     );
+
+    $('input[name="Order[client_kpp]"]').val(suggestion.data.kpp);
+    $('input[name="Order[client_inn]"]').val(suggestion.data.inn);
+    $('input[name="Order[client_fullname]"]').val(suggestion.data.name.full_with_opf);
+    $('input[name="Order[client_shortname]"]').val(suggestion.data.name.short_with_opf);
+    $('input[name="Order[client_address]"]').val(suggestion.data.address.value);
+    $('input[name="Order[client_city]"]').val(suggestion.data.address.data.city);
+
     var data = suggestion.data;
     if (!data)
         return;
@@ -515,8 +561,10 @@ function getDeliveryTime(cityId) {
         }
         if (data.periods_days) {
             $('.delivery_time_text').text('Срок доставки ' + data.auto[1] + ' ориентировочно : ' + data.periods_days + ' раб.дн.' + dop_text);
+            $('.js-delivery_time').val('Срок доставки ' + data.auto[1] + ' ориентировочно : ' + data.periods_days + ' раб.дн.' + dop_text);
         } else {
             $('.delivery_time_text').text('');
+            $('.js-delivery_time').val('');
         }
 
 

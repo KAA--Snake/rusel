@@ -23,12 +23,11 @@
                 <? foreach ($artiklesList as $oneArticle) { ?>
                     <div class="list_cell">
                         <span class="square_icon"></span>
-                        <? if(mb_strlen($oneArticle) < 4) {?>
-                            <div>Поиск по данному артиклу невозможен (менее 4 символов)</div>
-                        <?}?>
                         <input class="item_input" name="articles[]" type="text" value="<?= $oneArticle; ?>">
-
                         <span class="delete_item js-delete_item"></span>
+                        <? if(mb_strlen($oneArticle) < 4) {?>
+                            <span class="article_err">Поиск по данному артиклу невозможен (менее 4 символов)</span>
+                        <?}?>
                     </div>
                 <? } ?>
                 <div class="list_cell add_item js-add_item-row">

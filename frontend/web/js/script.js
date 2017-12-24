@@ -1,14 +1,81 @@
 var excludedFilterParams = ['page', 'perPage'];
 $(document).ready(function () {
 
+    if($('.js-delete_item').length > 0) {
+        $(document).on('click', '.js-delete_item', function (e) {
+            $(this).closest('.list_cell').remove();
+        })
+    }
+
+    if($('.js-add_item-row').length > 0) {
+        $('.js-add_item-row').on('click', function (e) {
+            var item = '<div class="list_cell">\n' +
+                '<span class="square_icon"></span>\n' +
+                '<input class="item_input" name="articles[]" type="text" value="">\n' +
+                '<span class="delete_item js-delete_item"></span>\n' +
+                '</div>';
+            $(item).insertBefore(this);
+        });
+    }
+    if($('.article_expand-btn').length > 0) {
+        $('.article_expand-btn').on('click', function (e) {
+            var item = $(this).closest('.articles_item'),
+                itemBody = item.find('.articles_item_body'),
+                itemFoot = item.find('.articles_item_foot'),
+                btnText = $(this).find('.js-word');
+            if(item.hasClass('collapsed')){
+                item.removeClass('collapsed').addClass('expanded');
+
+                btnText.text('Свернуть');
+                $(this).find('.arrow').addClass('exp');
+                itemBody.slideDown();
+                itemFoot.slideDown();
+
+            }else if(item.hasClass('expanded')){
+                item.removeClass('expanded').addClass('collapsed');
+
+                btnText.text('Подробнее');
+                $(this).find('.arrow').removeClass('exp');
+                itemBody.slideUp();
+                itemFoot.slideUp();
+            }
+
+
+
+        })
+    }
+
+
 
     $('.slider').slick({
         infinite: true,
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay:true,
+        autoplaySpeed:6000,
         arrows:false
     });
+
+    if($('.producers_block').length > 0){
+        $('.producers_block').each(function () {
+            var linksCollection = $(this).find('.producers_item');
+            if(linksCollection.length > 15){
+                $(this).append('<span class="expand">Показать весь список</span>');
+                for(var i = 15;i<linksCollection.length;i++){
+                    linksCollection.eq(i).hide().addClass('hidden');
+                }
+                var expandTrigger = $(this).find('.expand');
+                expandTrigger.on('click', function () {
+                    for(var i = 15;i<linksCollection.length;i++){
+                        linksCollection.eq(i).show().removeClass('hidden');
+                        $(this).hide();
+                    }
+                })
+            }
+        })
+    }
+
+//<span class="expand">Показать весь список</span>
 
     /* $('.js-dropdown-catalog').hover(
          function (e) {
@@ -103,7 +170,7 @@ $(document).ready(function () {
     });
 
 
-    $('.ct_first, .ct_last').prepend('<div class="corner"></div>');
+    /*$('.manufacturer_tree_wrap .ct_first, .ct_last').prepend('<div class="corner"></div>');*/
 
 
     $( ".product_tab" ).tabs({
@@ -164,12 +231,20 @@ $(document).ready(function () {
 
 
     $('.tree_header').click(function(e){
-        var catalogItem = $(this).closest('h2').next('.tree_list');
+        var producersBlock = $(this).closest('h2').next('.producers_block');
+        var catalogItem;
+        if(producersBlock.length){
+            catalogItem = producersBlock.next('.tree_list');
+        }else{
+            catalogItem = $(this).closest('h2').next('.tree_list');
+        }
+
         if($(this).hasClass('inactive') && catalogItem.length) {
             e.preventDefault();
             catalogItem.slideDown(function () {
                 spListHeightToggle();
             });
+            producersBlock.slideDown();
             $(this).removeClass('inactive').addClass('active');
             $(this).find('.tree_header_icon').removeClass('inactive').addClass('active');
         }else if($(this).hasClass('active')  && catalogItem.length) {
@@ -177,6 +252,7 @@ $(document).ready(function () {
             catalogItem.slideUp(function () {
                 spListHeightToggle();
             });
+            producersBlock.slideUp();
             $(this).removeClass('active').addClass('inactive');
             $(this).find('.tree_header_icon').removeClass('active').addClass('inactive');
         }
@@ -351,8 +427,9 @@ $(document).ready(function () {
         $(".searchlist_file").trigger('click');
     });
 
-    $("input[type='file']").change(function(){
+    $("input[type='file'].searchlist_file").change(function(){
         $('.file_name').text(this.value.replace(/C:\\fakepath\\/i, ''));
+        $('.js-search-by-list-form').submit();
     });
 
 
