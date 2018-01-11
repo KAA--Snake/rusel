@@ -20,14 +20,22 @@ $(document).ready(function () {
     if($('.article_expand-btn').length > 0) {
         $('.article_expand-btn').on('click', function (e) {
             var item = $(this).closest('.articles_item'),
+                itemPrev = item.prevAll('.articles_item').eq(0),
+                itemNext = item.nextAll('.articles_item').eq(0),
+                itemHead = item.find('.articles_item_head'),
                 itemBody = item.find('.articles_item_body'),
                 itemFoot = item.find('.articles_item_foot'),
-                btnText = $(this).find('.js-word');
+                dividerBottom = item.next('.fake_divider'),
+                dividerTop = item.prev('.fake_divider'),
+                btnText = itemHead.find('.head-article_collapse-btn .js-word'),
+                btnTextBottom = itemFoot.find('.foot-article_collapse-btn .js-word');
             if(item.hasClass('collapsed')){
                 item.removeClass('collapsed').addClass('expanded');
-
                 btnText.text('Свернуть');
-                $(this).find('.arrow').addClass('exp');
+                btnTextBottom.text('Свернуть');
+                itemHead.find('.arrow').addClass('exp');
+                dividerTop.slideDown();
+                dividerBottom.slideDown();
                 itemBody.slideDown();
                 itemFoot.slideDown();
 
@@ -35,7 +43,14 @@ $(document).ready(function () {
                 item.removeClass('expanded').addClass('collapsed');
 
                 btnText.text('Подробнее');
-                $(this).find('.arrow').removeClass('exp');
+                btnTextBottom.text('Подробнее');
+                itemHead.find('.arrow').removeClass('exp');
+                if(itemPrev.hasClass('collapsed')){
+                    dividerTop.slideUp();
+                }
+                if(itemNext.hasClass('collapsed')){
+                    dividerBottom.slideUp();
+                }
                 itemBody.slideUp();
                 itemFoot.slideUp();
             }

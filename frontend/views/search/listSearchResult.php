@@ -52,7 +52,7 @@ use common\modules\catalog\models\currency\Currency;
                                             class="article_count_num"><?= $foundProducts; ?></span></span>
                             </td>
                             <td class="table-head-inner_btn" style="text-align: right">
-                                <span class="article_expand-btn">
+                                <span class="head-article_collapse-btn article_expand-btn">
                         <span class="js-word">Подробнее</span>
                         <span class="arrow"></span>
                     </span>
@@ -435,20 +435,34 @@ use common\modules\catalog\models\currency\Currency;
                             <?php } ?>
                         <?php } ?>
                     <?php } ?>
+
                 </div>
 
                 <div class="articles_item_foot">
+
                     <table class="foot_tab_btns_wrap">
                         <tr>
                             <td class="left">
-                                <span class="show_btn show_10">Показать еще 10 строк</span>&nbsp;&nbsp;&nbsp;
-                                <span class="show_btn show_all">Показать все</span>
+                                <?php if ($foundProducts > 0) { ?>
+
+                                    <?php if (count($articleProducts) > 10) { ?>
+                                        <span class="show_btn show_10">Отображено первые 10 строк</span>&nbsp;&nbsp;&nbsp;
+                                        <span class="show_btn show_all">Показать все</span>
+                                    <?php } ?>
+
+
+                                <? } else { ?>
+                                    <span class="not_found">Не найдено ни одного совпадения</span>
+                                <? } ?>
+
                             </td>
                             <td class="right">
-                                <span class="show_btn foot-article_collapse-btn">
-                                    Свернуть
+                                <?php if ($foundProducts > 0) { ?>
+                                <span class="show_btn foot-article_collapse-btn article_expand-btn">
+                                    <span class="js-word">Свернуть</span>
                                     <span class="arrow_up"></span>
                                 </span>
+                                <? } ?>
                             </td>
                         </tr>
                     </table>
@@ -456,7 +470,8 @@ use common\modules\catalog\models\currency\Currency;
 
                 </div>
             </div>
-            <div class="fake_divider"></div>
+            <div class="fake_divider collapsed"></div>
+
 
         <? } ?>
 
