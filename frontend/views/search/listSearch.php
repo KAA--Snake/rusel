@@ -24,7 +24,7 @@ foreach (\Yii::$app->session->getAllFlashes() as $key => $message) {
         <li class="searchlist_instructions_item">
             <div class="searchlist_instructions_icon">1</div>
             <div>
-                Загрузите файл ( xls, xlsx, txt, csv, docx ), где все артикулы должны быть без описания в первом столбце (на Лист1) начиная с первой строки.
+                Загрузите файл ( xls, xlsx, txt, csv ), где все артикулы должны быть без описания в первом столбце (на Лист1).
             </div>
         </li>
 

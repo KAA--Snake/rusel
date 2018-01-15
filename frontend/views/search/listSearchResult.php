@@ -68,7 +68,7 @@ use common\modules\catalog\models\currency\Currency;
                     <? /*Yii::$app->pr->print_r2($articleProducts);*/ ?>
                     <?php if (count($articleProducts) > 0) { ?>
 
-                        <?php foreach ($articleProducts as $oneProduct) {
+                        <?php foreach ($articleProducts as $k => $oneProduct) {
                             if ($foundProducts > 0) {
                                 $json = json_encode($oneProduct);
 
@@ -76,7 +76,7 @@ use common\modules\catalog\models\currency\Currency;
                                 //\Yii::$app->pr->print_r2($oneProduct);
                                 ?>
 
-                                <div class="product_card js-product_card js-tab_collapsed">
+                                <div class="product_card js-product_card js-tab_collapsed <?php if($k > 9){?>product_card--hidden<?php }?>">
                                     <table class="product_card_inner_wrap">
                                         <tr>
                                             <td>
@@ -447,7 +447,7 @@ use common\modules\catalog\models\currency\Currency;
 
                                     <?php if (count($articleProducts) > 10) { ?>
                                         <span class="show_btn show_10">Отображено первые 10 строк</span>&nbsp;&nbsp;&nbsp;
-                                        <span class="show_btn show_all">Показать все</span>
+                                        <span class="show_btn show_all js-show-product_card--hidden">Показать все</span>
                                     <?php } ?>
 
 
