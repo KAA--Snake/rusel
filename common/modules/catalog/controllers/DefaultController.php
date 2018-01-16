@@ -133,11 +133,6 @@ class DefaultController extends Controller
 
         if( $sectionData['currentSection'] ){
 
-            /** Получим все доступные значения для фильтра по выбранному разделу */
-            $searchModel = new ProductsSearch();
-            $allFilterData = $searchModel->getFilterDataForSectionId($returnData['currentSection']->unique_id);
-
-
             $returnData = [
                 'currentSection' => $sectionData['currentSection'],
                 'groupedSiblings' => $sectionData['groupedSiblings'],
@@ -156,6 +151,10 @@ class DefaultController extends Controller
 
         /** если раздел содержит товары, выведем их список */
         if( !empty($sectionData['currentSectionProducts']) ){
+
+            /** Получим все доступные значения для фильтра по выбранному разделу */
+            $searchModel = new ProductsSearch();
+            $allFilterData = $searchModel->getFilterDataForSectionId($returnData['currentSection']->unique_id);
 
             $this->layout = 'catalogFullWidth';
 

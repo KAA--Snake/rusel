@@ -155,25 +155,36 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 //'sort' => [
                 //   'artikul' => 'asc'
                 //],
-                'query' => [
-                    'prefix' => [
-                        'artikul' => [
-                            'value' => '123',
-                            //'boost' => 2.0
+                /*'aggs' => [
+                    "filter" => [ "term" => [ "section_id" => $sectionId ] ],
+                    "aggs" => [
+                        "proizvoditel" => [
+                            "terms" => [ "field" => "properties.proizvoditel" ]
+                        ]
+                    ]
+                ]*/
+
+                "aggs" => [
+                    "proizvoditel" => [
+                        "filter" => [ "term"=> [ "section_id"=> $sectionId ] ],
+                        "aggs" => [
+                            "proizvoditel2" => [ "terms" => [ "field" => "properties.proizvoditel" ] ]
                         ]
                     ]
                 ]
+
             ]
         ];
 
 
-        $params = $this->productData + $params;
 
-        //\Yii::$app->pr->print_r2(json_encode($params));
+        //$params = $this->productData + $params;
 
-        $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+        //\Yii::$app->pr->print_r2($params);
 
-        //\Yii::$app->pr->print_r2($response);
+        $response = Elastic::getElasticClient()->search($params)['aggregations'];
+
+        \Yii::$app->pr->print_r2($response);
         if(!empty($response)){
             //добавляем аксессуары к продуктам
             Product::setAccessoriedProds($response);
