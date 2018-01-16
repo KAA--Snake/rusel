@@ -110,10 +110,34 @@ class Product extends Model
                                 'type' => 'keyword'
                             ],
 
-                            'other_properties' => [
-                                'type' => 'nested'
+                            /*'other_properties' => [
+                                "type" => "nested",
+                            ],*/
+
+                            'other_properties.property' => [
+
+                                "type" => "nested",
+                                "properties" => [
+                                    "id" => [ "type" => "integer" ],
+                                    "sort" => [ "type" => "integer" ],
+                                    "name" => [ "type" => "keyword" ],
+                                    "value" => [ "type" => "keyword" ],
+                                ]
+
                             ],
 
+                            /*'other_properties.property.id' => [
+                                'type' => 'integer'
+                            ],
+                            'other_properties.property.sort' => [
+                                'type' => 'integer'
+                            ],
+                            'other_properties.property.name' => [
+                                'type' => 'keyword'
+                            ],
+                            'other_properties.property.value' => [
+                                'type' => 'keyword'
+                            ],*/
 
                             'prices' => [
                                 'type' => 'nested'

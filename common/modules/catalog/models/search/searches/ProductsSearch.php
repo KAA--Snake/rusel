@@ -21,6 +21,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     public      $searchConfig;
 
 
+    private $productAggregation = [];
+
+
     public function __construct()
     {
         $this->productModel = new Product();
@@ -150,25 +153,18 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $params = [
             'body' => [
-                //'from' => $from,
-                //'size' => $this->searchConfig['max_by_files_result'],
-                //'sort' => [
-                //   'artikul' => 'asc'
-                //],
-                /*'aggs' => [
-                    "filter" => [ "term" => [ "section_id" => $sectionId ] ],
-                    "aggs" => [
-                        "proizvoditel" => [
-                            "terms" => [ "field" => "properties.proizvoditel" ]
-                        ]
-                    ]
-                ]*/
-
+                "size" => 0,
+                "_source"=> false,
                 "aggs" => [
                     "proizvoditel" => [
-                        "filter" => [ "term"=> [ "section_id"=> $sectionId ] ],
+                        "filter" => [
+                            "term"=> [ "section_id"=> $sectionId ]
+
+                        ],
                         "aggs" => [
-                            "proizvoditel2" => [ "terms" => [ "field" => "properties.proizvoditel" ] ]
+                            "aggregated" => [ "terms" =>
+                                [ "field" => "properties.proizvoditel" ],
+                            ]
                         ]
                     ]
                 ]
@@ -176,13 +172,48 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             ]
         ];
 
+        $params = [
+            'body' => [
+
+                "query" => [
+                    "term"=> [ "section_id"=> $sectionId ]
+                ],
+                "aggs" => [
+                    "aggregated" => [
+                        "nested" => [
+                            "path" => "other_properties.property"
+                        ],
+                        "aggs" => [
+                            "aggregated_name" => [
+                                "terms" =>
+                                    //[ "field" => "other_properties.property.name"],
+                                    [ "field" => "other_properties.property.name"],
+
+                            ],
+                            /*"aggregated_name" => [
+                                "terms" =>
+                                //[ "field" => "other_properties.property.name"],
+                                    [ "field" => "other_properties.property.name"],
+
+                            ]*/
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+
+
+
+
 
 
         //$params = $this->productData + $params;
 
         //\Yii::$app->pr->print_r2($params);
 
-        $response = Elastic::getElasticClient()->search($params)['aggregations'];
+        $response = Elastic::getElasticClient()->search($params);
+        unset($response['hits']);
 
         \Yii::$app->pr->print_r2($response);
         if(!empty($response)){
@@ -195,4 +226,42 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         return $productsFound;
     }
+
+
+    /**
+     * Создает одну агрегацию на основе ее имени
+     *
+     * @param $aggregationName
+     */
+    private function _setOneAggregation($aggregationName){
+
+        $oneAggregation = [];
+
+
+        $this->productAggregation['body']['aggs'][$aggregationName] = [];
+
+
+        $params = [
+            'body' => [
+                "size" => 0,
+                "_source"=> false,
+                "aggs" => [
+                    "proizvoditel" => [
+                        "filter" => [
+                            "term"=> [ "section_id"=> 123 ]
+
+                        ],
+                        "aggs" => [
+                            "aggregated" => [ "terms" =>
+                                [ "field" => "properties.proizvoditel" ],
+                            ]
+                        ]
+                    ]
+                ]
+
+            ]
+        ];
+    }
+
+
 }
