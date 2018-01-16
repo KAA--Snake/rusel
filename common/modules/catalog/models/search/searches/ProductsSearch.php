@@ -102,4 +102,86 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         return $productsFound;
 
     }
+
+
+    /**
+     * Получает на вход ИД раздела каталога,
+     * и выбирает все свойства товаров из выбранного раздела.
+     *  [
+     *      'property_name1' => [
+     *              'code' => 'property_code1',
+     *              'values' => [
+     *                  'value1',
+     *                  'value2',
+     *                  'value3',
+     *              ],
+     *       ],
+     *
+     *      'property_name2' => [
+     *              'code' => 'property_code2',
+     *              'values' => [
+     *                  'value1',
+     *                  'value2',
+     *                  'value3',
+     *              ],
+     *       ],
+     *
+     *  ]
+     * @param $sectionId
+     * @return array
+     */
+    public function getFilterDataForSectionId($sectionId)
+    {
+        //пробрасывается в контроллер из Pagination_beh.php
+        //$pagination = \Yii::$app->controller->pagination;
+
+        $filterData = [];
+
+        if($sectionId <= 0){
+            return $filterData = [];
+        }
+
+        /**  дефолтные данные по фильтрам */
+        $filterData['quantity']['stock']['count'] = '> 0';
+        $filterData['properties']['proizvoditel'] = '';
+
+
+        $productsFound = [];
+
+        $params = [
+            'body' => [
+                //'from' => $from,
+                //'size' => $this->searchConfig['max_by_files_result'],
+                //'sort' => [
+                //   'artikul' => 'asc'
+                //],
+                'query' => [
+                    'prefix' => [
+                        'artikul' => [
+                            'value' => '123',
+                            //'boost' => 2.0
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+
+        $params = $this->productData + $params;
+
+        //\Yii::$app->pr->print_r2(json_encode($params));
+
+        $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+
+        //\Yii::$app->pr->print_r2($response);
+        if(!empty($response)){
+            //добавляем аксессуары к продуктам
+            Product::setAccessoriedProds($response);
+            $this->foundGoodResultsCount++;
+        }else{
+            $response = ['error' => 'Товаров не найдено'];
+        }
+
+        return $productsFound;
+    }
 }

@@ -4,6 +4,8 @@ namespace common\modules\catalog\controllers;
 
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\BreadCrumbs;
+use common\modules\catalog\models\filter\CatalogFilter;
+use common\modules\catalog\models\search\searches\ProductsSearch;
 use common\modules\catalog\models\Section;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -83,13 +85,6 @@ class DefaultController extends Controller
             $perPage = $isNeedPerPage;
         }
 
-        /** @todo УДАЛИТЬ ЭТО НИЖЕ- СДЕЛАНО ТОЛЬКО ДЛЯ ТЕСТИРОВАНИЯ - корзина */
-        if(!empty(\Yii::$app->request->get('cart'))){
-
-            $this->layout = 'catalogDetail';
-            return $this->render('cartOrder');
-        }
-
         $sectionModel = new Section();
         $breadCrumbsObj = new BreadCrumbs();
 
@@ -137,6 +132,11 @@ class DefaultController extends Controller
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
 
         if( $sectionData['currentSection'] ){
+
+            /** Получим все доступные значения для фильтра по выбранному разделу */
+            $searchModel = new ProductsSearch();
+            $allFilterData = $searchModel->getFilterDataForSectionId($returnData['currentSection']->unique_id);
+
 
             $returnData = [
                 'currentSection' => $sectionData['currentSection'],
