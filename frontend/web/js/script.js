@@ -7,6 +7,30 @@ $(document).ready(function () {
         })
     }
 
+    if($('.js-search-list-item').length > 0) {
+        $('.js-search-list-item').on('input', function (e) {
+            var cell = $(this).closest('.list_cell');
+            if(this.value.length < 4){
+                cell.append('<span class="article_err">Поиск по данному артиклу невозможен (min 4 символа)</span>')
+            }else {
+                cell.find('.article_err').remove();
+            }
+        })
+    }
+
+    if($('.js-show-product_card--hidden').length > 0) {
+        $('.js-show-product_card--hidden').on('click', function (e) {
+            var item = $(this).closest('.articles_item'),
+                cards = item.find('.product_card--hidden');
+
+            cards.each(function () {
+               $(this).show();
+            });
+            $(this).prev('.show_10').remove();
+            $(this).remove();
+        })
+    }
+
     if($('.js-add_item-row').length > 0) {
         $('.js-add_item-row').on('click', function (e) {
             var item = '<div class="list_cell">\n' +

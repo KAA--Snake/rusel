@@ -9,7 +9,7 @@
                 Список:
                 <span class="uploaded_file_name"><?=$uploadedFileName;?></span>
             </div>
-            <input class="by-artikuls_submit_btn" type="submit" form="by-artikuls" value="Запустить поиск"/>
+            <input class="by-artikuls_submit_btn_fin" type="submit" form="by-artikuls" value="Поиск завершен"/>
         </div>
 
         <div class="fake_divider"></div>
@@ -23,10 +23,10 @@
                 <? foreach ($artiklesList as $oneArticle) { ?>
                     <div class="list_cell">
                         <span class="square_icon"></span>
-                        <input class="item_input" name="articles[]" type="text" value="<?= $oneArticle; ?>">
+                        <input class="item_input js-search-list-item" name="articles[]" type="text" value="<?= $oneArticle; ?>">
                         <span class="delete_item js-delete_item"></span>
                         <? if(mb_strlen($oneArticle) < 4) {?>
-                            <span class="article_err">Поиск по данному артиклу невозможен (менее 4 символов)</span>
+                            <span class="article_err">Поиск по данному артиклу невозможен (min 4 символа)</span>
                         <?}?>
                     </div>
                 <? } ?>
