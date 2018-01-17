@@ -11,11 +11,13 @@ $(document).ready(function () {
         $('.js-search-list-item').on('input', function (e) {
             var cell = $(this).closest('.list_cell');
             if(this.value.length < 4){
-                cell.append('<span class="article_err">Поиск по данному артиклу невозможен (min 4 символа)</span>')
+                if(!cell.find('.article_err').length){
+                    cell.append('<span class="article_err">Поиск по данному артиклу невозможен (min 4 символа)</span>')
+                }
             }else {
                 cell.find('.article_err').remove();
             }
-        })
+        });
     }
 
     if($('.js-show-product_card--hidden').length > 0) {
@@ -26,8 +28,8 @@ $(document).ready(function () {
             cards.each(function () {
                $(this).show();
             });
-            $(this).prev('.show_10').remove();
-            $(this).remove();
+            $(this).prev('.show_10').hide();
+            $(this).hide();
         })
     }
 
@@ -35,15 +37,27 @@ $(document).ready(function () {
         $('.js-add_item-row').on('click', function (e) {
             var item = '<div class="list_cell">\n' +
                 '<span class="square_icon"></span>\n' +
-                '<input class="item_input" name="articles[]" type="text" value="">\n' +
+                '<input class="item_input js-search-list-item" name="articles[]" type="text" value="">\n' +
                 '<span class="delete_item js-delete_item"></span>\n' +
                 '</div>';
             $(item).insertBefore(this);
+
+            $('.js-search-list-item').on('input', function (e) {
+                var cell = $(this).closest('.list_cell');
+                if(this.value.length < 4){
+                    if(!cell.find('.article_err').length){
+                        cell.append('<span class="article_err">Поиск по данному артиклу невозможен (min 4 символа)</span>')
+                    }
+                }else {
+                    cell.find('.article_err').remove();
+                }
+            });
         });
     }
     if($('.article_expand-btn').length > 0) {
         $('.article_expand-btn').on('click', function (e) {
             var item = $(this).closest('.articles_item'),
+                cards = item.find('.product_card--hidden'),
                 itemPrev = item.prevAll('.articles_item').eq(0),
                 itemNext = item.nextAll('.articles_item').eq(0),
                 itemHead = item.find('.articles_item_head'),
@@ -77,6 +91,13 @@ $(document).ready(function () {
                 }
                 itemBody.slideUp();
                 itemFoot.slideUp();
+
+                cards.each(function () {
+                    $(this).hide();
+                });
+
+                item.find('.show_10').show();
+                item.find('.js-show-product_card--hidden').show();
             }
 
 

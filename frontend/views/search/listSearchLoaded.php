@@ -9,7 +9,7 @@
                 Список:
                 <span class="uploaded_file_name"><?=$uploadedFileName;?></span>
             </div>
-            <input class="by-artikuls_submit_btn_fin" type="submit" form="by-artikuls" value="Поиск завершен"/>
+            <input class="by-artikuls_submit_btn" type="submit" form="by-artikuls" value="Запустить поиск"/>
         </div>
 
         <div class="fake_divider"></div>
