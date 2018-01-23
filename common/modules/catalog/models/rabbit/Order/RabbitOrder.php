@@ -39,6 +39,9 @@ class RabbitOrder extends Rabbit
             return true;
         }
 
+        //@tODO УДАЛИТЬ это, Только ДЛЯ ТЕСТИРОВАНИЯ !!!
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+        return true;
         return false;
 
     }

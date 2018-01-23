@@ -52,6 +52,20 @@ return [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    //'levels' => ['error'],
+                    'logVars' => [],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget', //в файл
+                    'categories' => ['import_fail'], //категория логов
+                    'logFile' => '@runtime/logs/import_err.log', //куда сохранять
+                    'logVars' => [] //не добавлять в лог глобальные переменные ($_SERVER, $_SESSION...)
+                ],
+                [
+                    'class' => 'yii\log\FileTarget', //в файл
+                    'categories' => ['rabbit_import_error'], //категория логов
+                    'logFile' => '@runtime/logs/import_rabbit_err.log', //куда сохранять
+                    'logVars' => [] //не добавлять в лог глобальные переменные ($_SERVER, $_SESSION...)
                 ],
             ],
         ],

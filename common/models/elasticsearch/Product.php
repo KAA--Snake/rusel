@@ -114,7 +114,7 @@ class Product extends Model
                                 "type" => "nested",
                             ],*/
 
-                            'other_properties.property' => [
+                            /*'other_properties.property' => [
 
                                 "type" => "nested",
                                 "properties" => [
@@ -124,9 +124,9 @@ class Product extends Model
                                     "value" => [ "type" => "keyword" ],
                                 ]
 
-                            ],
+                            ],*/
 
-                            /*'other_properties.property.id' => [
+                            'other_properties.property.id' => [
                                 'type' => 'integer'
                             ],
                             'other_properties.property.sort' => [
@@ -137,7 +137,7 @@ class Product extends Model
                             ],
                             'other_properties.property.value' => [
                                 'type' => 'keyword'
-                            ],*/
+                            ],
 
                             'prices' => [
                                 'type' => 'nested'
@@ -195,6 +195,71 @@ class Product extends Model
     }
 
 
+    /**
+     * Генерирует параметры для bulk загрузки, используется для сохранения булки для
+     * отправки ее через раббит на сохранение в бд
+     *
+     * @param $product
+     * @return array
+     */
+    public function getParamsForBulkLoad(&$product){
+
+        /**
+         * если не задан код, берем его транслитом из артикула
+         */
+        if(empty($product['code']) || $product['code'] == ''){
+
+            //если артикул есть
+            if(!empty($product['artikul']) && $product['artikul'] != ''){
+                $product['code'] = $product['artikul'];
+            }else{
+                //если артикула нет, делаем код из имени
+                $product['code'] = $product['name'];
+            }
+            $product['code'] = Translit::t($product['code']);
+        }else{
+            $product['code'] = str_ireplace(['/','\\'], '', $product['code']);
+        }
+
+        /** сгенерим урл из урла раздела/урла товара */
+        //$product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
+        $product['url'] = $this->_fakeGenerateUrl($product['code'], $product['section_id']);
+
+
+        /*$params = [
+            'id' => $product['id'],
+            //'routing' => 'company_xyz',
+            //'timestamp' => strtotime("-1d"),
+            'body' => $product
+        ];*/
+
+
+        $params['for_index'] = array(
+            'index' => array(
+                '_index' => 'product',
+                '_type' => 'product_type',
+                '_id' => $product['id'],
+            )
+        );
+
+        $params['for_body'] = $product;
+
+        /*foreach($comments as $comment) {
+            $params['body'][] = [
+                'index' => [
+                    '_parent' => $product['id']
+                ]
+            ];
+
+            $params['body'][] = (array) $comment;
+        }*/
+
+        //добавляем базовую инфу (название индекса и тп)
+        //$params = self::productData+$params;
+
+        return $params;
+    }
+
 
     public function addProduct($productData){
 
@@ -210,6 +275,7 @@ class Product extends Model
 
         try{
             $response = Elastic::getElasticClient()->index($params);
+            return true;
 
         }catch(\Exception $e){
 
@@ -222,9 +288,15 @@ class Product extends Model
 
             $_SESSION['ERRORS'][] = $mesObj;
 
+            \Yii::error($mesObj, 'rabbit_import_error');
+
+            //file_put_contents('/webapp/import_error.log', print_r($mesObj, true), FILE_APPEND);
+
             //\Yii::$app->pr->print_r2($params);
+            return false;
         }
 
+        return false;
         //$response = Elastic::getElasticClient()->update($params);
 
     }
@@ -655,8 +727,6 @@ class Product extends Model
      */
     public function saveProduct(&$product){
 
-
-
         /**
          * если не задан код, берем его транслитом из артикула
          */
@@ -677,8 +747,7 @@ class Product extends Model
         /** сгенерим урл из урла раздела/урла товара */
         $product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
 
-        $this->addProduct($product);
-
+        return $this->addProduct($product);
     }
 
 
@@ -717,6 +786,10 @@ class Product extends Model
 
         //если раздела не существует, то хотя бы генерим урл из кода
         return $productCode.'/';
+    }
+
+    private function _fakeGenerateUrl($productCode, $sectionUniqueId){
+        return '/electric_products/klemmy-klemmniki/krutye-klemmy-c-boltom/'.$productCode;
     }
 
 

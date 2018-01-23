@@ -172,7 +172,7 @@ class Manufacturer extends \yii\db\ActiveRecord
             } else {
 
                 $error = '<br />Ошибка сохранения <pre>' . $proizv . '</pre><br />';
-                Yii::$app->session->setFlash('error_'.intval($proizv->proizv_id), $error);
+                //Yii::$app->session->setFlash('error_'.intval($proizv->proizv_id), $error);
                 /*$errors = $selfSection->getErrors();
                 Yii::$app->pr->print_r2($errors);*/
             }
@@ -181,7 +181,7 @@ class Manufacturer extends \yii\db\ActiveRecord
             $trn->rollback();
 
             $error = '<br />' . $e->getMessage() . '<br />';
-            Yii::$app->session->setFlash('error_'.intval($proizv->proizv_id), $error);
+            //Yii::$app->session->setFlash('error_'.intval($proizv->proizv_id), $error);
         }
 
         unset($proizv);

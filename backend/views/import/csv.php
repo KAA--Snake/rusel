@@ -1,4 +1,6 @@
 <?php
+set_time_limit(0);
+
 use yii\widgets\ActiveForm;
 ?>
 <?php
@@ -30,3 +32,14 @@ if($isProductsClear) {
     <button>Старт</button>
 
 <?php ActiveForm::end(); ?>
+<br />
+<br />
+<br />
+
+<hr>
+<div>Ручной старт обработки выгрузки</div>
+<form action="/admin/import/manual" method="post" name="manual">
+    Имя файла: <input type="text" name="file_name" value="">
+
+    <input type="submit" value="Ручной старт">
+</form>

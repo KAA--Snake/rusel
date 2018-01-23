@@ -9,6 +9,7 @@
 namespace common\modules\catalog\models\rabbit;
 
 
+use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -20,8 +21,10 @@ abstract class Rabbit
     private $server = 'rabbit';
     private $port = 5672;
 
-    private $connection;
-    private $channel;
+    protected $connection;
+
+    /** @var  AMQPChannel $channel */
+    protected $channel;
 
     public $queue_name;
 
@@ -33,13 +36,13 @@ abstract class Rabbit
         $this->queue_name = $queue_name;
     }
 
-    private function __openConnection(){
+    protected function __openConnection(){
         $this->connection = new AMQPStreamConnection($this->server, $this->port, $this->login, $this->password);
         $this->channel = $this->connection->channel();
     }
 
 
-    private function __closeConnection(){
+    protected function __closeConnection(){
         $this->channel->close();
         $this->connection->close();
     }
@@ -56,17 +59,17 @@ abstract class Rabbit
 
         $this->__openConnection();
 
-        $this->channel->queue_declare(
+        /*$this->channel->queue_declare(
             $this->queue_name,	#queue name - Имя очереди может содержать до 255 байт UTF-8 символов
             false,      	#passive - может использоваться для проверки того, инициирован ли обмен, без того, чтобы изменять состояние сервера
             true,      	#durable - убедимся, что RabbitMQ никогда не потеряет очередь при падении - очередь переживёт перезагрузку брокера
             false,      	#exclusive - используется только одним соединением, и очередь будет удалена при закрытии соединения
             false       	#autodelete - очередь удаляется, когда отписывается последний подписчик
-        );
+        );*/
 
         $msg = new AMQPMessage(
             $orderData,
-            array('delivery_mode' => 2) #создаёт сообщение постоянным, чтобы оно не потерялось при падении или закрытии сервера
+            array('delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT) #создаёт сообщение постоянным, чтобы оно не потерялось при падении или закрытии сервера
         );
 
         $this->channel->basic_publish(

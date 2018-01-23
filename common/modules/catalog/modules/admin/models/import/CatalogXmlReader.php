@@ -8,8 +8,12 @@
 
 namespace common\modules\catalog\modules\admin\models\import;
 
+set_time_limit(0);
+
 use common\models\elasticsearch\Product;
+use common\modules\catalog\models\elastic\Elastic;
 use common\modules\catalog\models\Manufacturer;
+use common\modules\catalog\models\rabbit\import\RabbitImportProduct;
 use common\modules\catalog\modules\admin\models\import\ProductParser;
 use common\modules\catalog\models\Section;
 use yii\base\Model;
@@ -21,10 +25,17 @@ class CatalogXmlReader
     protected $result = array();
     protected $model;
 
+    protected $bulkData;
+    private $docsCount = 1;
+
+    private $productModel;
+
     /** флаг - удалена ли таблица (изпользуется в начале обработки, т.к. разделы всегда удаляются перед обработкой)*/
     private $isTableSectionClear = false;
 
     public function __construct($xml_path) {
+
+        $this->productModel = new Product();
 
         $this->reader = new XMLReader();
         if(is_file($xml_path))
@@ -47,9 +58,35 @@ class CatalogXmlReader
                     //запуск соответствующего парсера (пример - parse.Group)
                     $this->{$fnName}();
 
-                    $this->model->{$fnModelSaveName}($this->result);
+                    if($this->reader->localName != 'product'){ //продукт прогоняем через раббит
+
+                        //запуск соответствующего метода (пример- Product.Save($this->result))
+                        $this->model->{$fnModelSaveName}($this->result);
+                    }
+
+
+                    unset($this->result);//чистим память
+                    unset($this->model);//чистим память
                 }
             }
+
+            //usleep(250000);
+        }
+
+        //после обработки запроса загрузим остатки, которые не вошли в %1000 от загрузки товаров (в методе parseProduct)
+        if(!empty($this->bulkData)){
+            //\Yii::$app->pr->print_r2($this->bulkData);
+
+            //echo 'final';
+            //\Yii::$app->pr->print_r2($this->bulkData);
+            $responses = Elastic::getElasticClient()->bulk($this->bulkData);
+
+            //$rabbitModel = new RabbitImportProduct('import_product_queue');
+            //$rabbitModel->sendDataToRabbit(@json_encode($simpleXmlString));
+
+            // unset the bulk response when you are done to save memory
+            $this->bulkData = null;
+            unset($responses);
         }
     }
 
@@ -116,26 +153,67 @@ class CatalogXmlReader
     public function parseProduct(){
         if($this->reader->nodeType == XMLREADER::ELEMENT && $this->reader->localName == 'product') {
 
-            //задаем модель для записи результата
-            $this->model = new Product();
+            //file_put_contents('/webapp/prodsCount', 'test \r\n' ,FILE_APPEND);
 
-            //задаем парсер
-            $productParser = new ProductParser();
+            //собираем 1000 записей для булк лоада
+            $simpleXmlString = simplexml_load_string($this->reader->readOuterXml());
+
+            $encoded =  @json_decode(@json_encode($simpleXmlString),1);
+
+            $this->bulkData['body'][] = $this->productModel->getParamsForBulkLoad($encoded)['for_index'];
+            $this->bulkData['body'][] = $this->productModel->getParamsForBulkLoad($encoded)['for_body'];
+
+            if ($this->docsCount % 500 === 0) {
+
+
+                //\Yii::$app->pr->print_r2($this->bulkData);
+                //die();
+
+                $responses = Elastic::getElasticClient()->bulk($this->bulkData);
+
+                //$rabbitModel = new RabbitImportProduct('import_product_queue');
+
+                //$rabbitModel->sendDataToRabbit(@json_encode($simpleXmlString));
+
+                // unset the bulk response when you are done to save memory
+                $this->bulkData = null;
+                unset($responses);
+
+                sleep(1);
+
+            }
+
+            //задаем модель для записи результата
+            //$product = new Product();
 
             //echo '<pre>';
             /*$this->reader->read();
             if($this->reader->nodeType == XMLREADER::TEXT){
                 $ratio['name'] = $this->reader->value;
             }*/
-            $this->result = simplexml_load_string($this->reader->readOuterXml());
+
+
+
+
+           /* $encoded = @json_encode($simpleXmlString);
+            \Yii::$app->pr->print_r2($encoded);
+
+            $decoded = @json_decode($encoded);
+            \Yii::$app->pr->print_r2($decoded);*/
+
+
+
 
             /*$product = [];
             $product['prices'] = [];
             $product['marketing'] = [];
             $product['properties'] = [];*/
 
-            //спарсиваем в рандомный массив
-            $this->result = $productParser->object2array($this->result);
+
+
+
+            //запуск соответствующего метода (пример- Product.Save($this->result))
+            //$product->saveProduct($this->result);
 
             //print_r($res);
             /*if(isset($this->result->prices)){
@@ -147,6 +225,7 @@ class CatalogXmlReader
                 $marketing = $priceParser->parseMarketing($this->result->marketing);
                 $product['marketing'] = $marketing;
             }*/
+            $this->docsCount++;
 
         }
     }

@@ -179,7 +179,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     "term"=> [ "section_id"=> $sectionId ]
                 ],
                 "aggs" => [
-                    "aggregated" => [
+                    "properties_agg" => [
+
                         "nested" => [
                             "path" => "other_properties.property"
                         ],
@@ -187,8 +188,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                             "aggregated_name" => [
                                 "terms" =>
                                     //[ "field" => "other_properties.property.name"],
-                                    [ "field" => "other_properties.property.name"],
-
+                                    ["field" => "other_properties.property.name"],
                             ],
                             /*"aggregated_name" => [
                                 "terms" =>
@@ -203,6 +203,31 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         ];
 
 
+        $params = [
+            'body' => [
+
+                "query" => [
+                    "term"=> [ "section_id"=> $sectionId ]
+                ],
+                "aggs" => [
+                    "properties_agg" => [
+                        "terms"=> [
+                            "field"=> "other_properties.property.name",
+                            "size"=> 100500
+                          ],
+                        'aggs' => [
+                            'sub_aggr' => [
+                                "terms"=> [
+                                    "field"=> "other_properties.property.value",
+                                    "size"=> 100500
+                                ],
+
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
 
 
 

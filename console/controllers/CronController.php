@@ -11,6 +11,7 @@ namespace console\controllers;
 set_time_limit(0);
 
 use common\modules\catalog\models\currency\Currency;
+use common\modules\catalog\models\rabbit\import\RabbitImportProduct;
 use common\modules\catalog\models\rabbit\Order\RabbitOrder;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -41,7 +42,34 @@ class CronController extends Controller
     }
 
 
-
+    /**
+     * Раббит демон для импорта каталога(на раббите из-за большого обьема), вызов висит на супервизорде
+     */
+    public function actionRabbitListenProduct1()
+    {
+        $rabbitOrder = new RabbitImportProduct('import_product_queue');
+        $rabbitOrder->listenWorker();
+    }
+    public function actionRabbitListenProduct2()
+    {
+        $rabbitOrder = new RabbitImportProduct('import_product_queue');
+        $rabbitOrder->listenWorker();
+    }
+    public function actionRabbitListenProduct3()
+    {
+        $rabbitOrder = new RabbitImportProduct('import_product_queue');
+        $rabbitOrder->listenWorker();
+    }
+    public function actionRabbitListenProduct4()
+    {
+        $rabbitOrder = new RabbitImportProduct('import_product_queue');
+        $rabbitOrder->listenWorker();
+    }
+    public function actionRabbitListenProduct5()
+    {
+        $rabbitOrder = new RabbitImportProduct('import_product_queue');
+        $rabbitOrder->listenWorker();
+    }
 
 
 
