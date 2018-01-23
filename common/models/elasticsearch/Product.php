@@ -17,6 +17,7 @@ use Elasticsearch\ClientBuilder;
 use yii\base\Model;
 use yii\data\Pagination;
 use yii\elasticsearch\Exception;
+use yii\redis\Cache;
 
 class Product extends Model
 {
@@ -222,8 +223,8 @@ class Product extends Model
         }
 
         /** сгенерим урл из урла раздела/урла товара */
-        //$product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
-        $product['url'] = $this->_fakeGenerateUrl($product['code'], $product['section_id']);
+        $product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
+
 
 
         /*$params = [
@@ -759,8 +760,39 @@ class Product extends Model
     private function __generateUrl($productCode, $sectionUniqueId){
         $section = false; //первоначально раздела для товара нет
 
+
+        /*\Yii::$app->redis->set('mykey', 'some value');
+        echo \Yii::$app->redis->get('mykey');*/
+
+        /** @var Cache $cache */
+        $cache = \Yii::$app->cache;
+
+
+
         if($sectionUniqueId > 0 && !empty($sectionUniqueId)){
-            $section = Section::find()->andWhere(['unique_id' => $sectionUniqueId])->one();
+
+            $cache = \Yii::$app->cache;
+
+            if (!$section = $cache->get('getSection'.$sectionUniqueId)){
+                //Получаем данные из таблицы (модель TagPost)
+                $section = Section::find()->andWhere(['unique_id' => $sectionUniqueId])->asArray()->one();
+
+                //Устанавливаем зависимость кеша от кол-ва записей в таблице
+                //$dependency = new \yii\caching\DbDependency(['sql' => 'SELECT COUNT(*) FROM {{%tag_post}}']);
+                $cache->set('getSection'.$sectionUniqueId, $section, 1000);
+            }
+
+
+            /*$section = $cache->getOrSet(['getsection', 'uid' => $sectionUniqueId], function ($cache) use ($sectionUniqueId) {
+                var_dump($section);
+                $section =  Section::find()->andWhere(['unique_id' => $sectionUniqueId])->one();
+            }, 1000);*/
+
+            //\Yii::$app->pr->print_r2($section);
+
+            //print_r($section);
+
+            //$section = Section::find()->andWhere(['unique_id' => $sectionUniqueId])->one();
         }else{
             //@TODO нет раздела для товара, значит сбрасываем его в корень кталога. Подумать как это реализовать!
         }

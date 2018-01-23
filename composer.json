@@ -24,7 +24,8 @@
         "nizsheanez/yii2-asset-converter": "1.*",
         "elasticsearch/elasticsearch": "~5.0",
         "php-amqplib/php-amqplib": ">=2.6.1",
-        "phpoffice/phpexcel": "dev-master"
+        "phpoffice/phpexcel": "dev-master",
+        "yiisoft/yii2-redis": "~2.0.7"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
