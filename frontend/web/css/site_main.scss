@@ -749,10 +749,10 @@ $white:#ffffff;
             color: #333333;
             font-size: 14px;
             font-weight: 400;
-            line-height: 20px;
+            line-height: 40px;
             text-align: left;
             border: none;
-            cursor: pointer;
+            cursor: default;
             margin-left: 92px;
             padding-left: 50px;
             outline: none;
@@ -776,12 +776,13 @@ $white:#ffffff;
               /*text-align: center;*/
               .table-head-inner{
                 &_name{
-                  width: 390px;
+                  min-width: 440px;
+                  max-width: 440px;
                   text-align: left;
                 }
                 &_count{
                   width: 390px;
-                  text-align: center;
+                  text-align: left;
                 }
                 &_btn{
                   width: 390px;
