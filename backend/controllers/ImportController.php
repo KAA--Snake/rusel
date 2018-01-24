@@ -330,6 +330,9 @@ class ImportController extends Controller
 
     public function actionManual(){
 
+        throw new HttpException(404, 'Функционал недоступен');
+
+
         if(\Yii::$app->getRequest()->getIsPost()){
 
             $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
