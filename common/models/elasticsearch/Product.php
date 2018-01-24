@@ -820,9 +820,7 @@ class Product extends Model
         return $productCode.'/';
     }
 
-    private function _fakeGenerateUrl($productCode, $sectionUniqueId){
-        return '/electric_products/klemmy-klemmniki/krutye-klemmy-c-boltom/'.$productCode;
-    }
+
 
 
 }

@@ -49,6 +49,9 @@ class CatalogXmlReader
      * Пример <group> тег запускает метод $this->parseFroup()
      */
     public function parse(){
+
+        file_put_contents('/webapp/impordResult', 'started ' . date('H:i:s') ,FILE_APPEND);
+
         while($this->reader->read()){
             if($this->reader->nodeType == XMLREADER::ELEMENT) {
                 $fnName = 'parse' . $this->reader->localName;
@@ -87,6 +90,10 @@ class CatalogXmlReader
             // unset the bulk response when you are done to save memory
             $this->bulkData = null;
             unset($responses);
+
+
+            file_put_contents('/webapp/impordResult', '| ended ' . date('H:i:s') ,FILE_APPEND);
+
         }
     }
 
@@ -153,6 +160,7 @@ class CatalogXmlReader
     public function parseProduct(){
         if($this->reader->nodeType == XMLREADER::ELEMENT && $this->reader->localName == 'product') {
 
+
             //file_put_contents('/webapp/prodsCount', 'test \r\n' ,FILE_APPEND);
 
             //собираем 1000 записей для булк лоада
@@ -163,7 +171,7 @@ class CatalogXmlReader
             $this->bulkData['body'][] = $this->productModel->getParamsForBulkLoad($encoded)['for_index'];
             $this->bulkData['body'][] = $this->productModel->getParamsForBulkLoad($encoded)['for_body'];
 
-            if ($this->docsCount % 500 === 0) {
+            if ($this->docsCount % 1000 === 0) {
 
 
                 //\Yii::$app->pr->print_r2($this->bulkData);
@@ -179,7 +187,7 @@ class CatalogXmlReader
                 $this->bulkData = null;
                 unset($responses);
 
-                sleep(1);
+                sleep(15);
 
             }
 
