@@ -55,6 +55,12 @@
       background: url(../img/logo_name.png) no-repeat center;
       width: 338px;
       height: 49px; }
+.container.main .content_wrap .main-page_h1 {
+  color: #282828;
+  font-size: 25px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 36px; }
 .container.main .content_wrap .sub_filter_wrap {
   margin-bottom: 20px; }
   .container.main .content_wrap .sub_filter_wrap .filter_counter {
@@ -128,7 +134,7 @@
   font-weight: 700;
   text-transform: uppercase;
   max-width: 220px; }
-  .container.main .content_wrap .supply_program .sp_header.sp_collapsed + .sp_body {
+  .container.main .content_wrap .supply_program .sp_header.sp_collapsed + .sp_body-fullwidth {
     /*display: none;*/
     /*height: 0;*/
     transform: scaleY(0);
@@ -136,7 +142,7 @@
     padding-top: 0;
     padding-bottom: 0;
     transition: 0.4s; }
-  .container.main .content_wrap .supply_program .sp_header.sp_expanded + .sp_body {
+  .container.main .content_wrap .supply_program .sp_header.sp_expanded + .sp_body-fullwidth {
     /*display: none;*/
     /*height: auto;*/
     transform: scaleY(1);
@@ -149,6 +155,42 @@
   position: absolute;
   z-index: 2;
   max-width: 220px; }
+  .container.main .content_wrap .supply_program .sp_body-fullwidth {
+    transform-origin: top;
+    border: 1px solid #e5e5e5;
+    background-color: #ffffff;
+    padding: 20px 18px 12px;
+    position: absolute;
+    top: 90px;
+    z-index: 2;
+    width: 1180px; }
+    .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_corner {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      transform: rotate(45deg);
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      top: -10px;
+      left: 100px;
+      border-bottom: none;
+      border-right: none; }
+    .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .jspPane {
+      display: flex; }
+    .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .inner_list {
+      display: flex;
+      flex-direction: column; }
+      .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .inner_list .sp_item {
+        width: 227px; }
+        .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .inner_list .sp_item a {
+          display: block;
+          color: #333333;
+          font-size: 12px;
+          font-weight: 300;
+          text-transform: uppercase;
+          text-decoration: none;
+          line-height: 16px;
+          padding: 12px 8px; }
   .container.main .content_wrap .supply_program .sp_body .sp_filter_block {
     margin-bottom: 20px; }
     .container.main .content_wrap .supply_program .sp_body .sp_filter_block .sp_filter {
@@ -813,6 +855,8 @@
   .container.main .content_wrap .content_inner_wrap .content_block {
     margin-bottom: 20px;
     /*margin-left: 140px;*/ }
+    .container.main .content_wrap .content_inner_wrap .content_block.news {
+      margin-bottom: 0; }
     .container.main .content_wrap .content_inner_wrap .content_block .content_header {
       color: #282828;
       font-size: 25px;
@@ -820,6 +864,39 @@
       line-height: 1;
       text-transform: uppercase;
       margin-bottom: 16px; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_item {
+      width: 460px;
+      height: 80px;
+      background-color: #ffffff;
+      border: 1px solid #ffffff;
+      border-left: none;
+      margin-bottom: 18px; }
+      .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_item:hover {
+        border: 1px solid #336699;
+        border-left: none; }
+      .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_item a {
+        display: flex;
+        text-decoration: none;
+        outline: none; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_img {
+      width: 110px;
+      height: 80px;
+      margin-top: -1px; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_name {
+      width: 350px;
+      height: 78px;
+      padding: 26px;
+      padding-left: 20px;
+      color: #333333;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 16px;
+      text-transform: uppercase;
+      overflow: hidden; }
     .container.main .content_wrap .content_inner_wrap .content_block .content_body .specials_list {
       display: flex;
       align-items: flex-start;
@@ -873,7 +950,7 @@
       flex-wrap: wrap; }
       .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item {
         width: 220px;
-        height: 390px;
+        height: 410px;
         background-color: #ffffff;
       /*&+.news_item{
         margin-left: 30px;
@@ -893,10 +970,11 @@
           font-size: 14px;
           font-weight: 700;
           line-height: 18px;
-          margin-bottom: 12px;
-          margin-left: 20px; }
+          margin-bottom: 14px;
+          margin-left: 20px;
+          margin-right: 20px; }
         .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_date {
-          margin-bottom: 12px;
+          margin-bottom: 14px;
           margin-left: 20px; }
           .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_date .clock_icon {
             width: 14px;
@@ -916,8 +994,9 @@
           font-size: 12px;
           font-weight: 300;
           line-height: 14px;
-          margin-bottom: 12px;
-          margin-left: 20px; }
+          margin-bottom: 14px;
+          margin-left: 20px;
+          margin-right: 20px; }
         .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_link_wrap {
           margin-bottom: 12px;
           margin-left: 20px; }

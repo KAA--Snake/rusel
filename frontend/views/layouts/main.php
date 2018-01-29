@@ -63,6 +63,7 @@ AppAsset::register($this);
 </div>
 
 <div class="wrap">
+
     <?php
 /*    NavBar::begin([
         'brandLabel' => 'My Company',
@@ -97,6 +98,9 @@ AppAsset::register($this);
     */?>
 
     <div class="container main">
+
+        <? echo \Yii::$app->view->renderFile('@app/views/includes/layout_v1/header.php');?>
+
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
