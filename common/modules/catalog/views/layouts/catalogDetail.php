@@ -174,7 +174,7 @@ AppAsset::register($this);
                 <div class="search_block">
                     <input type="text" placeholder="Введите искомый артикул" class="search_field">
                     <button class="submit_search">Найти</button>
-                    <button class="list_seach">Поиск по списку</button>
+                    <a href="/search/" class="list_seach">Поиск по списку</a>
                 </div>
 
             </div>

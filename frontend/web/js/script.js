@@ -92,6 +92,7 @@ $(document).ready(function () {
                 itemBody.slideUp();
                 itemFoot.slideUp();
 
+
                 cards.each(function () {
                     $(this).hide();
                 });

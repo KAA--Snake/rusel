@@ -78,14 +78,15 @@ AppAsset2::register($this);
                     <div class="icon "></div>
                     <div class="contact">
                         <div class="top">8 (495) 589-34-23</div>
-                        <div class="bottom">Обратный звонок</div>
+                        <!--<div class="bottom js-recall_popup_trigger">Обратный звонок</div>-->
+                        <div class="bottom">Пн-Пт 9:00-18:00(МСК)</div>
                     </div>
                 </div>
                 <div class="contact_item mail">
                     <div class="icon"></div>
                     <div class="contact">
                         <div class="top">zapros@rusel24.ru</div>
-                        <div class="bottom">Отправить письмо</div>
+                        <div class="bottom"><a class="mailto-link" href="mailto:zapros@rusel24.ru">Отправить письмо</a></div>
                     </div>
                 </div>
             </div>

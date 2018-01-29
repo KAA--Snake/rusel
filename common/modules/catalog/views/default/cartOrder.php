@@ -362,7 +362,7 @@ use yii\helpers\Html;
             <h2>Варианты ответа на запрос</h2>
 
             <div class="form_part_wrap">
-                <input type="radio" id="var1" name="Order[answer_var]" class="radio_btn js-order-type" checked="checked" value="1">
+                <input type="radio" id="var1" name="Order[answer_var]" class="radio_btn js-order-type org_required" checked="checked" value="1">
                 <label for="var1">Коммерческое предложение</label>
 
                 <input type="radio" id="var2" name="Order[answer_var]" class="radio_btn js-order-type org_required" value="2">
@@ -378,7 +378,7 @@ use yii\helpers\Html;
                 <div class="row clear">
                     <div class="col col_3">
                         <label class="text_label" for="fio">ФИО:</label>
-                        <input type="text" id="fio" name="Order[fio]" class="_order_inp" value="<?=$cartFields->fio;?>">
+                        <input type="text" id="fio" name="Order[fio]" class="_order_inp" data-validation="required" value="<?=$cartFields->fio;?>">
                     </div>
 
                     <div class="col col_3">
@@ -396,7 +396,7 @@ use yii\helpers\Html;
                 <div class="row">
                     <div class="col col_1">
                         <label class="text_label" for="org">Организация или ИП:</label>
-                        <input type="text" id="org" name="Order[org]" class="_order_inp js-org">
+                        <input type="text" id="org" name="Order[org]" data-validation="required" class="_order_inp">
                         <div class="org_tooltip"><span class="org_tooltip_arrow"></span>Введите название, ИНН или адрес</div>
                     </div>
                     <div class="selected_org"></div>
@@ -485,5 +485,6 @@ use yii\helpers\Html;
         <input type="hidden" class="js-delivery_city_name" name="Order[delivery_city]" value="">
         <input type="hidden" class="js-delivery_time" name="Order[delivery_time]" value="">
         <input type="hidden" class="js-client_address" name="Order[client_address]" value="">
+        <input type="hidden" class="js-client_address" name="Order[client_city]" value="">
     </form>
 </div>

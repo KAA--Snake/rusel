@@ -145,7 +145,7 @@ AppAsset::register($this);
                     </div>
                     <div class="contact">
                         <div class="top">zapros@rusel24.ru</div>
-                        <div class="bottom">Отправить письмо</div>
+                        <div class="bottom"><a class="mailto-link" href="mailto:zapros@rusel24.ru">Отправить письмо</a></div>
                     </div>
                 </div>
             </div>

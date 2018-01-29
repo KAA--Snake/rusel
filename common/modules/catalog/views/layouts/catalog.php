@@ -100,7 +100,8 @@ AppAsset::register($this);
                             </div>
                             <div class="contact">
                                 <div class="top">8 (495) 066-42-14</div>
-                                <div class="bottom js-recall_popup_trigger">Обратный звонок</div>
+                                <!--<div class="bottom js-recall_popup_trigger">Обратный звонок</div>-->
+                                <div class="bottom">Пн-Пт 9:00-18:00(МСК)</div>
                             </div>
                         </div>
                         <div class="contact_item mail">
@@ -111,7 +112,7 @@ AppAsset::register($this);
                             </div>
                             <div class="contact">
                                 <div class="top">zapros@rusel24.ru</div>
-                                <div class="bottom">Отправить письмо</div>
+                                <div class="bottom"><a class="mailto-link" href="mailto:zapros@rusel24.ru">Отправить письмо</a></div>
                             </div>
                         </div>
                         <div class="contact_item order">
@@ -160,15 +161,15 @@ AppAsset::register($this);
             <div class="search_block">
                 <input type="text" placeholder="Введите искомый артикул" class="search_field">
                 <button class="submit_search">Найти</button>
-                <button class="list_seach">Поиск по списку</button>
+                <a href="/search/" class="list_seach">Поиск по списку</a>
             </div>
 
         </div>
 
 
         <div class="content_inner_wrap col_940 clear">
-            <div class="breadcrumbs_menu">
-                <?= Breadcrumbs::widget([
+            <!--<div class="breadcrumbs_menu">
+                <?/*= Breadcrumbs::widget([
                     'options'       =>  [
                         //'id'        =>  'breadCrumbs',
                         'class'        =>  'breadcrumbs_list',
@@ -176,8 +177,8 @@ AppAsset::register($this);
                     'homeLink' => ['label' => 'Навигация по каталогу:'],
                     'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // template for all links
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]);?>
-            </div>
+                ]);*/?>
+            </div>-->
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>
@@ -222,7 +223,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="mw1180 clear">
-        <div class="footer-left fll">© <?= date('Y') ?> ООО"РУСЭЛ24" Все права защищены.</div>
+        <div class="footer-left fll">© <?= date('Y') ?> ООО"РУСЭЛ24" Все права защищены. Информация на сайте <a href="/">www.rusel24.ru</a> не является публичной офертой.</div>
 
         <div class="footer-right flr">
             <div class="contact_block">
@@ -246,7 +247,8 @@ AppAsset::register($this);
                     </div>
                     <div class="contact">
                         <div class="top">8 (495) 066-42-14</div>
-                        <div class="bottom js-recall_popup_trigger">Обратный звонок</div>
+                        <!--<div class="bottom js-recall_popup_trigger">Обратный звонок</div>-->
+                        <div class="bottom">Пн-Пт 9:00-18:00(МСК)</div>
                     </div>
                 </div>
                 <div class="contact_item mail">
@@ -257,7 +259,7 @@ AppAsset::register($this);
                     </div>
                     <div class="contact">
                         <div class="top">zapros@rusel24.ru</div>
-                        <div class="bottom">Отправить письмо</div>
+                        <div class="bottom"><a class="mailto-link" href="mailto:zapros@rusel24.ru">Отправить письмо</a></div>
                     </div>
                 </div>
             </div>

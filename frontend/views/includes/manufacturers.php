@@ -3,7 +3,7 @@
 
 use yii\helpers\Url;
 ?>
-<div class="sp_header sp_collapsed">ПРОГРАММА ПОСТАВОК</div>
+<div class="sp_header sp_expanded">ПРОГРАММА ПОСТАВОК</div>
 <div class="sp_body">
     <div class="sp_filter_block">
         <input type="text" class="sp_filter" placeholder="Поиск производителя">

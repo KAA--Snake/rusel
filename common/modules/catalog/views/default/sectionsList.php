@@ -43,47 +43,70 @@ $sectionModel = new Section();
 //$sectionModel->listTree($groupedSiblings);
 
 ?>
+<div class="section_list_wrap clear">
+    <h1><?= $currentSection->name; ?></h1>
+    <div class="catalog_tree_container fll">
 
-<h1><?= $currentSection->name; ?></h1>
-
-<!--static markup--------------------------------------------------------------------->
-<!--static markup--------------------------------------------------------------------->
-<!--static markup--------------------------------------------------------------------->
-<div class="catalog_tree_container fll">
-
-    <?php
-    foreach ($groupedSiblings as $oneSibling) { ?>
-        <div class="content_block">
-            <div class="tree_container clear">
-                <!--<div class="tree_img fll">
+        <?php
+        foreach ($groupedSiblings as $oneSibling) { ?>
+            <div class="content_block">
+                <div class="tree_container clear">
+                    <!--<div class="tree_img fll">
                     <img src="<?/*= Url::to('@web/img/tree_img3.png'); */?>" alt="<?/*= $currentSection->name; */?>">
                 </div>-->
-                <div class="catalog_tree_wrap fll">
-                    <h2>
-                        <a class="tree_header active" href="<?= Url::toRoute(['@catalogDir/' . $oneSibling->url]); ?>">
-                            <span class="red_icon"></span>
-                            <?= $oneSibling->name; ?>
-                            <div class="tree_header_icon <?php if (count($oneSibling->childs) > 0) { ?>active<? }else{ ?>inactive<? } ?>"></div>
-                        </a>
-                    </h2>
-                    <?php if (count($oneSibling->childs) > 0) { ?>
-                        <div class="tree_list">
-
-                            <?php
-                            $sectionModel->recursiveLevel = 1;
-                            $sectionModel->listTree($oneSibling->childs);
-                            ?>
-
+                    <div class="catalog_tree_wrap fll">
+                        <h2>
+                            <a class="tree_header inactive" href="<?= Url::toRoute(['@catalogDir/' . $oneSibling->url]); ?>">
+                                <span class="red_icon"></span>
+                                <?= $oneSibling->name; ?>
+                                <div class="tree_header_icon inactive"></div>
+                            </a>
+                        </h2>
+                        <?php if (count($oneSibling->childs) > 0) { ?>
+                        <div class="producers_block hidden">
+                            <span class="producers_block_header">Производители по разделу: </span>
+                            <span class="producers_item"><a href="">EPCOS (TDK)</a>,</span>
+                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
+                            <span class="producers_item"><a href="">KEMMET</a>,</span>
+                            <span class="producers_item"><a href="">ADESTO</a>,</span>
+                            <span class="producers_item"><a href="">APLHA</a>,</span>
+                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
+                            <span class="producers_item"><a href="">KEMMET</a>,</span>
+                            <span class="producers_item"><a href="">EPCOS (TDK)</a>,</span>
+                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
+                            <span class="producers_item"><a href="">KEMMET</a>,</span>
+                            <span class="producers_item"><a href="">ADESTO</a>,</span>
+                            <span class="producers_item"><a href="">APLHA</a>,</span>
+                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
+                            <span class="producers_item"><a href="">KEMMET</a>,</span>
+                            <span class="producers_item"><a href="">EPCOS (TDK)</a>,</span>
+                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
+                            <span class="producers_item"><a href="">KEMMET</a>,</span>
+                            <span class="producers_item"><a href="">ADESTO</a>,</span>
+                            <span class="producers_item"><a href="">APLHA</a>,</span>
+                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
+                            <span class="producers_item"><a href="">KEMMET</a>,</span>
+                            <span class="producers_item"><a href="">ADESTO</a></span>
                         </div>
-                    <?php } ?>
+                         <?php } ?>
 
+                        <?php if (count($oneSibling->childs) > 0) { ?>
+                            <div class="tree_list hidden">
+                                <?php
+                                $sectionModel->recursiveLevel = 1;
+                                $sectionModel->listTree($oneSibling->childs);
+                                ?>
+
+                            </div>
+                        <?php } ?>
+
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php } ?>
+        <?php } ?>
 
 
-    <?php /*?>
+        <?php /*?>
     <div class="content_block">
         <div class="tree_container clear">
             <div class="tree_img fll">
@@ -132,12 +155,9 @@ $sectionModel = new Section();
     </div>
     <?php */?>
 
+    </div>
 </div>
 
-
-<!--/static markup--------------------------------------------------------------------->
-<!--/static markup--------------------------------------------------------------------->
-<!--/static markup--------------------------------------------------------------------->
 
 
 
