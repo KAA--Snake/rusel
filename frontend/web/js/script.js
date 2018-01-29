@@ -1,6 +1,28 @@
 var excludedFilterParams = ['page', 'perPage'];
 $(document).ready(function () {
 
+    if($('.js-sp_filter').length > 0) {
+        $('.js-sp_filter').on('input', function() {
+            var sp_list = $('.js-sp_item');
+            if(this.value.length > 2){
+
+                for(let k=0;k<sp_list.length;k++) {
+
+                    if (sp_list.eq(k).find('a').text().toLowerCase().indexOf(this.value.toLowerCase()) == -1){
+                        sp_list.eq(k).hide();
+                    }else {
+                        sp_list.eq(k).show();
+                    }
+                }
+            }else {
+                for(let k=0;k<sp_list.length;k++) {
+                    sp_list.eq(k).show();
+                }
+            }
+
+        })
+    }
+
     if($('.js-delete_item').length > 0) {
         $(document).on('click', '.js-delete_item', function (e) {
             $(this).closest('.list_cell').remove();
