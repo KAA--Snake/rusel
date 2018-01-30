@@ -58,9 +58,9 @@
 .container.main .content_wrap .main-page_h1 {
   color: #282828;
   font-size: 25px;
-  font-weight: 400;
+  font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 36px; }
+  margin-bottom: 16px; }
 .container.main .content_wrap .sub_filter_wrap {
   margin-bottom: 20px; }
   .container.main .content_wrap .sub_filter_wrap .filter_counter {
@@ -134,6 +134,12 @@
   font-weight: 700;
   text-transform: uppercase;
   max-width: 220px; }
+  .container.main .content_wrap .supply_program .sp_header.sp_header-fullwidth {
+    cursor: pointer;
+    transition: 0.2s; }
+    .container.main .content_wrap .supply_program .sp_header.sp_header-fullwidth.sp_expanded {
+      background-color: #7194b8;
+      transition: 0.2s; }
   .container.main .content_wrap .supply_program .sp_header.sp_collapsed + .sp_body-fullwidth {
     /*display: none;*/
     /*height: 0;*/
@@ -190,7 +196,10 @@
           text-transform: uppercase;
           text-decoration: none;
           line-height: 16px;
-          padding: 12px 8px; }
+          padding: 8px; }
+          .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .inner_list .sp_item a:hover {
+            color: #336699;
+            text-decoration: underline; }
   .container.main .content_wrap .supply_program .sp_body .sp_filter_block {
     margin-bottom: 20px; }
     .container.main .content_wrap .supply_program .sp_body .sp_filter_block .sp_filter {

@@ -77,9 +77,9 @@ $white:#ffffff;
     .main-page_h1{
       color: #282828;
       font-size: 25px;
-      font-weight: 400;
+      font-weight: 700;
       text-transform: uppercase;
-      margin-bottom: 36px;
+      margin-bottom: 16px;
     }
     .sub_filter_wrap{
       margin-bottom: 20px;
@@ -166,6 +166,14 @@ $white:#ffffff;
 
     .supply_program{
       .sp_header{
+        &.sp_header-fullwidth{
+          cursor: pointer;
+          transition: 0.2s;
+          &.sp_expanded{
+            background-color: #7194b8;
+            transition: 0.2s;
+          }
+        }
         line-height: 1.5;
         padding: 11px 18px;
         background-color: $blue;
@@ -236,7 +244,11 @@ $white:#ffffff;
                   text-transform: uppercase;
                   text-decoration: none;
                   line-height: 16px;
-                  padding: 12px 8px;
+                  padding: 8px;
+                  &:hover{
+                    color: $blue;
+                    text-decoration: underline;
+                  }
                 }
               }
             }

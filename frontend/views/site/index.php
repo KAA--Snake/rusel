@@ -51,7 +51,7 @@ $this->title = 'My Yii Application';
 
     <div class="content_inner_wrap col_940">
 
-        <h1 class="main-page_h1">интернет-портал снабжения комплектующими</h1>
+        <h1 class="main-page_h1">КОМПЛЕКСНОЕ СНАБЖЕНИЕ КОМПЛЕКТУЮЩИМИ</h1>
 
         <div class="slider">
             <div class="slider_item">

@@ -3,7 +3,7 @@
 
 use yii\helpers\Url;
 ?>
-<div class="sp_header sp_collapsed">ПРОГРАММА ПОСТАВОК</div>
+<div class="sp_header sp_collapsed sp_header-fullwidth">ПРОГРАММА ПОСТАВОК</div>
 <div class="sp_body-fullwidth js-sp_list_wrap">
     <div class="sp_corner"></div>
     <div class="sp_list js-scroll-pane">
