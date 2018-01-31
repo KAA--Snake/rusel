@@ -330,14 +330,19 @@ class ImportController extends Controller
 
     public function actionManual(){
 
-        throw new HttpException(404, 'Функционал недоступен');
+        //throw new HttpException(404, 'Функционал недоступен');
 
 
         if(\Yii::$app->getRequest()->getIsPost()){
 
             $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
+
+            $catalogModule = \Yii::$app->getModule('catalog');
+            $allowedExtensions = $catalogModule->params['allowedExtensions'];
+
             $postData = \Yii::$app->getRequest()->post();
 
+            $model = new CatalogImport();
 
 
                 //\Yii::$app->pr->print_r2($postData);
@@ -346,45 +351,23 @@ class ImportController extends Controller
                 //запустить импорт
                 if(isset($postData['file_name']) && !empty($postData['file_name'])){
 
-                    unset($_SESSION['ERRORS']);
+                    exec('nohup php /webapp/yii import/manual '.$postData['file_name']. ' > /dev/null &');
 
-                    //file_put_contents('/webapp/import.log', 'Start import: '.date("H:i:s"), FILE_APPEND);
-                    //\Yii::error('start process as '. date('H:i:s'));
-                    $catalogImportModel = new CatalogImport();
-
-                    //$catalogImportModel = new CatalogImport();
-                    //echo $_SERVER['DOCUMENT_ROOT'];
-                    //die();
-                    $catalogImportModel->filePath = $erpParams['upload_folder'].$postData['file_name'];
-
-                    //while(true){
-                        $catalogImportModel->import();
-                    //}
-
-                    //$catalogImportModel->filePath = '/webapp/upload/erp/list1502263897108.txt';
-
-                    //$catalogImportModel->import();
-                    //return json_encode(['IMPORT_RESULT' => 'DONE']);
-
-
-
-                    /*$resUlt = [
-                        'RES' => 'DONE',
-                        'ERRORS' => $_SESSION['ERRORS']
-                    ];*/
-                    //$catalogImportModel->sendRespondToErp($postData['file_name'], $resUlt);
-                    //file_put_contents('/webapp/import.log', 'End import: '.date("H:i:s"), FILE_APPEND);
-                    //\Yii::info('end process as '. date('H:i:s'));
-
-                    return true;
                     //return json_encode();
 
                 }
 
         }
 
+        return $this->render('csv', [
+                'allowedExtensions' => $allowedExtensions,
+                'uploaded' => true,
+                'isProductsClear' => false,
+                'model' => $model
+            ]
+        );
 
-        throw new HttpException(404, 'Страница не найдена');
+
     }
 
 }

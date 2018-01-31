@@ -60,53 +60,7 @@ use common\widgets\Alert;
 <div class="wrap">
     <div class="container main">
 
-        <header class="header">
-            <div class="mw1180">
-                <nav class="top_menu">
-                    <a href="" class="nav_item">О проекте</a>
-                    <a href="" class="nav_item">Оплата и доставка</a>
-                    <a href="" class="nav_item">Публичная оферта</a>
-                    <a href="" class="nav_item">Сотрудничество</a>
-                    <a href="" class="nav_item">Вакансии</a>
-                    <a href="" class="nav_item">Контакты</a>
-                </nav>
 
-                <div class="header_info clear">
-                    <div class="fll">
-                        <a href="/" class="logo_link">
-                            <div class="logo_ico"></div>
-                            <div class="logo_name"></div>
-                        </a>
-                    </div>
-
-                    <div class="flr">
-                        <div class="contact_block">
-                            <div class="contact_item phone">
-                                <div class="icon "></div>
-                                <div class="contact">
-                                    <div class="top">8 (495) 066-42-14</div>
-                                    <div class="bottom js-recall_popup_trigger">Обратный звонок</div>
-                                </div>
-                            </div>
-                            <div class="contact_item mail">
-                                <div class="icon"></div>
-                                <div class="contact">
-                                    <div class="top">zapros@rusel24.ru</div>
-                                    <div class="bottom">Отправить письмо</div>
-                                </div>
-                            </div>
-                            <div class="contact_item order">
-                                <div class="icon"></div>
-                                <div class="contact">
-                                    <div class="top">Форма запроса</div>
-                                    <div class="bottom">Выбрано: <span class="order_count">0</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
 
         <div class="content_wrap mw1180">
 
@@ -140,7 +94,7 @@ use common\widgets\Alert;
                 <div class="search_block">
                     <input type="text" placeholder="Введите искомый артикул" class="search_field">
                     <button class="submit_search">Найти</button>
-                    <button class="list_seach">Поиск по списку</button>
+                    <a href="/search/" class="list_seach">Поиск по списку</a>
                 </div>
 
             </div>

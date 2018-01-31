@@ -213,17 +213,20 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     "properties_agg" => [
                         "terms"=> [
                             "field"=> "other_properties.property.name",
-                            "size"=> 100500
+                            "size"=> 50000,
+
+
                           ],
-                        'aggs' => [
+                        /*'aggs' => [
                             'sub_aggr' => [
                                 "terms"=> [
                                     "field"=> "other_properties.property.value",
-                                    "size"=> 100500
+                                    "size"=> 50000
                                 ],
 
                             ]
-                        ]
+                        ]*/
+
                     ]
                 ]
             ]

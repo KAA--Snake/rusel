@@ -14,13 +14,19 @@ use yii\console\Controller;
 
 class ImportController extends Controller
 {
-    public function actionManual(){
+    public function actionManual($filename = false){
+
+
+        file_put_contents('/webapp/import.log', 'Start import: '.date("H:i:s"), FILE_APPEND);
+
+        if(!$filename) return false;
 
 
         $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
         //$postData = \Yii::$app->getRequest()->post();
 
-        $postData['file_name'] = 'list-1-1516437522108.xml';
+        //$postData['file_name'] = 'list-1-1516437522108.xml';
+        $postData['file_name'] = $filename;
 
         //\Yii::$app->pr->print_r2($postData);
 
@@ -55,7 +61,7 @@ class ImportController extends Controller
                 'ERRORS' => $_SESSION['ERRORS']
             ];*/
             //$catalogImportModel->sendRespondToErp($postData['file_name'], $resUlt);
-            //file_put_contents('/webapp/import.log', 'End import: '.date("H:i:s"), FILE_APPEND);
+            file_put_contents('/webapp/import.log', 'End import: '.date("H:i:s"), FILE_APPEND);
             //\Yii::info('end process as '. date('H:i:s'));
 
             return true;

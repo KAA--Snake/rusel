@@ -155,7 +155,7 @@ class DefaultController extends Controller
             /** Получим все доступные значения для фильтра по выбранному разделу */
             $searchModel = new ProductsSearch();
             //@TODO пока отключил в целях тестирования нагрузки. ВКЛЮЧИТЬ !!!
-            //$allFilterData = $searchModel->getFilterDataForSectionId($returnData['currentSection']->unique_id);
+            $allFilterData = $searchModel->getFilterDataForSectionId($returnData['currentSection']->unique_id);
 
             $this->layout = 'catalogFullWidth';
 
