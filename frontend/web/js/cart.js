@@ -1,4 +1,6 @@
+var currenciesData;
 $(document).ready(function () {
+
 
     getCityList();
     cartCheck();
@@ -277,15 +279,21 @@ $(document).ready(function () {
 
 function getRateOfExchange(code) {
     var currencies = 0;
-    $.ajax({
-        url: 'http://rusel24.fvds.ru/ajax/get-currencies/',
-        async: false,
-        success: function (data) {
-            if (data[code]) {
-                currencies = +data[code];
+    if(!!!$('body').data('currencies') || !$('body').data('currencies')[code]){
+        $.ajax({
+            url: '/ajax/get-currencies/',
+            async: false,
+            success: function (data) {
+                $('body').data('currencies', data);
+                if (data[code]) {
+                    currencies = +data[code];
+                }
             }
-        }
-    });
+        });
+    }else{
+        currencies = +$('body').data('currencies')[code]
+    }
+
     return currencies;
 };
 
