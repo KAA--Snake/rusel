@@ -17,7 +17,7 @@ class ImportController extends Controller
     public function actionManual($filename = false){
 
 
-        file_put_contents('/webapp/import.log', 'Start import: '.date("H:i:s"), FILE_APPEND);
+        //file_put_contents('/webapp/import.log', 'Start import: '.date("H:i:s"), FILE_APPEND);
 
         if(!$filename) return false;
 
@@ -61,7 +61,7 @@ class ImportController extends Controller
                 'ERRORS' => $_SESSION['ERRORS']
             ];*/
             //$catalogImportModel->sendRespondToErp($postData['file_name'], $resUlt);
-            file_put_contents('/webapp/import.log', 'End import: '.date("H:i:s"), FILE_APPEND);
+            //file_put_contents('/webapp/import.log', 'End import: '.date("H:i:s"), FILE_APPEND);
             //\Yii::info('end process as '. date('H:i:s'));
 
             return true;
