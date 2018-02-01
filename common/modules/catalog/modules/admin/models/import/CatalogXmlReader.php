@@ -81,15 +81,15 @@ class CatalogXmlReader
                             echo '$fnModelSaveName = '.$fnModelSaveName. PHP_EOL;*/
 
                             //запуск соответствующего метода (пример- Product.Save($this->result))
-                            //$this->model->{$fnModelSaveName}($this->result);
+                            $this->model->{$fnModelSaveName}($this->result);
                         }
 
 
                     }
 
 
-                    //unset($this->result);//чистим память
-                    //unset($this->model);//чистим память
+                    unset($this->result);//чистим память
+                    unset($this->model);//чистим память
                 }
             }
 
