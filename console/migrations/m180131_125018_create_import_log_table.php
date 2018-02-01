@@ -21,6 +21,7 @@ class m180131_125018_create_import_log_table extends Migration
         $this->createTable('import_log', [
             'id' => $this->primaryKey(),
             'import_status' => $this->integer()->notNull(),
+            'imported_cnt' => $this->integer(),
             'import_file_name' => $this->string()->notNull(),
             'start_date' => $this->dateTime(),
             'end_date' => $this->dateTime(),

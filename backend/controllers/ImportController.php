@@ -12,6 +12,7 @@ namespace backend\controllers;
 
 set_time_limit(0);
 
+use common\modules\catalog\models\catalog_import\Import_log;
 use common\modules\catalog\models\mongo\Product;
 use common\modules\catalog\models\Section;
 use common\modules\catalog\modules\admin\models\import\CatalogImport;
@@ -149,6 +150,10 @@ class ImportController extends Controller
 
         $model = new CatalogImport();
 
+        $importResults = Import_log::find()->andWhere([])->asArray()->all();
+        echo 'Результат импорта товаров: ';
+        \Yii::$app->pr->print_r2($importResults);
+
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
 
             $model->file = UploadedFile::getInstance($model, 'file');
@@ -183,11 +188,14 @@ class ImportController extends Controller
 
         }
 
+
+
         return $this->render('csv', [
             'allowedExtensions' => $allowedExtensions,
             'uploaded' => $uploaded,
             'isProductsClear' => $isProductsClear,
-            'model' => $model
+            'model' => $model,
+            'importResults' => $importResults,
             ]
         );
     }
@@ -331,8 +339,6 @@ class ImportController extends Controller
     public function actionManual(){
 
         //throw new HttpException(404, 'Функционал недоступен');
-
-
         if(\Yii::$app->getRequest()->getIsPost()){
 
             $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
@@ -344,29 +350,15 @@ class ImportController extends Controller
 
             $model = new CatalogImport();
 
-
-                //\Yii::$app->pr->print_r2($postData);
-
-
                 //запустить импорт
                 if(isset($postData['file_name']) && !empty($postData['file_name'])){
 
                     exec('nohup php /webapp/yii import/manual '.$postData['file_name']. ' > /dev/null &');
 
-                    //return json_encode();
-
                 }
-
         }
 
-        return $this->render('csv', [
-                'allowedExtensions' => $allowedExtensions,
-                'uploaded' => true,
-                'isProductsClear' => false,
-                'model' => $model
-            ]
-        );
-
+        $this->redirect('/admin/import/');
 
     }
 

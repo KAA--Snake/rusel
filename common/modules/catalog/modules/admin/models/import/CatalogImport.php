@@ -11,6 +11,7 @@ namespace common\modules\catalog\modules\admin\models\import;
 set_time_limit(0);
 $start_time = microtime(true);
 
+use common\modules\catalog\models\catalog_import\Import_log;
 use common\modules\catalog\models\mongo\Product;
 use common\modules\catalog\models\Section;
 use yii\base\Model;
@@ -102,8 +103,13 @@ class CatalogImport extends Model
         foreach($files as $file) {
             $reader = new CatalogXmlReader($file);
             $reader->parse();
+
             unset($reader);
         }
+
+
+
+
     }
 
 

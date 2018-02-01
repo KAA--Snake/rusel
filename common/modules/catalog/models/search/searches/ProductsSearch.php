@@ -243,7 +243,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $response = Elastic::getElasticClient()->search($params);
         unset($response['hits']);
 
-        \Yii::$app->pr->print_r2($response);
+        //\Yii::$app->pr->print_r2($response);
         if(!empty($response)){
             //добавляем аксессуары к продуктам
             Product::setAccessoriedProds($response);
