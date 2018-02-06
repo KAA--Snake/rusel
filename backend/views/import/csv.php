@@ -9,9 +9,7 @@ foreach (\Yii::$app->session->getAllFlashes() as $key => $message) {
 }
 ?>
 <?php
-if($uploaded) {
-    echo '<br /> Успешно завершено! <br /><br />';
-}
+
 if($isProductsClear) {
     echo '<br /> Все товары успешно удалены! <br /><br />';
 }

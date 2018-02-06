@@ -16,6 +16,7 @@ use common\modules\catalog\models\catalog_import\Import_log;
 use common\modules\catalog\models\mongo\Product;
 use common\modules\catalog\models\Section;
 use common\modules\catalog\modules\admin\models\import\CatalogImport;
+use phpDocumentor\Reflection\Location;
 use Yii;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -165,10 +166,25 @@ class ImportController extends Controller
                     // file is uploaded successfully
                     $uploaded = true;
 
+                    //первичное сохранение логгера
+                    Import_log::deleteAll(); //сначала чистим
+                    Import_log::$currentImportModel = [
+                        'import_file_name' => $model->file,
+                        'import_status' => 0,
+                        'start_date' => date('Y-m-d H:i:s'),
+
+                    ];
+                    Import_log::checkAndSave();
+
                     $model->import();
 
                     /** запускаем проход по импортированному каталогу и генерим ему урлы*/
                     $model->generateCatalogUrls();
+
+                    ob_end_clean();
+                    echo "<script type='text/javascript'>  window.location='/admin/import/'; </script>";
+
+
                 }
             }
 
@@ -187,8 +203,6 @@ class ImportController extends Controller
 
 
         }
-
-
 
         return $this->render('csv', [
             'allowedExtensions' => $allowedExtensions,
@@ -358,7 +372,8 @@ class ImportController extends Controller
                 }
         }
 
-        $this->redirect('/admin/import/');
+        ob_end_clean();
+        echo "<script type='text/javascript'>  window.location='/admin/import/'; </script>";
 
     }
 
