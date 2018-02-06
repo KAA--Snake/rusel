@@ -1,5 +1,5 @@
 <?
-\Yii::$app->pr->print_r2($filterData);
+//\Yii::$app->pr->print_r2($filterData);
 ?>
 <div class="goods_filter_block col_1180">
     <div class="goods_filter_wrap">
@@ -13,27 +13,32 @@
     </div>
     <div class="filter_selector_wrap collapsed">
         <table class="filter_tab">
-            <?foreach($filterData as $oneFilter){?>
+            <?foreach($filterData as $oneFilter){
+                $key = md5($oneFilter['key']);
+                ?>
                 <tr class="filter_selector_item">
-                <td data-param="producer" class="name"><?=$oneFilter['key']?>:</td>
-                <td class="tags">
-                    <ul class="tag_list">
-                        <?foreach($oneFilter['sub_sub_aggr']['buckets'] as $oneBucket){?>
-                            <li data-tag="<?=$oneBucket['key'];?>" class="tag_item"><?=$oneBucket['key'];?></li>
-                        <?}?>
-                    </ul>
-                </td>
-            </tr>
+                    <td data-param="<?=$key;?>" class="name"><?=$oneFilter['key'];?>:</td>
+                    <td class="tags">
+                        <ul class="tag_list">
+                            <?foreach($oneFilter['sub_sub_aggr']['buckets'] as $oneBucket){?>
+                                <li data-tag="<?=$oneBucket['key'];?>" class="tag_item"><?=$oneBucket['key'];?></li>
+                            <?}?>
+                        </ul>
+                    </td>
+                </tr>
             <?}?>
         </table>
         <div class="apply_filter_btn_wrap">
 
             <form action="" method="get" class="filter_form hidden" name="productFilterForm" id="filter-form">
-                <?/*?><input type="hidden" name="page" value="<?=$this->params['page'];?>"><?*/?>
+                <?foreach($filterData as $oneFilter){
+                    $key = md5($oneFilter['key']);
+                    ?>
+                    <input type="hidden" name="<?=$key;?>" value="">
+                <?}?>
+
                 <input type="hidden" name="perPage" value="<?=$perPage;?>">
 
-                <input type="hidden" name="producer" value="">
-                <input type="hidden" name="nomin_tok" value="">
             </form>
 
             <input type="submit" form="filter-form" class="apply_filter_btn" value="Применить фильтр">
