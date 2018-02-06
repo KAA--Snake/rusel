@@ -30,7 +30,7 @@
         </table>
         <div class="apply_filter_btn_wrap">
 
-            <form action="" method="get" class="filter_form hidden" name="productFilterForm" id="filter-form">
+            <form action="" method="post" class="filter_form hidden" name="productFilterForm" id="filter-form">
                 <?foreach($filterData as $oneFilter){
                     $key = md5($oneFilter['key']);
                     ?>
@@ -38,6 +38,7 @@
                 <?}?>
 
                 <input type="hidden" name="perPage" value="<?=$perPage;?>">
+                <input type="hidden" name="<?=\Yii::$app->request->csrfParam; ?>" value="<?=\Yii::$app->request->getCsrfToken(); ?>" />
 
             </form>
 
