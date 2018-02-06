@@ -151,64 +151,13 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $productsFound = [];
 
-        $params = [
-            'body' => [
-                "size" => 0,
-                "_source"=> false,
-                "aggs" => [
-                    "proizvoditel" => [
-                        "filter" => [
-                            "term"=> [ "section_id"=> $sectionId ]
-
-                        ],
-                        "aggs" => [
-                            "aggregated" => [ "terms" =>
-                                [ "field" => "properties.proizvoditel" ],
-                            ]
-                        ]
-                    ]
-                ]
-
-            ]
-        ];
-
-
-
-//это работает наполовину, но не агрегирует
-        $params = [
-            'body' => [
-
-                "query" => [
-                    "term"=> [ "section_id"=> $sectionId ]
-                ],
-                "aggs" => [
-                    "properties_agg" => [
-                        "terms"=> [
-                            "field"=> "other_properties.property.name",
-                            "size"=> 50000,
-
-
-                          ],
-                        /*'aggs' => [
-                            'sub_aggr' => [
-                                "terms"=> [
-                                    "field"=> "other_properties.property.value",
-                                    "size"=> 50000
-                                ],
-
-                            ]
-                        ]*/
-
-                    ]
-                ]
-            ]
-        ];
 
 
         //ЭТО РАБОТАЕТ!!!
         $params = [
             'body' => [
-
+                "size" => 0,
+                "_source"=> false,
                 "query" => [
                     "term"=> [ "section_id"=> $sectionId ]
                 ],
@@ -219,7 +168,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                             "path" => "other_properties.property"
                         ],
                         "aggs" => [
-                            "properties_agg" => [
+                            "sub_agg" => [
                                 "terms"=> [
                                     "field"=> "other_properties.property.name",
                                     "size"=> 50000,
@@ -227,7 +176,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
                                 ],
                                 'aggs' => [
-                                    'sub_aggr' => [
+                                    'sub_sub_aggr' => [
                                         "terms"=> [
                                             "field"=> "other_properties.property.value",
                                             "size"=> 50000
@@ -235,24 +184,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
                                     ]
                                 ]
-
                             ]
-
-
-
-
-                           /*
-                            "aggregated_name" => [
-                                "terms" =>
-                                //[ "field" => "other_properties.property.name"],
-                                    ["field" => "other_properties.property.name"],
-                            ],
-                            "aggregated_name" => [
-                                "terms" =>
-                                //[ "field" => "other_properties.property.name"],
-                                    [ "field" => "other_properties.property.name"],
-
-                            ]*/
                         ]
                     ]
                 ]
@@ -267,7 +199,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $response = Elastic::getElasticClient()->search($params);
         unset($response['hits']);
 
-        //\Yii::$app->pr->print_r2($response);
+        \Yii::$app->pr->print_r2($response);
         if(!empty($response)){
             //добавляем аксессуары к продуктам
             Product::setAccessoriedProds($response);

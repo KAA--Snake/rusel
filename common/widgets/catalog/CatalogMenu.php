@@ -14,6 +14,8 @@ use yii\base\Widget;
 
 class CatalogMenu extends Widget
 {
+    public $maket = 'main_menu';
+
     public function init()
     {
         parent::init();
@@ -26,6 +28,11 @@ class CatalogMenu extends Widget
     {
         $sectionModel = new Section();
         $rootSections = $sectionModel->getRootSections();
+
+        if($this->maket != 'main_menu' && !empty($this->maket)){
+            return $this->render($this->maket, ['rootSections' => $rootSections]);
+        }
+
         return $this->render('main_menu', ['rootSections' => $rootSections]);
     }
 }
