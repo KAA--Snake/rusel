@@ -42,7 +42,10 @@ class ImportController extends Controller
             //\Yii::error('start process as '. date('H:i:s'));
             $catalogImportModel = new CatalogImport();
 
+
+
             //первичное сохранение логгера
+            Import_log::deleteAll(); //сначала чистим
             Import_log::$currentImportModel = [
                 'import_file_name' => $postData['file_name'],
                 'import_status' => 0,

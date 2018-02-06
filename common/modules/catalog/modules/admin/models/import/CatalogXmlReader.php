@@ -155,7 +155,6 @@ class CatalogXmlReader
                 $this->isTableSectionClear = true;
             }
 
-
             //задаем модель для записи результата
             $this->model = new Manufacturer();
 
