@@ -169,7 +169,7 @@ class Product extends Model
                                 "type" => "nested",
                             ],*/
 
-                            /*'other_properties.property' => [
+                            'other_properties.property' => [
 
                                 "type" => "nested",
                                 "properties" => [
@@ -179,9 +179,9 @@ class Product extends Model
                                     "value" => [ "type" => "keyword" ],
                                 ]
 
-                            ],*/
+                            ],
 
-                            'other_properties.property.id' => [
+                            /*'other_properties.property.id' => [
                                 'type' => 'integer'
                             ],
                             'other_properties.property.sort' => [
@@ -192,7 +192,7 @@ class Product extends Model
                             ],
                             'other_properties.property.value' => [
                                 'type' => 'keyword'
-                            ],
+                            ],*/
 
                             'prices' => [
                                 'type' => 'nested'

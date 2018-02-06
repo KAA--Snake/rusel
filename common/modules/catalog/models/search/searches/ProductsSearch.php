@@ -172,37 +172,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             ]
         ];
 
-        $params = [
-            'body' => [
-
-                "query" => [
-                    "term"=> [ "section_id"=> $sectionId ]
-                ],
-                "aggs" => [
-                    "properties_agg" => [
-
-                        "nested" => [
-                            "path" => "other_properties.property"
-                        ],
-                        "aggs" => [
-                            "aggregated_name" => [
-                                "terms" =>
-                                    //[ "field" => "other_properties.property.name"],
-                                    ["field" => "other_properties.property.name"],
-                            ],
-                            /*"aggregated_name" => [
-                                "terms" =>
-                                //[ "field" => "other_properties.property.name"],
-                                    [ "field" => "other_properties.property.name"],
-
-                            ]*/
-                        ]
-                    ]
-                ]
-            ]
-        ];
 
 
+//это работает наполовину, но не агрегирует
         $params = [
             'body' => [
 
@@ -233,7 +205,59 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         ];
 
 
+        //ЭТО РАБОТАЕТ!!!
+        $params = [
+            'body' => [
 
+                "query" => [
+                    "term"=> [ "section_id"=> $sectionId ]
+                ],
+                "aggs" => [
+                    "properties_agg" => [
+
+                        "nested" => [
+                            "path" => "other_properties.property"
+                        ],
+                        "aggs" => [
+                            "properties_agg" => [
+                                "terms"=> [
+                                    "field"=> "other_properties.property.name",
+                                    "size"=> 50000,
+
+
+                                ],
+                                'aggs' => [
+                                    'sub_aggr' => [
+                                        "terms"=> [
+                                            "field"=> "other_properties.property.value",
+                                            "size"=> 50000
+                                        ],
+
+                                    ]
+                                ]
+
+                            ]
+
+
+
+
+                           /*
+                            "aggregated_name" => [
+                                "terms" =>
+                                //[ "field" => "other_properties.property.name"],
+                                    ["field" => "other_properties.property.name"],
+                            ],
+                            "aggregated_name" => [
+                                "terms" =>
+                                //[ "field" => "other_properties.property.name"],
+                                    [ "field" => "other_properties.property.name"],
+
+                            ]*/
+                        ]
+                    ]
+                ]
+            ]
+        ];
 
 
         //$params = $this->productData + $params;
