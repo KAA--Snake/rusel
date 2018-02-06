@@ -137,7 +137,7 @@ class Manufacturer extends \yii\db\ActiveRecord
      * @return bool
      * @internal param $group
      */
-    public function saveProizvoditel(&$proizv){
+    public function savemanufacturer(&$proizv){
 
         /*var_dump($proizv);
         return true;*/

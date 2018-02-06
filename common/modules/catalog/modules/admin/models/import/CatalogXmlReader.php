@@ -65,7 +65,9 @@ class CatalogXmlReader
             if($this->reader->nodeType == XMLREADER::ELEMENT) {
 
                 $fnName = 'parse' . $this->reader->localName;
+                //echo $fnName . '<br/>';
                 $fnModelSaveName = 'save' . $this->reader->localName;
+                //echo $fnModelSaveName . '<br/>';
                 if(method_exists($this, $fnName)) {
 
                     //запуск соответствующего парсера (пример - parse.Group)
@@ -119,19 +121,21 @@ class CatalogXmlReader
 
             //file_put_contents('/webapp/impordResult', '| ended ' . date('H:i:s') ,FILE_APPEND);
 
+            //echo 'name = '.$this->reader->localName. PHP_EOL;
+            //echo 'count = '.$this->docsCount. PHP_EOL;
+
+            Import_log::$currentImportModel['import_status'] = 1;
+            Import_log::$currentImportModel['end_date'] =  date('Y-m-d H:i:s');
+            Import_log::$currentImportModel['errors_log'] =  implode('|', $this->errors_log);
+            //сохраним кол-во импортируемых товаров в лог
+            Import_log::$currentImportModel['imported_cnt'] = $this->docsCount - 1;
+
+            //print_r(Import_log::$currentImportModel);
+            Import_log::checkAndSave();
+
         }
 
-        //echo 'name = '.$this->reader->localName. PHP_EOL;
-        //echo 'count = '.$this->docsCount. PHP_EOL;
 
-        Import_log::$currentImportModel['import_status'] = 1;
-        Import_log::$currentImportModel['end_date'] =  date('Y-m-d H:i:s');
-        Import_log::$currentImportModel['errors_log'] =  implode('|', $this->errors_log);
-        //сохраним кол-во импортируемых товаров в лог
-        Import_log::$currentImportModel['imported_cnt'] = $this->docsCount - 1;
-
-        //print_r(Import_log::$currentImportModel);
-        Import_log::checkAndSave();
 
 
     }
