@@ -179,7 +179,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                                     'sub_sub_aggr' => [
                                         "terms"=> [
                                             "field"=> "other_properties.property.value",
-                                            "size"=> 50000
+                                            "size"=> 50000,
+                                            "order"=> ["_term" => "asc"]
                                         ],
 
                                     ]
@@ -197,18 +198,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         //\Yii::$app->pr->print_r2($params);
 
         $response = Elastic::getElasticClient()->search($params);
-        unset($response['hits']);
+        //unset($response['hits']);
 
-        \Yii::$app->pr->print_r2($response);
-        if(!empty($response)){
-            //добавляем аксессуары к продуктам
-            Product::setAccessoriedProds($response);
-            $this->foundGoodResultsCount++;
-        }else{
-            $response = ['error' => 'Товаров не найдено'];
-        }
 
-        return $productsFound;
+        return $response;
     }
 
 

@@ -153,8 +153,8 @@ class DefaultController extends Controller
         if( !empty($sectionData['currentSectionProducts']) ){
 
             /** Получим все доступные значения для фильтра по выбранному разделу */
-            $searchModel = new ProductsSearch();
-            $allFilterData = $searchModel->getFilterDataForSectionId($returnData['currentSection']->unique_id);
+            //$searchModel = new ProductsSearch();
+            //$allFilterData = $searchModel->getFilterDataForSectionId($returnData['currentSection']->unique_id);
 
             $this->layout = 'catalogFullWidth';
 
