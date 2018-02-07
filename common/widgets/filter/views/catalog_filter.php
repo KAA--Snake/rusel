@@ -1,7 +1,10 @@
 <?
-//\Yii::$app->pr->print_r2($filterData);
+
 ?>
 <div class="goods_filter_block col_1180">
+
+    <filter_applied id="filter_applied" data='<?=$appliedFilterJson;?>'></filter_applied>
+
     <div class="goods_filter_wrap">
 
         <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
@@ -13,9 +16,9 @@
     </div>
     <div class="filter_selector_wrap collapsed">
         <table class="filter_tab">
-            <?foreach($filterData as $oneFilter){?>
+            <?foreach($filterData as $key => $oneFilter){?>
                 <tr class="filter_selector_item">
-                    <td data-param="<?=$oneFilter['md_key'];?>" class="name"><?=$oneFilter['key'];?>:</td>
+                    <td data-param="<?=$key;?>" class="name"><?=$oneFilter['key'];?>:</td>
                     <td class="tags">
                         <ul class="tag_list">
                             <?foreach($oneFilter['sub_sub_aggr']['buckets'] as $oneBucket){?>
@@ -29,8 +32,8 @@
         <div class="apply_filter_btn_wrap">
 
             <form action="" method="post" class="filter_form hidden" name="productFilterForm" id="filter-form">
-                <?foreach($filterData as $oneFilter){?>
-                    <input type="hidden" name="<?=$oneFilter['md_key'];?>" value="">
+                <?foreach($filterData as $key => $oneFilter){?>
+                    <input type="hidden" name="<?=$key;?>" value="">
                 <?}?>
 
                 <input type="hidden" name="perPage" value="<?=$perPage;?>">
