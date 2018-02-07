@@ -13,11 +13,9 @@
     </div>
     <div class="filter_selector_wrap collapsed">
         <table class="filter_tab">
-            <?foreach($filterData as $oneFilter){
-                $key = md5($oneFilter['key']);
-                ?>
+            <?foreach($filterData as $oneFilter){?>
                 <tr class="filter_selector_item">
-                    <td data-param="<?=$key;?>" class="name"><?=$oneFilter['key'];?>:</td>
+                    <td data-param="<?=$oneFilter['md_key'];?>" class="name"><?=$oneFilter['key'];?>:</td>
                     <td class="tags">
                         <ul class="tag_list">
                             <?foreach($oneFilter['sub_sub_aggr']['buckets'] as $oneBucket){?>
@@ -31,13 +29,12 @@
         <div class="apply_filter_btn_wrap">
 
             <form action="" method="post" class="filter_form hidden" name="productFilterForm" id="filter-form">
-                <?foreach($filterData as $oneFilter){
-                    $key = md5($oneFilter['key']);
-                    ?>
-                    <input type="hidden" name="<?=$key;?>" value="">
+                <?foreach($filterData as $oneFilter){?>
+                    <input type="hidden" name="<?=$oneFilter['md_key'];?>" value="">
                 <?}?>
 
                 <input type="hidden" name="perPage" value="<?=$perPage;?>">
+
                 <input type="hidden" name="<?=\Yii::$app->request->csrfParam; ?>" value="<?=\Yii::$app->request->getCsrfToken(); ?>" />
 
             </form>

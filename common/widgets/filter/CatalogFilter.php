@@ -48,6 +48,13 @@ class CatalogFilter extends Widget
         unset($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets']);
 
 
+        foreach($filterData as &$oneFilter){
+            //$key = md5($oneFilter['key']);
+            $oneFilter['md_key'] = md5($oneFilter['key']);
+            sort($oneFilter['sub_sub_aggr']['buckets']);
+
+        }
+
         return $this->render('catalog_filter',
             [
                 'totalFound' => $filterDataForSection['hits']['total'],
