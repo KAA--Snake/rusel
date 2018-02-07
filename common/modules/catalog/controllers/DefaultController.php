@@ -126,7 +126,26 @@ class DefaultController extends Controller
         /**
          * Ниже вывод раздела/списка товаров в разделе
          */
-        $sectionData = $sectionModel->getSectionByUrl($pathForParse, 5);
+        if( \Yii::$app->request->isPost){ //если был применен фильтр
+            if( !empty( \Yii::$app->request->post('catalog_filter') ) ){ //выводим отфильтрованные товары по разделу
+
+            }else{
+                //на любой пост запрос (если это не фильтр) отдаем 404. Ибо нефик делать посты к каталогу
+                throw new HttpException(404);
+            }
+
+        }else{ //вывод всех товаров
+            $sectionData = $sectionModel->getSectionByUrl($pathForParse, 5);
+
+            /** достаем товары привязанные к текущему разделу (если они там есть) TODO отрефакторить */
+            $productModel = new Product();
+            if(!empty($sectionData['currentSection']['unique_id']) && $sectionData['currentSection']['unique_id'] > 0){
+                $sectionProducts = $productModel->getProductsBySectionId($sectionData['currentSection']['unique_id']);
+                //\Yii::$app->pr->print_r2($sectionProducts);
+
+            }
+        }
+
 
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
@@ -137,9 +156,9 @@ class DefaultController extends Controller
                 'currentSection' => $sectionData['currentSection'],
                 'groupedSiblings' => $sectionData['groupedSiblings'],
                 'unGroupedSiblings' => $sectionData['unGroupedSiblings'],
-                'currentSectionProducts' => $sectionData['currentSectionProducts'],
-                'paginator' => $sectionData['paginator'],
-                'totalProductsFound' => $sectionData['totalProductsFound'],
+                'currentSectionProducts' => $sectionProducts['products'],
+                'paginator' => $sectionProducts['paginator'],
+                'totalProductsFound' => $sectionProducts['totalProductsFound'],
                 'perPage' => $perPage,
             ];
         }else{
@@ -147,35 +166,26 @@ class DefaultController extends Controller
             throw new HttpException(404);
         }
 
-
+        $breadcrumbs = $breadCrumbsObj->getForCatalogSection($sectionData['currentSection']);
+        $this->view->params['breadcrumbs'] = $breadcrumbs;
 
         /** если раздел содержит товары, выведем их список */
-        if( !empty($sectionData['currentSectionProducts']) ){
-
-            /** Получим все доступные значения для фильтра по выбранному разделу */
-            //$searchModel = new ProductsSearch();
-            //$allFilterData = $searchModel->getFilterDataForSectionId($returnData['currentSection']->unique_id);
+        if( !empty($sectionProducts['products']) ){
 
             $this->layout = 'catalogFullWidth';
 
-            $breadcrumbs = $breadCrumbsObj->getForCatalogSection($sectionData['currentSection']);
-            $this->view->params['breadcrumbs'] = $breadcrumbs;
 
             return $this->render('sectionProducts', $returnData);
         }
         /** если раздел не содержит товаров, но есть список подразделов, выведем их*/
         else if( !empty($sectionData['groupedSiblings']) ){
 
-            $breadcrumbs = $breadCrumbsObj->getForCatalogSection($sectionData['currentSection']);
-            $this->view->params['breadcrumbs'] = $breadcrumbs;
 
             return $this->render('sectionsList', $returnData);
         }
         /** последний подраздел, но без списка товаров (по идее сюда не должно заходить, т.к. товары должны быть!)*/
         else if( $sectionData['currentSection'] ){
 
-            $breadcrumbs = $breadCrumbsObj->getForCatalogSection($sectionData['currentSection']);
-            $this->view->params['breadcrumbs'] = $breadcrumbs;
 
             return $this->render('sectionsList', $returnData);
         }

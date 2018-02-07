@@ -248,18 +248,6 @@ class Section extends \yii\db\ActiveRecord
         }
 
 
-        /** достаем товары привязанные к текущему разделу */
-        $productModel = new Product();
-        if(!empty($returnData['currentSection']['unique_id']) && $returnData['currentSection']['unique_id'] > 0){
-            $sectionProducts = $productModel->getProductsBySectionId($returnData['currentSection']['unique_id']);
-            //\Yii::$app->pr->print_r2($sectionProducts);
-            $returnData['currentSectionProducts'] = $sectionProducts['products'];
-            $returnData['paginator'] = $sectionProducts['paginator'];
-            $returnData['totalProductsFound'] = $sectionProducts['totalProductsFound'];
-        }
-
-
-
         return $returnData;
     }
 

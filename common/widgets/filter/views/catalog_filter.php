@@ -36,6 +36,8 @@
                     <input type="hidden" name="<?=$key;?>" value="">
                 <?}?>
 
+                <input type="hidden" name="catalog_filter" value="Y">
+
                 <input type="hidden" name="perPage" value="<?=$perPage;?>">
 
                 <input type="hidden" name="<?=\Yii::$app->request->csrfParam; ?>" value="<?=\Yii::$app->request->getCsrfToken(); ?>" />
