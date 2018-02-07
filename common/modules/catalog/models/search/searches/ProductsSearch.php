@@ -205,40 +205,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     }
 
 
-    /**
-     * Создает одну агрегацию на основе ее имени
-     *
-     * @param $aggregationName
-     */
-    private function _setOneAggregation($aggregationName){
-
-        $oneAggregation = [];
 
 
-        $this->productAggregation['body']['aggs'][$aggregationName] = [];
-
-
-        $params = [
-            'body' => [
-                "size" => 0,
-                "_source"=> false,
-                "aggs" => [
-                    "proizvoditel" => [
-                        "filter" => [
-                            "term"=> [ "section_id"=> 123 ]
-
-                        ],
-                        "aggs" => [
-                            "aggregated" => [ "terms" =>
-                                [ "field" => "properties.proizvoditel" ],
-                            ]
-                        ]
-                    ]
-                ]
-
-            ]
-        ];
-    }
 
 
 }
