@@ -7,7 +7,7 @@ use common\widgets\filter\CatalogFilter;
 
 //echo Url::current(['perPage' => '50']);
 //echo ;
-//\Yii::$app->pr->print_r2($this->params);
+
 
 //die();
 
@@ -15,13 +15,10 @@ use common\widgets\filter\CatalogFilter;
 <div class="content_inner_wrap left0 col_1180">
     <?=CatalogFilter::widget([
             'options' => [
-                'sectionId' => $currentSection['unique_id'],
-
                 'totalFound' => $totalProductsFound,
                 'filterData' => $filterData,
                 'perPage' => $perPage,
                 'appliedFilterJson' => $appliedFilter,
-
             ],
 
     ]);?>

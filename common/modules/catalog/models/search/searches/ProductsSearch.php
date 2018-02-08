@@ -196,14 +196,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 ]
             ];
 
-            $nestedFilters[] = $oneFilter;
+            $must[] = $oneFilter;
 
         }
 
-        //если фильтр заполнен еще чем-то, присоединим его к запросу
-        if(count($nestedFilters) > 0){
-            $must[] = $nestedFilters;
-        }
 
 
         /**  дефолтные данные по фильтрам */
@@ -212,6 +208,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             'body' =>[
                 'from' => $pagination['from'],
                 'size' => $pagination['maxSizeCnt'],
+                'sort' => [
+                    'artikul' => ['order' => 'asc']
+                ],
                 "query"=> [
                     "bool"=> [
 
@@ -263,7 +262,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $params = $this->productData + $params;
 
-        //\Yii::$app->pr->print_r2($params);
+        \Yii::$app->pr->print_r2($params);
         //die();
 
 
@@ -362,7 +361,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         return
             [
-                'products' => $filterDataForSection['hits'],
+                'products' => $filterDataForSection['hits']['hits'],
                 'totalProductsFound' => $totalFound,
                 'filterData' => $filterData,
                 'appliedFilterJson' => $appliedFilter,
