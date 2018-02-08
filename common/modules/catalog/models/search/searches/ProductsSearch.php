@@ -167,10 +167,17 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $nestedFilters = [];
         foreach($searchParams as $propId=>$propValue){
+
+            if(mb_stripos($propValue, '|') !== false){
+                $propValue = explode('|', $propValue);
+            }
+
             //$propValue может быть массивом значений '10|20|50'!
             if(!is_array($propValue)){
                 $propValue = [$propValue];
             }
+
+
 
             $oneFilter = [
                 "nested"=> [
@@ -262,7 +269,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $params = $this->productData + $params;
 
-        \Yii::$app->pr->print_r2($params);
+        //\Yii::$app->pr->print_r2($params);
         //die();
 
 
