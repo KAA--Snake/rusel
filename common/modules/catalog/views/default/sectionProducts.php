@@ -18,7 +18,7 @@ use common\widgets\filter\CatalogFilter;
                 'totalFound' => $totalProductsFound,
                 'filterData' => $filterData,
                 'perPage' => $perPage,
-                'appliedFilterJson' => $appliedFilter,
+                'appliedFilterJson' => $appliedFilterJson,
             ],
 
     ]);?>

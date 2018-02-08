@@ -362,7 +362,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         unset($_POST);
 
-        //\Yii::$app->pr->print_r2($filterData);
+        //\Yii::$app->pr->print_r2($appliedFilter);
 
         $appliedFilter = json_encode($appliedFilter, JSON_UNESCAPED_SLASHES);
 

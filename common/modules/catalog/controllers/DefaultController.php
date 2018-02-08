@@ -160,6 +160,7 @@ class DefaultController extends Controller
                 'paginator' => $sectionProducts['paginator'],
                 'totalProductsFound' => $sectionProducts['totalProductsFound'],
                 'filterData' => $sectionProducts['filterData'],
+                'appliedFilterJson' => $sectionProducts['appliedFilterJson'],
                 'perPage' => $perPage,
 
             ];
