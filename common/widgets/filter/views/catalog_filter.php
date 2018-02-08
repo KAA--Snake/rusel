@@ -18,7 +18,7 @@
         <table class="filter_tab">
             <?foreach($filterData as $key => $oneFilter){?>
                 <tr class="filter_selector_item">
-                    <td data-param="<?=$key;?>" class="name"><?=$oneFilter['key'];?>:</td>
+                    <td data-param="<?=$key;?>" class="name"><?=$oneFilter['prop_name'];?>:</td>
                     <td class="tags">
                         <ul class="tag_list">
                             <?foreach($oneFilter['prop_values']['buckets'] as $oneBucket){?>

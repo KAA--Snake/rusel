@@ -29,7 +29,12 @@ class DefaultController extends Controller
                 /*'in_attribute' => 'name',
                 'out_attribute' => 'slug',
                 'translit' => true*/
-            ]
+            ],
+            'pagination' => [
+                'class' => 'common\modules\catalog\behaviours\Pagination_beh',
+                'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
+
+            ],
         ];
     }
 
@@ -154,7 +159,9 @@ class DefaultController extends Controller
                 'currentSectionProducts' => $sectionProducts['products'],
                 'paginator' => $sectionProducts['paginator'],
                 'totalProductsFound' => $sectionProducts['totalProductsFound'],
+                'filterData' => $sectionProducts['filterData'],
                 'perPage' => $perPage,
+
             ];
         }else{
             /** если ничего не нашлось, выбросим 404 */

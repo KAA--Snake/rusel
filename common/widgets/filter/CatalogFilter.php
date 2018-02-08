@@ -26,6 +26,7 @@ class CatalogFilter extends Widget
         parent::init();
 
         //\Yii::$app->pr->print_r2($this->options);
+        //die();
 
         //yiiwebJqueryAsset::register($this->getView());
     }

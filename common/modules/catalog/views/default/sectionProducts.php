@@ -17,7 +17,7 @@ use common\widgets\filter\CatalogFilter;
             'options' => [
                 'sectionId' => $currentSection['unique_id'],
 
-                'totalFound' => $totalFound,
+                'totalFound' => $totalProductsFound,
                 'filterData' => $filterData,
                 'perPage' => $perPage,
                 'appliedFilterJson' => $appliedFilter,
