@@ -15,9 +15,15 @@ use common\widgets\filter\CatalogFilter;
 <div class="content_inner_wrap left0 col_1180">
     <?=CatalogFilter::widget([
             'options' => [
-                'sectionId' => $currentSection['unique_id']
+                'sectionId' => $currentSection['unique_id'],
+
+                'totalFound' => $totalFound,
+                'filterData' => $filterData,
+                'perPage' => $perPage,
+                'appliedFilterJson' => $appliedFilter,
+
             ],
-            'perPage' => $this->params['perPage'],
+
     ]);?>
 
 <div class="sub_filter_wrap clear">

@@ -126,34 +126,20 @@ class DefaultController extends Controller
         /**
          * Ниже вывод раздела/списка товаров в разделе
          */
-        if( \Yii::$app->request->isPost){ //если был применен фильтр
-            if( !empty( \Yii::$app->request->post('catalog_filter') ) ){ //выводим отфильтрованные товары по разделу
 
-                //TODO ВРЕМЕННО ВЫВОДИМ ТОВАРЫ !!! ВЫПИЛИТЬ КАК БУДЕТ ГОТОВ ФУНКЙИОНАЛ
-                $sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
-                /** достаем товары привязанные к текущему разделу (если они там есть) TODO отрефакторить */
-                $productModel = new Product();
-                if(!empty($sectionData['currentSection']['unique_id']) && $sectionData['currentSection']['unique_id'] > 0){
-                    $sectionProducts = $productModel->getProductsBySectionId($sectionData['currentSection']['unique_id']);
-                    //\Yii::$app->pr->print_r2($sectionProducts);
+        $sectionData = $sectionModel->getSectionByUrl($pathForParse, 5);
 
-                }
-            }else{
-                //на любой пост запрос (если это не фильтр) отдаем 404. Ибо нефик делать посты к каталогу
-                //throw new HttpException(404);
-            }
+        if(!empty($sectionData['currentSection']['unique_id']) && $sectionData['currentSection']['unique_id'] > 0) {
 
-        }else{ //вывод всех товаров
-            $sectionData = $sectionModel->getSectionByUrl($pathForParse, 5);
+            $filterParams = [
+                'section_id' => $sectionData['currentSection']['unique_id']
+            ];
 
-            /** достаем товары привязанные к текущему разделу (если они там есть) TODO отрефакторить */
-            $productModel = new Product();
-            if(!empty($sectionData['currentSection']['unique_id']) && $sectionData['currentSection']['unique_id'] > 0){
-                $sectionProducts = $productModel->getProductsBySectionId($sectionData['currentSection']['unique_id']);
-                //\Yii::$app->pr->print_r2($sectionProducts);
-
-            }
+            $productsSearchModel = new ProductsSearch();
+            $sectionProducts = $productsSearchModel->getFilteredProducts($filterParams);
         }
+
+
 
 
         /** раскомментить ниже если нужен только 1 подраздел */

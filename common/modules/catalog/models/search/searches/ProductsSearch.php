@@ -138,6 +138,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         //пробрасывается в контроллер из Pagination_beh.php
         //$pagination = \Yii::$app->controller->pagination;
         $sectionId = $searchParams['section_id'];
+        unset($searchParams['section_id']);
 
         $filterData = [];
 
@@ -149,109 +150,44 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $filterData['quantity']['stock']['count'] = '> 0';
         $filterData['properties']['proizvoditel'] = '';
 
-        $queryStroke = '';
 
-        foreach($searchParams as $key=>$param){
-            if($queryStroke == ''){
-                $queryStroke .= $key.':'.$param;
-            }else{
-                $queryStroke .= ' AND '.$key.':'.$param;
+        $nestedFilters = [];
+        foreach($searchParams as $propId=>$propValue){
+            //$propValue может быть массивом значений '10|20|50'!
+            if(!is_array($propValue)){
+                $propValue = [$propValue];
             }
+
+            $oneFilter = [
+                "nested"=> [
+
+                    "path"=> "other_properties.property",
+                    "query"=> [
+                        'bool' => [
+                            'must' => [
+                                [
+                                    "term"=> [
+                                        "other_properties.property.id"=> $propId,
+                                    ],
+                                ],
+                                [
+                                    "terms"=> [
+                                        "other_properties.property.value"=> $propValue,
+                                        //"other_properties.property.id"=> [134],
+                                    ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            ];
+
+            $nestedFilters[] = $oneFilter;
 
         }
 
 
         /**  дефолтные данные по фильтрам */
-
-
-        //ЭТО РАБОТАЕТ!!!
-        $params = [
-            'body' => [
-                //"size" => 0,
-                //"_source"=> false,
-                "query"=> [
-                    'bool' => [
-                        'must' => [
-                            'section_id' => $sectionId
-                        ],
-                        /*"nested" => [
-                            "path" => "other_properties.property",
-                            "query"=> [
-                                "bool"=> [
-                                    "must"=> [
-                                        [
-                                            "match"=> [
-                                                "other_properties.property.value"=> "10А"
-                                            ]
-                                        ],
-                                        //[
-                                        //    "match"=> [
-                                        //    "other_properties.property.id"=> 104
-                                        //  ]
-                                        //]
-                                    ]
-                                ]
-                            ]
-                        ]*/
-                    ]
-
-
-
-                    /*"query_string"=> [
-                        "query"=> "section_id:$sectionId"
-                        //"query"=> $queryStroke
-                        //"query"=> 'other_properties.property.property.value:"10А"'
-                        //"query"=> 'properties.proizvoditel:Phoenix'
-                    ],*/
-
-
-                ],
-
-                /*"filters" => [
-                    "filters" => [
-                        "errors" =>   [ "match" => [ "body" => "error"   ]],
-                        "warnings" => [ "match" => [ "body" => "warning" ]]
-                    ]
-                  ],*/
-
-
-                /*"aggs" => [
-                    "properties_agg" => [
-                        "nested" => [
-                            "path" => "other_properties.property",
-                        ],
-                        "aggs" => [
-                            "sub_agg" => [
-                                "terms"=> [
-                                    "field"=> "other_properties.property.id",
-                                    "size"=> 500,
-                                ],
-                                'aggs' => [
-                                    'prop_values' => [
-                                        "terms"=> [
-                                            "field"=> "other_properties.property.value",
-                                            "size"=> 500,
-                                            "order"=> ["_term" => "asc"]
-                                        ],
-
-                                    ],
-                                    'prop_name' => [
-                                        "terms"=> [
-                                            "field"=> "other_properties.property.name",
-                                            "size"=> 1,
-                                            //"order"=> ["_term" => "asc"]
-                                        ],
-
-                                    ],
-
-                                ]
-                            ]
-                        ]
-                    ]
-                ]*/
-            ]
-        ];
-
 
         $params =[
             'body' =>[
@@ -266,9 +202,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                                 ]
                             ],
 
+                            $nestedFilters,
 
                             /** блок (для отдельного свойства ) */
-                            [
+                            /*[
                                 "nested"=> [
 
                                     "path"=> "other_properties.property",
@@ -290,69 +227,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                                         ],
                                     ],
                                 ],
-                            ],
-
-
-                            /** блок (для отдельного свойства ) */
-                            [
-                                "nested"=> [
-
-                                    "path"=> "other_properties.property",
-                                    "query"=> [
-                                        'bool' => [
-                                            'must' => [
-                                                [
-                                                    "term"=> [
-                                                        "other_properties.property.id"=> 123,
-                                                    ],
-                                                ],
-                                                [
-                                                    "terms"=> [
-                                                        "other_properties.property.value"=> ['500'],
-                                                        //"other_properties.property.id"=> [134],
-                                                    ]
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                            ],
-
-
-
-                            //это работает
-                           /* [
-                                "nested"=> [
-                                    "path"=> "other_properties.property",
-                                    "query"=> [
-                                        "terms"=> [
-                                            "other_properties.property.value"=> ["10А", "1А"],
-                                            //"other_properties.property.id"=> [134],
-                                        ]
-                                    ]
-                                ]
                             ],*/
-                            /*[
-                                "nested"=> [
-                                    "path"=> "other_properties.property",
-                                    "query"=> [
-                                        "match"=> [
-                                            "other_properties.property.value"=> [
-                                                "query"=> "10А",
-                                                "operator"=> "and"
-                                            ],
-
-                                        ]
-                                    ]
-                                ]
-                            ],*/
-
-
-
 
                         ]
-
-
                     ]
                 ],
 
@@ -399,18 +276,134 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $params = $this->productData + $params;
 
-        \Yii::$app->pr->print_r2($params);
+        //\Yii::$app->pr->print_r2($params);
 
 
         $response = Elastic::getElasticClient()->search($params);
 
-        \Yii::$app->pr->print_r2($response);
+        //\Yii::$app->pr->print_r2($response);
         //unset($response['hits']);
-die();
+
 
         return $response;
     }
 
 
+    /**
+     * Отдает товары и фильтр по заданным параметрам
+     *
+     * TODO отрефакторить, т.к. чтото слишком огромный
+     *
+     *
+     * @param $params
+     * @return array|bool
+     */
+    public function getFilteredProducts($params){
+
+
+        if(!is_numeric($params['sectionId']) || empty($params['sectionId'])){
+            return false;
+        }
+
+        $searchParams = [
+            'section_id' => $params['sectionId']
+        ];
+
+        /** При применении фильтра не кешируем @TODO может будем кешировать? */
+        if( \Yii::$app->request->isPost){ //если был применен фильтр
+            if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
+
+                //\Yii::$app->pr->print_r2(\Yii::$app->request->post() );
+                //die();
+
+                $fakes = [
+                    '_csrf-frontend',
+                    'perPage',
+                    'catalog_filter',
+                ];
+                foreach(\Yii::$app->request->post() as $k => $postData){
+                    if(in_array($k, $fakes)) continue;
+
+                    if(!is_integer($k)) continue;
+
+                    if(empty($postData)) continue;
+
+                    $searchParams[$k] = $postData;
+
+                }
+
+
+            }
+        }
+
+
+
+
+
+
+        /** @var Cache $cache */
+        $cache = \Yii::$app->cache;
+
+        $totalFound = 0;
+
+        $cacheKey = 'getFilterForSection'.$params['sectionId'];
+
+        //if (!$filterData = $cache->get($cacheKey) || true){
+
+
+        $filterDataForSection = $this->getFilterDataForSectionId($searchParams);
+
+        if(isset($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets']) && is_array($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'])){
+            //$filterData = $filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'];
+
+            $totalFound = $filterDataForSection['hits']['total'];
+        }
+
+
+        foreach($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'] as &$oneFilter){
+
+            $oneFilter['prop_name'] = $oneFilter['prop_name']['buckets'][0]['key'];
+            $key = $oneFilter['key'];
+            $filterData[$key] = $oneFilter;
+
+            sort($oneFilter['prop_values']['buckets']);
+
+        }
+
+        unset($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets']);
+
+        //Устанавливаем зависимость кеша от кол-ва записей в таблице
+        //$dependency = new \yii\caching\DbDependency(['sql' => 'SELECT COUNT(*) FROM {{%tag_post}}']);
+        //$cache->set($cacheKey, $filterData, $this->cacheTime);
+        //}
+
+
+        //\Yii::$app->pr->print_r2($filterData);
+
+        /** сборка для уже выбранных параметров фильтра */
+        //\Yii::$app->pr->print_r2($_POST);
+        $appliedFilter = [];
+        foreach ($_POST as $k=>$postData){
+            if(empty($postData)) continue;
+
+            if(isset($filterData[$k])){
+                $appliedFilter[$k] = $postData;
+            }
+
+        }
+
+        unset($_POST);
+
+        //\Yii::$app->pr->print_r2($appliedFilter);
+
+        $appliedFilter = json_encode($appliedFilter, JSON_UNESCAPED_SLASHES);
+
+        return
+            [
+                'totalFound' => $totalFound,
+                'filterData' => $filterData,
+                'appliedFilterJson' => $appliedFilter
+            ];
+    }
 
 }
