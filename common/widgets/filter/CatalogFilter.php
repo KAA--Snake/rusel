@@ -34,6 +34,44 @@ class CatalogFilter extends Widget
     public function run()
     {
 
+        if(empty($this->options['filterData']) || !isset($this->options['filterData'])){
+            $this->options['filterData'] = [];
+        }
+        //\Yii::$app->pr->print_r2(\Yii::$app->request->post());
+
+        if($this->options['emptyFilterResult']){
+
+            /** При применении фильтра не кешируем @TODO может будем кешировать? */
+            if( \Yii::$app->request->isPost){ //если был применен фильтр
+                if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
+
+                    //\Yii::$app->pr->print_r2(\Yii::$app->request->post() );
+                    //die();
+
+                    $fakes = [
+                        '_csrf-frontend',
+                        'perPage',
+                        'catalog_filter',
+                    ];
+                    foreach(\Yii::$app->request->post() as $k => $postData){
+                        if(in_array($k, $fakes)) continue;
+
+                        if(!is_integer($k)) continue;
+
+                        if(empty($postData)) continue;
+
+                        $this->options['filterData'][$k] = $postData;
+
+                    }
+
+
+                }
+            }
+
+
+        }
+
+
         return $this->render('catalog_filter', $this->options);
     }
 

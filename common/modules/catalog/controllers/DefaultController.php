@@ -144,13 +144,29 @@ class DefaultController extends Controller
             $sectionProducts = $productsSearchModel->getFilteredProducts($filterParams);
         }
 
-
+        //\Yii::$app->pr->print_r2($sectionProducts);
 
 
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
 
         if( $sectionData['currentSection'] ){
+
+
+            /**
+             * если ничего ен нашлось, сделаем НОВЫЙ поиск и покажем соотв уведомление
+             */
+            if($sectionProducts['emptyFilterResult']){
+                //ob_end_clean();
+                //echo "<script type='text/javascript'>  window.location=window.location.href; </script>";
+
+                \Yii::$app->session->addFlash('error','По заданному критерию поиска товаров не найдено!');
+                $productsSearchModel = new ProductsSearch();
+                $sectionProducts = $productsSearchModel->getAllDataForFilter($filterParams);
+
+            }
+
+
 
             $returnData = [
                 'currentSection' => $sectionData['currentSection'],
@@ -161,6 +177,7 @@ class DefaultController extends Controller
                 'totalProductsFound' => $sectionProducts['totalProductsFound'],
                 'filterData' => $sectionProducts['filterData'],
                 'appliedFilterJson' => $sectionProducts['appliedFilterJson'],
+                'emptyFilterResult' => $sectionProducts['emptyFilterResult'],
                 'perPage' => $perPage,
 
             ];
@@ -173,7 +190,7 @@ class DefaultController extends Controller
         $this->view->params['breadcrumbs'] = $breadcrumbs;
 
         /** если раздел содержит товары, выведем их список */
-        if( !empty($sectionProducts['products']) ){
+        if( !empty($sectionProducts['products']) || $sectionProducts['emptyFilterResult'] ){
 
             $this->layout = 'catalogFullWidth';
 

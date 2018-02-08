@@ -19,6 +19,7 @@ use common\widgets\filter\CatalogFilter;
                 'filterData' => $filterData,
                 'perPage' => $perPage,
                 'appliedFilterJson' => $appliedFilterJson,
+                'emptyFilterResult' => $emptyFilterResult,
             ],
 
     ]);?>

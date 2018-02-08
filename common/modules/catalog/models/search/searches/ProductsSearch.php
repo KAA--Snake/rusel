@@ -351,20 +351,35 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         /** сборка для уже выбранных параметров фильтра */
         //\Yii::$app->pr->print_r2($_POST);
         $appliedFilter = [];
-        foreach ($_POST as $k=>$postData){
-            if(empty($postData)) continue;
+        if(count($_POST) > 0){
+            foreach ($_POST as $k=>$postData){
+                if(empty($postData)) continue;
 
-            if(isset($filterData[$k])){
-                $appliedFilter[$k] = $postData;
+                if(isset($filterData[$k])){
+                    $appliedFilter[$k] = $postData;
+                }
+
             }
-
         }
 
-        unset($_POST);
+
+        //если был выбран фильтр, но ничего не найдено, покажем уведомление
+        $isEmptyFilter = false;
+        if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
+            if(count($appliedFilter) == 0){
+                $isEmptyFilter = true;
+            }
+        }
+
+        //unset($_POST);
 
         //\Yii::$app->pr->print_r2($appliedFilter);
 
         $appliedFilter = json_encode($appliedFilter, JSON_UNESCAPED_SLASHES);
+
+
+
+
 
         return
             [
@@ -372,7 +387,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'totalProductsFound' => $totalFound,
                 'filterData' => $filterData,
                 'appliedFilterJson' => $appliedFilter,
-                'paginator' => $pagination
+                'paginator' => $pagination,
+                'emptyFilterResult' => $isEmptyFilter
 
             ];
     }
@@ -431,85 +447,110 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     }
 
 
-    //только для сохранения массива на будущее. не юзается
-    private function justSave(){
-        $params =[
-            'body' =>[
-                "query"=> [
-                    "bool"=> [
+    /**
+     *
+     * Получает все товары и фильтры (без обработки поискового запроса)
+     *
+     * @param $params
+     * @return array|bool
+     */
+    public function getAllDataForFilter($params){
 
-                        /** обязательный блок (для ИД раздела ) */
+        //пробрасывается в контроллер из Pagination_beh.php
+        $pagination = \Yii::$app->controller->pagination;
 
-                        "must"=> [
+        if(!is_numeric($params['section_id']) || empty($params['section_id'])){
+            return false;
+        }
 
-                            /** блок (для отдельного свойства ) */
-                            /*[
-                                "nested"=> [
 
-                                    "path"=> "other_properties.property",
-                                    "query"=> [
-                                        'bool' => [
-                                            'must' => [
-                                                [
-                                                    "term"=> [
-                                                        "other_properties.property.id"=> 104,
-                                                    ],
-                                                ],
-                                                [
-                                                    "terms"=> [
-                                                        "other_properties.property.value"=> ["10А"],
-                                                        //"other_properties.property.id"=> [134],
-                                                    ]
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                            ],*/
+        $resultData = [];
 
-                        ]
-                    ]
-                ],
 
-                /** start of aggs */
 
-                "aggs" => [
-                    "properties_agg" => [
-                        "nested" => [
-                            "path" => "other_properties.property",
-                        ],
-                        "aggs" => [
-                            "sub_agg" => [
-                                "terms"=> [
-                                    "field"=> "other_properties.property.id",
-                                    "size"=> 500,
-                                ],
-                                'aggs' => [
-                                    'prop_values' => [
-                                        "terms"=> [
-                                            "field"=> "other_properties.property.value",
-                                            "size"=> 500,
-                                            "order"=> ["_term" => "asc"]
-                                        ],
 
-                                    ],
-                                    'prop_name' => [
-                                        "terms"=> [
-                                            "field"=> "other_properties.property.name",
-                                            "size"=> 1,
-                                            //"order"=> ["_term" => "asc"]
-                                        ],
+        /** @var Cache $cache */
+        $cache = \Yii::$app->cache;
 
-                                    ],
+        $totalFound = 0;
 
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-                /** end of aggs */
+        $cacheKey = 'getFilterForSection'.$params['sectionId'];
 
-            ]
-        ];
+        //if (!$filterData = $cache->get($cacheKey) || true){
+
+        $filterDataForSection = $this->getFilterDataForSectionId($params);
+
+        if( isset($filterDataForSection['hits']['total']) ){
+            $totalFound = $filterDataForSection['hits']['total'];
+
+            $pagination['totalCount'] = $filterDataForSection['hits']['total'];
+        }
+
+
+        foreach($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'] as &$oneFilter){
+
+            $oneFilter['prop_name'] = $oneFilter['prop_name']['buckets'][0]['key'];
+            $key = $oneFilter['key'];
+            $filterData[$key] = $oneFilter;
+
+            sort($oneFilter['prop_values']['buckets']);
+
+        }
+
+
+        //почистим ненужные агрегации из памяти
+        unset($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets']);
+
+        //Устанавливаем зависимость кеша от кол-ва записей в таблице
+        //$dependency = new \yii\caching\DbDependency(['sql' => 'SELECT COUNT(*) FROM {{%tag_post}}']);
+        //$cache->set($cacheKey, $filterData, $this->cacheTime);
+        //}
+
+
+        //\Yii::$app->pr->print_r2($filterData);
+
+        /** сборка для уже выбранных параметров фильтра */
+        //\Yii::$app->pr->print_r2($_POST);
+        $appliedFilter = [];
+        if(count($_POST) > 0){
+            foreach ($_POST as $k=>$postData){
+                if(empty($postData)) continue;
+
+                if(isset($filterData[$k])){
+                    $appliedFilter[$k] = $postData;
+                }
+
+            }
+        }
+
+
+        //если был выбран фильтр, но ничего не найдено, покажем уведомление
+        $isEmptyFilter = false;
+        if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
+            if(count($appliedFilter) == 0){
+                $isEmptyFilter = true;
+            }
+        }
+
+        //unset($_POST);
+
+        //\Yii::$app->pr->print_r2($appliedFilter);
+
+        $appliedFilter = json_encode($appliedFilter, JSON_UNESCAPED_SLASHES);
+
+
+
+
+
+        return
+            [
+                'products' => $filterDataForSection['hits']['hits'],
+                'totalProductsFound' => $totalFound,
+                'filterData' => $filterData,
+                'appliedFilterJson' => $appliedFilter,
+                'paginator' => $pagination,
+                'emptyFilterResult' => $isEmptyFilter
+
+            ];
     }
 }
