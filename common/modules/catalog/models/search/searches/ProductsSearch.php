@@ -108,8 +108,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
     /**
-     * Получает на вход ИД раздела каталога,
-     * и выбирает все свойства товаров из выбранного раздела.
+     * Получает на вход ИД раздела каталога, а также дополнительные параметры
+     * и выбирает все свойства товаров из выбранного раздела, используя условия по выборке по параметрам
      *  [
      *      'property_name1' => [
      *              'code' => 'property_code1',
@@ -130,82 +130,286 @@ class ProductsSearch extends BaseSearch implements iProductSearch
      *       ],
      *
      *  ]
-     * @param $sectionId
+     * @param $searchParams
      * @return array
      */
-    public function getFilterDataForSectionId($sectionId)
+    public function getFilterDataForSectionId($searchParams)
     {
         //пробрасывается в контроллер из Pagination_beh.php
         //$pagination = \Yii::$app->controller->pagination;
+        $sectionId = $searchParams['section_id'];
 
         $filterData = [];
 
         if($sectionId <= 0){
-            return $filterData = [];
+            return [];
         }
 
-        /**  дефолтные данные по фильтрам */
+        /**  дефолтные данные по фильтрам TODO применить их в фильтре !*/
         $filterData['quantity']['stock']['count'] = '> 0';
         $filterData['properties']['proizvoditel'] = '';
 
+        $queryStroke = '';
 
-        $productsFound = [];
+        foreach($searchParams as $key=>$param){
+            if($queryStroke == ''){
+                $queryStroke .= $key.':'.$param;
+            }else{
+                $queryStroke .= ' AND '.$key.':'.$param;
+            }
 
+        }
+
+
+        /**  дефолтные данные по фильтрам */
 
 
         //ЭТО РАБОТАЕТ!!!
         $params = [
             'body' => [
-                "size" => 0,
-                "_source"=> false,
-                "query" => [
-                    "term"=> [ "section_id"=> $sectionId ]
-                ],
-                "aggs" => [
-                    "properties_agg" => [
+                //"size" => 0,
+                //"_source"=> false,
+                "query"=> [
+                    'bool' => [
+                        'must' => [
+                            'section_id' => $sectionId
+                        ],
+                        /*"nested" => [
+                            "path" => "other_properties.property",
+                            "query"=> [
+                                "bool"=> [
+                                    "must"=> [
+                                        [
+                                            "match"=> [
+                                                "other_properties.property.value"=> "10А"
+                                            ]
+                                        ],
+                                        //[
+                                        //    "match"=> [
+                                        //    "other_properties.property.id"=> 104
+                                        //  ]
+                                        //]
+                                    ]
+                                ]
+                            ]
+                        ]*/
+                    ]
 
+
+
+                    /*"query_string"=> [
+                        "query"=> "section_id:$sectionId"
+                        //"query"=> $queryStroke
+                        //"query"=> 'other_properties.property.property.value:"10А"'
+                        //"query"=> 'properties.proizvoditel:Phoenix'
+                    ],*/
+
+
+                ],
+
+                /*"filters" => [
+                    "filters" => [
+                        "errors" =>   [ "match" => [ "body" => "error"   ]],
+                        "warnings" => [ "match" => [ "body" => "warning" ]]
+                    ]
+                  ],*/
+
+
+                /*"aggs" => [
+                    "properties_agg" => [
                         "nested" => [
-                            "path" => "other_properties.property"
+                            "path" => "other_properties.property",
                         ],
                         "aggs" => [
                             "sub_agg" => [
                                 "terms"=> [
-                                    "field"=> "other_properties.property.name",
-                                    "size"=> 50000,
-
-
+                                    "field"=> "other_properties.property.id",
+                                    "size"=> 500,
                                 ],
                                 'aggs' => [
-                                    'sub_sub_aggr' => [
+                                    'prop_values' => [
                                         "terms"=> [
                                             "field"=> "other_properties.property.value",
-                                            "size"=> 50000,
+                                            "size"=> 500,
                                             "order"=> ["_term" => "asc"]
                                         ],
 
+                                    ],
+                                    'prop_name' => [
+                                        "terms"=> [
+                                            "field"=> "other_properties.property.name",
+                                            "size"=> 1,
+                                            //"order"=> ["_term" => "asc"]
+                                        ],
+
+                                    ],
+
+                                ]
+                            ]
+                        ]
+                    ]
+                ]*/
+            ]
+        ];
+
+
+        $params =[
+            'body' =>[
+                "query"=> [
+                    "bool"=> [
+
+                        /** обязательный блок (для ИД раздела ) */
+                        "must"=> [
+                            [
+                                "term"=> [
+                                    "section_id"=> $sectionId
+                                ]
+                            ],
+
+
+                            /** блок (для отдельного свойства ) */
+                            [
+                                "nested"=> [
+
+                                    "path"=> "other_properties.property",
+                                    "query"=> [
+                                        'bool' => [
+                                            'must' => [
+                                                [
+                                                    "term"=> [
+                                                        "other_properties.property.id"=> 104,
+                                                    ],
+                                                ],
+                                                [
+                                                    "terms"=> [
+                                                        "other_properties.property.value"=> ["10А"],
+                                                        //"other_properties.property.id"=> [134],
+                                                    ]
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+
+
+                            /** блок (для отдельного свойства ) */
+                            [
+                                "nested"=> [
+
+                                    "path"=> "other_properties.property",
+                                    "query"=> [
+                                        'bool' => [
+                                            'must' => [
+                                                [
+                                                    "term"=> [
+                                                        "other_properties.property.id"=> 123,
+                                                    ],
+                                                ],
+                                                [
+                                                    "terms"=> [
+                                                        "other_properties.property.value"=> ['500'],
+                                                        //"other_properties.property.id"=> [134],
+                                                    ]
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+
+
+
+                            //это работает
+                           /* [
+                                "nested"=> [
+                                    "path"=> "other_properties.property",
+                                    "query"=> [
+                                        "terms"=> [
+                                            "other_properties.property.value"=> ["10А", "1А"],
+                                            //"other_properties.property.id"=> [134],
+                                        ]
                                     ]
+                                ]
+                            ],*/
+                            /*[
+                                "nested"=> [
+                                    "path"=> "other_properties.property",
+                                    "query"=> [
+                                        "match"=> [
+                                            "other_properties.property.value"=> [
+                                                "query"=> "10А",
+                                                "operator"=> "and"
+                                            ],
+
+                                        ]
+                                    ]
+                                ]
+                            ],*/
+
+
+
+
+                        ]
+
+
+                    ]
+                ],
+
+                /** start of aggs */
+
+                "aggs" => [
+                    "properties_agg" => [
+                        "nested" => [
+                            "path" => "other_properties.property",
+                        ],
+                        "aggs" => [
+                            "sub_agg" => [
+                                "terms"=> [
+                                    "field"=> "other_properties.property.id",
+                                    "size"=> 500,
+                                ],
+                                'aggs' => [
+                                    'prop_values' => [
+                                        "terms"=> [
+                                            "field"=> "other_properties.property.value",
+                                            "size"=> 500,
+                                            "order"=> ["_term" => "asc"]
+                                        ],
+
+                                    ],
+                                    'prop_name' => [
+                                        "terms"=> [
+                                            "field"=> "other_properties.property.name",
+                                            "size"=> 1,
+                                            //"order"=> ["_term" => "asc"]
+                                        ],
+
+                                    ],
+
                                 ]
                             ]
                         ]
                     ]
                 ]
+                /** end of aggs */
+
             ]
         ];
 
+        $params = $this->productData + $params;
 
-        //$params = $this->productData + $params;
+        \Yii::$app->pr->print_r2($params);
 
-        //\Yii::$app->pr->print_r2($params);
 
         $response = Elastic::getElasticClient()->search($params);
-        //unset($response['hits']);
 
+        \Yii::$app->pr->print_r2($response);
+        //unset($response['hits']);
+die();
 
         return $response;
     }
-
-
-
 
 
 

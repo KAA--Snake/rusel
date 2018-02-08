@@ -165,11 +165,49 @@ class Product extends Model
                                 'type' => 'keyword'
                             ],
 
+                            'prices' => [
+                                'type' => 'nested'
+                            ],
+
+                            'quantity' => [
+                                'type' => 'nested'
+                            ],
+
+
+                            'other_properties' => [
+                                'type' => 'nested',
+
+                                "properties" => [
+
+                                    "property" => [
+                                        "type" => "nested" ,
+
+                                        "properties" => [
+                                            "id" => [ "type" => "integer" ],
+                                            "sort" => [ "type" => "integer" ],
+                                            "name" => [ "type" => "keyword" ],
+                                            "value" => [ "type" => "keyword" ],
+                                        ]
+                                    ],
+
+                                ]
+
+
+                            ]
+
+
+                        ],
+
+
+
+
+
+
                             /*'other_properties' => [
                                 "type" => "nested",
                             ],*/
 
-                            'other_properties.property' => [
+                            /*'other_properties.property' => [
 
                                 "type" => "nested",
                                 "properties" => [
@@ -179,7 +217,7 @@ class Product extends Model
                                     "value" => [ "type" => "keyword" ],
                                 ]
 
-                            ],
+                            ],*/
 
                             /*'other_properties.property.id' => [
                                 'type' => 'integer'
@@ -194,17 +232,11 @@ class Product extends Model
                                 'type' => 'keyword'
                             ],*/
 
-                            'prices' => [
-                                'type' => 'nested'
-                            ],
 
-                            'quantity' => [
-                                'type' => 'nested'
-                            ],
                         ]
                     ]
                 ]
-            ]
+
         ];
 
         // Create the index with mappings and settings now

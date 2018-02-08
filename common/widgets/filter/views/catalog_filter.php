@@ -21,7 +21,7 @@
                     <td data-param="<?=$key;?>" class="name"><?=$oneFilter['key'];?>:</td>
                     <td class="tags">
                         <ul class="tag_list">
-                            <?foreach($oneFilter['sub_sub_aggr']['buckets'] as $oneBucket){?>
+                            <?foreach($oneFilter['prop_values']['buckets'] as $oneBucket){?>
                                 <li data-tag="<?=$oneBucket['key'];?>" class="tag_item"><?=$oneBucket['key'];?></li>
                             <?}?>
                         </ul>

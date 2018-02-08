@@ -14,8 +14,8 @@ interface iProductSearch
     public function searchByArtikuls(array $artikuls);
 
     /**
-     * Получает на вход ИД раздела каталога,
-     * и выбирает все свойства товаров из выбранного раздела.
+     * Получает на вход ИД раздела каталога, а также дополнительные параметры
+     * и выбирает все свойства товаров из выбранного раздела, используя условия по выборке по параметрам
      *  [
      *      'property_name1' => [
      *              'code' => 'property_code1',
@@ -36,8 +36,8 @@ interface iProductSearch
      *       ],
      *
      *  ]
-     * @param $sectionId
+     * @param $searchParams
      * @return array
      */
-    public function getFilterDataForSectionId($sectionId);
+    public function getFilterDataForSectionId($searchParams);
 }
