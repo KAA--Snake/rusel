@@ -39,7 +39,11 @@ class CatalogFilter extends Widget
         }
         //\Yii::$app->pr->print_r2(\Yii::$app->request->post());
 
-        if($this->options['emptyFilterResult']){
+
+        /**
+         *  блок ниже не нужен по идее...я чтото устал :)
+         */
+        if($this->options['emptyFilterResult'] || false){
 
             /** При применении фильтра не кешируем @TODO может будем кешировать? */
             if( \Yii::$app->request->isPost){ //если был применен фильтр
