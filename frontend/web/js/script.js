@@ -395,8 +395,11 @@ $(document).ready(function () {
     });
 
 
-    if(window.location.search) {
-        var query = decodeURIComponent(window.location.search.substring(1));
+    var filterQuery = $('#filter_applied').attr('data');
+
+    if(filterQuery.length) {
+
+        /*var query = decodeURIComponent(window.location.search.substring(1));
         var vars = query.split('&');
         var finishSearchQuery = [];
         var finishSearchString = '';
@@ -414,14 +417,17 @@ $(document).ready(function () {
                 finishSearchString += finishSearchQuery[x] + '&'
             }
         }
-        localStorage.setItem('searchQuery', finishSearchString);
+        localStorage.setItem('searchQuery', finishSearchString);*/
 
-        var queryParams = buildQueryFilter();
+        var queryParams = JSON.parse(filterQuery);
+        console.log(queryParams);
         var selectedFliterLine = $('.filter_params_applied');
 
-        if(queryParams.length > 0){
+            console.log('cccc');
             selectedFliterLine.html('');
             for( var p in queryParams) {
+                queryParams[p] = queryParams[p].split('|')
+
                 for(var i=0;i<queryParams[p].length;i++){
                     $('.tag_item').each(function () {
                         var filterParamCat = $(this).closest('td.tags').prev('td.name');
@@ -436,7 +442,7 @@ $(document).ready(function () {
                                 selectedFliterLine.append('<div class="applied_param_block"><div class="applied_param_name applied_param_' + p + '" data-param="'+ p +'">' + filterParamCat.text() + '</div><div class="applied_param_values"><span>'+ queryParams[p][i] + '</span></div> </div><div class="divider"></div>');
                             }
 
-                            console.log(selectedFliterLine.find('.applied_param_name').data('param'));
+                            //console.log(selectedFliterLine.find('.applied_param_name').data('param'));
 
                             $(this).addClass('selected');
                             $('#filter-form').find('input[name="'+ p +'"]').val(
@@ -445,7 +451,7 @@ $(document).ready(function () {
                     });
                 }
             }
-        }
+
 
     }
 
@@ -463,27 +469,23 @@ $(document).ready(function () {
                 finishSearchQuery.push(vars[i]);
                 if(param == 'page'){
                     formData.set(param,1);
-                    // console.log(param);
-                    // console.log(formData.get(param));
                 }else{
                     formData.set(param, vars[i].slice(vars[i].indexOf('=')+1));
-                    // console.log(param);
-                    // console.log(formData.get(param));
+
                 }
 
                 for(var pair of formData.entries()) {
-                    console.log(pair[0]+ ', '+ pair[1]);
+
                 }
             }
         }
-
 
         filterForm.submit();
     });
 
     $('.filter_reset_btn').click(function (e) {
-
-        if (window.location.search) {
+        window.location = window.location.href;
+        /*if (window.location.search) {
             var query = decodeURIComponent(window.location.search.substring(1));
             var vars = query.split('&');
             var finishSearchQuery = [];
@@ -506,7 +508,7 @@ $(document).ready(function () {
                 }
             }
             window.location.search = finishSearchString;
-        }
+        }*/
     });
 
     $('.upload_btn').click(function(e){
