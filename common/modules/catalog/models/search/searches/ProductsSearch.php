@@ -20,6 +20,11 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     public      $productModel;
     public      $searchConfig;
 
+    /** Массив для названий главных свойств (не лежащих в nested) */
+    private $mainProps = [
+        'manufacturer'
+    ];
+
 
     private $productAggregation = [];
 
@@ -137,7 +142,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     {
         //пробрасывается в контроллер из Pagination_beh.php
         $pagination = \Yii::$app->controller->pagination;
-        //\Yii::$app->pr->print_r2($pagination);
+        //\Yii::$app->pr->print_r2($searchParams);
 
         $sectionId = $searchParams['section_id'];
         unset($searchParams['section_id']);
@@ -164,7 +169,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         ];
 
 
-
         $nestedFilters = [];
         foreach($searchParams as $propId=>$propValue){
 
@@ -176,6 +180,23 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             if(!is_array($propValue)){
                 $propValue = [$propValue];
             }
+
+
+            /** Если пришли фильтры по другим параметрам, кроме свойств */
+            if(in_array($propId, $this->mainProps)){
+
+                $must[] = [
+                    "terms"=> [
+                        "properties.proizvoditel"=> $propValue
+                    ]
+                ];
+
+                unset($searchParams[$propId]);
+                continue;
+            }
+
+
+
 
 
 
@@ -260,6 +281,13 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                                 ]
                             ]
                         ]
+                    ],
+                    'manufacturers_agg' =>[
+                        "terms"=> [
+                            "field"=> "properties.proizvoditel",
+                            "size"=> 5000,
+                            "order"=> ["_term" => "asc"]
+                        ],
                     ]
                 ]
                 /** end of aggs */
@@ -276,6 +304,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $response = Elastic::getElasticClient()->search($params);
 
         //\Yii::$app->pr->print_r2($response);
+        //die();
         //unset($response['hits']);
 
 
@@ -292,7 +321,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
      * @param $params
      * @return array|bool
      */
-    public function getFilteredProducts($params){
+    public function getFilteredProducts($params, $getAll = false){
 
         //пробрасывается в контроллер из Pagination_beh.php
         $pagination = \Yii::$app->controller->pagination;
@@ -305,7 +334,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $resultData = [];
 
         /** заполняем параметры для поика из ПОСТа(если он был) */
-        $this->__setParamsFromPost($params);
+        if(!$getAll){
+            $this->__setParamsFromPost($params);
+        }
+
 
 
         /** @var Cache $cache */
@@ -326,6 +358,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         }
 
 
+        //собираем св-ва товаров
         foreach($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'] as &$oneFilter){
 
             $oneFilter['prop_name'] = $oneFilter['prop_name']['buckets'][0]['key'];
@@ -335,10 +368,30 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             sort($oneFilter['prop_values']['buckets']);
 
         }
+        unset($oneFilter);
 
+
+
+        //собираем производителей
+        $manufacturers = [];
+        foreach($filterDataForSection['aggregations']['manufacturers_agg']['buckets'] as &$oneFilter){
+
+            //$oneFilter['prop_name'] = $oneFilter['key'];
+            /*$oneFilter['prop_values']['buckets'][] = [
+                'key' => $oneFilter['key'],
+                'doc_count' => $oneFilter['doc_count'],
+            ];*/
+            //$key = $oneFilter['key'];
+            $manufacturers[] = $oneFilter;
+
+        }
+        sort($manufacturers);
+
+        //\Yii::$app->pr->print_r2($filterDataForSection);
+        unset($oneFilter);
 
         //почистим ненужные агрегации из памяти
-        unset($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets']);
+        unset($filterDataForSection['aggregations']);
 
         //Устанавливаем зависимость кеша от кол-ва записей в таблице
         //$dependency = new \yii\caching\DbDependency(['sql' => 'SELECT COUNT(*) FROM {{%tag_post}}']);
@@ -346,14 +399,21 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         //}
 
 
-        //\Yii::$app->pr->print_r2($filterData);
+
+/*
+        \Yii::$app->pr->print_r2($_POST);
+        \Yii::$app->pr->print_r2($manufacturers);
+        \Yii::$app->pr->print_r2($filterData);*/
 
         /** сборка для уже выбранных параметров фильтра */
-        //\Yii::$app->pr->print_r2($_POST);
         $appliedFilter = [];
         if(count($_POST) > 0){
             foreach ($_POST as $k=>$postData){
                 if(empty($postData)) continue;
+
+                if(in_array($k, $this->mainProps)){
+                    $appliedFilter['manufacturer'] = $postData;
+                }
 
                 if(isset($filterData[$k])){
                     $appliedFilter[$k] = $postData;
@@ -363,12 +423,19 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         }
 
 
+
+        //\Yii::$app->pr->print_r2($filterData);
         //если был выбран фильтр, но ничего не найдено, покажем уведомление
         $isEmptyFilter = false;
         if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
-            if(count($appliedFilter) == 0){
+
+            if($totalFound == 0){
                 $isEmptyFilter = true;
             }
+
+            /*if(count($appliedFilter) == 0){
+                $isEmptyFilter = true;
+            }*/
         }
 
         //unset($_POST);
@@ -388,7 +455,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'filterData' => $filterData,
                 'appliedFilterJson' => $appliedFilter,
                 'paginator' => $pagination,
-                'emptyFilterResult' => $isEmptyFilter
+                'emptyFilterResult' => $isEmptyFilter,
+                'filterManufacturers' => $manufacturers,
 
             ];
     }
@@ -426,13 +494,17 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     'catalog_filter',
                 ];
                 foreach(\Yii::$app->request->post() as $k => $postData){
+
+
                     if(in_array($k, $fakes)) continue;
 
-                    if(!is_integer($k)) continue;
+                    //if(!is_integer($k)) continue;
 
                     if(empty($postData)) continue;
 
                     $searchParams[$k] = $postData;
+
+
 
                 }
 
@@ -440,6 +512,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             }
         }
 
+        //\Yii::$app->pr->print_r2($searchParams );
         $params = $searchParams;
 
         return true;

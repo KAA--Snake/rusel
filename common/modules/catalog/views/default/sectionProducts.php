@@ -20,6 +20,7 @@ use common\widgets\filter\CatalogFilter;
                 'perPage' => $perPage,
                 'appliedFilterJson' => $appliedFilterJson,
                 'emptyFilterResult' => $emptyFilterResult,
+                'filterManufacturers' => $filterManufacturers,
             ],
 
     ]);?>

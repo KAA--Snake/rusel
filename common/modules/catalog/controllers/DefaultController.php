@@ -162,7 +162,7 @@ class DefaultController extends Controller
 
                 \Yii::$app->session->addFlash('error','По заданному критерию поиска товаров не найдено!');
                 $productsSearchModel = new ProductsSearch();
-                $sectionProducts = $productsSearchModel->getAllDataForFilter($filterParams);
+                $sectionProducts = $productsSearchModel->getFilteredProducts($filterParams, true);
 
             }
 
@@ -178,6 +178,7 @@ class DefaultController extends Controller
                 'filterData' => $sectionProducts['filterData'],
                 'appliedFilterJson' => $sectionProducts['appliedFilterJson'],
                 'emptyFilterResult' => $sectionProducts['emptyFilterResult'],
+                'filterManufacturers' => $sectionProducts['filterManufacturers'],
                 'perPage' => $perPage,
 
             ];
