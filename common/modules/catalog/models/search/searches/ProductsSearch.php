@@ -438,6 +438,15 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             }*/
         }
 
+        //переставляем производителя в начало массива
+        if(isset($appliedFilter['manufacturer'])){
+            $manufacturerPop['manufacturer'] = $appliedFilter['manufacturer'];
+            unset($appliedFilter['manufacturer']);
+
+            $appliedFilter = $manufacturerPop+$appliedFilter;
+
+        }
+
         //unset($_POST);
 
         //\Yii::$app->pr->print_r2($appliedFilter);

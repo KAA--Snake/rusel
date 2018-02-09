@@ -46,11 +46,12 @@
         <div class="apply_filter_btn_wrap">
 
             <form action="" method="post" class="filter_form hidden" name="productFilterForm" id="filter-form">
+
+                <input type="hidden" name="manufacturer" value="">
+
                 <?foreach($filterData as $key => $oneFilter){?>
                     <input type="hidden" name="<?=$key;?>" value="">
                 <?}?>
-
-                <input type="hidden" name="manufacturer" value="">
 
                 <input type="hidden" name="catalog_filter" value="Y">
 
