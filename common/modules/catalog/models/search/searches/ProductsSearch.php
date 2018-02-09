@@ -323,6 +323,11 @@ class ProductsSearch extends BaseSearch implements iProductSearch
      */
     public function getFilteredProducts($params, $getAll = false){
 
+        //$filter = \Yii::$app->session->get('saved_filter');
+        //\Yii::$app->pr->print_r2((array)json_decode($filter));
+
+        //var_dump($filter);
+
         //пробрасывается в контроллер из Pagination_beh.php
         $pagination = \Yii::$app->controller->pagination;
 
@@ -330,6 +335,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             return false;
         }
 
+
+        /** Меняем исходные данные (пост) для фильтра */
+        $this->setPaginationFilterLogic();
 
         $resultData = [];
 
@@ -347,10 +355,13 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $cacheKey = 'getFilterForSection'.$params['sectionId'];
 
-        //if (!$filterData = $cache->get($cacheKey) || true){
+        //if (!$filterDataForSection = $cache->get($cacheKey) || true){
 
+        /** делаем запрос на выборку */
         $filterDataForSection = $this->getFilterDataForSectionId($params);
 
+
+        /** собираем отфильтрованные товары */
         if( isset($filterDataForSection['hits']['total']) ){
             $totalFound = $filterDataForSection['hits']['total'];
 
@@ -358,7 +369,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         }
 
 
-        //собираем св-ва товаров
+        /**  собираем свойства товаров */
         foreach($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'] as &$oneFilter){
 
             $oneFilter['prop_name'] = $oneFilter['prop_name']['buckets'][0]['key'];
@@ -372,22 +383,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
 
-        //собираем производителей
+        /**  собираем производителей */
         $manufacturers = [];
         foreach($filterDataForSection['aggregations']['manufacturers_agg']['buckets'] as &$oneFilter){
-
-            //$oneFilter['prop_name'] = $oneFilter['key'];
-            /*$oneFilter['prop_values']['buckets'][] = [
-                'key' => $oneFilter['key'],
-                'doc_count' => $oneFilter['doc_count'],
-            ];*/
-            //$key = $oneFilter['key'];
             $manufacturers[] = $oneFilter;
-
         }
         sort($manufacturers);
-
-        //\Yii::$app->pr->print_r2($filterDataForSection);
         unset($oneFilter);
 
         //почистим ненужные агрегации из памяти
@@ -407,8 +408,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         /** сборка для уже выбранных параметров фильтра */
         $appliedFilter = [];
-        if(count($_POST) > 0){
-            foreach ($_POST as $k=>$postData){
+        if(count(\Yii::$app->request->post()) > 0){
+            foreach (\Yii::$app->request->post() as $k=>$postData){
                 if(empty($postData)) continue;
 
                 if(in_array($k, $this->mainProps)){
@@ -494,6 +495,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         if( \Yii::$app->request->isPost){ //если был применен фильтр
             if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
 
+                \Yii::$app->session->set('saved_filter', json_encode(\Yii::$app->request->post()));
+
+
                 //\Yii::$app->pr->print_r2(\Yii::$app->request->post() );
                 //die();
 
@@ -501,6 +505,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     '_csrf-frontend',
                     'perPage',
                     'catalog_filter',
+                    'from',
                 ];
                 foreach(\Yii::$app->request->post() as $k => $postData){
 
@@ -634,5 +639,59 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'emptyFilterResult' => $isEmptyFilter
 
             ];
+    }
+
+
+    /**
+     * метод реализцет логику включения-не включения фильтра при пагинации
+     * так как пост сбрасывается пр ипагинации, метод решает, применять прежний пост,
+     * или очищать его.
+     */
+    public function setPaginationFilterLogic(){
+        $pagination = \Yii::$app->controller->pagination;
+
+        //получим сохраненные данные из предыдущей сессии
+        $savedFilter = \Yii::$app->session->get('saved_filter');
+        if(!empty($savedFilter)){
+            $savedFilter = (array)json_decode($savedFilter);
+        }
+
+
+
+        $isFilterPicked = false; //был ли выбран фильтр
+        $isPaginationPicked = false; //была ли выбрана пагинация
+
+
+
+        /** если был применен фильтр */
+        if( \Yii::$app->request->isPost){
+            if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
+                $isFilterPicked = true; //был выбран фильтр
+            }
+        }
+
+
+        /** если была выбрана пагинация */
+        if($savedFilter['page'] != $pagination['from']){
+            $isPaginationPicked = true;
+            //echo 'pagin';
+            //\Yii::$app->pr->print_r2($savedFilter);
+        }
+
+
+        /** если выбран фильтр то сохраняем его текущее состояние */
+        if($isFilterPicked){
+            $newPost = \Yii::$app->request->post();
+            $newPost = $newPost + ['from' => $pagination['from']];
+
+            //echo 'filter';
+            //\Yii::$app->pr->print_r2($newPost);
+
+            //\Yii::$app->session->set('saved_filter', json_encode($newPost));
+            //$_POST = $newPost;
+
+        }
+
+
     }
 }
