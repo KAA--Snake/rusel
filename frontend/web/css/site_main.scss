@@ -618,7 +618,7 @@ $white:#ffffff;
           .filter_selector_item{
             border: none;
             border-bottom: 1px solid #eaeaea;
-            .name{
+            /*.name{
               color: #333333;
               font-size: 14px;
               font-weight: 700;
@@ -627,9 +627,21 @@ $white:#ffffff;
               padding: 22px 18px 22px 22px;
               width: 160px;
               max-width: 160px;
-            }
+            }*/
             .tags{
               .tag_list{
+                padding-left: 70px;
+                padding-right: 70px;
+                .name{
+                  margin-left: -70px;
+                  display: inline-block;
+                  color: #333333;
+                  font-size: 14px;
+                  font-weight: 700;
+                  line-height: 14px;
+                  text-align: center;
+                  padding: 22px 18px 22px 22px;
+                }
                 .tag_item{
                   display: inline-block;
                   line-height: 30px;
@@ -652,6 +664,9 @@ $white:#ffffff;
                       background-color: $blue;
                       color: #f6f6f5;
                       transition: 0.2s;
+                  }
+                  .filter_param_count{
+                    font-size: 10px;
                   }
                 }
               }

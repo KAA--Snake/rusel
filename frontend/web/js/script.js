@@ -362,10 +362,10 @@ $(document).ready(function () {
 
 
 
-    $('.tag_item').click(function (e) {
+    $('.js-filter-param-item').click(function (e) {
         var selectedFliterLine = $('.filter_params_applied');
         var filterForm = $('#filter-form');
-        var parentParam = $(this).closest('td.tags').prev('td.name').data('param');
+        var parentParam = $(this).closest('.tag_list').find('.js-filter-param-name').data('param');
         var self = $(this);
 
         if(!$(this).hasClass('selected')){
@@ -395,9 +395,9 @@ $(document).ready(function () {
     });
 
 
-    var filterQuery = $('#filter_applied').attr('data');
+    var filterQuery = $('#filter_applied').attr('data') || '';
 
-    if(filterQuery.length) {
+    if(filterQuery.length && filterQuery !== '[]') {
 
         /*var query = decodeURIComponent(window.location.search.substring(1));
         var vars = query.split('&');
@@ -420,17 +420,15 @@ $(document).ready(function () {
         localStorage.setItem('searchQuery', finishSearchString);*/
 
         var queryParams = JSON.parse(filterQuery);
-        console.log(queryParams);
-        var selectedFliterLine = $('.filter_params_applied');
 
-            console.log('cccc');
+        var selectedFliterLine = $('.filter_params_applied');
             selectedFliterLine.html('');
             for( var p in queryParams) {
-                queryParams[p] = queryParams[p].split('|')
+                queryParams[p] = queryParams[p].split('|');
 
                 for(var i=0;i<queryParams[p].length;i++){
                     $('.tag_item').each(function () {
-                        var filterParamCat = $(this).closest('td.tags').prev('td.name');
+                        var filterParamCat = $(this).closest('.tag_list').find('.js-filter-param-name');
                         if(filterParamCat.data('param') == p && $(this).data('tag') == queryParams[p][i]) {
 
                             /*selectedFliterLine.append('<span data-param="'+ p +'" class="selected_tag">'+ queryParams[p][i] + '</span>');*/

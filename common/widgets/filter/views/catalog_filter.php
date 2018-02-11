@@ -19,11 +19,11 @@
 
             <?if(isset($filterManufacturers) && is_array($filterManufacturers)){?>
                 <tr class="filter_selector_item">
-                    <td data-param="manufacturer" class="name">Производитель:</td>
                     <td class="tags">
                         <ul class="tag_list">
+                            <li data-param="manufacturer" class="name js-filter-param-name">Производитель:</li>
                             <?foreach($filterManufacturers as $oneFilter){?>
-                                <li data-tag="<?=$oneFilter['key'];?>" class="tag_item"><?=$oneFilter['key'];?> <span>(<?=$oneFilter['doc_count'];?>)</span></li>
+                                <li data-tag="<?=$oneFilter['key'];?>" class="tag_item js-filter-param-item"><?=$oneFilter['key'];?> <span class="filter_param_count">(<?=$oneFilter['doc_count'];?>)</span></li>
                             <?}?>
                         </ul>
                     </td>
@@ -32,11 +32,11 @@
 
             <?foreach($filterData as $key => $oneFilter){?>
                 <tr class="filter_selector_item">
-                    <td data-param="<?=$key;?>" class="name"><?=$oneFilter['prop_name'];?>:</td>
                     <td class="tags">
                         <ul class="tag_list">
+                            <li data-param="<?=$key;?>" class="name js-filter-param-name"><?=$oneFilter['prop_name'];?>:</li>
                             <?foreach($oneFilter['prop_values']['buckets'] as $oneBucket){?>
-                                <li data-tag="<?=$oneBucket['key'];?>" class="tag_item"><?=$oneBucket['key'];?> <span>(<?=$oneBucket['doc_count'];?>)</span></li>
+                                <li data-tag="<?=$oneBucket['key'];?>" class="tag_item js-filter-param-item"><?=$oneBucket['key'];?> <span class="filter_param_count">(<?=$oneBucket['doc_count'];?>)</span></li>
                             <?}?>
                         </ul>
                     </td>
