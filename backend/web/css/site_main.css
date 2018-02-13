@@ -14,5 +14,35 @@
     margin-right: 10px;
     line-height: 20px;
     color: red; }
+.container.main .inner_wrap {
+  padding-top: 70px; }
+  .container.main .inner_wrap .header_h1 {
+    color: #282828;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 19px;
+    text-transform: uppercase; }
+  .container.main .inner_wrap .dashboard {
+    margin: 26px 0;
+    display: flex;
+    flex-direction: column; }
+    .container.main .inner_wrap .dashboard_section {
+      background-color: #ffffff;
+      padding: 20px;
+      margin-bottom: 30px;
+      max-width: 300px; }
+      .container.main .inner_wrap .dashboard_section-header {
+        color: #333333;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 20px; }
+      .container.main .inner_wrap .dashboard_section-link {
+        display: block;
+        color: #336699;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 35px;
+        text-decoration: underline; }
 
 /*# sourceMappingURL=site_main.css.map */

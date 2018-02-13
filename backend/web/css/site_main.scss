@@ -20,4 +20,43 @@ $white:#ffffff;
       color: red;
     }
   }
+
+  .inner_wrap{
+    padding-top: 70px;
+    .header_h1{
+      color: #282828;
+      font-size: 25px;
+      font-weight: 700;
+      line-height: 19px;
+      text-transform: uppercase;
+    }
+    .dashboard{
+      margin: 26px 0;
+      display: flex;
+      flex-direction: column;
+      &_section{
+        background-color: $white;
+        padding: 20px;
+        margin-bottom: 30px;
+        max-width: 300px;
+        &-header{
+          color: #333333;
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 1;
+          margin-bottom: 20px;
+        }
+        &-body{}
+        &-link{
+          display: block;
+          color: $blue;
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 35px;
+          text-decoration: underline
+        }
+      }
+
+    }
+  }
 }
