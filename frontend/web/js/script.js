@@ -360,7 +360,23 @@ $(document).ready(function () {
     });
 
 
-
+    $('.js-filter-post-send').click(function (e) {
+       var filterForm = $('#filter-form');
+       var filterParams = $('.js-filter-param');
+       if(filterForm.length) {
+           var params = [];
+           filterParams.each(function () {
+               if($(this).val()) {
+                   params.push($(this).val());
+               }
+           });
+           if(params.length > 0) {
+               e.preventDefault();
+               $('#filter-form').attr('action', e.target.pathname + e.target.search);
+               $('#filter-form').submit();
+           }
+       }
+    });
 
     $('.js-filter-param-item').click(function (e) {
         var selectedFliterLine = $('.filter_params_applied');

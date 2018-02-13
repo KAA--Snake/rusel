@@ -34,10 +34,10 @@ use common\widgets\filter\CatalogFilter;
         <div class="count_vars hidden">
             <div class="top_corner"></div>
             <ul class="count_vars_list">
-                <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage', '25');?>">25</a></li>
-                <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage',  '50');?>">50</a></li>
-                <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage',  '100');?>">100</a></li>
-                <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage',  '200');?>">200</a></li>
+                <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage', '25');?>">25</a></li>
+                <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '50');?>">50</a></li>
+                <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '100');?>">100</a></li>
+                <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '200');?>">200</a></li>
             </ul>
         </div>
     </div>

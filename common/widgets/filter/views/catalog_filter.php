@@ -47,10 +47,10 @@
 
             <form action="" method="post" class="filter_form hidden" name="productFilterForm" id="filter-form">
 
-                <input type="hidden" name="manufacturer" value="">
+                <input type="hidden" class="js-filter-param" name="manufacturer" value="">
 
                 <?foreach($filterData as $key => $oneFilter){?>
-                    <input type="hidden" name="<?=$key;?>" value="">
+                    <input type="hidden" class="js-filter-param" name="<?=$key;?>" value="">
                 <?}?>
 
                 <input type="hidden" name="catalog_filter" value="Y">
