@@ -31,11 +31,12 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
-            /*'rules' => [
-                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+            'rules' => [
+                //'admin/<action:\w+>' => 'admin/site/<action>'
+                /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-            ],*/
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',*/
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',

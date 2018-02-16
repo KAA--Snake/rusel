@@ -17,6 +17,8 @@ class SiteController extends Controller
      */
     public function behaviors()
     {
+        return [];
+
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -44,14 +46,14 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-    public function actions()
+    /*public function actions()
     {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
-    }
+    }*/
 
     /**
      * Displays homepage.
@@ -95,4 +97,7 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+
+
 }

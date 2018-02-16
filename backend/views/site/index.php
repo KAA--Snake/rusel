@@ -12,22 +12,22 @@ $this->title = 'admin main page';
         <div class="dashboard_section">
             <h3 class="dashboard_section-header">Главная страница</h3>
             <div class="dashboard_section-body">
-                <a class="dashboard_section-link" href="/">Слайдер</a>
-                <a class="dashboard_section-link" href="/">Специальные предложения</a>
-                <a class="dashboard_section-link" href="/">Полезная информация</a>
-                <a class="dashboard_section-link" href="/">Новости</a>
+                <a class="dashboard_section-link" href="/admin/slider">Слайдер</a>
+                <a class="dashboard_section-link" href="/admin/offers">Специальные предложения</a>
+                <a class="dashboard_section-link" href="/admin/info">Полезная информация</a>
+                <a class="dashboard_section-link" href="/admin/news">Новости</a>
             </div>
         </div>
 
         <div class="dashboard_section">
             <h3 class="dashboard_section-header">Верхние статические страницы</h3>
             <div class="dashboard_section-body">
-                <a class="dashboard_section-link" href="/">О проекте</a>
-                <a class="dashboard_section-link" href="/">Оплата и доставка</a>
-                <a class="dashboard_section-link" href="/">Договор оферты</a>
-                <a class="dashboard_section-link" href="/">Сотрудничество</a>
-                <a class="dashboard_section-link" href="/">Вакансии</a>
-                <a class="dashboard_section-link" href="/">Контакты</a>
+                <a class="dashboard_section-link" href="/admin/static/about">О проекте</a>
+                <a class="dashboard_section-link" href="/admin/static/delivery">Оплата и доставка</a>
+                <a class="dashboard_section-link" href="/admin/static/documents">Договор оферты</a>
+                <a class="dashboard_section-link" href="/admin/static/cooperation">Сотрудничество</a>
+                <a class="dashboard_section-link" href="/admin/static/vacancies">Вакансии</a>
+                <a class="dashboard_section-link" href="/admin/static/contacts">Контакты</a>
             </div>
         </div>
     </div>
