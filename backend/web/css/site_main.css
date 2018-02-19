@@ -1,4 +1,23 @@
 /*#00a3e8*/
+.container.main .btn {
+  display: inline-block;
+  line-height: 38px;
+  border: 1px solid #336699;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  min-width: 220px;
+  padding: 0 30px;
+  text-decoration: none;
+  cursor: pointer; }
+  .container.main .btn-blue {
+    background-color: #336699;
+    color: #ffffff; }
+  .container.main .btn-transparent {
+    background-color: transparent;
+    color: #336699; }
 .container.main .alert-danger {
   margin: 20px 0 40px;
   border: 1px solid red;
@@ -22,6 +41,15 @@
     font-weight: 700;
     line-height: 19px;
     text-transform: uppercase; }
+  .container.main .inner_wrap .header_bord-bot {
+    color: #333333;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #336699;
+    margin-bottom: 22px; }
   .container.main .inner_wrap .dashboard {
     margin: 26px 0;
     display: flex;
@@ -44,5 +72,110 @@
         font-weight: 300;
         line-height: 35px;
         text-decoration: underline; }
+  .container.main .inner_wrap .back-link-wrap {
+    margin-bottom: 44px; }
+  .container.main .inner_wrap form .divider-gray {
+    margin: 20px 0;
+    height: 1px;
+    background-color: #cfcfcf; }
+  .container.main .inner_wrap form .label {
+    color: #333333;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 14px;
+    margin-bottom: 12px; }
+  .container.main .inner_wrap form .img_instructions {
+    color: #adadad;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px; }
+    .container.main .inner_wrap form .img_instructions .img-size {
+      color: #000000;
+      font-weight: 700; }
+  .container.main .inner_wrap .slider_add-form {
+    margin-top: 34px; }
+    .container.main .inner_wrap .slider_add-form .uploaded_img {
+      width: 940px;
+      height: 325px;
+      border: 1px solid #dfdfdf;
+      background-color: #ffffff;
+      background-image: url("../img/no_photo.png");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-bottom: 20px; }
+    .container.main .inner_wrap .slider_add-form .img_instructions {
+      border-bottom: 1px solid #cfcfcf;
+      padding-bottom: 16px;
+      margin-bottom: 20px; }
+    .container.main .inner_wrap .slider_add-form .btns-block {
+      margin-bottom: 36px; }
+      .container.main .inner_wrap .slider_add-form .btns-block .slider-delete_btn {
+        margin-left: 20px; }
+  .container.main .inner_wrap .info_add-form {
+    padding-top: 48px;
+    margin-bottom: 36px; }
+    .container.main .inner_wrap .info_add-form .flex_wrap {
+      display: flex; }
+    .container.main .inner_wrap .info_add-form .left_wrap {
+      width: 220px; }
+      .container.main .inner_wrap .info_add-form .left_wrap .uploaded_img {
+        width: 110px;
+        height: 80px;
+        background-color: #ffffff;
+        background-image: url("../img/no_photo.png");
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-bottom: 20px; }
+      .container.main .inner_wrap .info_add-form .left_wrap .img_instructions {
+        margin-bottom: 12px;
+        line-height: 16px; }
+    .container.main .inner_wrap .info_add-form .right_wrap {
+      margin-left: 20px; }
+      .container.main .inner_wrap .info_add-form .right_wrap .info_head {
+        width: 350px;
+        height: 80px;
+        border: 1px solid #dfdfdf;
+        background-color: #ffffff;
+        padding: 16px;
+        resize: none;
+        margin-bottom: 20px;
+        color: #333333;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px;
+        text-transform: uppercase;
+        overflow: hidden; }
+      .container.main .inner_wrap .info_add-form .right_wrap .info-id {
+        height: 40px;
+        width: 940px;
+        border: 1px solid #dfdfdf;
+        background-color: #ffffff; }
+    .container.main .inner_wrap .info_add-form .info-delete_btn {
+      margin-left: 17px; }
+  .container.main .inner_wrap .previous-item-block .previous-item-item {
+    height: 50px;
+    background-color: #ffffff;
+    padding: 0 24px;
+    cursor: pointer;
+    margin-bottom: 12px; }
+    .container.main .inner_wrap .previous-item-block .previous-item-item .name {
+      color: #336699;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 50px;
+      text-decoration: underline;
+      text-transform: uppercase; }
+    .container.main .inner_wrap .previous-item-block .previous-item-item .date {
+      color: #a9a9a9;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 50px;
+      padding-left: 20px;
+      background-image: url("../img/clock.png");
+      background-position: left center;
+      background-repeat: no-repeat;
+      float: right; }
 
 /*# sourceMappingURL=site_main.css.map */

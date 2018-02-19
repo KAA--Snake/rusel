@@ -3,6 +3,29 @@ $white:#ffffff;
 
 .container.main{
 
+  .btn{
+    display: inline-block;
+    line-height: 38px;
+    border: 1px solid $blue;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    min-width: 220px;
+    padding: 0 30px;
+    text-decoration: none;
+    cursor: pointer;
+    &-blue{
+      background-color: $blue;
+      color: $white;
+    }
+    &-transparent{
+      background-color: transparent;
+      color: $blue;
+    }
+  }
+
   .alert-danger{
     margin: 20px 0 40px;
     border: 1px solid red;
@@ -29,6 +52,16 @@ $white:#ffffff;
       font-weight: 700;
       line-height: 19px;
       text-transform: uppercase;
+    }
+    .header_bord-bot{
+      color: #333333;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 20px;
+      text-transform: uppercase;
+      padding-bottom: 10px;
+      border-bottom:1px solid $blue;
+      margin-bottom: 22px;
     }
     .dashboard{
       margin: 26px 0;
@@ -57,6 +90,152 @@ $white:#ffffff;
         }
       }
 
+    }
+
+    .back-link-wrap{
+      margin-bottom: 44px;
+      .back-link{}
+    }
+
+    form{
+      .divider-gray{
+        margin: 20px 0;
+        height: 1px;
+        background-color: #cfcfcf;
+      }
+      .label{
+        color: #333333;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 14px;
+        margin-bottom: 12px;
+      }
+
+      .img_instructions{
+        color: #adadad;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 20px;
+
+        .img-size{
+          color: #000000;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .slider_add-form{
+      margin-top: 34px;
+
+      .uploaded_img{
+        width: 940px;
+        height: 325px;
+        border: 1px solid #dfdfdf;
+        background-color: #ffffff;
+        background-image: url("../img/no_photo.png");
+        background-position: center;
+        background-size: contain;
+        background-repeat:no-repeat;
+        margin-bottom: 20px;
+      }
+      .img_instructions{
+        border-bottom: 1px solid #cfcfcf;
+        padding-bottom: 16px;
+        margin-bottom: 20px;
+      }
+
+      .btns-block{
+        margin-bottom: 36px;
+        .slider{
+          &-upload_btn{}
+          &-delete_btn{
+            margin-left: 20px;
+          }
+        }
+      }
+    }
+
+    .info_add-form{
+      padding-top: 48px;
+      margin-bottom: 36px;
+
+      .flex_wrap{
+        display: flex;
+      }
+      .left_wrap{
+        width: 220px;
+        .uploaded_img{
+          width: 110px;
+          height: 80px;
+          background-color: $white;
+          background-image: url("../img/no_photo.png");
+          background-position: center;
+          background-size: contain;
+          background-repeat:no-repeat;
+          margin-bottom: 20px;
+        }
+        .img_instructions{
+          margin-bottom: 12px;
+          line-height: 16px;
+        }
+      }
+      .right_wrap{
+        margin-left: 20px;
+        .info_head{
+          width: 350px;
+          height: 80px;
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+          padding: 16px;
+          resize: none;
+          margin-bottom: 20px;
+          color: #333333;
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 16px;
+          text-transform: uppercase;
+          overflow: hidden;
+        }
+        .info-id{
+          height: 40px;
+          width: 940px;
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+        }
+      }
+      .info-delete_btn{
+        margin-left: 17px;
+      }
+    }
+    .previous-item-block{
+      .previous-item{
+        &-item{
+          height: 50px;
+          background-color: #ffffff;
+          padding: 0 24px;
+          cursor: pointer;
+          margin-bottom: 12px;
+          .name{
+            color: $blue;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 50px;
+            text-decoration: underline;
+            text-transform: uppercase;
+          }
+          .date{
+            color: #a9a9a9;
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 50px;
+            padding-left:20px;
+            background-image: url("../img/clock.png");
+            background-position: left center;
+            background-repeat:no-repeat;
+            float: right;
+          }
+        }
+      }
     }
   }
 }
