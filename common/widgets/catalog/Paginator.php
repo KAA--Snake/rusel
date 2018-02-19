@@ -273,7 +273,7 @@ class Paginator extends Widget
     <ul class="pagination_list">
 
         <? if(isset($hrefPrevPage)) {?>
-            <li class="pagination_item prev"><a href="<?=$hrefPrevPage;?>"></a></li>
+            <li class="pagination_item prev"><a class="js-filter-post-send" href="<?=$hrefPrevPage;?>"></a></li>
         <?}?>
 
         <?
@@ -292,26 +292,26 @@ class Paginator extends Widget
             //$pageMinus4 = $currentPage - 4;
 
             if($currentPage == 1){
-                echo '<li class="pagination_item active"><a href="'.$this->getHref(1).'">1</a></li>';
-                echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus1).'">'.$pagePlus1.'</a></li>';
-                echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
-                echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus3).'">'.$pagePlus3.'</a></li>';
+                echo '<li class="pagination_item active"><a class="js-filter-post-send" href="'.$this->getHref(1).'">1</a></li>';
+                echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus1).'">'.$pagePlus1.'</a></li>';
+                echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
+                echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus3).'">'.$pagePlus3.'</a></li>';
 
                 echo '<li class="pagination_item">...</li>';
-                echo '<li class="pagination_item"><a href="'.$this->getHref($total_pages).'">'.$total_pages.'</a></li>';
+                echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($total_pages).'">'.$total_pages.'</a></li>';
 
             }else{
 
                 if($currentPage == 2){
-                    echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
-                    echo '<li class="pagination_item active"><a href="'.$this->getHref($currentPage).'">'.$currentPage.'</a></li>';
-                    echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus1).'">'.$pagePlus1.'</a></li>';
-                    echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
+                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
+                    echo '<li class="pagination_item active"><a class="js-filter-post-send" href="'.$this->getHref($currentPage).'">'.$currentPage.'</a></li>';
+                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus1).'">'.$pagePlus1.'</a></li>';
+                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
 
                     //не показываем ... если текущая страница + 2 меньше максимальной
                     if($pagePlus2 < $total_pages){
                         echo '<li class="pagination_item">...</li>';
-                        echo '<li class="pagination_item"><a href="'.$this->getHref($total_pages).'">'.$total_pages.'</a></li>';
+                        echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($total_pages).'">'.$total_pages.'</a></li>';
                     }
 
                 }else if($currentPage > 2){
@@ -325,32 +325,32 @@ class Paginator extends Widget
                             if($currentPage == $i){ //строим от текущей выбранной страницы
                                 if($currentPage + 1 == $total_pages){
                                     //echo 'if $currentPage + 1 == $total_pages';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref(1).'">1</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref(1).'">1</a></li>';
                                     echo '<li class="pagination_item">...</li>';
                                     //echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus3).'">'.$pageMinus3.'</a></li>';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
 
                                 }else if($currentPage < $total_pages){
                                     //echo 'if $currentPage < $total_pages';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref(1).'">1</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref(1).'">1</a></li>';
                                     echo '<li class="pagination_item">...</li>';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
 
                                 }else{
                                     //echo 'else';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref(1).'">1</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref(1).'">1</a></li>';
                                     echo '<li class="pagination_item">...</li>';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus3).'">'.$pageMinus3.'</a></li>';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
-                                    echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus3).'">'.$pageMinus3.'</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
+                                    echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
 
                                 }
 
-                                echo '<li class="pagination_item active"><a href="">'.$i.'</a></li>';
+                                echo '<li class="pagination_item active"><a class="js-filter-post-send" href="">'.$i.'</a></li>';
                             }else{
-                                echo '<li class="pagination_item"><a href="'.$href.'">'.$i.'</a></li>';
+                                echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$href.'">'.$i.'</a></li>';
                             }
                         }
 
@@ -359,26 +359,26 @@ class Paginator extends Widget
 
                         if($currentPage - 2 > 1){//если текущая страница - 2 будет больше 1, значит нужно многоточие назад
                             //echo 'если текущая страница - 2 будет больше 1';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref(1).'">1</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref(1).'">1</a></li>';
                             echo '<li class="pagination_item">...</li>';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
-                            echo '<li class="pagination_item active"><a href="'.$this->getHref($currentPage).'">'.$currentPage.'</a></li>';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus1).'">'.$pagePlus1.'</a></li>';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
+                            echo '<li class="pagination_item active"><a class="js-filter-post-send" href="'.$this->getHref($currentPage).'">'.$currentPage.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus1).'">'.$pagePlus1.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
                         }else{//значит нужно многоточие назад не нужно
 
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
-                            echo '<li class="pagination_item active"><a href="'.$this->getHref($currentPage).'">'.$currentPage.'</a></li>';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus1).'">'.$pagePlus1.'</a></li>';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus2).'">'.$pageMinus2.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pageMinus1).'">'.$pageMinus1.'</a></li>';
+                            echo '<li class="pagination_item active"><a class="js-filter-post-send" href="'.$this->getHref($currentPage).'">'.$currentPage.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus1).'">'.$pagePlus1.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($pagePlus2).'">'.$pagePlus2.'</a></li>';
                         }
 
                         //не показываем ... если текущая страница + 2 меньше максимальной
                         if($pagePlus2 < $total_pages){
                             echo '<li class="pagination_item">...</li>';
-                            echo '<li class="pagination_item"><a href="'.$this->getHref($total_pages).'">'.$total_pages.'</a></li>';
+                            echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$this->getHref($total_pages).'">'.$total_pages.'</a></li>';
                         }
 
                     }
@@ -390,16 +390,16 @@ class Paginator extends Widget
             for($i=1; $i <= $total_pages; $i++){
                 $href = $this->getHref($i);
                 if($currentPage == $i){
-                   echo '<li class="pagination_item active"><a href="">'.$i.'</a></li>';
+                   echo '<li class="pagination_item active"><a class="js-filter-post-send" href="">'.$i.'</a></li>';
                }else{
-                   echo '<li class="pagination_item"><a href="'.$href.'">'.$i.'</a></li>';
+                   echo '<li class="pagination_item"><a class="js-filter-post-send" href="'.$href.'">'.$i.'</a></li>';
                }
             }
         }
 
 ?>
         <? if(isset($hrefNextPage)) {?>
-            <li class="pagination_item next"><a href="<?=$hrefNextPage;?>"></a></li>
+            <li class="pagination_item next"><a class="js-filter-post-send" href="<?=$hrefNextPage;?>"></a></li>
         <?}?>
     </ul>
 </div>
