@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use common\widgets\catalog\CatalogMenu;
 use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
+use backend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);

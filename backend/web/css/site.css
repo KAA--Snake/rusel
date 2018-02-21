@@ -105,8 +105,9 @@ a{
 .wrap {
     min-height: 100%;
     height: auto;
-    margin: 0 auto -82px;
-    padding: 0 0 104px;
+    margin: 0 auto;
+    /*margin: 0 auto -82px;
+    padding: 0 0 104px;*/
     background: #f7f7f7;
 }
 
