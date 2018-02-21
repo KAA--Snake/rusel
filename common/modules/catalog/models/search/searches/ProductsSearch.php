@@ -338,10 +338,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         }
 
 
-        /** Меняем исходные данные (пост) для фильтра */
-        //$this->setPaginationFilterLogic();
-
         $resultData = [];
+
+	    $filterDataForSection = $this->getFilterDataForSectionId($params);
+
+	    $allFilterDataProps = $this->_getProps($filterDataForSection);
+	    $allManufacturers = $this->_getManufacturers($filterDataForSection);
 
         /** заполняем параметры для поика из ПОСТа(если он был) */
         if(!$getAll){
@@ -372,26 +374,11 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
         /**  собираем свойства товаров */
-        foreach($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'] as &$oneFilter){
-
-            $oneFilter['prop_name'] = $oneFilter['prop_name']['buckets'][0]['key'];
-            $key = $oneFilter['key'];
-            $filterData[$key] = $oneFilter;
-
-            sort($oneFilter['prop_values']['buckets']);
-
-        }
-        unset($oneFilter);
-
+	    $filterData = $this->_getProps($filterDataForSection);
 
 
         /**  собираем производителей */
-        $manufacturers = [];
-        foreach($filterDataForSection['aggregations']['manufacturers_agg']['buckets'] as &$oneFilter){
-            $manufacturers[] = $oneFilter;
-        }
-        sort($manufacturers);
-        unset($oneFilter);
+	    $filteredManufacturers = $this->_getManufacturers($filterDataForSection);
 
         //почистим ненужные агрегации из памяти
         unset($filterDataForSection['aggregations']);
@@ -457,6 +444,16 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $appliedFilter = json_encode($appliedFilter, JSON_UNESCAPED_SLASHES);
 
 
+	    /**
+	     * производим добавление пустых значений для фильтра
+	     * (полный фильтр + найденные)
+	     */
+	    //добавим пустые значения для выбранного фильтра
+	    $this->_addEmptyProps($allFilterDataProps, $filterData);
+		//unset($filterData);
+
+	    //добавим пустые значения для выбранного фильтра по производителям
+	    $this->_addEmptyManufacturers($allManufacturers, $filteredManufacturers);
 
 
 
@@ -464,11 +461,11 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             [
                 'products' => $filterDataForSection['hits']['hits'],
                 'totalProductsFound' => $totalFound,
-                'filterData' => $filterData,
+                'filterData' => $allFilterDataProps,
                 'appliedFilterJson' => $appliedFilter,
                 'paginator' => $pagination,
                 'emptyFilterResult' => $isEmptyFilter,
-                'filterManufacturers' => $manufacturers,
+                'filterManufacturers' => $allManufacturers,
 
             ];
     }
@@ -630,7 +627,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
 
-
         return
             [
                 'products' => $filterDataForSection['hits']['hits'],
@@ -643,5 +639,128 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             ];
     }
 
+	/**
+	 * Создает массив значений для свойств, индексированный ИДами свойств.
+	 *
+	 * @param $buckets
+	 *
+	 * @return array
+	 */
+    private function _getProps(&$filterDataForSection){
+
+	    /**  собираем свойства товаров */
+	    foreach($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'] as &$oneFilter){
+		    //if ($oneFilter['key'] != 15) continue;
+
+		    $oneFilter['prop_name'] = $oneFilter['prop_name']['buckets'][0]['key'];
+		    $key = $oneFilter['key'];
+		    $filterData[$key] = $oneFilter;
+
+		    sort($oneFilter['prop_values']['buckets']);
+
+	    }
+	    unset($oneFilter);
+
+    	return $filterData;
+    }
+
+
+	/**
+	 * Создает массив значений для свойств, индексированный ИДами свойств.
+	 *
+	 * @param $buckets
+	 *
+	 * @return array
+	 */
+	private function _getManufacturers(&$filterDataForSection){
+
+		/**  собираем производителей */
+		$manufacturers = [];
+		foreach($filterDataForSection['aggregations']['manufacturers_agg']['buckets'] as $oneFilter){
+			$manufacturers[] = $oneFilter;
+		}
+		sort($manufacturers);
+		//\Yii::$app->pr->print_r2($manufacturers);
+
+
+		return $manufacturers;
+	}
+
+
+	/**
+	 * Добавляет пустые значения из $fullFilterData к уже заполненным свойствам $filteredData.
+	 *
+	 * пройдемся по полному фильтру и обнулим те значения, которых нет в выбранном фильтре.
+	 * а те что есть- заменим doc_count на те, что были в выбранном
+	 *
+	 * @param $fullFilterData
+	 * @param $filteredData
+	 *
+	 * @return bool
+	 */
+    private function _addEmptyProps(&$fullFilterData, &$filteredData){
+
+    	if(!$filteredData) return false;
+
+	    foreach ( $fullFilterData as $propId => $full_filter_datum ) {
+
+		    //пройдемся по полному фильтру и обнулим те значения, которых нет в выбранном фильтре.
+		    foreach($full_filter_datum['prop_values']['buckets'] as $mainPropKey => $oneFullProperty){
+
+		    	//обнулим те значения, которых нет в выбранном фильтре.
+			    $fullFilterData[$propId]['prop_values']['buckets'][$mainPropKey]['doc_count'] = 0;
+
+			    //а те что есть- заменим doc_count на те, что были в выбранном
+		    	foreach($filteredData[$propId]['prop_values']['buckets'] as $onePickedProperty){
+
+					if($oneFullProperty['key'] == $onePickedProperty['key']){
+						$fullFilterData[$propId]['prop_values']['buckets'][$mainPropKey]['doc_count'] = $onePickedProperty['doc_count'];
+					}
+			    }
+
+		    }
+
+	    }
+
+    	return true;
+    }
+
+
+
+	/**
+	 * Добавляет пустые значения из $fullFilterData к уже заполненным свойствам $filteredData.
+	 *
+	 * пройдемся по полному фильтру и обнулим те значения, которых нет в выбранном фильтре.
+	 * а те что есть- заменим doc_count на те, что были в выбранном
+	 *
+	 * @param $allManufacturers
+	 * @param $filterManufacturers
+	 *
+	 * @return bool
+	 */
+	private function _addEmptyManufacturers(&$allManufacturers, &$filterManufacturers){
+
+
+		if(!$filterManufacturers) return false;
+
+		//пройдемся по полному фильтру и обнулим те значения, которых нет в выбранном фильтре.
+		foreach ( $allManufacturers as $key => $full_filter_datum ) {
+
+			//обнулим те значения, которых нет в выбранном фильтре.
+			$allManufacturers[$key]['doc_count'] = 0;
+
+			//а те что есть- заменим doc_count на те, что были в выбранном
+			foreach($filterManufacturers as $onePickedProperty){
+
+				if($full_filter_datum['key'] == $onePickedProperty['key']){
+					$allManufacturers[$key]['doc_count'] = $onePickedProperty['doc_count'];
+				}
+			}
+
+
+		}
+
+		return true;
+	}
 
 }
