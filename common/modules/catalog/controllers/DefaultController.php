@@ -161,8 +161,8 @@ class DefaultController extends Controller
                 //echo "<script type='text/javascript'>  window.location=window.location.href; </script>";
 
                 \Yii::$app->session->addFlash('error','По заданному критерию поиска товаров не найдено!');
-                $productsSearchModel = new ProductsSearch();
-                $sectionProducts = $productsSearchModel->getFilteredProducts($filterParams, true);
+               /* $productsSearchModel = new ProductsSearch();
+                $sectionProducts = $productsSearchModel->getFilteredProducts($filterParams, true);*/
 
             }
 
@@ -182,6 +182,9 @@ class DefaultController extends Controller
                 'perPage' => $perPage,
 
             ];
+
+	       /* \Yii::$app->pr->print_r2($sectionProducts['filterData']);
+	        die();*/
         }else{
             /** если ничего не нашлось, выбросим 404 */
             throw new HttpException(404);

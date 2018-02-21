@@ -7,9 +7,9 @@ use common\widgets\filter\CatalogFilter;
 
 //echo Url::current(['perPage' => '50']);
 //echo ;
+/*\Yii::$app->pr->print_r2($filterData);
 
-
-//die();
+die();*/
 
 ?>
 <div class="content_inner_wrap left0 col_1180">

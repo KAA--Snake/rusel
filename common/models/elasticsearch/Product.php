@@ -265,7 +265,7 @@ class Product extends Model
 
             //если артикул есть
             if(!empty($product['artikul']) && $product['artikul'] != ''){
-                $product['code'] = $product['artikul'];
+                $product['code'] = $product['artikul'].'-'.$product['properties']['proizvoditel'];
             }else{
                 //если артикула нет, делаем код из имени
                 $product['code'] = $product['name'];
@@ -777,7 +777,7 @@ class Product extends Model
 
             //если артикул есть
             if(!empty($product['artikul']) && $product['artikul'] != ''){
-                $product['code'] = $product['artikul'];
+                $product['code'] = $product['artikul'].'_prid_'.$product['proizv_id'];
             }else{
                 //если артикула нет, делаем код из имени
                 $product['code'] = $product['name'];

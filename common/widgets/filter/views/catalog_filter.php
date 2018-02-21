@@ -1,5 +1,6 @@
 <?
-//\Yii::$app->pr->print_r2($filterManufacturers);
+//\Yii::$app->pr->print_r2($filterData);
+
 ?>
 <div class="goods_filter_block col_1180">
 

@@ -350,9 +350,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             $this->__setParamsFromPost($params);
         }
 
-
-
-        /** @var Cache $cache */
+	    /** @var Cache $cache */
         $cache = \Yii::$app->cache;
 
         $totalFound = 0;
@@ -380,6 +378,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         /**  собираем производителей */
 	    $filteredManufacturers = $this->_getManufacturers($filterDataForSection);
 
+
+
+
         //почистим ненужные агрегации из памяти
         unset($filterDataForSection['aggregations']);
 
@@ -405,7 +406,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     $appliedFilter['manufacturer'] = $postData;
                 }
 
-                if(isset($filterData[$k])){
+                if(isset($allFilterDataProps[$k])){
                     $appliedFilter[$k] = $postData;
                 }
 
@@ -429,13 +430,13 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         }
 
         //переставляем производителя в начало массива
-        if(isset($appliedFilter['manufacturer'])){
+/*        if(isset($appliedFilter['manufacturer'])){
             $manufacturerPop['manufacturer'] = $appliedFilter['manufacturer'];
             unset($appliedFilter['manufacturer']);
 
             $appliedFilter = $manufacturerPop+$appliedFilter;
 
-        }
+        }*/
 
         //unset($_POST);
 
@@ -443,7 +444,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $appliedFilter = json_encode($appliedFilter, JSON_UNESCAPED_SLASHES);
 
-
+	    //\Yii::$app->pr->print_r2($allFilterDataProps);
 	    /**
 	     * производим добавление пустых значений для фильтра
 	     * (полный фильтр + найденные)
@@ -454,7 +455,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 	    //добавим пустые значения для выбранного фильтра по производителям
 	    $this->_addEmptyManufacturers($allManufacturers, $filteredManufacturers);
-
 
 
         return

@@ -33,6 +33,8 @@ class CatalogFilter extends Widget
 
     public function run()
     {
+	    //\Yii::$app->pr->print_r2($this->options);
+
 
         if(empty($this->options['filterData']) || !isset($this->options['filterData'])){
             $this->options['filterData'] = [];
@@ -43,7 +45,7 @@ class CatalogFilter extends Widget
         /**
          *  блок ниже не нужен по идее...я чтото устал :)
          */
-        if($this->options['emptyFilterResult'] || false){
+        if($this->options['emptyFilterResult'] && false){
 
             /** При применении фильтра не кешируем @TODO может будем кешировать? */
             if( \Yii::$app->request->isPost){ //если был применен фильтр
