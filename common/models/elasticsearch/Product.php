@@ -265,7 +265,7 @@ class Product extends Model
 
             //если артикул есть
             if(!empty($product['artikul']) && $product['artikul'] != ''){
-                $product['code'] = $product['artikul'].'-'.$product['properties']['proizvoditel'];
+                $product['code'] = $product['artikul'];
             }else{
                 //если артикула нет, делаем код из имени
                 $product['code'] = $product['name'];
@@ -278,8 +278,9 @@ class Product extends Model
         /** сгенерим урл из урла раздела/урла товара */
         $product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
 
+		//\Yii::$app->pr->print_r2($product);
 
-
+		die();
         /*$params = [
             'id' => $product['id'],
             //'routing' => 'company_xyz',
@@ -777,7 +778,7 @@ class Product extends Model
 
             //если артикул есть
             if(!empty($product['artikul']) && $product['artikul'] != ''){
-                $product['code'] = $product['artikul'].'_prid_'.$product['proizv_id'];
+                $product['code'] = $product['artikul'];
             }else{
                 //если артикула нет, делаем код из имени
                 $product['code'] = $product['name'];
@@ -812,7 +813,11 @@ class Product extends Model
 
             $cache = \Yii::$app->cache;
 
+	        //\Yii::$app->pr->print_r2($productCode);
+
             if (!$section = $cache->get('getSection'.$sectionUniqueId)){
+
+	            //\Yii::$app->pr->print_r2($section);
                 //Получаем данные из таблицы (модель TagPost)
                 $section = Section::find()->andWhere(['unique_id' => $sectionUniqueId])->asArray()->one();
 
@@ -833,10 +838,10 @@ class Product extends Model
             //echo 'Уникальный ИД: '.$section->unique_id . '<br />';
 
             //выпиливаем слеши для сохранения в базе
-            $url = str_replace('/', '|', $section->url.$productCode);
+            $url = str_replace('/', '|', $section['url'].$productCode);
             //$url = md5($url);
 
-
+	        //\Yii::$app->pr->print_r2($url);
             //return 'electric_productsaksessuary-dlya-klemmmarkirovka2035-0';
             return $url;
         }else{
