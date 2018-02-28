@@ -21,6 +21,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     public      $searchConfig;
 
     private $savedFilter;
+    private $isEmptyResult = false; //свитч для пустого результата поиска
 
     /** Массив для названий главных свойств (не лежащих в nested) */
     private $mainProps = [
@@ -417,11 +418,11 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         //\Yii::$app->pr->print_r2($filterData);
         //если был выбран фильтр, но ничего не найдено, покажем уведомление
-        $isEmptyFilter = false;
         if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
 
             if($totalFound == 0){
-                $isEmptyFilter = true;
+	            //если результат поиска нулевой - обнулим все значения
+	            $this->isEmptyResult = true;
             }
 
             /*if(count($appliedFilter) == 0){
@@ -451,7 +452,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	     */
 	    //добавим пустые значения для выбранного фильтра
 	    $this->_addEmptyProps($allFilterDataProps, $filterData);
-		//unset($filterData);
+	    //\Yii::$app->pr->print_r2($allFilterDataProps);
+		//unset($allFilterDataProps);
 
 	    //добавим пустые значения для выбранного фильтра по производителям
 	    $this->_addEmptyManufacturers($allManufacturers, $filteredManufacturers);
@@ -464,7 +466,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'filterData' => $allFilterDataProps,
                 'appliedFilterJson' => $appliedFilter,
                 'paginator' => $pagination,
-                'emptyFilterResult' => $isEmptyFilter,
+                'emptyFilterResult' => $this->isEmptyResult,
                 'filterManufacturers' => $allManufacturers,
 
             ];
@@ -700,7 +702,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 */
     private function _addEmptyProps(&$fullFilterData, &$filteredData){
 
-    	if(!$filteredData) return false;
+    	//если товары не найдены, но фильтрации не было (фильтр по сути не использовался))
+    	if(!$filteredData && !$this->isEmptyResult) return false;
 
 	    foreach ( $fullFilterData as $propId => $full_filter_datum ) {
 
@@ -710,9 +713,11 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		    	//обнулим те значения, которых нет в выбранном фильтре.
 			    $fullFilterData[$propId]['prop_values']['buckets'][$mainPropKey]['doc_count'] = 0;
 
+			    //если результат поиска нулевой - обнулим все значения
+			    if($this->isEmptyResult) continue;
+
 			    //а те что есть- заменим doc_count на те, что были в выбранном
 		    	foreach($filteredData[$propId]['prop_values']['buckets'] as $onePickedProperty){
-
 					if($oneFullProperty['key'] == $onePickedProperty['key']){
 						$fullFilterData[$propId]['prop_values']['buckets'][$mainPropKey]['doc_count'] = $onePickedProperty['doc_count'];
 					}
@@ -740,14 +745,17 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 */
 	private function _addEmptyManufacturers(&$allManufacturers, &$filterManufacturers){
 
-
-		if(!$filterManufacturers) return false;
+		//если товары не найдены, но фильтрации не было (фильтр по сути не использовался))
+		if(!$filterManufacturers && !$this->isEmptyResult) return false;
 
 		//пройдемся по полному фильтру и обнулим те значения, которых нет в выбранном фильтре.
 		foreach ( $allManufacturers as $key => $full_filter_datum ) {
 
 			//обнулим те значения, которых нет в выбранном фильтре.
 			$allManufacturers[$key]['doc_count'] = 0;
+
+			//если результат поиска нулевой - обнулим все значения
+			if($this->isEmptyResult) continue;
 
 			//а те что есть- заменим doc_count на те, что были в выбранном
 			foreach($filterManufacturers as $onePickedProperty){

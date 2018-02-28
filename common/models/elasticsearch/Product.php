@@ -280,7 +280,7 @@ class Product extends Model
 
 		//\Yii::$app->pr->print_r2($product);
 
-		die();
+
         /*$params = [
             'id' => $product['id'],
             //'routing' => 'company_xyz',
