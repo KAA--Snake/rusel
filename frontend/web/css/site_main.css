@@ -567,16 +567,84 @@
   }*/ }
   .container.main .content_wrap .content_inner_wrap.left0 {
     margin-left: 0; }
-  .container.main .content_wrap .content_inner_wrap.about_company img.fll {
-    margin-right: 20px; }
-  .container.main .content_wrap .content_inner_wrap.about_company img.flr {
-    margin-left: 20px; }
-  .container.main .content_wrap .content_inner_wrap.about_company p {
+  .container.main .content_wrap .content_inner_wrap.static_container h1 {
+    color: #282828;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-transform: uppercase; }
+  .container.main .content_wrap .content_inner_wrap.static_container h2 {
     color: #000000;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 24px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 18px;
+    text-transform: uppercase;
     margin-bottom: 30px; }
+  .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap {
+    display: flex;
+    background-color: #ffffff;
+    padding: 20px; }
+    .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap .right_col {
+      margin-left: 20px; }
+    .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap .static-img {
+      width: 220px;
+      height: 170px; }
+    .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap p {
+      color: #000000;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 24px;
+      margin-bottom: 30px; }
+    .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap blockquote {
+      color: #000000;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 24px;
+      padding-left: 18px;
+      border-left: 2px solid #9f0f18;
+      margin-bottom: 30px; }
+    .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap ul {
+      list-style-type: none;
+      list-style-image: url("../img/ellipse-1.svg");
+      margin-bottom: 30px;
+      margin-left: 14px; }
+      .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap ul li {
+        margin-bottom: 20px;
+        padding-left: 10px;
+        color: #000000;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 24px; }
+    .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap ol {
+      counter-reset: li;
+      padding: 0;
+      list-style: none;
+      margin-bottom: 30px; }
+      .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap ol li {
+        margin-right: 28px;
+        margin-bottom: 20px;
+        padding-left: 10px;
+        color: #000000;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 24px;
+        position: relative; }
+        .container.main .content_wrap .content_inner_wrap.static_container .static_inner_wrap ol li:before {
+          content: counter(li);
+          counter-increment: li;
+          color: #ffffff;
+          font-size: 12px;
+          font-weight: 300;
+          line-height: 24px;
+          background-color: #9f0f18;
+          border-radius: 11px;
+          width: 22px;
+          height: 22px;
+          position: absolute;
+          left: -28px;
+          text-align: center; }
   .container.main .content_wrap .content_inner_wrap .search_by_list {
     background-color: #ffffff;
     margin-top: -20px;

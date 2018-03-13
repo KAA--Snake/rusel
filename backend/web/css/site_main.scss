@@ -97,6 +97,10 @@ $white:#ffffff;
       .back-link{}
     }
 
+    .flex_wrap{
+      display: flex;
+    }
+
     form{
       .divider-gray{
         margin: 20px 0;
@@ -159,9 +163,7 @@ $white:#ffffff;
       padding-top: 48px;
       margin-bottom: 36px;
 
-      .flex_wrap{
-        display: flex;
-      }
+
       .left_wrap{
         width: 220px;
         .uploaded_img{
@@ -197,6 +199,7 @@ $white:#ffffff;
           overflow: hidden;
         }
         .info-id{
+          padding-left: 12px;
           height: 40px;
           width: 940px;
           border: 1px solid #dfdfdf;
@@ -207,6 +210,153 @@ $white:#ffffff;
         margin-left: 17px;
       }
     }
+
+    .offer_add-form{
+      padding-top: 48px;
+      margin-bottom: 36px;
+
+
+      .left_wrap{
+        width: 220px;
+        .uploaded_img{
+          width: 220px;
+          height: 170px;
+          background-color: $white;
+          background-image: url("../img/no_photo.png");
+          background-position: center;
+          background-size: contain;
+          background-repeat:no-repeat;
+          margin-bottom: 20px;
+        }
+        .img_instructions{
+          margin-bottom: 12px;
+          line-height: 16px;
+        }
+      }
+      .right_wrap{
+        margin-left: 20px;
+        .offer_head{
+          width: 220px;
+          height: 60px;
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+          padding: 14px;
+          resize: none;
+          margin-bottom: 20px;
+          color: #9f0f18;
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 16px;
+          text-transform: uppercase;
+          overflow: hidden;
+          text-align: center;
+        }
+        .offer-id{
+          padding-left: 12px;
+          height: 40px;
+          width: 940px;
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+        }
+      }
+      .offer-delete_btn{
+        margin-left: 17px;
+      }
+    }
+
+    .static_add-form{
+      padding-top: 48px;
+      margin-bottom: 36px;
+      .static{
+
+        &-content_row{
+          margin-top: 20px;
+        }
+        &-textarea_block{
+          margin-top: 26px;
+          margin-left: 20px;
+        }
+        &_textarea{
+          width: 940px;
+          height: 410px;
+          padding: 12px;
+          resize: vertical;
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+        }
+      }
+
+      .uploaded_img{
+        width: 220px;
+        height: 170px;
+        background-color: $white;
+        background-image: url("../img/no_photo.png");
+        background-position: center;
+        background-size: contain;
+        background-repeat:no-repeat;
+        margin-bottom: 20px;
+      }
+      .img_instructions{
+        margin-bottom: 12px;
+        line-height: 16px;
+      }
+    }
+
+    .news_add-form{
+      padding-top: 48px;
+      margin-bottom: 36px;
+      .news{
+        &-name{
+          width: 860px;
+          padding-left: 12px;
+          height: 40px;
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+        }
+        &-id{
+
+          width: 300px;
+          padding-left: 12px;
+          height: 40px;
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+        }
+        &-id_block{
+          margin-left: 18px;
+        }
+        &-content_row{
+          margin-top: 20px;
+        }
+        &-textarea_block{
+          margin-top: 26px;
+          margin-left: 20px;
+        }
+        &_textarea{
+          width: 940px;
+          height: 410px;
+          padding: 12px;
+          resize: vertical;
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+        }
+      }
+
+      .uploaded_img{
+        width: 220px;
+        height: 170px;
+        background-color: $white;
+        background-image: url("../img/no_photo.png");
+        background-position: center;
+        background-size: contain;
+        background-repeat:no-repeat;
+        margin-bottom: 20px;
+      }
+      .img_instructions{
+        margin-bottom: 12px;
+        line-height: 16px;
+      }
+    }
+
     .previous-item-block{
       .previous-item{
         &-item{
