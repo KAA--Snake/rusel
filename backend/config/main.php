@@ -32,6 +32,9 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
+                'GET slider/<slideId:\d+>' => 'slider/index',
+                'POST slider/add' => 'slider/add',
+                'DELETE slider/<slideId:\d+>' => 'slider/delete',
                 //'admin/<action:\w+>' => 'admin/site/<action>'
                 /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

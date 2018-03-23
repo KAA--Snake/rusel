@@ -16,8 +16,8 @@ use PhpAmqpLib\Message\AMQPMessage;
 abstract class Rabbit
 {
 
-    private $login = 'user';
-    private $password = 'pass';
+    private $login = 'user872';
+    private $password = 'pass87284928';
     private $server = 'rabbit';
     private $port = 5672;
 

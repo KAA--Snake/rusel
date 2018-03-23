@@ -14,6 +14,8 @@ use yii\web\Controller;
 class SliderController extends Controller
 {
 
+    public $enableCsrfValidation = false;
+
     /**
      * @inheritdoc
      */
@@ -31,10 +33,30 @@ class SliderController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($slideId=false)
     {
+        echo $slideId;
+        die('index');
+
         return $this->render('index');
     }
 
+    public function actionDelete($slideId){
+
+        echo $slideId;
+        die('deleted');
+
+        return $this->render('index');
+
+    }
+
+    public function actionAdd(){
+
+
+        die('add');
+
+        return $this->render('index');
+
+    }
 
 }
