@@ -4,6 +4,7 @@
 
 use yii\helpers\Url;
 use common\widgets\catalog\CatalogMenu;
+use common\widgets\main_slider\MainSlider;
 
 $this->title = 'My Yii Application';
 
@@ -53,17 +54,7 @@ $this->title = 'My Yii Application';
 
         <h1 class="main-page_h1">КОМПЛЕКСНОЕ СНАБЖЕНИЕ КОМПЛЕКТУЮЩИМИ</h1>
 
-        <div class="slider">
-            <div class="slider_item">
-                <img src="<?= Url::to('@web/img/slider/1.png');?>" alt="">
-            </div>
-            <div class="slider_item">
-                <img src="<?= Url::to('@web/img/slider/2.png');?>" alt="">
-            </div>
-            <div class="slider_item">
-                <img src="<?= Url::to('@web/img/slider/3.png');?>" alt="">
-            </div>
-        </div>
+        <?=MainSlider::widget();?>
         
         <div class="content_block specials">
             <h2 class="content_header">Специальные предложения</h2>
