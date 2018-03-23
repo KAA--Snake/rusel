@@ -9,7 +9,10 @@
 namespace backend\controllers;
 
 
+use common\modules\catalog\models\Slider;
 use yii\web\Controller;
+use yii\web\UploadedFile;
+use Yii;
 
 class SliderController extends Controller
 {
@@ -35,27 +38,76 @@ class SliderController extends Controller
      */
     public function actionIndex($slideId=false)
     {
-        echo $slideId;
-        die('index');
 
-        return $this->render('index');
+        $slide = false;
+
+        $slides = Slider::find()->all();
+
+        if($slideId){
+
+            $slide = Slider::findOne((int) $slideId);
+        }
+
+        return $this->render('index', ['slides' => $slides, 'slide' => $slide]);
     }
+
+
+
 
     public function actionDelete($slideId){
 
-        echo $slideId;
-        die('deleted');
+        Slider::findOne($slideId)->delete();
+        $slides = Slider::find()->all();
 
-        return $this->render('index');
+        return $this->render('index', ['slides' => $slides, 'slide' => false]);
+
 
     }
 
+
+
+
     public function actionAdd(){
 
+        $slider = new Slider();
 
-        die('add');
+        $result = [];
 
-        return $this->render('index');
+        if($slider->load(Yii::$app->getRequest()->post()) && $slider->validate()){
+
+            $slider->file = UploadedFile::getInstance($slider, 'file');
+
+            if(!empty($slider->file)){
+
+                $savedImgResult = $slider->upload();
+
+                if ($savedImgResult) {
+
+                    //\Yii::$app->pr->print_r2($savedImgResult);
+
+                    $slider->setAttributes([
+                        'slide_url' => $slider->slide_url,
+                        'big_img_src' => $savedImgResult['big_img_src'],
+                        'big_img_width' => $savedImgResult[0],
+                        'big_img_height' => $savedImgResult[1],
+                        //'small_img_width',
+                        //'small_img_height'
+                    ]);
+
+                    if($slider->save() == false){
+                        $result['errors'][] = 'Не удалось загрузить файл';
+                    }
+
+                }
+            }
+
+        }
+
+        $result['errors'] = $slider->getErrors();
+
+        $slides = Slider::find()->all();
+
+        return $this->render('index', ['uploadResult' => $result, 'slides' => $slides, 'slide' => $slider]);
 
     }
 

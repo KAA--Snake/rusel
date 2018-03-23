@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
 
 class Slider extends ActiveRecord
 {
-
+    var $file;
 
     public static function tableName()
     {
@@ -32,6 +32,12 @@ class Slider extends ActiveRecord
                  ],
                 'string'
             ],
+            [['file'],
+                'file',
+                //'skipOnEmpty' => false,
+                'checkExtensionByMimeType' => false, //bug #6148
+                //'extensions' => $allowedExtensions,
+                'maxFiles' => 1],
             [['id','big_img_width', 'big_img_height', 'small_img_width', 'small_img_height'], 'integer'],
         ];
     }
@@ -52,12 +58,52 @@ class Slider extends ActiveRecord
 
             $this->small_img_src = $this->big_img_src;
         }
+
+        if(empty($this->small_img_src)){
+            $this->slide_url = '';
+        }
+
         //\Yii::$app->pr->print_r2($insert);
 
         // ...custom code here...
         return true;
     }
 
+    public function upload()
+    {
 
+        $folder =  $_SERVER['DOCUMENT_ROOT'].'/upload/slides/'; //$_SERVER['DOCUMENT_ROOT'] = /webapp
+
+        if ($this->validate()) {
+            $filePath = $folder . $this->file->baseName . '.' . $this->file->extension;
+
+            $this->file->saveAs($filePath);
+
+            $imgResult = getimagesize($filePath);
+            $imgResult['big_img_src'] = '/upload/slides/'. $this->file->baseName . '.' . $this->file->extension;
+
+
+            return $imgResult;
+        } else {
+            return false;
+        }
+    }
+
+    /*public function massUpload()
+    {
+
+        $catalogModule = \Yii::$app->getModule('Catalog');
+        $catalogModule->params['csvFolderName'];
+
+        if ($this->validate()) {
+
+            foreach ($this->csvFile as $file) {
+                $file->saveAs(__DIR__.'/upload_csv/' . $file->baseName . '.' . $file->extension);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }*/
 
 }
