@@ -315,6 +315,15 @@ $(document).ready(function () {
 
     });
 
+    $('.js-selected_show_in_stock_vars').click(function () {
+        if($(this).next('.show_in_stock_vars').hasClass('active')){
+            $(this).next('.show_in_stock_vars').fadeOut().removeClass('active');
+        }else{
+            $(this).next('.show_in_stock_vars').fadeIn().addClass('active');
+        }
+
+    });
+
 
 
     $('.tree_header').click(function(e){

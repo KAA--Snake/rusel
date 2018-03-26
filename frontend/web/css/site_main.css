@@ -71,6 +71,54 @@
     font-weight: 300; }
     .container.main .content_wrap .sub_filter_wrap .filter_counter .filter_num {
       font-weight: 700; }
+    .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock {
+      color: #336699;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer; }
+    .container.main .content_wrap .sub_filter_wrap .filter_counter .arr {
+      color: #336699; }
+    .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock_vars {
+      position: absolute;
+      border: 1px solid #336699;
+      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.18);
+      background-color: #ffffff;
+      z-index: 1;
+      right: 98px;
+      top: 26px; }
+      .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock_vars .top_corner {
+        width: 5px;
+        height: 5px;
+        position: absolute;
+        transform: rotate(45deg);
+        top: -4px;
+        left: 50%;
+        margin-left: -3px;
+        border-top: 1px solid #30669a;
+        border-left: 1px solid #30669a;
+        background-color: #ffffff;
+        z-index: 2; }
+      .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock_vars .show_in_stock_list {
+        width: 205px;
+        list-style: none; }
+        .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock_vars .show_in_stock_list .show_in_stock_item {
+          padding-left: 20px;
+          color: #336699;
+          font-size: 14px;
+          font-weight: 700;
+          text-decoration: underline;
+          text-align: left;
+          cursor: pointer;
+          border-bottom: 1px solid #ededed; }
+          .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock_vars .show_in_stock_list .show_in_stock_item a {
+            display: block;
+            line-height: 40px; }
+            .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock_vars .show_in_stock_list .show_in_stock_item a:hover {
+              text-decoration: none; }
+          .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock_vars .show_in_stock_list .show_in_stock_item:hover {
+            text-decoration: none; }
+          .container.main .content_wrap .sub_filter_wrap .filter_counter .show_in_stock_vars .show_in_stock_list .show_in_stock_item:last-of-type {
+            border-bottom: none; }
   .container.main .content_wrap .sub_filter_wrap .catalog_render_count {
     font-size: 14px;
     line-height: 18px;
