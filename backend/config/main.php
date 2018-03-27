@@ -35,6 +35,10 @@ return [
                 'GET slider/<slideId:\d+>' => 'slider/index',
                 'POST slider/add' => 'slider/add',
                 'GET slider/delete/<slideId:\d+>' => 'slider/delete',
+
+                'GET info/<id:\d+>' => 'info/index',
+                'POST info/add' => 'info/add',
+                'GET info/delete/<id:\d+>' => 'info/delete',
                 //'admin/<action:\w+>' => 'admin/site/<action>'
                 /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
