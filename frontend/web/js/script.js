@@ -1,6 +1,23 @@
 var excludedFilterParams = ['page', 'perPage'];
 $(document).ready(function () {
 
+
+    if($('#by-artikuls').length > 0) {
+        var form = $('#by-artikuls');
+        form.on('submit', function (e) {
+            // e.preventDefault();
+            var shadow = document.createElement('div');
+            var popup = document.createElement('div');
+
+            shadow.classList.add('s_shadow_layer');
+            popup.classList.add('s_popup');
+
+            popup.innerHTML = `<div class="preloader"></div> <div class="text"> Пожалуйста, подождите. <br> Идет обработка данных... </div> <a class="reset_link" href="/search/">Остановить процесс</a>`
+            document.body.appendChild(shadow);
+            document.body.appendChild(popup);
+        });
+    }
+
     if($('.js-sp_filter').length > 0) {
         $('.js-sp_filter').on('input', function() {
             var sp_list = $('.js-sp_item');
