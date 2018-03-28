@@ -56,10 +56,17 @@ class SliderController extends Controller
 
     public function actionDelete($slideId){
 
-        Slider::findOne($slideId)->delete();
-        $slides = Slider::find()->all();
 
-        return $this->render('index', ['slides' => $slides, 'slide' => false]);
+        $findOne = Slider::findOne($slideId);
+
+        if($findOne){
+            $findOne->delete();
+        }
+
+        $models = Slider::find()->all();
+
+
+        return $this->render('index', ['slides' => $models, 'slide' => false]);
 
 
     }
