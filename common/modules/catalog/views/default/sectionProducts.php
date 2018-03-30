@@ -26,6 +26,7 @@ die();*/
     ]);?>
 
 <div class="sub_filter_wrap clear">
+
     <div class="filter_counter fll">
         Показать: <span class="show_in_stock js-selected_show_in_stock_vars">все</span>
         <div class="show_in_stock_vars hidden">
@@ -38,10 +39,8 @@ die();*/
         </div>
         &nbsp;&nbsp;&nbsp;<span class="arr">→</span>&nbsp;&nbsp;&nbsp;
         Найдено: <span class="filter_num"><?=$totalProductsFound;?></span> позиций
-
-
-
     </div>
+
     <div class="catalog_render_count flr">
         На странице: <span class="count_num_selected js-selected_count_vars"><?=$perPage;?></span> строк
         <div class="count_vars hidden">
@@ -54,6 +53,7 @@ die();*/
             </ul>
         </div>
     </div>
+
 </div>
 
 <div class="product_cards_block">

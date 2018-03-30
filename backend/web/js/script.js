@@ -9,6 +9,13 @@ $(document).ready(function () {
         $(".info-img-upload").trigger('click');
     });
 
+    $('.slider-delete_btn').click(function(e){
+        e.preventDefault();
+        var slideId = $(this).data('slideId')
+        window.location.href = `/admin/slider/delete/${slideId}`;
+
+    });
+
     $(".slider-img-upload").change(function(){
         readURL(this);
     });
