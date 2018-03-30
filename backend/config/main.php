@@ -42,6 +42,12 @@ return [
                 'POST info/add' => 'info/add',
                 'GET info/delete/<id:\d+>' => 'info/delete',
                 'GET info/update/<id:\d+>' => 'info/update',
+
+
+                'GET news/<id:\d+>' => 'news/index',
+                'POST news/add' => 'news/add',
+                'GET news/delete/<id:\d+>' => 'news/delete',
+                'GET news/update/<id:\d+>' => 'news/update',
                 //'admin/<action:\w+>' => 'admin/site/<action>'
                 /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
