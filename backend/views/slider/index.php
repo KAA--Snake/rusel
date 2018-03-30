@@ -28,6 +28,7 @@ $this->title = 'admin Slider page';
             <input type="file" name="Slider[file]" class="slider-img-upload hidden">
 
             <input type="hidden" name="Slider[slide_url]" >
+            <input class="info-id" type="hidden" name="Slider[id]" value="<?=$slide->id;?>">
 
             <button class="slider-upload_btn btn btn-blue">Загрузить</button>
             <div class="slider-delete_btn btn btn-transparent" data-slide-id="<?=$slide->id;?>">Удалить</div>

@@ -81,33 +81,7 @@ class SliderController extends Controller
         $result = [];
 
         if($slider->load(Yii::$app->getRequest()->post()) && $slider->validate()){
-
-            $slider->file = UploadedFile::getInstance($slider, 'file');
-
-            if(!empty($slider->file)){
-
-                $savedImgResult = $slider->upload();
-
-                if ($savedImgResult) {
-
-                    //\Yii::$app->pr->print_r2($savedImgResult);
-
-                    $slider->setAttributes([
-                        'slide_url' => $slider->slide_url,
-                        'big_img_src' => $savedImgResult['big_img_src'],
-                        'big_img_width' => $savedImgResult[0],
-                        'big_img_height' => $savedImgResult[1],
-                        //'small_img_width',
-                        //'small_img_height'
-                    ]);
-
-                    if($slider->save() == false){
-                        $result['errors'][] = 'Не удалось загрузить файл';
-                    }
-
-                }
-            }
-
+            $slider->saveMe();
         }
 
         $result['errors'] = $slider->getErrors();

@@ -81,38 +81,11 @@ class InfoController extends Controller
 
         if($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
 
-            $model->file = UploadedFile::getInstance($model, 'file');
-
-            if(!empty($model->file)){
-
-                $savedImgResult = $model->upload();
-
-                if ($savedImgResult) {
-
-                    //\Yii::$app->pr->print_r2($model->getAttributes());
-
-                    $model->setAttributes([
-                        'sort' => $model->sort,
-                        'url' => $model->url,
-                        'text' => $model->text,
-
-                        'big_img_src' => $savedImgResult['big_img_src'],
-                        'big_img_width' => $savedImgResult[0],
-                        'big_img_height' => $savedImgResult[1],
-                        //'small_img_width',
-                        //'small_img_height'
-                    ]);
-
-                    if($model->save() == false){
-                        $result['errors'] = $model->getErrors();
-                    }
-
-                }
-            }
+            $model->saveMe();
 
         }
 
-        //$result['errors'] = $model->getErrors();
+        $result['errors'] = $model->getErrors();
 
         $models = Info::find()->all();
 

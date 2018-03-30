@@ -10,6 +10,7 @@ namespace common\modules\catalog\models;
 
 
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 class Slider extends ActiveRecord
 {
@@ -88,6 +89,47 @@ class Slider extends ActiveRecord
             return false;
         }
     }
+
+
+    public function saveMe(){
+        $model = $this;
+
+        //\Yii::$app->pr->print_r2($model->getAttributes());
+        $attributes = [
+            'slide_url' => $model->slide_url,
+        ];
+
+        $model->file = UploadedFile::getInstance($model, 'file');
+
+        if(!empty($model->file)){
+
+            $savedImgResult = $model->upload();
+
+            if ($savedImgResult) {
+
+                //\Yii::$app->pr->print_r2($model->getAttributes());
+                $attributes['big_img_src'] = $savedImgResult['big_img_src'];
+                $attributes['big_img_width'] = $savedImgResult[0];
+                $attributes['big_img_height'] = $savedImgResult[1];
+            }
+
+        }
+
+        //если обновляем запись, то подменяем текущую модель той которую обновляем
+        if(isset($model->id) && $model->id > 0){
+            $model = self::findOne($model->id);
+        }
+
+        $model->setAttributes($attributes);
+
+        $model->save();
+
+
+        return $model;
+
+
+    }
+
 
     /*public function massUpload()
     {

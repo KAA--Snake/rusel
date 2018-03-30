@@ -27,6 +27,7 @@ $this->title = 'admin Info page';
                 <textarea name="Info[text]" id="info_head" class="info_head" placeholder="Введите текст"><?=$model->text;?></textarea>
                 <div class="label">ID:</div>
                 <input class="info-id" type="text" name="Info[url]" value="<?=$model->url;?>">
+                <input class="info-id" type="hidden" name="Info[id]" value="<?=$model->id;?>">
             </div>
         </div>
 
