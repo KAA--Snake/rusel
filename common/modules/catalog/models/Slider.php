@@ -116,13 +116,20 @@ class Slider extends ActiveRecord
         }
 
         //если обновляем запись, то подменяем текущую модель той которую обновляем
-        if(isset($model->id) && $model->id > 0){
+        if(isset($model->id) && $model->id > 0 && !empty($model->id)){
             $model = self::findOne($model->id);
+        }else{
+            //SiC bug null != empty...
+            unset($model->id);
+
         }
 
         $model->setAttributes($attributes);
 
         $model->save();
+
+        $err = $model->getErrors();
+
 
 
         return $model;

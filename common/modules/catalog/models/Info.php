@@ -100,7 +100,10 @@ class Info extends ActiveRecord
     public function saveMe(){
         $model = $this;
 
+
         //\Yii::$app->pr->print_r2($model->getAttributes());
+        //die();
+
         $attributes = [
             'sort' => $model->sort,
             'url' => $model->url,
@@ -124,8 +127,12 @@ class Info extends ActiveRecord
         }
 
         //если обновляем запись, то подменяем текущую модель той которую обновляем
-        if(isset($model->id) && $model->id > 0){
+        if(isset($model->id) && $model->id > 0 && !empty($model->id)){
             $model = self::findOne($model->id);
+
+        }else{
+            //SiC bug null != empty...
+            unset($model->id);
         }
 
 
