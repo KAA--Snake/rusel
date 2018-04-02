@@ -84,7 +84,7 @@ class SliderController extends Controller
             $slider->saveMe();
         }
 
-        $result['errors'] = $slider->getErrors();
+        //$result['errors'] = $slider->getErrors();
 
         $slides = Slider::find()->all();
 

@@ -4,7 +4,7 @@
 
 $this->title = 'admin news page';
 
-\Yii::$app->pr->print_r2($model->getErrors());
+//\Yii::$app->pr->print_r2($model->getErrors());
 
 ?>
 

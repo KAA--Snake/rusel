@@ -84,7 +84,6 @@ class NewsController extends Controller
 
         }
 
-        $result['errors'] = $model->getErrors();
 
         //\Yii::$app->pr->print_r2($result);
 

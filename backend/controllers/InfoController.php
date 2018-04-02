@@ -85,7 +85,7 @@ class InfoController extends Controller
 
         }
 
-        $result['errors'] = $model->getErrors();
+        //$result['errors'] = $model->getErrors();
 
         $models = Info::find()->all();
 
