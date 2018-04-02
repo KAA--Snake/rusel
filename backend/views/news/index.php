@@ -3,8 +3,14 @@
 /* @var $this yii\web\View */
 
 $this->title = 'admin news page';
+if($model){
+    $errors = $model->getErrors();
+    if(!empty($errors)){
+        \Yii::$app->pr->print_r2($errors);
+    }
 
-//\Yii::$app->pr->print_r2($model->getErrors());
+}
+
 
 ?>
 

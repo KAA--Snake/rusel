@@ -3,6 +3,14 @@
 /* @var $this yii\web\View */
 
 $this->title = 'admin Info page';
+
+if($model){
+    $errors = $model->getErrors();
+    if(!empty($errors)){
+        \Yii::$app->pr->print_r2($errors);
+    }
+
+}
 ?>
 
 <div class="inner_wrap mw1180">

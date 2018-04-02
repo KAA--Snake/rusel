@@ -85,7 +85,7 @@ class NewsController extends Controller
         }
 
 
-        //\Yii::$app->pr->print_r2($result);
+        //\Yii::$app->pr->print_r2($model->getErrors());
 
         $models = News::find()->all();
 

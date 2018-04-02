@@ -85,13 +85,27 @@ class News extends ActiveRecord
     }
 
 
-    /*public function __get($name) {
-        if ($name === 'date') {
+    public function __get($name) {
+        switch ($name ) {
+            case 'date':
             //return date('d.m.Y', strtotime($this->getAttribute('date')));
+                break;
+            case 'preview_text':
+
+                return html_entity_decode($this->getAttribute('preview_text'));
+                break;
+
+            case 'full_text':
+
+                return html_entity_decode($this->getAttribute('full_text'));
+                break;
 
         }
+
+
         return parent::__get($name);
-    }*/
+    }
+
 
 
 

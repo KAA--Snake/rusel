@@ -4,8 +4,13 @@
 
 $this->title = 'admin Slider page';
 
-//Возможные ошибки будут лежать тут: $uploadResult['errors'] !!!!
+if($model){
+    $errors = $model->getErrors();
+    if(!empty($errors)){
+        \Yii::$app->pr->print_r2($errors);
+    }
 
+}
 ?>
 
 
