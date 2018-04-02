@@ -15,33 +15,9 @@ $this->title = 'admin about page';
         <a href="/admin" class="back-link btn btn-blue">←  Вернуться в меню админки</a>
     </div>
 
-    <h1 class="header_h1">Форма для редактирования страницы </h1>
-
-    <form action="" id="static_add-form" class="static_add-form">
-
-        <div class="flex_wrap">
-            <div class="left_wrap">
-                <div class="label">Картинка:</div>
-                <div class="uploaded_img"></div>
-                <input type="file" class="static-img-upload hidden">
-                <div class="img_instructions">Размер картинки: <span class="img-size">220 x 170 px</span></div>
-                <button class="static-upload_btn btn btn-transparent">Загрузить</button>
-            </div>
-
-            <div class="right_wrap static-textarea_block">
-                <textarea class="static_textarea"></textarea>
-            </div>
-        </div>
+    <h1 class="header_h1">Ошибка. Выберите страницу для редактирвоания !</h1>
 
 
-        <div class="divider-gray"></div>
-
-
-        <div class="btns-block">
-            <button class="static-save_btn btn btn-blue">Сохранить</button>
-            <button class="static-cancel_btn btn btn-transparent">Отмена</button>
-        </div>
-    </form>
 
 </div>
 

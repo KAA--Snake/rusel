@@ -15,8 +15,11 @@ class m180327_135255_create_artikles_table extends Migration
         $this->createTable('artikles', [
             'id' => $this->primaryKey(),
 
-            'text' => $this->text(),
+            'full_text' => $this->text(),
+            'preview_text' => $this->text(),
             'url' => $this->string(),
+
+            'type' => $this->string(),
 
             'name' => $this->string(),
 

@@ -8,11 +8,15 @@
 
 namespace backend\controllers;
 
-
+use common\modules\catalog\models\Artikle;
 use yii\web\Controller;
+use Yii;
 
 class StaticController extends Controller
 {
+
+
+    public $enableCsrfValidation = false;
 
     /**
      * @inheritdoc
@@ -31,39 +35,65 @@ class StaticController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($type = false)
     {
-        return $this->render('index');
+
+        $model = false;
+
+        //$models = Artikle::find()->all();
+
+        if($type){
+
+            $model = Artikle::find()->andWhere(['type' => $type])->one();
+        }
+
+        return $this->render($type, ['model' => $model]);
     }
 
-    public function actionAbout()
-    {
-        return $this->render('about');
+
+
+
+    public function actionDelete($id=false){
+
+        return 'Функционал недоступен';
+
+        $findOne = Artikle::findOne($id);
+
+        if($findOne){
+            $findOne->delete();
+        }
+
+        $models = Artikle::find()->all();
+
+        return $this->render('index', ['models' => $models, 'model' => false]);
+
+
     }
 
-    public function actionCooperation()
-    {
-        return $this->render('cooperation');
-    }
 
-    public function actionContacts()
-    {
-        return $this->render('contacts');
-    }
 
-    public function actionDelivery()
-    {
-        return $this->render('delivery');
-    }
 
-    public function actionDocuments()
-    {
-        return $this->render('documents');
-    }
+    public function actionAdd(){
 
-    public function actionVacancies()
-    {
-        return $this->render('vacancies');
+
+        $model = new Artikle();
+
+        $result = [];
+
+        if($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
+
+
+            $model->saveMe();
+
+        }
+
+
+        //\Yii::$app->pr->print_r2($model->getErrors());
+
+        //$models = Artikle::find()->all();
+
+        return $this->render($model->type, ['uploadResult' => $result, 'model' => $model]);
+
     }
 
 

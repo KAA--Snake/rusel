@@ -2,7 +2,15 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'admin about page';
+$this->title = 'admin delivery page';
+
+if($model){
+    $errors = $model->getErrors();
+    if(!empty($errors)){
+        \Yii::$app->pr->print_r2($errors);
+    }
+
+}
 ?>
 
 <!--<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
@@ -17,19 +25,22 @@ $this->title = 'admin about page';
 
     <h1 class="header_h1">Форма для редактирования страницы "Оплата и доставка"</h1>
 
-    <form action="" id="static_add-form" class="static_add-form">
+    <form action="/admin/static/add/" method="post" id="static_add-form" class="static_add-form" enctype="multipart/form-data">
+
+        <input type="hidden" name="Artikle[type]" value="delivery" />
+        <input type="hidden" name="Artikle[id]" value="<?=$model->id;?>" />
 
         <div class="flex_wrap">
             <div class="left_wrap">
                 <div class="label">Картинка:</div>
-                <div class="uploaded_img"></div>
-                <input type="file" class="static-img-upload hidden">
+                <div class="uploaded_img" style="background-image: url(<?=$model->big_img_src;?>);"></div>
+                <input type="file" name="Artikle[file]" class="static-img-upload hidden">
                 <div class="img_instructions">Размер картинки: <span class="img-size">220 x 170 px</span></div>
                 <button class="static-upload_btn btn btn-transparent">Загрузить</button>
             </div>
 
             <div class="right_wrap static-textarea_block">
-                <textarea class="static_textarea"></textarea>
+                <textarea class="static_textarea" name="Artikle[full_text]"><?=$model->full_text;?></textarea>
             </div>
         </div>
 
@@ -42,6 +53,8 @@ $this->title = 'admin about page';
             <button class="static-cancel_btn btn btn-transparent">Отмена</button>
         </div>
     </form>
+
+
 
 </div>
 

@@ -48,6 +48,12 @@ return [
                 'POST news/add' => 'news/add',
                 'GET news/delete/<id:\d+>' => 'news/delete',
                 'GET news/update/<id:\d+>' => 'news/update',
+
+                'GET static/<type:\w+>' => 'static/index',
+                'POST static/add' => 'static/add',
+                'GET static/delete/<id:\d+>' => 'static/delete',
+                'GET static/update/<type:\d+>' => 'static/update',
+
                 //'admin/<action:\w+>' => 'admin/site/<action>'
                 /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
