@@ -15,7 +15,12 @@ use yii\web\Controller;
 class NewsController extends Controller
 {
     public function actionIndex(){
-        return 'indx';
+
+        $models = News::find()
+            ->orderBy('date', 'DESC')
+            ->all();
+
+        return $this->render('all', ['models' => $models]);
     }
 
     public function actionOne($news_url = false){

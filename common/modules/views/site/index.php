@@ -235,6 +235,6 @@ $this->title = 'My Yii Application';
             </div>
         </div>
 
-        <?= \common\widgets\news\WNews::widget();?>
+        <?= \common\widgets\news\WInfo::widget();?>
     </div>
 </div>

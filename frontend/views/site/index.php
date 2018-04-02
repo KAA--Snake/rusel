@@ -101,55 +101,7 @@ $this->title = 'My Yii Application';
             </div>
         </div>
 
-        <div class="content_block useful-info">
-            <h2 class="content_header">Полезная информация</h2>
-            <div class="content_body">
-                <ul class="useful-info_list">
-                    <li class="useful-info_item">
-                        <a href="/">
-                            <div class="useful-info_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-
-                            <div class="useful-info_name">
-                                Не следует, однако забывать, что рамки и
-                                место обучения кадров.
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="useful-info_item">
-                        <a href="/">
-                            <div class="useful-info_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-                            <div class="useful-info_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="useful-info_item">
-                        <a href="/">
-                            <div class="useful-info_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-
-                            <div class="useful-info_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="useful-info_item">
-                        <a href="/">
-                            <div class="useful-info_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-
-                            <div class="useful-info_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-
-
-                </ul>
-            </div>
-        </div>
+        <?= \common\widgets\info\WInfo::widget();?>
 
         <?= \common\widgets\news\WNews::widget();?>
     </div>

@@ -106,6 +106,7 @@ return [
             'rules' => [
                 'manufacturer/<manufacturer:.*>' => 'manufacturer/index',
                 'sitenews/<news_url:.+>' => 'news/one',
+                'sitenews/' => 'news/index',
                 //test for mng/elastic
                // 'catalog/<pathForParse:[\w_\/-]+>'=> 'catalog/default',
                 //'search/by-name/<name:.*>' => 'search/by-name',
