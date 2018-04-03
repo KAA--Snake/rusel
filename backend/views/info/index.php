@@ -35,7 +35,7 @@ if($model){
             <div class="right_wrap">
                 <div class="label">Заглавие:</div>
                 <textarea name="Info[text]" id="info_head" class="info_head" placeholder="Введите текст"><?=$model->text;?></textarea>
-                <div class="label">ID:</div>
+                <div class="label">URL:</div>
                 <input class="info-id" type="text" name="Info[url]" value="<?=$model->url;?>">
                 <input class="info-id" type="hidden" name="Info[id]" value="<?=$model->id;?>">
             </div>
@@ -61,7 +61,7 @@ if($model){
                     <div class="previous-item-item">
                         <a class="name" href="/admin/info/<?=$oneModel->id;?>"><?=$oneModel->text;?></a>
                         <span class="date"><?=$oneModel->url;?></span>
-                        <span class="delete js-article-delete-btn" data-article-id="/admin/info/delete/<?=$model->id;?>">удалить</span>
+                        <span class="delete js-article-delete-btn" data-article-id="/admin/info/delete/<?=$oneModel->id;?>">удалить</span>
                     </div>
                 <?}?>
             <?}?>
