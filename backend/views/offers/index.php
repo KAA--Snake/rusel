@@ -16,17 +16,21 @@ $this->title = 'admin Offer page';
         <div class="flex_wrap">
             <div class="left_wrap">
                 <div class="label">Картинка:</div>
-                <div class="uploaded_img"></div>
-                <input type="file" class="offer-img-upload hidden">
+                <div class="uploaded_img">
+                    <img class="js-filereader-target" src="backend/web/img/no_photo.png" alt="">
+                </div>
+                <input type="file" class="offer-img-upload js-img-upload_input hidden">
                 <div class="img_instructions">Размер картинки: <span class="img-size">220 x 170 px</span></div>
-                <button class="offer-upload_btn btn btn-transparent">Загрузить</button>
+                <button class="offer-upload_btn js-img-upload_btn btn btn-transparent">Загрузить</button>
             </div>
 
             <div class="right_wrap">
                 <div class="label">Заглавие:</div>
                 <textarea name="offer_head" id="offer_head" class="offer_head" placeholder="Введите текст"></textarea>
-                <div class="label">ID:</div>
+                <div class="label">URL:</div>
                 <input class="offer-id" type="text">
+                <div class="label">ID товаров:</div>
+                <textarea name="offer_goods_list" id="offer_head" class="offer_goods_list" placeholder="Введите текст"></textarea>
             </div>
         </div>
 

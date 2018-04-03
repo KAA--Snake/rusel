@@ -33,10 +33,12 @@ if($model){
         <div class="flex_wrap">
             <div class="left_wrap">
                 <div class="label">Картинка:</div>
-                <div class="uploaded_img" style="background-image: url(<?=$model->big_img_src;?>);"></div>
-                <input type="file" name="Artikle[file]" class="static-img-upload hidden">
+                <div class="uploaded_img" style="background-image: url(<?=$model->big_img_src;?>);">
+                    <img class="js-filereader-target" src="backend/web/img/no_photo.png" alt="">
+                </div>
+                <input type="file" name="Artikle[file]" class="static-img-upload js-img-upload_input hidden">
                 <div class="img_instructions">Размер картинки: <span class="img-size">220 x 170 px</span></div>
-                <button class="static-upload_btn btn btn-transparent">Загрузить</button>
+                <button class="static-upload_btn js-img-upload_btn btn btn-transparent">Загрузить</button>
             </div>
 
             <div class="right_wrap static-textarea_block">

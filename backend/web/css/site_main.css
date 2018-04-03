@@ -106,6 +106,8 @@
       background-size: contain;
       background-repeat: no-repeat;
       margin-bottom: 20px; }
+      .container.main .inner_wrap .slider_add-form .uploaded_img img {
+        width: 100%; }
     .container.main .inner_wrap .slider_add-form .img_instructions {
       border-bottom: 1px solid #cfcfcf;
       padding-bottom: 16px;
@@ -128,6 +130,8 @@
         background-size: contain;
         background-repeat: no-repeat;
         margin-bottom: 20px; }
+        .container.main .inner_wrap .info_add-form .left_wrap .uploaded_img img {
+          width: 100%; }
       .container.main .inner_wrap .info_add-form .left_wrap .img_instructions {
         margin-bottom: 12px;
         line-height: 16px; }
@@ -169,6 +173,8 @@
         background-size: contain;
         background-repeat: no-repeat;
         margin-bottom: 20px; }
+        .container.main .inner_wrap .offer_add-form .left_wrap .uploaded_img img {
+          width: 100%; }
       .container.main .inner_wrap .offer_add-form .left_wrap .img_instructions {
         margin-bottom: 12px;
         line-height: 16px; }
@@ -194,7 +200,22 @@
         height: 40px;
         width: 940px;
         border: 1px solid #dfdfdf;
-        background-color: #ffffff; }
+        background-color: #ffffff;
+        margin-bottom: 20px; }
+      .container.main .inner_wrap .offer_add-form .right_wrap .offer_goods_list {
+        border: 1px solid #dfdfdf;
+        background-color: #ffffff;
+        padding: 14px;
+        margin-bottom: 20px;
+        color: #9f0f18;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        text-transform: uppercase;
+        overflow: hidden;
+        resize: vertical;
+        width: 100%;
+        height: 84px; }
     .container.main .inner_wrap .offer_add-form .offer-delete_btn {
       margin-left: 17px; }
   .container.main .inner_wrap .static_add-form {
@@ -221,6 +242,8 @@
       background-size: contain;
       background-repeat: no-repeat;
       margin-bottom: 20px; }
+      .container.main .inner_wrap .static_add-form .uploaded_img img {
+        width: 100%; }
     .container.main .inner_wrap .static_add-form .img_instructions {
       margin-bottom: 12px;
       line-height: 16px; }
@@ -232,7 +255,8 @@
       padding-left: 12px;
       height: 40px;
       border: 1px solid #dfdfdf;
-      background-color: #ffffff; }
+      background-color: #ffffff;
+      margin-bottom: 20px; }
     .container.main .inner_wrap .news_add-form .news-id {
       width: 300px;
       padding-left: 12px;
@@ -262,6 +286,8 @@
       background-size: contain;
       background-repeat: no-repeat;
       margin-bottom: 20px; }
+      .container.main .inner_wrap .news_add-form .uploaded_img img {
+        width: 100%; }
     .container.main .inner_wrap .news_add-form .img_instructions {
       margin-bottom: 12px;
       line-height: 16px; }
@@ -287,6 +313,16 @@
       background-image: url("../img/clock.png");
       background-position: left center;
       background-repeat: no-repeat;
+      float: right; }
+    .container.main .inner_wrap .previous-item-block .previous-item-item .delete {
+      color: #336699;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 50px;
+      padding-right: 20px;
+      /*background-image: url("../img/clock.png");
+      background-position: left center;
+      background-repeat:no-repeat;*/
       float: right; }
 
 /*# sourceMappingURL=site_main.css.map */

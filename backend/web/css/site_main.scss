@@ -141,6 +141,9 @@ $white:#ffffff;
         background-size: contain;
         background-repeat:no-repeat;
         margin-bottom: 20px;
+        img{
+          width: 100%;
+        }
       }
       .img_instructions{
         border-bottom: 1px solid #cfcfcf;
@@ -175,6 +178,9 @@ $white:#ffffff;
           background-size: contain;
           background-repeat:no-repeat;
           margin-bottom: 20px;
+          img{
+            width: 100%;
+          }
         }
         .img_instructions{
           margin-bottom: 12px;
@@ -227,6 +233,9 @@ $white:#ffffff;
           background-size: contain;
           background-repeat:no-repeat;
           margin-bottom: 20px;
+          img{
+            width: 100%;
+          }
         }
         .img_instructions{
           margin-bottom: 12px;
@@ -257,6 +266,22 @@ $white:#ffffff;
           width: 940px;
           border: 1px solid #dfdfdf;
           background-color: #ffffff;
+          margin-bottom: 20px;
+        }
+        .offer_goods_list{
+          border: 1px solid #dfdfdf;
+          background-color: #ffffff;
+          padding: 14px;
+          margin-bottom: 20px;
+          color: #9f0f18;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+          text-transform: uppercase;
+          overflow: hidden;
+          resize: vertical;
+          width: 100%;
+          height: 84px;
         }
       }
       .offer-delete_btn{
@@ -295,6 +320,9 @@ $white:#ffffff;
         background-size: contain;
         background-repeat:no-repeat;
         margin-bottom: 20px;
+        img{
+          width: 100%;
+        }
       }
       .img_instructions{
         margin-bottom: 12px;
@@ -312,6 +340,7 @@ $white:#ffffff;
           height: 40px;
           border: 1px solid #dfdfdf;
           background-color: #ffffff;
+          margin-bottom: 20px;
         }
         &-id{
 
@@ -350,6 +379,9 @@ $white:#ffffff;
         background-size: contain;
         background-repeat:no-repeat;
         margin-bottom: 20px;
+        img{
+          width: 100%;
+        }
       }
       .img_instructions{
         margin-bottom: 12px;
@@ -382,6 +414,17 @@ $white:#ffffff;
             background-image: url("../img/clock.png");
             background-position: left center;
             background-repeat:no-repeat;
+            float: right;
+          }
+          .delete{
+            color: $blue;
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 50px;
+            padding-right:20px;
+            /*background-image: url("../img/clock.png");
+            background-position: left center;
+            background-repeat:no-repeat;*/
             float: right;
           }
         }

@@ -51,10 +51,12 @@ if($model){
         <div class="flex_wrap news-content_row">
             <div class="left_wrap">
                 <div class="label">Картинка:</div>
-                <div class="uploaded_img" style="background-image: url(<?=$model->big_img_src;?>);"></div>
-                <input type="file" name="News[file]" class="offer-img-upload hidden">
+                <div class="uploaded_img" style="background-image: url(<?=$model->big_img_src;?>);">
+                    <img class="js-filereader-target" src="backend/web/img/no_photo.png" alt="">
+                </div>
+                <input type="file" name="News[file]" class="offer-img-upload hidden js-img-upload_input">
                 <div class="img_instructions">Размер картинки: <span class="img-size">220 x 170 px</span></div>
-                <button class="news-upload_btn btn btn-transparent">Загрузить</button>
+                <button class="news-upload_btn js-img-upload_btn btn btn-transparent">Загрузить</button>
             </div>
 
             <div class="right_wrap news-textarea_block">
@@ -68,7 +70,7 @@ if($model){
 
         <div class="btns-block">
             <button class="news-save_btn btn btn-blue">Сохранить</button>
-            <button class="news-delete_btn btn btn-transparent" onclick="window.location.href='/admin/news/delete/<?=$model->id;?>'">Удалить</button>
+            <button class="news-delete_btn js-article-delete-btn btn btn-transparent" data-article-id="/admin/news/delete/<?=$model->id;?>">Удалить</button>
         </div>
     </form>
 
@@ -84,7 +86,7 @@ if($model){
                     <div class="previous-item-item">
                         <span class="name" onclick="location.href='/admin/news/<?=$oneModel->id;?>'"><?=$oneModel->preview_text;?></span>
                         <span class="date"><?=$oneModel->date;?></span>
-                        <span class="date" onclick="window.location.href='/admin/news/delete/<?=$oneModel->id;?>'">удалить</span>
+                        <span class="delete js-article-delete-btn" data-article-id="/admin/news/delete/<?=$oneModel->id;?>">удалить</span>
                     </div>
                 <?}?>
             <?}?>

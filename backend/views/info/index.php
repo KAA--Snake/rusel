@@ -24,10 +24,12 @@ if($model){
         <div class="flex_wrap">
             <div class="left_wrap">
                 <div class="label">Картинка:</div>
-                <div class="uploaded_img" style="background-image: url(<?=$model->big_img_src;?>);"></div>
-                <input type="file" name="Info[file]" class="info-img-upload hidden">
+                <div class="uploaded_img" style="background-image: url(<?=$model->big_img_src;?>);">
+                    <img class="js-filereader-target" src="backend/web/img/no_photo.png" alt="">
+                </div>
+                <input type="file" name="Info[file]" class="info-img-upload js-img-upload_input hidden">
                 <div class="img_instructions">Размер картинки: <span class="img-size">110 x 80 px</span></div>
-                <button class="info-upload_btn btn btn-transparent">Загрузить</button>
+                <button class="info-upload_btn js-img-upload_btn btn btn-transparent">Загрузить</button>
             </div>
 
             <div class="right_wrap">
@@ -45,7 +47,7 @@ if($model){
 
         <div class="btns-block">
             <button class="info-save_btn btn btn-blue">Сохранить</button>
-            <button class="info-delete_btn btn btn-transparent" onclick="window.location.href='/admin/info/delete/<?=$model->id;?>'">Удалить</button>
+            <button class="info-delete_btn js-article-delete-btn btn btn-transparent" data-article-id="/admin/info/delete/<?=$model->id;?>">Удалить</button>
         </div>
     </form>
 
@@ -57,9 +59,9 @@ if($model){
             <?if(count($models) > 0){?>
                 <?foreach($models as $oneModel){?>
                     <div class="previous-item-item">
-                        <span class="name" onclick="location.href='/admin/info/<?=$oneModel->id;?>'"><?=$oneModel->text;?></span>
+                        <a class="name" href="/admin/info/<?=$oneModel->id;?>"><?=$oneModel->text;?></a>
                         <span class="date"><?=$oneModel->url;?></span>
-                        <span class="date" onclick="window.location.href='/admin/info/delete/<?=$oneModel->id;?>'">удалить</span>
+                        <span class="delete js-article-delete-btn" data-article-id="/admin/info/delete/<?=$model->id;?>">удалить</span>
                     </div>
                 <?}?>
             <?}?>

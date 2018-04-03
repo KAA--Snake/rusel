@@ -1,22 +1,16 @@
 $(document).ready(function () {
-    $('.slider-upload_btn').click(function(e){
+    $('.js-img-upload_btn').click(function(e){
         e.preventDefault();
-        $(".slider-img-upload").trigger('click');
+        $(".js-img-upload_input").trigger('click');
     });
 
-    $('.info-upload_btn').click(function(e){
+    $('.js-article-delete-btn').click(function(e){
         e.preventDefault();
-        $(".info-img-upload").trigger('click');
+        var articleId = $(this).data('articleId')
+        window.location.href = articleId;
     });
 
-    $('.slider-delete_btn').click(function(e){
-        e.preventDefault();
-        var slideId = $(this).data('slideId')
-        window.location.href = `/admin/slider/delete/${slideId}`;
-
-    });
-
-    $(".slider-img-upload").change(function(){
+    $(".js-img-upload_input").change(function(){
         readURL(this);
     });
 });

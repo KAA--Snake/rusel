@@ -30,13 +30,13 @@ if($model){
         <div class="img_instructions">Размер картинки: <span class="img-size">940 x 325 px</span></div>
 
         <div class="btns-block">
-            <input type="file" name="Slider[file]" class="slider-img-upload hidden">
+            <input type="file" name="Slider[file]" class="slider-img-upload js-img-upload_input hidden">
 
             <input type="hidden" name="Slider[slide_url]" >
             <input class="info-id" type="hidden" name="Slider[id]" value="<?=$slide->id;?>">
 
-            <button class="slider-upload_btn btn btn-blue">Загрузить</button>
-            <div class="slider-delete_btn btn btn-transparent" data-slide-id="<?=$slide->id;?>">Удалить</div>
+            <button class="slider-upload_btn js-img-upload_btn btn btn-blue">Загрузить</button>
+            <div class="slider-delete_btn js-article-delete-btn btn btn-transparent" data-article-id="/admin/slider/delete/<?=$slide->id;?>">Удалить</div>
             <button class="slider-publish_btn btn btn-blue" style="margin-left: 20px;" type="submit">Опубликовать</button>
         </div>
 
@@ -50,9 +50,9 @@ if($model){
             <?if(count($slides) > 0){?>
                 <?foreach($slides as $oneSlide){?>
                     <div class="previous-item-item">
-                        <span class="name" onclick="location.href='/admin/slider/<?=$oneSlide->id;?>'">Слайдер <?=$oneSlide->id;?></span>
+                        <a class="name" href="/admin/slider/<?=$oneSlide->id;?>">Слайдер <?=$oneSlide->id;?></a>
                         <span class="date"><?=$oneSlide->big_img_width;?> x <?=$oneSlide->big_img_height;?> px</span>
-                        <!--<span class="date" onclick="window.location.href='/admin/slider/delete/<?/*=$oneSlide->id;*/?>'">удалить</span>-->
+                        <span class="delete js-article-delete-btn" data-article-id="/admin/slider/delete/<?=$oneSlide->id;?>">удалить</span>
                     </div>
                 <?}?>
             <?}?>
