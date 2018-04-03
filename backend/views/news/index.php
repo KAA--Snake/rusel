@@ -32,17 +32,17 @@ if($model){
         <div class="flex_wrap">
             <div class="left_wrap">
                 <div class="label">Название заголовка для новости:</div>
-                <input class="news-name" type="text" name="News[name]" value="<?=$model->name;?>">
+                <input class="news-name" type="text" name="News[name]" maxlength="48" value="<?=$model->name;?>">
             </div>
 
             <div class="right_wrap news-id_block">
                 <div class="label">Дата:</div>
-                <input class="news-id" type="text" name="News[date]" placeholder="Day-Month-Year" value="<?=$model->date;?>">
+                <input class="news-id" type="text" name="News[date]" maxlength="10" placeholder="Day-Month-Year" value="<?=$model->date;?>">
             </div>
         </div>
         <div class="left_wrap">
             <div class="label">Текст превью для новости:</div>
-            <input class="news-name" type="text" name="News[preview_text]" value="<?=$model->preview_text;?>">
+            <input class="news-name" type="text" name="News[preview_text]" maxlength="180" value="<?=$model->preview_text;?>">
         </div>
         <div class="left_wrap">
             <div class="label">Урл для новости:</div>

@@ -1019,6 +1019,10 @@
       .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_item:hover {
         border: 1px solid #336699;
         border-left: none; }
+        .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_item:hover .useful-info_img {
+          border-left: 1px solid #336699;
+          border-top: 1px solid #336699;
+          border-bottom: 1px solid #336699; }
       .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_item a {
         display: flex;
         text-decoration: none;
@@ -1026,7 +1030,14 @@
     .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_img {
       width: 110px;
       height: 80px;
-      margin-top: -1px; }
+      margin-top: -1px;
+      border-left: 1px solid transparent;
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      overflow: hidden; }
     .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_name {
       width: 350px;
       height: 78px;

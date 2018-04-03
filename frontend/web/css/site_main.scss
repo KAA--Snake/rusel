@@ -1297,6 +1297,12 @@ $white:#ffffff;
               &:hover{
                 border: 1px solid $blue;
                 border-left: none;
+                .useful-info_img{
+                  border-left: 1px solid $blue;
+                  border-top: 1px solid $blue;
+                  border-bottom: 1px solid $blue;
+                }
+
               }
               a{
                 display: flex;
@@ -1308,6 +1314,13 @@ $white:#ffffff;
               width: 110px;
               height: 80px;
               margin-top: -1px;
+              border-left: 1px solid transparent;
+              border-top: 1px solid transparent;
+              border-bottom: 1px solid transparent;
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: center;
+              overflow: hidden;
             }
             &_name{
               width: 350px;
