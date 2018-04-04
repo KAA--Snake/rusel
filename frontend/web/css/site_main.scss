@@ -74,6 +74,7 @@ $white:#ffffff;
   }
 
   .content_wrap{
+
     .main-page_h1{
       color: #282828;
       font-size: 25px;
@@ -763,6 +764,87 @@ $white:#ffffff;
       &.left0{
         margin-left: 0;
       }
+      &.in_news{
+        &_list{
+          h1{
+            color: #282828;
+            font-size: 25px;
+            font-weight: 700;
+            line-height: 19px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            margin-left: 20px;
+          }
+          .in_news{
+            &_item{
+              background-color: #ffffff;
+              padding: 20px;
+              padding-top: 0;
+              margin-bottom: 20px;
+              &_head{
+                h2{
+                  color: #333333;
+                  font-size: 18px;
+                  font-weight: 700;
+                  line-height: 50px;
+                  text-transform: uppercase;
+                  border-bottom: 1px solid $blue;
+                  margin-bottom: 20px;
+
+                }
+              }
+              &_date{
+                color: #a9a9a9;
+                font-size: 14px;
+                font-weight: 300;
+                line-height: 50px;
+                padding-left:20px;
+                background-image: url("../img/clock.png");
+                background-position: left center;
+                background-repeat:no-repeat;
+                position: absolute;
+                right: 20px;
+                top: 0;
+
+              }
+              &_content{
+                display: flex;
+              }
+              &_img{
+                margin-right: 20px;
+                img{
+                  width: 220px;
+                  height: 170px;
+                }
+              }
+              &_text{
+                color: #000000;
+                font-size: 14px;
+                font-weight: 300;
+                line-height: 24px;
+                p{
+                  margin-bottom: 20px;
+                }
+
+              }
+              &_more{
+                display: block;
+                width: 142px;
+                height: 30px;
+                border: 1px solid $blue;
+                color: $blue;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 30px;
+                text-align: center;
+                text-decoration: none;
+              }
+
+            }
+          }
+        }
+
+      }
       &.static_container{
 
         h1{
@@ -1325,14 +1407,15 @@ $white:#ffffff;
             &_name{
               width: 350px;
               height: 78px;
-              padding: 26px;
+
               padding-left: 20px;
               color: #333333;
               font-size: 12px;
               font-weight: 700;
               line-height: 16px;
               text-transform: uppercase;
-
+              display: flex;
+              align-items: center;
               overflow: hidden;
             }
           }

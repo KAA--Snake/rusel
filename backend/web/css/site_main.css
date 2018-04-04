@@ -142,7 +142,8 @@
         height: 80px;
         border: 1px solid #dfdfdf;
         background-color: #ffffff;
-        padding: 16px;
+        padding: 26px;
+        padding-left: 20px;
         resize: none;
         margin-bottom: 20px;
         color: #333333;
@@ -150,7 +151,8 @@
         font-weight: 700;
         line-height: 16px;
         text-transform: uppercase;
-        overflow: hidden; }
+        overflow: hidden;
+        font-family: "Open Sans", sans-serif; }
       .container.main .inner_wrap .info_add-form .right_wrap .info-id {
         padding-left: 12px;
         height: 40px;
@@ -194,7 +196,8 @@
         line-height: 16px;
         text-transform: uppercase;
         overflow: hidden;
-        text-align: center; }
+        text-align: center;
+        font-family: "Open Sans", sans-serif; }
       .container.main .inner_wrap .offer_add-form .right_wrap .offer-id {
         padding-left: 12px;
         height: 40px;

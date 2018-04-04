@@ -615,6 +615,64 @@
   }*/ }
   .container.main .content_wrap .content_inner_wrap.left0 {
     margin-left: 0; }
+  .container.main .content_wrap .content_inner_wrap.in_news_list h1 {
+    color: #282828;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 19px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    margin-left: 20px; }
+  .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item {
+    background-color: #ffffff;
+    padding: 20px;
+    padding-top: 0;
+    margin-bottom: 20px; }
+    .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item_head h2 {
+      color: #333333;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 50px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #336699;
+      margin-bottom: 20px; }
+    .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item_date {
+      color: #a9a9a9;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 50px;
+      padding-left: 20px;
+      background-image: url("../img/clock.png");
+      background-position: left center;
+      background-repeat: no-repeat;
+      position: absolute;
+      right: 20px;
+      top: 0; }
+    .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item_content {
+      display: flex; }
+    .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item_img {
+      margin-right: 20px; }
+      .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item_img img {
+        width: 220px;
+        height: 170px; }
+    .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item_text {
+      color: #000000;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 24px; }
+      .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item_text p {
+        margin-bottom: 20px; }
+    .container.main .content_wrap .content_inner_wrap.in_news_list .in_news_item_more {
+      display: block;
+      width: 142px;
+      height: 30px;
+      border: 1px solid #336699;
+      color: #336699;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 30px;
+      text-align: center;
+      text-decoration: none; }
   .container.main .content_wrap .content_inner_wrap.static_container h1 {
     color: #282828;
     font-size: 25px;
@@ -1041,13 +1099,14 @@
     .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_name {
       width: 350px;
       height: 78px;
-      padding: 26px;
       padding-left: 20px;
       color: #333333;
       font-size: 12px;
       font-weight: 700;
       line-height: 16px;
       text-transform: uppercase;
+      display: flex;
+      align-items: center;
       overflow: hidden; }
     .container.main .content_wrap .content_inner_wrap .content_block .content_body .specials_list {
       display: flex;

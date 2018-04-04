@@ -194,7 +194,8 @@ $white:#ffffff;
           height: 80px;
           border: 1px solid #dfdfdf;
           background-color: #ffffff;
-          padding: 16px;
+          padding: 26px;
+          padding-left: 20px;
           resize: none;
           margin-bottom: 20px;
           color: #333333;
@@ -203,6 +204,7 @@ $white:#ffffff;
           line-height: 16px;
           text-transform: uppercase;
           overflow: hidden;
+          font-family: "Open Sans", sans-serif;
         }
         .info-id{
           padding-left: 12px;
@@ -259,6 +261,7 @@ $white:#ffffff;
           text-transform: uppercase;
           overflow: hidden;
           text-align: center;
+          font-family: "Open Sans", sans-serif;
         }
         .offer-id{
           padding-left: 12px;
