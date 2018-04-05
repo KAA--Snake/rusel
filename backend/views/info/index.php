@@ -34,10 +34,12 @@ if($model){
 
             <div class="right_wrap">
                 <div class="label">Заглавие:</div>
-                <textarea name="Info[text]" id="info_head" class="info_head" placeholder="Введите текст"><?=$model->text;?></textarea>
+                <!--<textarea name="Info[text]" id="info_head" class="info_head" placeholder="Введите текст"><?/*=$model->text;*/?></textarea>-->
+                <div id="info_head" class="info_head  js-info-textarea-em" ><?php if($model->text) {echo $model->text;}else{echo 'Введите текст';}?></div>
                 <div class="label">URL:</div>
                 <input class="info-id" type="text" name="Info[url]" value="<?=$model->url;?>">
                 <input class="info-id" type="hidden" name="Info[id]" value="<?=$model->id;?>">
+                <input class="info-text js-info-textarea" type="hidden" name="Info[text]" value="<?=$model->text;?>">
             </div>
         </div>
 

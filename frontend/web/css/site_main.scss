@@ -822,8 +822,76 @@ $white:#ffffff;
                 font-size: 14px;
                 font-weight: 300;
                 line-height: 24px;
-                p{
+                padding-bottom: 20px;
+                h2{
+                  color: #000000;
+                  font-size: 18px;
+                  font-weight: 700;
+                  line-height: 18px;
+                  text-transform: uppercase;
                   margin-bottom: 20px;
+                }
+                p{
+                  color: #000000;
+                  font-size: 14px;
+                  font-weight: 300;
+                  line-height: 24px;
+                  margin-bottom: 20px;
+                }
+                blockquote{
+                  color: #000000;
+                  font-size: 14px;
+                  font-weight: 700;
+                  line-height: 24px;
+                  padding-left: 18px;
+                  border-left: 2px solid #9f0f18;
+                  margin-bottom: 30px;
+                }
+
+                ul{
+                  list-style-type: none;
+                  list-style-image: url("../img/ellipse-1.svg");
+                  margin-bottom: 30px;
+                  margin-left: 14px;
+                  li{
+                    margin-bottom: 20px;
+                    padding-left: 10px;
+                    color: #000000;
+                    font-size: 14px;
+                    font-weight: 300;
+                    line-height: 24px;
+                  }
+                }
+                ol{
+                  counter-reset:li;
+                  padding:0;
+                  list-style:none;
+                  margin-bottom: 30px;
+                  li{
+                    margin-left: 28px;
+                    margin-bottom: 20px;
+                    padding-left: 10px;
+                    color: #000000;
+                    font-size: 14px;
+                    font-weight: 300;
+                    line-height: 24px;
+                    position:relative;
+                    &:before {
+                      content:counter(li);
+                      counter-increment:li;
+                      color: #ffffff;
+                      font-size: 12px;
+                      font-weight: 300;
+                      line-height: 24px;
+                      background-color: #9f0f18;
+                      border-radius: 11px;
+                      width: 22px;
+                      height: 22px;
+                      position:absolute;
+                      left:-28px;
+                      text-align:center;
+                    }
+                  }
                 }
 
               }
@@ -838,6 +906,10 @@ $white:#ffffff;
                 line-height: 30px;
                 text-align: center;
                 text-decoration: none;
+                margin-top: 20px;
+                position: absolute;
+                bottom: 0;
+
               }
 
             }

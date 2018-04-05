@@ -77,7 +77,7 @@ use common\widgets\catalog\CatalogMenu;
                     </div>
                     <div class="in_news_item_text">
                         <p>
-                            <?=$oneModel['full_text']?>
+                            <?=$oneModel['preview_text']?>
                         </p>
                         <a href="/sitenews/<?=$oneModel['url']?>/" class="in_news_item_more">Подробнее  →</a>
                     </div>

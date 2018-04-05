@@ -13,6 +13,16 @@ $(document).ready(function () {
     $(".js-img-upload_input").change(function(){
         readURL(this);
     });
+
+    if($('.js-info-textarea-em').length){
+        var editablediv = document.querySelector('.js-info-textarea-em');
+        editablediv.contentEditable = true;
+        $('.js-info-textarea-em').on('blur', function (e) {
+            var x = editablediv.innerText;
+            $('.js-info-textarea').val(x);
+        });
+    }
+
 });
 
 

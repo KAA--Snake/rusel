@@ -142,7 +142,6 @@
         height: 80px;
         border: 1px solid #dfdfdf;
         background-color: #ffffff;
-        padding: 26px;
         padding-left: 20px;
         resize: none;
         margin-bottom: 20px;
@@ -152,7 +151,9 @@
         line-height: 16px;
         text-transform: uppercase;
         overflow: hidden;
-        font-family: "Open Sans", sans-serif; }
+        font-family: "Open Sans", sans-serif;
+        display: flex;
+        align-items: center; }
       .container.main .inner_wrap .info_add-form .right_wrap .info-id {
         padding-left: 12px;
         height: 40px;
