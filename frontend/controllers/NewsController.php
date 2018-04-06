@@ -17,7 +17,7 @@ class NewsController extends Controller
     public function actionIndex(){
 
         $models = News::find()
-            ->orderBy('date', 'DESC')
+            ->orderBy('date DESC')
             ->all();
 
         return $this->render('all', ['models' => $models]);
@@ -33,7 +33,7 @@ class NewsController extends Controller
 
         $models = News::find()
             ->andWhere(['not', ['url' => $news_url]])
-            ->orderBy('date', 'DESC')
+            ->orderBy('date DESC')
             ->all();
 
         return $this->render('one', ['models' => $models,'model' => $model]);

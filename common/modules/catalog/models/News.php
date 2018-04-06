@@ -37,7 +37,7 @@ class News extends ActiveRecord
                  ],
                 'string'
             ],
-            [['date'], 'date', 'format' => 'd-m-Y'],
+            [['date'], 'date', 'format' => 'm-d-Y'],
             [['file'],
                 'file',
                 //'skipOnEmpty' => false,

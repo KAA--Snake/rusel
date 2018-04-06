@@ -37,7 +37,7 @@ if($model){
 
             <div class="right_wrap news-id_block">
                 <div class="label">Дата:</div>
-                <input class="news-id" type="text" name="News[date]" maxlength="10" placeholder="Day-Month-Year" value="<?=$model->date;?>">
+                <input class="news-id" type="text" name="News[date]" maxlength="10" placeholder="Month-Day-Year" value="<?=$model->date;?>">
             </div>
         </div>
         <div class="left_wrap">
@@ -84,7 +84,7 @@ if($model){
                 <?foreach($models as $oneModel){?>
 
                     <div class="previous-item-item">
-                        <span class="name" onclick="location.href='/admin/news/<?=$oneModel->id;?>'"><?=$oneModel->preview_text;?></span>
+                        <span class="name" onclick="location.href='/admin/news/<?=$oneModel->id;?>'"><?=$oneModel->name;?></span>
                         <span class="date"><?=$oneModel->date;?></span>
                         <span class="delete js-article-delete-btn" data-article-id="/admin/news/delete/<?=$oneModel->id;?>">удалить</span>
                     </div>
