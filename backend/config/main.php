@@ -54,6 +54,12 @@ return [
                 'GET static/delete/<id:\d+>' => 'static/delete',
                 'GET static/update/<type:\d+>' => 'static/update',
 
+
+                'GET offers/<id:\d+>' => 'offers/index',
+                'POST offers/add' => 'offers/add',
+                'GET offers/delete/<id:\d+>' => 'offers/delete',
+                'GET offers/update/<id:\d+>' => 'offers/update',
+
                 //'admin/<action:\w+>' => 'admin/site/<action>'
                 /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

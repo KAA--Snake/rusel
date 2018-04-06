@@ -55,54 +55,11 @@ $this->title = 'My Yii Application';
         <h1 class="main-page_h1">КОМПЛЕКСНОЕ СНАБЖЕНИЕ КОМПЛЕКТУЮЩИМИ</h1>
 
         <?=MainSlider::widget();?>
-        
-        <div class="content_block specials">
-            <h2 class="content_header">Специальные предложения</h2>
-            <div class="content_body">
-                <ul class="specials_list">
-                    <li class="specials_item">
-                        <a href="/">
-                            <div class="specials_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
 
-                            <div class="specials_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="specials_item">
-                        <a href="/">
-                            <div class="specials_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-                            <div class="specials_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="specials_item">
-                        <a href="/">
-                            <div class="specials_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-                            <div class="specials_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="specials_item">
-                        <a href="/">
-                            <div class="specials_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-                            <div class="specials_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
+        <?= \common\widgets\news\WOffers::widget();?>
 
         <?= \common\widgets\info\WInfo::widget();?>
 
-        <?= \common\widgets\news\WNews::widget();?>
+        <?= \common\widgets\news\WOffers::widget();?>
     </div>
 </div>

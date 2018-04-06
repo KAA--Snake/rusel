@@ -143,50 +143,8 @@ $this->title = 'My Yii Application';
             </div>
         </div>
         
-        <div class="content_block specials">
-            <h2 class="content_header">Специальные предложения</h2>
-            <div class="content_body">
-                <ul class="specials_list">
-                    <li class="specials_item">
-                        <a href="/">
-                            <div class="specials_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
 
-                            <div class="specials_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="specials_item">
-                        <a href="/">
-                            <div class="specials_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-                            <div class="specials_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="specials_item">
-                        <a href="/">
-                            <div class="specials_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-                            <div class="specials_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="specials_item">
-                        <a href="/">
-                            <div class="specials_img" style="background-image: url('<?= Url::to('@web/img/special_img.png');?>')"></div>
-                            <div class="specials_name">
-                                Скидка на платы от Gigabyte Technology
-                            </div>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
+        <?=\common\widgets\news\WOffers::widget();?>
 
         <div class="content_block specials specials2">
             <h2 class="content_header">Полезная информация</h2>
