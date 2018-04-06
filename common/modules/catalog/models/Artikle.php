@@ -140,6 +140,7 @@ class Artikle extends ActiveRecord
 
 
         $attributes = [
+            'name' => $model->name,
             'type' => $model->type,
             'sort' => $model->sort,
             'url' => $model->url,

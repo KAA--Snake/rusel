@@ -1,12 +1,12 @@
 <header class="header">
     <div class="mw1180">
         <nav class="top_menu">
-            <a href="" class="nav_item">О проекте</a>
-            <a href="" class="nav_item">Оплата и доставка</a>
-            <a href="" class="nav_item">Публичная оферта</a>
-            <a href="" class="nav_item">Сотрудничество</a>
-            <a href="" class="nav_item">Вакансии</a>
-            <a href="" class="nav_item">Контакты</a>
+            <a href="/company/about/" class="nav_item">О проекте</a>
+            <a href="/company/delivery/" class="nav_item">Оплата и доставка</a>
+            <a href="/company/documents/" class="nav_item">Публичная оферта</a>
+            <a href="/company/cooperation/" class="nav_item">Сотрудничество</a>
+            <a href="/company/vacancies/" class="nav_item">Вакансии</a>
+            <a href="/company/contacts/" class="nav_item">Контакты</a>
         </nav>
 
         <div class="header_info clear">

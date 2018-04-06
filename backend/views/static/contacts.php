@@ -30,6 +30,9 @@ if($model){
         <input type="hidden" name="Artikle[type]" value="contacts" />
         <input type="hidden" name="Artikle[id]" value="<?=$model->id;?>" />
 
+
+        <input type="text" name="Artikle[name]" value="Контакты" />
+
         <div class="flex_wrap">
             <div class="left_wrap">
                 <div class="label">Картинка:</div>

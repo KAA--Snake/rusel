@@ -37,7 +37,7 @@ if($model){
 
             <div class="right_wrap news-id_block">
                 <div class="label">Дата:</div>
-                <input class="news-id" type="text" name="News[date]" maxlength="10" placeholder="Month-Day-Year" value="<?=$model->date;?>">
+                <input class="news-id" type="text" name="News[date]" maxlength="10" placeholder="Day-Month-Year" value="<?=$model->date;?>">
             </div>
         </div>
         <div class="left_wrap">

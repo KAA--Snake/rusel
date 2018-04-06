@@ -107,6 +107,9 @@ return [
                 'manufacturer/<manufacturer:.*>' => 'manufacturer/index',
                 'sitenews/<news_url:.+>' => 'news/one',
                 'sitenews/' => 'news/index',
+
+                //статичные страницы
+                'company/<static_type:.+>' => 'company/index',
                 //test for mng/elastic
                // 'catalog/<pathForParse:[\w_\/-]+>'=> 'catalog/default',
                 //'search/by-name/<name:.*>' => 'search/by-name',
