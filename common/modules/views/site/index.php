@@ -144,7 +144,7 @@ $this->title = 'My Yii Application';
         </div>
         
 
-        <?=\common\widgets\news\WOffers::widget();?>
+        <?=\common\widgets\offers\WOffers::widget();?>
 
         <div class="content_block specials specials2">
             <h2 class="content_header">Полезная информация</h2>
@@ -193,6 +193,6 @@ $this->title = 'My Yii Application';
             </div>
         </div>
 
-        <?= \common\widgets\news\WInfo::widget();?>
+        <?= \common\widgets\offers\WInfo::widget();?>
     </div>
 </div>

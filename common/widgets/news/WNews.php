@@ -8,11 +8,10 @@
 
 namespace common\widgets\news;
 
-
-use common\modules\catalog\models\Offers;
+use common\modules\catalog\models\News;
 use yii\base\Widget;
 
-class WOffers extends Widget
+class WNews extends Widget
 {
     //public $maket = 'main_menu';
 
@@ -27,8 +26,8 @@ class WOffers extends Widget
     public function run()
     {
 
-        $news = Offers::find()->all();
+        $news = News::find()->limit(4)->orderBy('date DESC')->all();
 
-        return $this->render('offers', ['models' => $news]);
+        return $this->render('news', ['models' => $news]);
     }
 }

@@ -54,12 +54,12 @@ $this->title = 'My Yii Application';
 
         <h1 class="main-page_h1">КОМПЛЕКСНОЕ СНАБЖЕНИЕ КОМПЛЕКТУЮЩИМИ</h1>
 
-        <?=MainSlider::widget();?>
+        <?= MainSlider::widget();?>
 
-        <?= \common\widgets\news\WOffers::widget();?>
+        <?= \common\widgets\offers\WOffers::widget();?>
 
         <?= \common\widgets\info\WInfo::widget();?>
 
-        <?= \common\widgets\news\WOffers::widget();?>
+        <?= \common\widgets\news\WNews::widget();?>
     </div>
 </div>
