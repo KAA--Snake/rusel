@@ -110,6 +110,15 @@ return [
 
                 //статичные страницы
                 'company/<static_type:.+>' => 'company/index',
+
+
+                //спецпредложения
+                'special/' => 'special/all',
+                'special/<url:.+>' => 'special/index',
+
+
+
+
                 //test for mng/elastic
                // 'catalog/<pathForParse:[\w_\/-]+>'=> 'catalog/default',
                 //'search/by-name/<name:.*>' => 'search/by-name',

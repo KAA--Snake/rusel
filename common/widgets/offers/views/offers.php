@@ -21,7 +21,7 @@ use yii\helpers\Url;
             <?foreach($models as $oneNews){?>
 
                     <li class="specials_item">
-                        <a href="/special/<?= $oneNews->url;?>">
+                        <a href="/special/<?= $oneNews->url;?>/">
                             <div class="specials_img" style="background-image: url('<?= $oneNews->big_img_src;?>')"></div>
                             <div class="specials_name">
                                 <?= $oneNews->name;?>
