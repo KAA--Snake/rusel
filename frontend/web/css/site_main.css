@@ -2176,6 +2176,13 @@
     padding: 20px;
     background-color: #ffffff;
     margin-bottom: 20px; }
+    .container.main .content_wrap .content_inner_wrap .product_cards_block._order ._order_section .empty_order {
+      color: #9f0f18;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 70px;
+      text-transform: uppercase;
+      text-align: center; }
     .container.main .content_wrap .content_inner_wrap .product_cards_block._order ._order_section .product_card {
       padding: 0;
       padding-bottom: 13px; }
