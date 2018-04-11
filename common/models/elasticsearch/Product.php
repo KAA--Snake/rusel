@@ -550,6 +550,9 @@ class Product extends Model
             'body' => [
                 //'from' => $from,
                 //'size' => $maxSizeCnt,
+                'sort' => [
+                    'artikul' => ['order' => 'asc']
+                ],
                 'query' => [
                     'constant_score' => [
                         'filter' => [

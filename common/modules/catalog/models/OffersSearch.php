@@ -8,6 +8,7 @@
 
 namespace common\modules\catalog\models;
 
+use common\models\elasticsearch\Product;
 use yii\base\Model;
 
 class OffersSearch extends Offers
@@ -22,14 +23,48 @@ class OffersSearch extends Offers
     }
 
 
-
-    public function searchByUrl($url){
+    /**
+     * Получает спецпредл по его УРЛ, и получает список товаров по артикулу либо по их ИД-ам
+     *
+     *
+     * @param $url
+     * @return array|bool
+     */
+    public function getProductsForOffer($url){
 
         if(empty($url)) return false;
 
-        return static::find()->andWhere([
+        $products = [];
+
+        $oneOffer = static::find()->andWhere([
             'url' => $url
         ])->one();
+
+        $result = [];
+
+        if($oneOffer){
+
+            $result['offer'] = $oneOffer;
+
+            //\Yii::$app->pr->print_r2($oneOffer->getAttributes());
+
+            if(!empty($oneOffer->product_ids)){
+                $ids = explode(';', $oneOffer->product_ids);
+
+                $productMod = new Product();
+                $products = $productMod->getProductsByIds($ids);
+
+                //\Yii::$app->pr->print_r2($rand);
+                if(!empty($products)){
+                    $result['products'] = $products;
+                }
+
+            }
+
+        }
+
+
+        return $result;
     }
 
 
