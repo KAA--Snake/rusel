@@ -126,9 +126,6 @@ class Slider extends ActiveRecord
 
         $model->save();
 
-        $err = $model->getErrors();
-
-
 
         return $model;
 

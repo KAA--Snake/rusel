@@ -3,9 +3,9 @@
 /* @var $this yii\web\View */
 
 $this->title = 'admin Slider page';
-
-if($model){
-    $errors = $model->getErrors();
+//\Yii::$app->pr->print_r2($slide->getAttributes());
+if($slide){
+    $errors = $slide->getErrors();
     if(!empty($errors)){
         \Yii::$app->pr->print_r2($errors);
     }
