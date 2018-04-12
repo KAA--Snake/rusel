@@ -27,7 +27,7 @@ class MainSlider extends Widget
     public function run()
     {
 
-        $slides = Slider::find()->all();
+        $slides = Slider::find()->orderBy('id ASC')->all();
 
         return $this->render('main_slider', ['slides' => $slides]);
     }

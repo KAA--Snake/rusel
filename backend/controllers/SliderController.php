@@ -41,7 +41,7 @@ class SliderController extends Controller
 
         $slide = false;
 
-        $slides = Slider::find()->all();
+        $slides = Slider::find()->orderBy('id ASC')->all();
 
         if($slideId){
 
@@ -63,7 +63,7 @@ class SliderController extends Controller
             $findOne->delete();
         }
 
-        $models = Slider::find()->all();
+        $models = Slider::find()->orderBy('id ASC')->all();
 
 
         return $this->render('index', ['slides' => $models, 'slide' => false]);
@@ -86,7 +86,7 @@ class SliderController extends Controller
 
         //$result['errors'] = $slider->getErrors();
 
-        $slides = Slider::find()->all();
+        $slides = Slider::find()->orderBy('id ASC')->all();
 
         return $this->render('index', ['uploadResult' => $result, 'slides' => $slides, 'slide' => $slider]);
 

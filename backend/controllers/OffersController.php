@@ -39,7 +39,7 @@ class OffersController extends Controller
 
         $model = false;
 
-        $models = Offers::find()->all();
+        $models = Offers::find()->orderBy('id ASC')->all();
 
         if($id){
 
@@ -61,7 +61,7 @@ class OffersController extends Controller
             $findOne->delete();
         }
 
-        $models = Offers::find()->all();
+        $models = Offers::find()->orderBy('id ASC')->all();
 
         return $this->render('index', ['models' => $models, 'model' => false]);
 
@@ -86,7 +86,7 @@ class OffersController extends Controller
 
         //\Yii::$app->pr->print_r2($model->getErrors());
 
-        $models = Offers::find()->all();
+        $models = Offers::find()->orderBy('id ASC')->all();
 
         return $this->render('index', ['uploadResult' => $result, 'models' => $models, 'model' => $model]);
 

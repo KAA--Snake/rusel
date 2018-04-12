@@ -41,7 +41,7 @@ class InfoController extends Controller
 
         $model = false;
 
-        $models = Info::find()->all();
+        $models = Info::find()->orderBy('id ASC')->all();
 
         if($id){
 
@@ -63,7 +63,7 @@ class InfoController extends Controller
             $findOne->delete();
         }
 
-        $models = Info::find()->all();
+        $models = Info::find()->orderBy('id ASC')->all();
 
         return $this->render('index', ['models' => $models, 'model' => false]);
 
@@ -87,7 +87,7 @@ class InfoController extends Controller
 
         //$result['errors'] = $model->getErrors();
 
-        $models = Info::find()->all();
+        $models = Info::find()->orderBy('id ASC')->all();
 
         return $this->render('index', ['uploadResult' => $result, 'models' => $models, 'model' => $model]);
 
