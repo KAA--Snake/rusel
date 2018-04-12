@@ -2822,6 +2822,14 @@ $white:#ffffff;
             padding: 20px;
             background-color: $white;
             margin-bottom: 20px;
+            .empty_order{
+              color: #9f0f18;
+              font-size: 14px;
+              font-weight: 300;
+              line-height: 70px;
+              text-transform: uppercase;
+              text-align: center;
+            }
             .product_card{
               padding: 0;
               padding-bottom: 13px;
