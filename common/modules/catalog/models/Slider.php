@@ -55,10 +55,8 @@ class Slider extends ActiveRecord
          * пока что миникартинка = большой картинке
          *
          */
-        if(empty($this->small_img_src)){
+        $this->small_img_src = $this->big_img_src;
 
-            $this->small_img_src = $this->big_img_src;
-        }
 
         if(empty($this->small_img_src)){
             $this->slide_url = '';

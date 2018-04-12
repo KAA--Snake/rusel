@@ -62,10 +62,8 @@ class Offers extends ActiveRecord
          * пока что миникартинка = большой картинке
          *
          */
-        if(empty($this->small_img_src)){
+        $this->small_img_src = $this->big_img_src;
 
-            $this->small_img_src = $this->big_img_src;
-        }
 
 
         if(!empty($this->full_text)){
@@ -187,13 +185,14 @@ class Offers extends ActiveRecord
             //SiC bug null != empty...
             unset($model->id);
         }
+
+        //\Yii::$app->pr->print_r2($model->getAttributes());
+        //die();\
         //\Yii::$app->pr->print_r2($attributes);
-        //die();
 
         $model->setAttributes($attributes);
 
         $model->save();
-
 
         return $model;
 

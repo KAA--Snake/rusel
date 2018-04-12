@@ -83,7 +83,7 @@ class StaticController extends Controller
         if($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
 
 
-            $model->saveMe();
+            $model = $model->saveMe();
 
         }
 

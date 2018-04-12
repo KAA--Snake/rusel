@@ -81,7 +81,7 @@ class SliderController extends Controller
         $result = [];
 
         if($slider->load(Yii::$app->getRequest()->post()) && $slider->validate()){
-            $slider->saveMe();
+            $slider = $slider->saveMe();
         }
 
         //$result['errors'] = $slider->getErrors();

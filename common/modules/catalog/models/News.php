@@ -60,10 +60,8 @@ class News extends ActiveRecord
          * пока что миникартинка = большой картинке
          *
          */
-        if(empty($this->small_img_src)){
+        $this->small_img_src = $this->big_img_src;
 
-            $this->small_img_src = $this->big_img_src;
-        }
 
 
         if(!empty($this->full_text)){
