@@ -27,7 +27,7 @@ class WOffers extends Widget
     public function run()
     {
 
-        $news = Offers::find()->all();
+        $news = Offers::find()->orderBy('id ASC')->all();
 
         return $this->render('offers', ['models' => $news]);
     }

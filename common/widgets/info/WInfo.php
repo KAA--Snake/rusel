@@ -26,7 +26,7 @@ class WInfo extends Widget
     public function run()
     {
 
-        $news = Info::find()->all();
+        $news = Info::find()->orderBy('id ASC')->all();
 
         return $this->render('list', ['models' => $news]);
     }
