@@ -21,6 +21,22 @@ $white:#ffffff;
     }
   }
 
+  .special_offer_h1{
+    font-size: 18px;
+    line-height: 24px;
+    text-transform: uppercase;
+    color: #333333;
+    font-weight: 300;
+    background-color: #ffffff;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    margin-top: -20px;
+    span{
+      color: $blue;
+      font-weight: 700;
+      line-height: 20px;
+    }
+  }
   .header{
     min-height: 100px;
     background-color: $white;
@@ -265,7 +281,7 @@ $white:#ffffff;
       }
       .sp_body{
         transform-origin:top;
-        border: 1px solid #c9c9c9;
+        /*border: 1px solid #c9c9c9;*/
         background-color: $white;
         padding: 20px 18px 12px;
         position: absolute;
@@ -926,7 +942,9 @@ $white:#ffffff;
           line-height: 1;
           margin-top: 10px;
           margin-bottom: 30px;
+          margin-left: 20px;
           text-transform: uppercase;
+
         }
         h2{
           color: #000000;
@@ -1510,7 +1528,7 @@ $white:#ffffff;
                 display: block;
                 width: 220px;
                 height: 236px;
-                border: 1px solid #c9c9c9;
+                border: 1px solid transparent;
                 background-color: $white;
                 outline: none;
                 text-decoration: none;
@@ -1554,6 +1572,7 @@ $white:#ffffff;
             .news_item{
               width: 220px;
               height: 410px;
+              position: relative;
               background-color: $white;
               /*&+.news_item{
                 margin-left: 30px;
@@ -1607,16 +1626,29 @@ $white:#ffffff;
                 margin-bottom: 14px;
                 margin-left: 20px;
                 margin-right: 20px;
+                height: 156px;
+                overflow: hidden;
+              }
+              .shadow{
+                position: absolute;
+                bottom: 32px;
+                height: 60px;
+                width: 100%;
+                background: linear-gradient(transparent, $white);
               }
               .news_item_link_wrap{
                 margin-bottom: 12px;
                 margin-left: 20px;
+                position: absolute;
+                bottom: 0;
+
                 .news_item_link{
                   color: $blue;
                   font-size: 12px;
                   line-height: 22px;
                   font-weight: 300;
                   text-decoration: underline;
+
                 }
               }
 

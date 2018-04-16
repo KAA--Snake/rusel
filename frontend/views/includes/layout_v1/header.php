@@ -1,7 +1,7 @@
 <header class="header">
     <div class="mw1180">
         <nav class="top_menu">
-            <a href="/company/about/" class="nav_item">О проекте</a>
+            <a href="/company/about/" class="nav_item">О компании</a>
             <a href="/company/delivery/" class="nav_item">Оплата и доставка</a>
             <a href="/company/documents/" class="nav_item">Публичная оферта</a>
             <a href="/company/cooperation/" class="nav_item">Сотрудничество</a>

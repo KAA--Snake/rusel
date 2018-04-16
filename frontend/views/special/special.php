@@ -17,7 +17,7 @@ $this->title = 'Спецпредложения rusel24';
 //this->params['breadcrumbs'][] = 'Спецпредложения';
 ?>
 <div class="content_inner_wrap left0 col_1180">
-    <div>Спецпредложения: </div>
+    <h1 class="special_offer_h1">Специальное предложение: <span class="special_offe_name">Название спецпредложения </span></h1>
 
     <div class="product_cards_block">
 
