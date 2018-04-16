@@ -1589,46 +1589,50 @@ $white:#ffffff;
                 margin-bottom: 12px;
 
               }
-              .news_item_header{
-                color: #000000;
-                font-size: 14px;
-                font-weight: 700;
-                line-height: 18px;
-                margin-bottom: 14px;
-                margin-left: 20px;
-                margin-right: 20px;
-              }
-              .news_item_date{
-                margin-bottom: 14px;
-                margin-left: 20px;
-                .clock_icon{
-                  width: 14px;
-                  height: 13px;
-                  background: url('../img/clock_icon.png') no-repeat center;
-                  display: inline-block;
-                  line-height: 16px;
-                  vertical-align: middle;
+              .news_item_text_wrap{
+                height: 206px;
+                overflow: hidden;
+                .news_item_header{
+                  color: #000000;
+                  font-size: 14px;
+                  font-weight: 700;
+                  line-height: 18px;
+                  margin-bottom: 14px;
+                  margin-left: 20px;
+                  margin-right: 20px;
                 }
-                .date_text{
-                  color: #a9a9a9;
+                .news_item_date{
+                  margin-bottom: 14px;
+                  margin-left: 20px;
+                  .clock_icon{
+                    width: 14px;
+                    height: 13px;
+                    background: url('../img/clock_icon.png') no-repeat center;
+                    display: inline-block;
+                    line-height: 16px;
+                    vertical-align: middle;
+                  }
+                  .date_text{
+                    color: #a9a9a9;
+                    font-size: 12px;
+                    font-weight: 300;
+                    line-height: 16px;
+                    margin-left: 8px;
+
+                  }
+                }
+                .news_item_preview{
+                  color: #000000;
                   font-size: 12px;
                   font-weight: 300;
-                  line-height: 16px;
-                  margin-left: 8px;
-
+                  line-height: 14px;
+                  margin-bottom: 14px;
+                  margin-left: 20px;
+                  margin-right: 20px;
+                  overflow: hidden;
                 }
               }
-              .news_item_preview{
-                color: #000000;
-                font-size: 12px;
-                font-weight: 300;
-                line-height: 14px;
-                margin-bottom: 14px;
-                margin-left: 20px;
-                margin-right: 20px;
-                height: 156px;
-                overflow: hidden;
-              }
+
               .shadow{
                 position: absolute;
                 bottom: 32px;

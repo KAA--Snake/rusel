@@ -42,7 +42,7 @@ if($model){
         </div>
         <div class="left_wrap">
             <div class="label">Текст превью для новости:</div>
-            <input class="news-name" type="text" name="News[preview_text]" maxlength="180" value="<?=$model->preview_text;?>">
+            <input class="news-name" type="text" name="News[preview_text]" value="<?=$model->preview_text;?>">
         </div>
         <div class="left_wrap">
             <div class="label">Урл для новости:</div>

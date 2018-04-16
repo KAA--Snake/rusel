@@ -1255,40 +1255,42 @@
           background-size: contain;
           background-repeat: no-repeat;
           margin-bottom: 12px; }
-        .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_header {
-          color: #000000;
-          font-size: 14px;
-          font-weight: 700;
-          line-height: 18px;
-          margin-bottom: 14px;
-          margin-left: 20px;
-          margin-right: 20px; }
-        .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_date {
-          margin-bottom: 14px;
-          margin-left: 20px; }
-          .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_date .clock_icon {
-            width: 14px;
-            height: 13px;
-            background: url("../img/clock_icon.png") no-repeat center;
-            display: inline-block;
-            line-height: 16px;
-            vertical-align: middle; }
-          .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_date .date_text {
-            color: #a9a9a9;
+        .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_text_wrap {
+          height: 206px;
+          overflow: hidden; }
+          .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_text_wrap .news_item_header {
+            color: #000000;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 18px;
+            margin-bottom: 14px;
+            margin-left: 20px;
+            margin-right: 20px; }
+          .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_text_wrap .news_item_date {
+            margin-bottom: 14px;
+            margin-left: 20px; }
+            .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_text_wrap .news_item_date .clock_icon {
+              width: 14px;
+              height: 13px;
+              background: url("../img/clock_icon.png") no-repeat center;
+              display: inline-block;
+              line-height: 16px;
+              vertical-align: middle; }
+            .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_text_wrap .news_item_date .date_text {
+              color: #a9a9a9;
+              font-size: 12px;
+              font-weight: 300;
+              line-height: 16px;
+              margin-left: 8px; }
+          .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_text_wrap .news_item_preview {
+            color: #000000;
             font-size: 12px;
             font-weight: 300;
-            line-height: 16px;
-            margin-left: 8px; }
-        .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .news_item_preview {
-          color: #000000;
-          font-size: 12px;
-          font-weight: 300;
-          line-height: 14px;
-          margin-bottom: 14px;
-          margin-left: 20px;
-          margin-right: 20px;
-          height: 156px;
-          overflow: hidden; }
+            line-height: 14px;
+            margin-bottom: 14px;
+            margin-left: 20px;
+            margin-right: 20px;
+            overflow: hidden; }
         .container.main .content_wrap .content_inner_wrap .content_block .content_body .news_list .news_item .shadow {
           position: absolute;
           bottom: 32px;
