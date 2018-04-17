@@ -10,14 +10,13 @@ use common\widgets\filter\CatalogFilter;
 
 //echo Url::current(['perPage' => '50']);
 //echo ;
-/*\Yii::$app->pr->print_r2($filterData);
+//\Yii::$app->pr->print_r2($data);
 
-die();*/
 $this->title = 'Спецпредложения rusel24';
 //this->params['breadcrumbs'][] = 'Спецпредложения';
 ?>
 <div class="content_inner_wrap left0 col_1180">
-    <h1 class="special_offer_h1">Специальное предложение: <span class="special_offe_name">Название спецпредложения </span></h1>
+    <h1 class="special_offer_h1">Специальное предложение: <span class="special_offe_name"><?=$data['offer']->name;?></span></h1>
 
     <div class="product_cards_block">
 

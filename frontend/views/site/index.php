@@ -6,7 +6,7 @@ use yii\helpers\Url;
 use common\widgets\catalog\CatalogMenu;
 use common\widgets\main_slider\MainSlider;
 
-$this->title = 'My Yii Application';
+$this->title = 'Rusel24.ru';
 
 
 //меню каталога доступно в $catalog_menu. Раскомментируй отладку ниже чтобы посмотреть его структуру
