@@ -546,10 +546,12 @@ class Product extends Model
             return [];
         }
 
+        $pagination = \Yii::$app->controller->pagination;
+
         $params = [
             'body' => [
-                //'from' => $from,
-                //'size' => $maxSizeCnt,
+                'from' => $pagination['from'],
+                'size' => $pagination['maxSizeCnt'],
                 'sort' => [
                     'artikul' => ['order' => 'asc']
                 ],
@@ -567,15 +569,15 @@ class Product extends Model
 
         $params = static::productData + $params;
 
-        //\Yii::$app->pr->print_r2(json_encode($params));
+        $response = Elastic::getElasticClient()->search($params);
 
-        $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+        //$response = Elastic::getElasticClient()->search($params)['hits']['hits'];
 
         //добавляем аксессуары к продуктам
-        $this->setAccessoriedProducts($response);
+        $this->setAccessoriedProducts($response['hits']['hits']);
 
 
-        return $response;
+        return $response['hits'];
     }
 
 

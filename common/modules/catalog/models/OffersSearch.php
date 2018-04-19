@@ -54,7 +54,7 @@ class OffersSearch extends Offers
                 $productMod = new Product();
                 $products = $productMod->getProductsByIds($ids);
 
-                //\Yii::$app->pr->print_r2($rand);
+                //\Yii::$app->pr->print_r2($products);
                 if(!empty($products)){
                     $result['products'] = $products;
                 }
@@ -63,8 +63,23 @@ class OffersSearch extends Offers
 
         }
 
+        $totalFound = count($result['products']);
+        //пробрасывается в контроллер из Pagination_beh.php
+        $pagination = \Yii::$app->controller->pagination;
+        $pagination['totalCount'] = $products['total'];
 
-        return $result;
+        return
+            [
+                'products' => $result,
+                'totalProductsFound' => $products['total'],
+                //'filterData' => $allFilterDataProps,
+                //'appliedFilterJson' => $appliedFilter,
+                'paginator' => $pagination,
+                //'emptyFilterResult' => $this->isEmptyResult,
+                //'filterManufacturers' => $allManufacturers,
+
+            ];
+
     }
 
 

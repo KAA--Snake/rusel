@@ -1,6 +1,5 @@
 <?php
-$totalProductsFound = count($data['products']);
-$currentSectionProducts = $data['products'];
+$currentSectionProducts = $data['products']['products']['hits'];
 
 
 use yii\helpers\Url;
@@ -11,6 +10,7 @@ use common\widgets\filter\CatalogFilter;
 //echo Url::current(['perPage' => '50']);
 //echo ;
 //\Yii::$app->pr->print_r2($data);
+//die();
 
 $this->title = 'Спецпредложения rusel24';
 //this->params['breadcrumbs'][] = 'Спецпредложения';
@@ -18,10 +18,54 @@ $this->title = 'Спецпредложения rusel24';
 <div class="content_inner_wrap left0 col_1180">
     <h1 class="special_offer_h1">Специальное предложение: <span class="special_offe_name"><?=$data['offer']->name;?></span></h1>
 
+    <?=CatalogFilter::widget([
+        'options' => [
+            'totalFound' => $data['totalProductsFound'],
+            'filterData' => $filterData,
+            'perPage' => $data['paginator']['maxSizeCnt'],
+            'appliedFilterJson' => $appliedFilterJson,
+            'emptyFilterResult' => $emptyFilterResult,
+            'filterManufacturers' => $filterManufacturers,
+        ],
+
+    ]);?>
+
+    <div class="sub_filter_wrap clear">
+
+        <div class="filter_counter fll">
+            Показать: <span class="show_in_stock js-selected_show_in_stock_vars">все</span>
+            <div class="show_in_stock_vars hidden">
+                <div class="top_corner"></div>
+                <ul class="show_in_stock_list">
+                    <li class="show_in_stock_item"><a class="js-filter-post-send" href="">все</a></li>
+                    <li class="show_in_stock_item"><a class="js-filter-post-send" href="">доступные на складах</a></li>
+                    <li class="show_in_stock_item"><a class="js-filter-post-send" href="">спец.предложения</a></li>
+                </ul>
+            </div>
+            &nbsp;&nbsp;&nbsp;<span class="arr">→</span>&nbsp;&nbsp;&nbsp;
+            Найдено: <span class="filter_num"><?=$data['totalProductsFound'];?></span> позиций
+        </div>
+
+        <div class="catalog_render_count flr">
+            На странице: <span class="count_num_selected js-selected_count_vars"><?=$data['paginator']['maxSizeCnt'];?></span> строк
+            <div class="count_vars hidden">
+                <div class="top_corner"></div>
+                <ul class="count_vars_list">
+                    <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage', '25');?>">25</a></li>
+                    <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '50');?>">50</a></li>
+                    <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '100');?>">100</a></li>
+                    <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '200');?>">200</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
     <div class="product_cards_block">
 
-        <?php if(count($currentSectionProducts) > 0){?>
-            <?php foreach($currentSectionProducts as $oneProduct){
+        <?php if(count($data['products']['products']['hits']) > 0){?>
+            <?php foreach($data['products']['products']['hits'] as $oneProduct){
                 $json = json_encode($oneProduct);
                 $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['_source']['url']).'/');
                 //\Yii::$app->pr->print_r2($oneProduct);
@@ -369,9 +413,9 @@ $this->title = 'Спецпредложения rusel24';
     </div>
 
     <?
-    /*echo Paginator::widget([
-        'pagination' => $paginator,
-    ]);*/
+    echo Paginator::widget([
+        'pagination' => $data['paginator'],
+    ]);
     ?>
 
 </div>
