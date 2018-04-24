@@ -25,7 +25,12 @@ class CartController extends Controller
                 /*'in_attribute' => 'name',
                 'out_attribute' => 'slug',
                 'translit' => true*/
-            ]
+            ],
+            'pagination' => [
+                'class' => 'common\modules\catalog\behaviours\Pagination_beh',
+                'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
+
+            ],
         ];
     }
 
@@ -94,7 +99,7 @@ class CartController extends Controller
 
         return $this->render('@common/modules/catalog/views/default/cartOrder',
             [
-                'cart' => $products,
+                'cart' => $products['hits'],
                 'form_model' => compact('orderModel'),
                 'cartFields' => $cartFields
 
