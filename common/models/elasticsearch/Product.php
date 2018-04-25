@@ -545,8 +545,15 @@ class Product extends Model
         if(count($ids) <= 0){
             return [];
         }
+        $pagination = [];
+        $pagination['from'] = 0;
+        $pagination['maxSizeCnt'] = 50000;
 
-        $pagination = \Yii::$app->controller->pagination;
+
+        if(isset(\Yii::$app->controller->pagination) && !empty(\Yii::$app->controller->pagination)){
+            $pagination = \Yii::$app->controller->pagination;
+        }
+
 
         $params = [
             'body' => [
@@ -570,7 +577,8 @@ class Product extends Model
         $params = static::productData + $params;
 
         $response = Elastic::getElasticClient()->search($params);
-
+        //\Yii::$app->pr->print_r2($response);
+        //die();
         //$response = Elastic::getElasticClient()->search($params)['hits']['hits'];
 
         //добавляем аксессуары к продуктам

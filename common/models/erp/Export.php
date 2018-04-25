@@ -76,6 +76,7 @@ class Export
 
         \Yii::$app->pr->print_r2($payload);
 
+
         //$url ="http://rusel24.fvds.ru/test/post/";
         $url ="https://188.120.237.24:9999/exchange?type=client_query";
 

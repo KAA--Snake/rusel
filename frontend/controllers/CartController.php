@@ -88,7 +88,7 @@ class CartController extends Controller
         if(count($prodIds) > 0){
 
             $productsModel = new Product();
-            $products = $productsModel->getProductsByIds($prodIds);
+            $products = $productsModel->getProductsByIds($prodIds)['hits'];
             //\Yii::$app->pr->print_r2($products);
         }
 
@@ -99,7 +99,7 @@ class CartController extends Controller
 
         return $this->render('@common/modules/catalog/views/default/cartOrder',
             [
-                'cart' => $products['hits'],
+                'cart' => $products,
                 'form_model' => compact('orderModel'),
                 'cartFields' => $cartFields
 

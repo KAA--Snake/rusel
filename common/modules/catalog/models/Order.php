@@ -148,7 +148,7 @@ class Order extends ActiveRecord
         //тепреь делаем выборку и формируем данные по заказу
         $productModel = new Product();
 
-        $productsDetailed = $productModel->getProductsByIds($neededIds);
+        $productsDetailed = $productModel->getProductsByIds($neededIds)['hits'];
 
         foreach($productsDetailed as $oneProduct){
 

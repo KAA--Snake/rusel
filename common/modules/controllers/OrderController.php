@@ -19,6 +19,25 @@ use Yii;
 
 class OrderController extends Controller
 {
+
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+
+
+            'pagination' => [
+                'class' => 'common\modules\catalog\behaviours\Pagination_beh',
+                'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
+
+            ],
+        ];
+    }
+
+
     /**
      * Показывает страницу на которую редиректит после успешного оформления заказа
      */

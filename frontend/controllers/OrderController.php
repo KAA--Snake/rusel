@@ -22,6 +22,24 @@ class OrderController extends Controller
     var $layout = '@common/modules/catalog/views/layouts/catalogDetail';
 
 
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+
+
+            'pagination' => [
+                'class' => 'common\modules\catalog\behaviours\Pagination_beh',
+                'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
+
+            ],
+        ];
+    }
+
+
+
     public function actionDone(){
         return $this->render('@common/modules/catalog/views/order/orderDone', []);
     }

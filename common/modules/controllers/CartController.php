@@ -25,7 +25,13 @@ class CartController extends Controller
                 /*'in_attribute' => 'name',
                 'out_attribute' => 'slug',
                 'translit' => true*/
-            ]
+            ],
+
+            'pagination' => [
+                'class' => 'common\modules\catalog\behaviours\Pagination_beh',
+                'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
+
+            ],
         ];
     }
 
@@ -70,7 +76,7 @@ class CartController extends Controller
         if(count($prodIds) > 0){
 
             $productsModel = new Product();
-            $products = $productsModel->getProductsByIds($prodIds);
+            $products = $productsModel->getProductsByIds($prodIds)['hits'];
             //\Yii::$app->pr->print_r2($products);
         }
 
