@@ -142,7 +142,7 @@ class CatalogImport extends Model
      */
     public function sendRespondToErp($fileName, $result){
 
-        $ch = curl_init( 'https://31.132.168.141:9999/exchange?type=site_answer&answer='.$fileName );
+        $ch = curl_init( 'https://188.120.237.24:9999/exchange?type=site_answer&answer='.$fileName );
         # Setup request to send json via POST.
 
         file_put_contents('result.res', json_encode($result));
@@ -182,7 +182,7 @@ class CatalogImport extends Model
      */
     public function sendOrderToErp($fileName, $result){
 
-        $ch = curl_init( 'https://31.132.168.141:9999/exchange?type=client_query&query='.$fileName );
+        $ch = curl_init( 'https://188.120.237.24:9999/exchange?type=client_query&query='.$fileName );
         # Setup request to send json via POST.
 
         file_put_contents('result.res', json_encode($result));

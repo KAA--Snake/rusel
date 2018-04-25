@@ -16,7 +16,7 @@ $this->title = 'Спецпредложения rusel24';
 //this->params['breadcrumbs'][] = 'Спецпредложения';
 ?>
 <div class="content_inner_wrap left0 col_1180">
-    <h1 class="special_offer_h1">Специальное предложение: <span class="special_offe_name"><?=$data['offer']->name;?></span></h1>
+    <h1 class="special_offer_h1">Специальное предложение: <span class="special_offe_name"><?=$data['products']['offer']->name;?></span></h1>
 
     <?=CatalogFilter::widget([
         'options' => [
