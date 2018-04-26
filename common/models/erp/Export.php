@@ -20,7 +20,10 @@ class Export
      */
     public function sendRespondToErp($fileName, $result){
 
-        $ch = curl_init( 'https://188.120.237.24:9999/exchange?type=site_answer&answer='.$fileName );
+        $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
+        $url =$erpParams['server']."/exchange?type=site_answer&answer=".$fileName;
+
+        $ch = curl_init( $url );
         # Setup request to send json via POST.
 
         file_put_contents('result.res', json_encode($result));
@@ -76,9 +79,8 @@ class Export
 
         \Yii::$app->pr->print_r2($payload);
 
-
-        //$url ="http://rusel24.fvds.ru/test/post/";
-        $url ="https://188.120.237.24:9999/exchange?type=client_query";
+        $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
+        $url =$erpParams['server']."/exchange?type=client_query";
 
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);

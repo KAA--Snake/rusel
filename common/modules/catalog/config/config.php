@@ -15,6 +15,7 @@ return [
             'login' => 'erp',
             'password' => 'tgRdj674G',
             'upload_folder' => '/webapp/upload/erp/',
+            'server' => 'https://q1.rusel24.ru/',
         ],
 
         //макс число выводимых разделов

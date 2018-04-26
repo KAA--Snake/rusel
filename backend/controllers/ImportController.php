@@ -136,9 +136,6 @@ class ImportController extends Controller
 
         return $this->render('csv', ['allowedExtensions' => $allowedExtensions, 'uploaded' => $uploaded, 'model' => $model]);
     }
-    public function actionTest(){
-        return 'works';
-    }
 
 
     //rest import CSV form
