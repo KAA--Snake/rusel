@@ -430,6 +430,8 @@ $white:#ffffff;
         }
         .gc_list{
           overflow: hidden;
+          border: 1px solid $blue;
+          border-top: 0;
           .gc_item{}
           &-lvl0{
             position: absolute;
@@ -441,27 +443,27 @@ $white:#ffffff;
             max-width: 940px;
             .gc_item{
               position: relative;
-              background-color: $blue;
-              border-top: 1px solid #76cef3;
+              background-color: $white;
+              border-top: 1px solid $blue;
               cursor: pointer;
-              border-left: 5px solid $blue;
+              /*border-left: 5px solid $blue;*/
               transition: 0.2s;
               transition-property: border-left;
               a{
+
                 position: relative;
                 top:0;
                 bottom: 0;
                 left:0;
                 right: 0;
                 padding: 16px 22px 16px 17px;
-
                 display: block;
               }
               span{
                 display: inline-block;
                 /*width: 60%;*/
-                color: $white;
-                font-size: 12px;
+                font-size: 14px;
+                color: #333333;
                 font-weight: 700;
                 line-height: 18px;
                 text-transform: uppercase;
@@ -476,10 +478,13 @@ $white:#ffffff;
                 transition: 0.2s;
               }
               &:hover{
-                border-left: 5px solid  #9f0f18;
-                background-color: #7194b8;
+                /*border-left: 5px solid  #9f0f18;*/
+                background-color: $blue;
                 transition-property: border-left;
                 transition: 0.2s;
+                span{
+                  color: $white;
+                }
                 .catalog-icon{
                   transform: rotate(-90deg);
                   transition: 0.2s;
