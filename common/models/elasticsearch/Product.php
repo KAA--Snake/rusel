@@ -166,7 +166,16 @@ class Product extends Model
                             ],
 
                             'prices' => [
-                                'type' => 'nested'
+                                'type' => 'nested',
+
+	                            "properties" => [
+
+		                            "total" => [ "type" => "integer" ],
+		                            "stores" => [ "type" => "integer" ],
+		                            "storage" => [
+		                            	"type" => "nested"
+		                            ],
+							    ]
                             ],
 
                             'quantity' => [
@@ -314,6 +323,56 @@ class Product extends Model
 
         return $params;
     }
+
+
+	/**
+	 * Генерирует параметры для bulk загрузки ОСТАТКОВ, используется для сохранения булки для
+	 * отправки ее через раббит на сохранение в бд
+	 *
+	 * Отличия от getParamsForBulkLoad в том, что исопльзуется update вместо index
+	 *
+	 * @param $product
+	 * @return array
+	 */
+	public function getParamsForBulkLoadRemains(&$product){
+		//\Yii::$app->pr->print_r2($product);
+		$params['for_index'] = array(
+			'update' => array(
+				'_index' => 'product',
+				'_type' => 'product_type',
+				'_id' => $product['id'],
+			)
+		);
+
+		//удаляем ненужный ИД (он же пойдет в блок prices, а там он не нужен)
+		unset($product['id']);
+
+		$params['for_body'] = [
+			'doc' => [
+				'prices' => $product
+			]
+		];
+
+		/*foreach($comments as $comment) {
+			$params['body'][] = [
+				'index' => [
+					'_parent' => $product['id']
+				]
+			];
+
+			$params['body'][] = (array) $comment;
+		}*/
+
+		//добавляем базовую инфу (название индекса и тп)
+		//$params = self::productData+$params;
+
+		return $params;
+	}
+
+
+
+
+
 
 
     public function addProduct($productData){

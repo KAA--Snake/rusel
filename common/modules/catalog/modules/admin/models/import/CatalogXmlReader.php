@@ -75,8 +75,8 @@ class CatalogXmlReader
                         $this->{$fnName}();
                     }
 
-
-                    if($this->reader->localName != 'product'){ //продукт прогоняем через раббит
+					//продукт и остатки прогоняем через раббит (или булк)
+                    if($this->reader->localName != 'product' || $this->reader->localName != 'good'){
 
                         if(method_exists($this->model, $fnModelSaveName)){
                             /*echo 'class = '.$this->model. PHP_EOL;
@@ -287,6 +287,60 @@ class CatalogXmlReader
 
         }
     }
+
+
+	/**
+	 * Парсинг товаров каталога
+	 */
+	public function parsegood(){
+		if($this->reader->nodeType == XMLREADER::ELEMENT && $this->reader->localName == 'good') {
+
+			//file_put_contents('/webapp/prodsCount', 'test \r\n' ,FILE_APPEND);
+
+			//собираем 1000 записей для булк лоада
+			$simpleXmlString = simplexml_load_string($this->reader->readOuterXml());
+
+			$encoded =  @json_decode(@json_encode($simpleXmlString),1);
+
+			//\Yii::$app->pr->print_r2($encoded);
+			//die();
+
+			$this->bulkData['body'][] = $this->productModel->getParamsForBulkLoadRemains($encoded)['for_index'];
+			$this->bulkData['body'][] = $this->productModel->getParamsForBulkLoadRemains($encoded)['for_body'];
+
+			if ($this->docsCount % 1000 === 0) {
+
+				//\Yii::$app->pr->print_r2($this->bulkData);
+
+				try{
+
+					$responses = Elastic::getElasticClient()->bulk($this->bulkData);
+
+					//сохраним кол-во импортируемых товаров в лог
+					Import_log::$currentImportModel['imported_cnt'] = $this->docsCount;
+					Import_log::checkAndSave();
+
+					//$rabbitModel = new RabbitImportProduct('import_product_queue');
+
+					//$rabbitModel->sendDataToRabbit(@json_encode($simpleXmlString));
+
+					// unset the bulk response when you are done to save memory
+					$this->bulkData = null;
+					unset($responses);
+
+
+					sleep(3);
+
+				}catch (Exception $exception){
+					Import_log::$currentImportModel['errors_log'][] = $exception->getMessage();
+				}
+
+			}
+
+			$this->docsCount++;
+
+		}
+	}
 
 
     public function __destruct(){
