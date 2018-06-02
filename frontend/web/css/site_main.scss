@@ -2233,9 +2233,17 @@ $white:#ffffff;
           .product_card_inner_wrap{
             td{
               vertical-align: middle;
+              &.product_name_td{
+                vertical-align: top;
+              }
             }
             .left_bordered{
               border-left: 1px solid #e6e6e6;
+
+              tr{
+
+              }
+
             }
           }
           .card_part{
@@ -2244,8 +2252,8 @@ $white:#ffffff;
             align-self: center;
             &.name{
               margin-left: 20px;
-              width: 416px;
-              max-width: 416px;
+              width: 408px;
+              max-width: 408px;
               .model{
                 /*margin-top: 13px;*/
                 margin-bottom: 6px;
@@ -2309,11 +2317,123 @@ $white:#ffffff;
               }
             }
 
+            &.stores{
+              .store_row{
+                &>td{
+                  height: 28px;
+                }
+
+              }
+              .stores{
+
+
+                &_amount{
+                  .in_stock{
+                    min-width: 238px;
+                    position: relative;
+                    &:before{
+                      content: '';
+                      width: 8px;
+                      height: 8px;
+                      background-color: $blue;
+                      position: absolute;
+                      left:20px;
+                      top: 3px;
+                    }
+                    .in_stock_item{
+                      color: #000000;
+                      font-size: 12px;
+                      line-height: 14px;
+                      font-weight: 300;
+                      span{
+                        font-weight: 600;
+                      }
+                    }
+                    .square_mark{
+                      width: 52px;
+                      span{
+                        display: inline-block;
+                        width: 8px;
+                        height: 8px;
+                        margin: 0 auto;
+                        background-color: $blue;
+                      }
+                    }
+                      .instock_def{
+                        color: #000000;
+                        font-size: 12px;
+                        line-height: 14px;
+                        font-weight: 300;
+                        text-align: right;
+                        padding-right: 6px;
+                        width: 128px;
+                        &.gray{
+                          color: #80808d;
+                        }
+                        &.first_def{
+
+                        }
+                      }
+                      .instock_count{
+                        color: #000000;
+                        font-size: 12px;
+                        line-height: 14px;
+                        font-weight: 600;
+                        text-align: left;
+                        .count_tooltip_trigger{
+                          cursor: pointer;
+                          color: $blue;
+                          text-decoration: underline;
+                          .count_tooltip{
+                            display: none;
+                          }
+                          &:hover{
+                            .count_tooltip{
+                              position: absolute;
+                              display: block;
+                              background: #fff;
+                              color: #000;
+                              border: 1px solid $blue;
+                              width: 340px;
+                              line-height: 26px;
+                              text-align: center;
+                              z-index: 10;
+                              top: -40px;
+                              left: 50%;
+                              box-shadow: 3px 3px 18px -4px #000;
+                              margin-left: -130px;
+                              .corner{
+                                width: 10px;
+                                height: 10px;
+                                background: #fff;
+                                position: absolute;
+                                left: 50%;
+                                bottom: -6px;
+                                margin-left: -5px;
+                                border-left: 1px solid #336699;
+                                border-bottom: 1px solid #336699;
+                                transform: rotate(-45deg);
+                                z-index: 11;
+                                box-shadow: 3px 3px 18px -4px #000;
+                              }
+                            }
+
+                          }
+                        }
+                      }
+
+                  }
+                }
+                &_prices{}
+                &_order{}
+              }
+
+            }
             &.in_stock{
 
-              padding: 0 8px 0 10px;
+
               /*width: 228px;*/
-              min-width: 230px;
+              min-width: 238px;
               /*border-left: 1px solid #e6e6e6;*/
 
               .in_stock_item{
@@ -2333,8 +2453,20 @@ $white:#ffffff;
                   font-weight: 300;
                   text-align: right;
                   padding-right: 6px;
+                  padding-left: 52px;
                   &.gray{
                     color: #80808d;
+                  }
+                  &.first_def{
+                    &:before{
+                      content: '';
+                      position: absolute;
+                      left: 20px;
+                      margin-top: 3px;
+                      width: 8px;
+                      height: 8px;
+                      background-color: $blue;
+                    }
                   }
                 }
                 .instock_count{

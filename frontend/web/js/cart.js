@@ -134,8 +134,9 @@ $(document).ready(function () {
                 productMin_zakaz: JSON.parse(decodeURIComponent(productContainer.data().productMin_zakaz)),
                 productNorma_upakovki: JSON.parse(decodeURIComponent(productContainer.data().productNorma_upakovki)),
                 productPartnerCount: JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)) == null ? '0' : JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)),
-                productPrices: JSON.parse(decodeURIComponent(productContainer.data().productPrices)),
-                product_id: JSON.parse(decodeURIComponent(productContainer.data().product_id))
+                productPrices: JSON.parse(decodeURIComponent(productContainer.data().productPrices)) == null ? {price_not_available:true} : JSON.parse(decodeURIComponent(productContainer.data().productPrices)),
+                product_id: productContainer.data().product_id,
+                storage_id: productContainer.data().productStorageId
             },
             productID = productContainer.data('product_id'),
             productCount = parseInt(productContainer.find('.js-order_count').val()),
@@ -150,7 +151,7 @@ $(document).ready(function () {
             return false;
         }
 
-
+        console.log(productData);
         if (!productData.productPrices.price_not_available) {
             if (productData.productPrices.price_range) {
 
