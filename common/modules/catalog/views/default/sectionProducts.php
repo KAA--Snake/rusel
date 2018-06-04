@@ -7,7 +7,7 @@ use common\widgets\filter\CatalogFilter;
 
 //echo Url::current(['perPage' => '50']);
 //echo ;
-/*\Yii::$app->pr->print_r2($filterData);
+/*\Yii::$app->pr->print_r2($currentSectionProducts);
 
 die();*/
 
@@ -66,7 +66,13 @@ die();*/
             <?php foreach ($currentSectionProducts as $oneProduct) {
                 $json = json_encode($oneProduct);
                 $url = Url::to('@catalogDir/' . str_replace('|', '/', $oneProduct['_source']['url']) . '/');
-                //\Yii::$app->pr->print_r2($oneProduct);
+
+                /** Если склад один, то приведем его к массиву, чтобы не гемороиться дальше */
+                if($oneProduct['_source']['prices']['stores'] == 1){
+	                $singleStorage = $oneProduct['_source']['prices']['storage'];
+                    unset($oneProduct['_source']['prices']['storage']);
+	                $oneProduct['_source']['prices']['storage'][] = $singleStorage;
+                }
                 ?>
 
                 <div class="product_card js-product_card js-tab_collapsed">
@@ -116,7 +122,11 @@ die();*/
                                             <tr>
                                                 <td class="stores_amount left_bordered">
                                                     <table class="in_stock">
-                                                        <?php if ($oneStorage['quantity']['stock']['count'] > 0) { ?>
+	                                                    <?php if (empty($oneStorage['quantity']['stock']['count'])) {
+		                                                    \Yii::$app->pr->print_r2($oneProduct);
+		                                                    die();
+	                                                    }?>
+                                                        <?php if (!empty($oneStorage['quantity']['stock']['count']) && $oneStorage['quantity']['stock']['count'] > 0) { ?>
                                                             <tr>
                                                                 <!--<td class="square_mark"><span></span></td>-->
                                                                 <td class="instock_def first_def">Доступно:</td>
@@ -301,11 +311,9 @@ die();*/
 
                                                     </div>
                                                 </td>
-                                                
-                                                
-                                                
-                                                
-                                                
+
+
+
                                                 <td class="stores_order left_bordered">
                                                     <div class="card_part order js-order_data"
                                                          data-product-prices="<?= urlencode(json_encode($oneStorage['prices'])); ?>"
