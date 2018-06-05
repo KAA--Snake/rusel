@@ -452,12 +452,14 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	     */
 	    //добавим пустые значения для выбранного фильтра
 	    $this->_addEmptyProps($allFilterDataProps, $filterData);
-	    //\Yii::$app->pr->print_r2($allFilterDataProps);
+	    //\Yii::$app->pr->print_r2($filterDataForSection);
+	    //die();
 		//unset($allFilterDataProps);
 
 	    //добавим пустые значения для выбранного фильтра по производителям
 	    $this->_addEmptyManufacturers($allManufacturers, $filteredManufacturers);
 
+	    static::setAccessoriedProds($filterDataForSection);
 
         return
             [
@@ -472,7 +474,48 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             ];
     }
 
+	/**
+	 * Прикручивает к выборке связанные товары
+	 *
+	 * EXTENDED версия для отфильтрованных товаров !
+	 *
+	 * @param $productsList
+	 * @return bool
+	 */
+	public static function setAccessoriedProds(&$productsList){
+		// \Yii::$app->pr->print_r2($productsList);
+		foreach($productsList['hits']['hits'] as &$oneProduct){
 
+			//\Yii::$app->pr->print_r2($oneProduct);
+
+			if(!empty($oneProduct['_source']['properties']['prinadlejnosti'])){
+
+				$ids = explode(';', $oneProduct['_source']['properties']['prinadlejnosti']);
+				//\Yii::$app->pr->print_r2($ids);
+				$params = [
+					'body' => [
+						//'from' => 0,
+						//'size' => 3,
+						'query' => [
+							'ids' => [
+								'values' => $ids
+							]
+						]
+					]
+				];
+
+				$params = Product::productData + $params;
+				$response = Elastic::getElasticClient()->search($params);
+
+				/*\Yii::$app->pr->print_r2($params);
+				\Yii::$app->pr->print_r2($response);*/
+				$oneProduct['_source']['accessories'] = $response['hits']['hits'];
+
+			}
+		}
+
+		return true;
+	}
 
 
     /**
