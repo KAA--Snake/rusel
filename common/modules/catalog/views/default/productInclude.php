@@ -29,10 +29,10 @@ use common\modules\catalog\models\currency\Currency;
                     <td class="product_name_td">
                         <div class="card_part name">
                             <div class="model">
-                                <a href="<?= $url; ?>"><?= $oneProduct['_source']['artikul']; ?></a>
+                                <a target="_blank" href="<?= $url; ?>"><?= $oneProduct['_source']['artikul']; ?></a>
                             </div>
                             <div class="firm_name">
-                                <a href="/manufacturer/<?= $oneProduct['_source']['properties']['proizvoditel']; ?>/"><?= $oneProduct['_source']['properties']['proizvoditel']; ?></a>
+                                <a target="_blank" href="/manufacturer/<?= $oneProduct['_source']['properties']['proizvoditel']; ?>/"><?= $oneProduct['_source']['properties']['proizvoditel']; ?></a>
                             </div>
                             <div class="firm_descr">
                                 <?= $oneProduct['_source']['name']; ?>
@@ -177,8 +177,8 @@ use common\modules\catalog\models\currency\Currency;
                                                         2
                                                     );
                                                     ?>
-                                                    <div class="special_tape left_bordered"><?= $oneStorage['marketing']['name']; ?></div>
-                                                    <div class="price_vars left_bordered">
+                                                    <div class="special_tape"><?= $oneStorage['marketing']['name']; ?></div>
+                                                    <div class="price_vars">
                                                         <div class="price_var_item clear">
                                                             <span class="count fll"></span>
                                                             <span class="price flr"><?= $price; ?>
@@ -372,7 +372,17 @@ use common\modules\catalog\models\currency\Currency;
 
 
                                     <td class="stores_order left_bordered">
-                                        <div class="card_part order js-order_data" data-product-prices="null" data-product-norma_upakovki="null" data-product-min_zakaz="null" data-product-partner-count="null" data-product-count="%221%22" data-product-marketing-price="null" data-product-marketing-price-currency="null" data-product_id="152713" data-product-storage-id="my">
+                                        <div class="card_part order js-order_data"
+                                             data-product-prices="<?= urlencode(json_encode($oneStorage['prices'])); ?>"
+                                             data-product-norma_upakovki="<?= urlencode(json_encode($oneStorage['product_logic']['norma_upakovki'])); ?>"
+                                             data-product-min_zakaz="<?= urlencode(json_encode($oneStorage['product_logic']['min_zakaz'])); ?>"
+                                             data-product-partner-count="<?= urlencode(json_encode($oneStorage['quantity']['partner_stock']['count'])); ?>"
+                                             data-product-count="<?= urlencode(json_encode($oneStorage['quantity']['stock']['count'])); ?>"
+                                             data-product-marketing-price="<?= urlencode(json_encode($oneStorage['marketing']['price'])); ?>"
+                                             data-product-marketing-price-currency="<?= urlencode(json_encode($oneStorage['marketing']['currency'])); ?>"
+                                             data-product_id="<?= $oneProduct['_id']; ?>"
+                                             data-product-storage-id="null"
+                                        >
 
                                             <div class="order_block">
                                                 <input type="text" class="order_input js-order_count" placeholder="Введите количество">

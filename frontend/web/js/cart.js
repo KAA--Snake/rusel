@@ -117,6 +117,7 @@ $(document).ready(function () {
             });
         } else {
             cartPositionDelete(productID, productCount, productData.storage_id || null);
+            orderInput.show().removeClass('hidden');
             orderedBlock.hide().addClass('hidden');
             productContainer.find('.js-order_count').val('');
 
@@ -149,11 +150,12 @@ $(document).ready(function () {
             orderPrice = 0,
             cartStr = cookie.getCookie('cart') || '';
 
-        if (productCount.length == 0 || productCount <= 0) {
+
+        if (isNaN(productCount) || productCount.length == 0 || productCount <= 0) {
             return false;
         }
 
-        console.log(productData);
+
         if (!productData.productPrices.price_not_available) {
             if (productData.productPrices.price_range) {
 
@@ -191,6 +193,7 @@ $(document).ready(function () {
            /* if (parseInt(productData.productPartnerCount) == 0 || productData.productPartnerCount == null) {*/
 
                 if (cartStr.indexOf(productData.product_id) == -1) {
+                    orderInput.show().removeClass('hidden');
                     orderedBlock.hide().addClass('hidden');
                 }
 
@@ -214,6 +217,7 @@ $(document).ready(function () {
                     orderInput.find('.count_tooltip').fadeOut(function () {
                         $(this).remove();
                     });
+                    orderInput.hide().addClass('hidden');
                     orderedBlock.show().removeClass('hidden');
                     cartUpdate(productID, productCount, productData.storage_id || null);
                     orderedCountField.html(productCount + ' шт');
@@ -221,6 +225,7 @@ $(document).ready(function () {
 
                     productContainer.find('.js-order_count').val('');
                     if (productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0) {
+                        orderedPriceField.html('по запросу');
                         orderedPriceField.addClass('tooltip_sum');
                         orderedPriceField.append('<span class="count_tooltip">Стоимость будет сообщена после обработки запроса.<span class="corner"></span></span>')
                     }
@@ -305,18 +310,18 @@ function cartCheck() {
         for (var i = 0; i < cartArr.length; i++) {
             var x = cartArr[i].split('|');
 
-            $('.js-product_card').each(function () {
+            $('.js-order_data').each(function () {
 
-                if ($(this).find('.js-order_data').data().product_id == x[0]) {
-                    var productContainer = $(this).find('.js-order_data').first(),
+                if ($(this).data().product_id == x[0] && $(this).data().productStorageId == x[2]) {
+                    var productContainer = $(this),
                         productData = {
                             productCount: JSON.parse(decodeURIComponent(productContainer.data().productCount)),
                             productMarketingPrice: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPrice)),
                             productMarketingPriceCurrency: JSON.parse(decodeURIComponent(productContainer.data().productMarketingPriceCurrency)),
                             productMin_zakaz: JSON.parse(decodeURIComponent(productContainer.data().productMin_zakaz)),
                             productNorma_upakovki: JSON.parse(decodeURIComponent(productContainer.data().productNorma_upakovki)),
-                            productPartnerCount: JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)),
-                            productPrices: JSON.parse(decodeURIComponent(productContainer.data().productPrices)),
+                            productPartnerCount: JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)) == null ? '0' : JSON.parse(decodeURIComponent(productContainer.data().productPartnerCount)),
+                            productPrices: JSON.parse(decodeURIComponent(productContainer.data().productPrices)) == null ? {price_not_available:true} : JSON.parse(decodeURIComponent(productContainer.data().productPrices)),
                             product_id: JSON.parse(decodeURIComponent(productContainer.data().product_id)),
                             storage_id: productContainer.data().productStorageId
                         },
@@ -371,6 +376,7 @@ function cartCheck() {
 
                     /*if (parseInt(productData.productCount) == 0) {*/
                         /*if (parseInt(productData.productPartnerCount) == 0) {*/
+                            orderInput.show().removeClass('hidden');
                             orderedBlock.hide().addClass('hidden');
                             if (productCount < parseInt(productData.productMin_zakaz)) {
                                 orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно соответствовать минимальной партии.<span class="corner"></span></span>');
@@ -390,6 +396,7 @@ function cartCheck() {
                                 orderInput.find('.count_tooltip').fadeOut(function () {
                                     $(this).remove();
                                 });
+                                orderInput.hide().addClass('hidden');
                                 orderedBlock.show().removeClass('hidden');
                                 cartUpdate(productID, productCount, productData.storage_id || null);
                             }
@@ -470,7 +477,8 @@ function cartUpdate(id, count, store_id) {
     var cartString = cookie.getCookie('cart') ? cookie.getCookie('cart') : '';
     var cartArr = cartString.length ? cartString.split('&') : [];
     for (var i = 0; i < cartArr.length; i++) {
-        if (cartArr[i].indexOf(id) !== -1 && cartArr[i].indexOf(store_id) !== -1) {
+        if (cartArr[i].indexOf('|' + $(id) + '|') !== -1 && cartArr[i].indexOf('|'+store_id+'|') !== -1) {
+
             cartArr[i] = id + '|' + count + '|' + store_id;
         }
     }
