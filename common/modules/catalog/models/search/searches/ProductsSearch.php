@@ -518,7 +518,175 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	}
 
 
-    /**
+
+	/**
+	 * Получает список товаров по списку их производителей
+	 * properties.proizv_id
+	 *
+	 * @param $manufacturersIds
+	 * @return array
+	 * @internal param $manufacturersList
+	 */
+	public function getProductByManufacturer($manufacturersIds){
+
+		if(count($manufacturersIds) <= 0){
+			return [];
+		}
+
+		//пробрасывается в контроллер из Pagination_beh.php
+		$pagination = \Yii::$app->controller->pagination;
+		//\Yii::$app->pr->print_r2($pagination);
+
+		$params = [
+			'body' => [
+				'from' => $pagination['from'],
+				'size' => $pagination['maxSizeCnt'],
+				'sort' => [
+					'artikul' => ['order' => 'asc']
+				],
+				'query' => [
+					'constant_score' => [
+						'filter' => [
+							'terms' => [
+								'properties.proizv_id' => $manufacturersIds
+							]
+						]
+					]
+				],
+			]
+		];
+
+		$params = Product::productData + $params;
+
+		//\Yii::$app->pr->print_r2($params);
+
+		$response = Elastic::getElasticClient()->search($params);
+
+		$pagination['totalCount'] = $response['hits']['total'];
+
+		//$response['productsList'] = $response['hits']['hits'];
+
+
+		$this->_setSingleStorageAsMulti($response);
+
+		$response['paginator'] = $pagination;
+
+		//добавляем аксессуары к продуктам
+		$this->setAccessoriedProds($response);
+
+
+		return $response;
+	}
+
+
+	/**
+	 * Приводит один склад к виду массива. Нужен для выпиливания кучи проверок в шаблонах
+	 *
+	 * @param $response
+	 *
+	 * @return bool
+	 */
+	private function _setSingleStorageAsMulti(&$response){
+		foreach ($response['hits']['hits'] as $k => $oneProduct){
+
+			/** Если склад один, то приведем его к массиву, чтобы не гемороиться дальше */
+			if($oneProduct['_source']['prices']['stores'] == 1){
+				$singleStorage = $oneProduct['_source']['prices']['storage'];
+				unset($response['hits']['hits'][$k]['_source']['prices']['storage']);
+				$response['hits']['hits'][$k]['_source']['prices']['storage'][] = $singleStorage;
+				unset($singleStorage);
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * Отдает список товаров по их ИДам
+	 *
+	 * @param $ids
+	 * @return array
+	 */
+	public function getProductsByIds($ids=[]){
+
+		if(count($ids) <= 0){
+			return [];
+		}
+		$pagination = [];
+		$pagination['from'] = 0;
+		$pagination['maxSizeCnt'] = 50000;
+
+
+		if(isset(\Yii::$app->controller->pagination) && !empty(\Yii::$app->controller->pagination)){
+			$pagination = \Yii::$app->controller->pagination;
+		}
+
+
+		$params = [
+			'body' => [
+				'from' => $pagination['from'],
+				'size' => $pagination['maxSizeCnt'],
+				'sort' => [
+					'artikul' => ['order' => 'asc']
+				],
+				'query' => [
+					'constant_score' => [
+						'filter' => [
+							'terms' => [
+								'id' => $ids
+							]
+						]
+					]
+				]
+			]
+		];
+
+		$params = Product::productData + $params;
+		//\Yii::$app->pr->print_r2($params);
+		//die();
+		$response = Elastic::getElasticClient()->search($params);
+
+		//\Yii::$app->pr->print_r2($response);
+
+		//$response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+
+		$this->_setSingleStorageAsMulti($response);
+		//добавляем аксессуары к продуктам
+		$this->setAccessoriedProds($response);
+
+
+		return $response['hits'];
+	}
+
+
+	/**
+	 * Проходит по всем товарам корзины и убирает из них не относящиеся к ним склады
+	 */
+	public function removeCartStorages(&$products, $cartStorages){
+		/** Пройдем по всем записям и удалим те скалды, которые не были в покупках */
+		foreach ($products as &$oneCartProduct){
+			//\Yii::$app->pr->print_r2($cartStorages);
+			//\Yii::$app->pr->print_r2($oneCartProduct);
+
+			$storagesForCurrentProduct = $cartStorages[$oneCartProduct['_source']['id']];
+			//\Yii::$app->pr->print_r2($storagesForCurrentProduct);
+
+			//пройдем по складам
+			foreach($oneCartProduct['_source']['prices']['storage'] as $k => $oneStorage){
+				if( !in_array(  $oneStorage['id'],  $storagesForCurrentProduct   ) ){
+					unset($oneCartProduct['_source']['prices']['storage'][$k]);
+				}
+			}
+
+		}
+
+		return true;
+	}
+
+
+
+	/**
      * Заполняет массив параметров для фильтра из POST-а (параметры по ссылке!)
      *
      * @param $params
@@ -594,11 +762,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             return false;
         }
 
-
         $resultData = [];
-
-
-
 
         /** @var Cache $cache */
         $cache = \Yii::$app->cache;

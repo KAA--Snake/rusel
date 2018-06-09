@@ -11,6 +11,7 @@ namespace frontend\controllers;
 
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\Order;
+use common\modules\catalog\models\search\searches\ProductsSearch;
 use yii\web\Controller;
 
 class CartController extends Controller
@@ -71,14 +72,20 @@ class CartController extends Controller
 
         $cart = explode('&', $cart);
 
-        //получили $cart массив записей в корзине
 
+        //получили $cart массив записей в корзине
+	    //\Yii::$app->pr->print_r2($cart);
+	    //die();
         $prodIds = [];
+        $storages = [];
         foreach ($cart as $oneCartProduct){
             $product = explode('|', $oneCartProduct);
             $prodIds[] = $product[0];
 
+	        $storages[$product[0]][] = $product[2];
         }
+
+	    $prodIds = array_values(array_unique($prodIds));
 
         //\Yii::$app->pr->print_r2($prodIds);
 
@@ -87,13 +94,18 @@ class CartController extends Controller
 
         if(count($prodIds) > 0){
 
-            $productsModel = new Product();
+            $productsModel = new ProductsSearch();
             $products = $productsModel->getProductsByIds($prodIds)['hits'];
+
+            //удалим те скалды, которые не были в покупках
+	        $productsModel->removeCartStorages($products, $storages);
             //\Yii::$app->pr->print_r2($products);
         }
 
         $orderModel = new Order();
         //var_dump(compact('orderModel'));
+
+
 
         //die();
 

@@ -10,6 +10,7 @@ namespace frontend\controllers;
 
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\Manufacturer;
+use common\modules\catalog\models\search\searches\ProductsSearch;
 use common\modules\catalog\models\Section;
 use yii\web\Controller;
 
@@ -55,14 +56,15 @@ class ManufacturerController extends Controller
         }
         //\Yii::$app->pr->print_r2($this->pagination);
 
-        $productModel = new Product();
+        $productModel = new ProductsSearch();
         $products = $productModel->getProductByManufacturer([$manufacturer->m_id]);
 
         if(count($products) <= 0){
             return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);
         }
 
-        //\Yii::$app->pr->print_r2($products);
+        /*\Yii::$app->pr->print_r2($products);
+        die();*/
 
         /** @TODO вынимаем структуру разделов. */
         $sectionModel = new Section();

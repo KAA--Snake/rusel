@@ -21,7 +21,7 @@ use yii\helpers\Html;
             <?php foreach($cart as $oneProduct){
                 $json = json_encode($oneProduct);
                 $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['_source']['url']).'/');
-                \Yii::$app->pr->print_r2($oneProduct);
+                //\Yii::$app->pr->print_r2($oneProduct);
                 ?>
 
                 <div class="product_card js-product_card js-tab_collapsed">

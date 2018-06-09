@@ -593,59 +593,7 @@ class Product extends Model
     }
 
 
-    /**
-     * Отдает список товаров по их ИДам
-     *
-     * @param $ids
-     * @return array
-     */
-    public function getProductsByIds($ids=[]){
 
-        if(count($ids) <= 0){
-            return [];
-        }
-        $pagination = [];
-        $pagination['from'] = 0;
-        $pagination['maxSizeCnt'] = 50000;
-
-
-        if(isset(\Yii::$app->controller->pagination) && !empty(\Yii::$app->controller->pagination)){
-            $pagination = \Yii::$app->controller->pagination;
-        }
-
-
-        $params = [
-            'body' => [
-                'from' => $pagination['from'],
-                'size' => $pagination['maxSizeCnt'],
-                'sort' => [
-                    'artikul' => ['order' => 'asc']
-                ],
-                'query' => [
-                    'constant_score' => [
-                        'filter' => [
-                            'terms' => [
-                                'id' => $ids
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        $params = static::productData + $params;
-
-        $response = Elastic::getElasticClient()->search($params);
-        //\Yii::$app->pr->print_r2($response);
-        //die();
-        //$response = Elastic::getElasticClient()->search($params)['hits']['hits'];
-
-        //добавляем аксессуары к продуктам
-        $this->setAccessoriedProducts($response['hits']['hits']);
-
-
-        return $response['hits'];
-    }
 
 
     /**
@@ -709,67 +657,6 @@ class Product extends Model
 
         return $productsFound;
     }
-
-
-
-
-    /**
-     * Получает список товаров по списку их производителей
-     * properties.proizv_id
-     *
-     * @param $manufacturersIds
-     * @return array
-     * @internal param $manufacturersList
-     */
-    public function getProductByManufacturer($manufacturersIds){
-
-        if(count($manufacturersIds) <= 0){
-            return [];
-        }
-
-        //пробрасывается в контроллер из Pagination_beh.php
-        $pagination = \Yii::$app->controller->pagination;
-        //\Yii::$app->pr->print_r2($pagination);
-
-        $params = [
-            'body' => [
-                'from' => $pagination['from'],
-                'size' => $pagination['maxSizeCnt'],
-                'sort' => [
-                    'artikul' => ['order' => 'asc']
-                ],
-                'query' => [
-                    'constant_score' => [
-                        'filter' => [
-                            'terms' => [
-                                'properties.proizv_id' => $manufacturersIds
-                            ]
-                        ]
-                    ]
-                ],
-            ]
-        ];
-
-        $params = static::productData + $params;
-
-        //\Yii::$app->pr->print_r2($params);
-
-        $response = Elastic::getElasticClient()->search($params);
-
-        $pagination['totalCount'] = $response['hits']['total'];
-
-        //$response['productsList'] = $response['hits']['hits'];
-
-        //\Yii::$app->pr->print_r2($response);
-
-        $response['paginator'] = $pagination;
-
-        //добавляем аксессуары к продуктам
-        $this->setAccessoriedProducts($response['hits']['hits']);
-
-        return $response;
-    }
-
 
 
 

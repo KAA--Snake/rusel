@@ -9,6 +9,7 @@
 namespace common\modules\catalog\models;
 
 use common\models\elasticsearch\Product;
+use common\modules\catalog\models\search\searches\ProductsSearch;
 use yii\base\Model;
 
 class OffersSearch extends Offers
@@ -51,10 +52,9 @@ class OffersSearch extends Offers
             if(!empty($oneOffer->product_ids)){
                 $ids = explode(';', $oneOffer->product_ids);
 
-                $productMod = new Product();
+                $productMod = new ProductsSearch();
                 $products = $productMod->getProductsByIds($ids);
 
-                //\Yii::$app->pr->print_r2($products);
                 if(!empty($products)){
                     $result['products'] = $products;
                 }

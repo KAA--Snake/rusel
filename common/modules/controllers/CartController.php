@@ -11,6 +11,7 @@ namespace frontend\controllers;
 
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\Order;
+use common\modules\catalog\models\search\searches\ProductsSearch;
 use yii\web\Controller;
 
 class CartController extends Controller
@@ -75,7 +76,7 @@ class CartController extends Controller
 
         if(count($prodIds) > 0){
 
-            $productsModel = new Product();
+            $productsModel = new ProductsSearch();
             $products = $productsModel->getProductsByIds($prodIds)['hits'];
             //\Yii::$app->pr->print_r2($products);
         }
