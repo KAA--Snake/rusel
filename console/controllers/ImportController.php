@@ -58,6 +58,12 @@ class ImportController extends Controller
 
             $catalogImportModel->import();
 
+	        $resUlt = [
+		        'RES' => 'DONE',
+		        'ERRORS' => $_SESSION['ERRORS']
+	        ];
+	        $catalogImportModel->sendRespondToErp($postData['file_name'], $resUlt);
+
             return true;
             //return json_encode();
 

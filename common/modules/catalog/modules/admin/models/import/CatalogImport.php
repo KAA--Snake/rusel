@@ -142,39 +142,32 @@ class CatalogImport extends Model
      */
     public function sendRespondToErp($fileName, $result){
 
-        $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
-        $url =$erpParams['server']."/exchange?type=site_answer&answer=".$fileName;
+	    $result = json_encode($orderData);
 
-        $ch = curl_init( $url );
-        # Setup request to send json via POST.
+	    $payload = array(
+		    'type' => 'site_answer',
+		    'result' => $result,
+	    );
 
-        file_put_contents('result.res', json_encode($result));
+	    $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
+	    $url =$erpParams['server']."/exchange?type=site_answer";
 
-        $payload = array(
-            'type' => 'site_answer',
-            'answer' => $fileName,
-            'file' => '@result.res',
-        ) ;
+	    $ch = curl_init();
+	    curl_setopt($ch,CURLOPT_URL, $url);
+	    curl_setopt( $ch, CURLOPT_POST, true);
+	    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+	    curl_setopt($ch,CURLOPT_POSTFIELDS, http_build_query($payload));
+	    curl_setopt( $ch, CURLOPT_HTTPHEADER, array("X-HTTP-Method-Override:'POST','Content-Type:application/x-www-form-urlencoded','Content-Length: '" .     strlen(http_build_query($payload))));
+	    curl_setopt($ch, CURLOPT_HEADER, 0);
+	    curl_setopt($ch, CURLINFO_HEADER_OUT, false);
+	    curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
+	    curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
+	    curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+	    $result = curl_exec( $ch );
 
-        //$payload = http_build_query($payload);
+	    curl_close($ch);
 
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-        //curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        //curl_setopt($ch, CURLOPT_USERPWD, Elastic::$user . ":" . Elastic::$pass);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
-        //curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));
-
-        $result = curl_exec($ch);
-        file_put_contents('test_result', print_r($result, true));
-        //file_put_contents('test_payload', print_r($payload, true));
-
-        curl_close($ch);
+	    return $result;
 
     }
 

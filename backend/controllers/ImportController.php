@@ -300,34 +300,23 @@ class ImportController extends Controller
 
                             unset($_SESSION['ERRORS']);
 
-                            $catalogImportModel = new CatalogImport();
+                            //$catalogImportModel = new CatalogImport();
                             //echo $_SERVER['DOCUMENT_ROOT'];
                             //die();
-                            $catalogImportModel->filePath = $erpParams['upload_folder'].$postData['file_name'];
+                            //$catalogImportModel->filePath = $erpParams['upload_folder'].$postData['file_name'];
                             //$catalogImportModel->filePath = '/webapp/upload/erp/list1502263897108.txt';
 
-
-	                        //первичное сохранение логгера
-	                        Import_log::deleteAll(); //сначала чистим
-	                        Import_log::$currentImportModel = [
-		                        'import_file_name' => $postData['file_name'],
-		                        'import_status' => 0,
-		                        'start_date' => date('Y-m-d H:i:s'),
-
-	                        ];
-	                        Import_log::checkAndSave();
-
-
-                            $catalogImportModel->import();
+	                        exec('nohup php /webapp/yii import/manual '.$postData['file_name']. ' > /dev/null &');
+                            //$catalogImportModel->import();
                             //return json_encode(['IMPORT_RESULT' => 'DONE']);
 
 
 
-                            $resUlt = [
+                            /*$resUlt = [
                                 'RES' => 'DONE',
                                 'ERRORS' => $_SESSION['ERRORS']
                             ];
-                            $catalogImportModel->sendRespondToErp($postData['file_name'], $resUlt);
+                            $catalogImportModel->sendRespondToErp($postData['file_name'], $resUlt);*/
 
                             return true;
                             //return json_encode();
