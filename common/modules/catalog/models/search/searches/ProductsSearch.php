@@ -566,8 +566,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 		//$response['productsList'] = $response['hits']['hits'];
 
-
 		$this->_setSingleStorageAsMulti($response);
+
+		$this->_setSinglePriceAsMulty($response);
 
 		$response['paginator'] = $pagination;
 
@@ -595,6 +596,41 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				unset($response['hits']['hits'][$k]['_source']['prices']['storage']);
 				$response['hits']['hits'][$k]['_source']['prices']['storage'][] = $singleStorage;
 				unset($singleStorage);
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * Приводит цену к виду массива. Нужен для выпиливания кучи проверок в шаблонах
+	 *
+	 * @param $response
+	 *
+	 * @return bool
+	 */
+	private function _setSinglePriceAsMulty(&$response){
+
+		foreach ($response['hits']['hits'] as $k => &$oneProduct){
+
+			if(!empty($oneProduct['_source']['prices']['storage'])){
+				foreach($oneProduct['_source']['prices']['storage'] as $storageK => &$oneStorage){
+					if(!empty($oneStorage['prices']['price_range'])){
+
+						//если есть, значит надо привести к массиву
+						if(!empty($oneStorage['prices']['price_range']['currency'])){
+
+							$singlePrice = $oneStorage['prices']['price_range'];
+
+							unset($oneStorage['prices']);
+
+							$oneStorage['prices']['price_range'][] = $singlePrice;
+							unset($singlePrice);
+
+						}
+					}
+				}
 			}
 
 		}
@@ -652,6 +688,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		//$response = Elastic::getElasticClient()->search($params)['hits']['hits'];
 
 		$this->_setSingleStorageAsMulti($response);
+
+		$this->_setSinglePriceAsMulty($response);
 		//добавляем аксессуары к продуктам
 		$this->setAccessoriedProds($response);
 
@@ -714,6 +752,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
 
 			$this->_setSingleStorageAsMulti($response);
+
+			$this->_setSinglePriceAsMulty($response);
 
 			/** заполним аксессуарами (если они есть) */
 			$this->setAccessoriedProds($response);

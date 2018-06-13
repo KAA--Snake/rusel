@@ -129,8 +129,6 @@ class Order extends ActiveRecord
 
         $products = explode('&', $_COOKIE['cart']);
 
-
-
         if(count($products) > 0){
             foreach($products as $oneProduct){
                 $productData = explode('|', $oneProduct);
@@ -153,43 +151,26 @@ class Order extends ActiveRecord
 
 	    $neededIds = array_values($neededIds);
 
-
         //тепреь делаем выборку и формируем данные по заказу
         $productModel = new ProductsSearch();
 
         $productsDetailed = $productModel->getProductsByIds($neededIds)['hits'];
 
-
         foreach($productsDetailed as $oneProduct){
 
 	        //полная передачу данных по товарам в заказ
-        	foreach($orders as $oK => $oneOrder){
+        	foreach($orders as $oK => &$oneOrder){
         		if($oneOrder['id'] == $oneProduct['_source']['id']){
 			        $orders[$oK]['productData'] = $oneProduct['_source'];
+
+			        BuyHelper::setPriceForOrderProduct($orders[$oK]);
 		        }
 	        }
-
-
-
-
-           /* foreach($oneProduct as $key => $subValue){
-                $orders[$oneProduct['_source']['id']][$key] = $subValue;
-            }
-
-            $orders[$oneProduct['_source']['id']]['artikul'] = $oneProduct['_source']['artikul'];
-            $orders[$oneProduct['_source']['id']]['id'] = $oneProduct['_source']['id'];
-            $orders[$oneProduct['_source']['id']]['prices'] = $oneProduct['_source']['prices'];
-            $orders[$oneProduct['_source']['id']]['marketing'] = $oneProduct['_source']['marketing'];
-
-            //добавляем к товару текущую цену в пересчете на курс
-            BuyHelper::setPriceForOrderProduct($orders[$oneProduct['_source']['id']]);*/
         }
 
-	    \Yii::$app->pr->print_r2($orders);
-	    \Yii::$app->pr->print_r2($productsDetailed);
-
-	    die();
-
+	    //\Yii::$app->pr->print_r2($oneProduct);
+	    //die();
+	    //\Yii::$app->pr->print_r2($productsDetailed);
 
 	    //и возвращаем для сохранения полный json с заказом
         $order = json_encode($orders);
@@ -221,15 +202,13 @@ class Order extends ActiveRecord
 
                 $oneProductStroke[] = $oneProduct->id;
                 $oneProductStroke[] = $oneProduct->count;
+	            $oneProductStroke[] = $oneProduct->storageId;
                 $oneProductStroke[] = $oneProduct->price;
                 $oneProductStroke[] = $oneProduct->currency;
-
-                //\Yii::$app->pr->print_r2($oneProductStroke);
 
                 $oneProductStroke = implode('|', $oneProductStroke);
 
                 $erpProducts[] = $oneProductStroke;
-
             }
         }
 
@@ -256,22 +235,19 @@ class Order extends ActiveRecord
 
         //\Yii::$app->pr->print_r2((array)$products);
         //\Yii::$app->pr->print_r2($this->getAttributes()['products']);
-
-
         try{
             //отправка уведомления для админа
             \Yii::$app->mailer->compose([
                 'html' => 'views/order/order.created.admin.php',
                 //'text' => 'views/order/order.created.admin.php',
             ], $params)
-                ->setTo([$emailParams['admin_order'] => 'Admin'])
+                //->setTo([$emailParams['admin_order'] => 'Admin'])
+                ->setTo(['smu_139@mail.ru' => 'Admin'])
                 ->setSubject('Rusel24.ru: Запрос № '.$this->id. ' ' .date('Y-m-d H:i:s'))
                 ->send();
         }catch(Exception $exception){
             file_put_contents('/webapp/upload/orders_errors', 'Не удалось отправить на почту заказ '.$this->id, FILE_APPEND );
         }
-
-
 
         if(empty($this->email)){
             return false;

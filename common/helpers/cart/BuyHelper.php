@@ -24,76 +24,89 @@ class BuyHelper
 
         $allowedBuyPrice = [];
 
-        //если есть маркетинг, юзаем ТОЛЬКО его
-        if
-        (
-            isset($product['marketing'])
-            &&
-            isset($product['marketing']['status'])
-            &&
-            $product['marketing']['status'] == 1
-        )
-        {
-            $allowedBuyPrice['currency'] = $product['marketing']['currency'];
-            $allowedBuyPrice['value'] = $product['marketing']['price'];
+        if(empty($product['productData'])) return false;
+
+        foreach($product['productData']['prices']['storage'] as $oneStorage){
+
+			if($oneStorage['id'] == $product['storageId']){
+
+				//если есть маркетинг, юзаем ТОЛЬКО его
+				if
+				(
+					isset($oneStorage['marketing'])
+					//&&
+					//isset($oneStorage['marketing']['status'])
+					//&&
+					//$oneStorage['marketing']['status'] == 1
+				)
+				{
+					$allowedBuyPrice['currency'] = $oneStorage['marketing']['currency'];
+					$allowedBuyPrice['value'] = $oneStorage['marketing']['price'];
+					//\Yii::$app->pr->print_r2($allowedBuyPrice);
+
+				}
+				else if(isset($oneStorage['prices'])){
+
+					if(isset($oneStorage['prices']['price_range']) && count($oneStorage['prices']['price_range']) > 0){
+
+						$allPrices = [];
+						//\Yii::$app->pr->print_r2($oneStorage);
+
+						//соберем массив цен
+						foreach($oneStorage['prices']['price_range'] as $onePriceArr){
+							$allPrices[$onePriceArr['range']] = $onePriceArr;
+						}
+
+						//распределим их по возрастанию доступных количеств
+						asort($allPrices);
+
+						//\Yii::$app->pr->print_r2($product);
+
+						//проходим по отсортированному массиву
+						foreach($allPrices as $priceRange => $onePriceArr){
+
+							//находим доступный диапазон цен для выбранного количества
+							if($oneStorage['quantity']['stock']['count'] >= $priceRange){
+								$allowedBuyPrice = $onePriceArr;
+
+								break;
+							}
+						}
+
+					}
+
+				}
+
+
+				//если цена найдена, добавим выборку по курсу валюты и сохраним ее в массиве заказа
+				if(count($allowedBuyPrice) > 0){
+
+					$price = Currency::getPriceForCurrency(
+						$allowedBuyPrice['currency'],
+						$allowedBuyPrice['value']
+					);
+					$product['price'] = $price;
+					//$product['overallPrice'] = $price * $product['count'];
+
+					/**
+					 * глупый идиотизм. @TODO в нормальном магазе выпилить это
+					 * "короче сделай что бы было 643 ) т.е. та валюта в которой цены на сайте"
+					 */
+					$product['currency'] = 643;
+					//\Yii::$app->pr->print_r2($product);
+					/** а здесь ниже нормальный вариант */
+					//$product['currency'] = $allowedBuyPrice['currency'];
+				}
+
+
+			}
 
         }
-        else if(isset($product['prices'])){
 
-            //\Yii::$app->pr->print_r2($product);
-
-            if(isset($product['prices']['price_range']) && count($product['prices']['price_range']) > 0){
-
-                $allPrices = [];
-
-
-                //соберем массив цен
-                foreach($product['prices']['price_range'] as $onePriceArr){
-                    $allPrices[$onePriceArr['range']] = $onePriceArr;
-                }
-
-                //распределим их по возрастанию доступных количеств
-                asort($allPrices);
-
-
-                //проходим по отсортированному массиву
-                foreach($allPrices as $priceRange => $onePriceArr){
-
-                    //находим доступный диапазон цен для выбранного количества
-                    if($product['count'] >= $priceRange){
-                        $allowedBuyPrice = $onePriceArr;
-
-                        break;
-                    }
-                }
-
-            }
-
-        }
-
-        //если цена найдена, добавим выборку по курсу валюты и сохраним ее в массиве заказа
-        if(count($allowedBuyPrice) > 0){
-
-            $price = Currency::getPriceForCurrency(
-                $allowedBuyPrice['currency'],
-                $allowedBuyPrice['value']
-            );
-            $product['price'] = $price;
-            //$product['overallPrice'] = $price * $product['count'];
-
-            /**
-             * глупый идиотизм. @TODO в нормальном магазе выпилить это
-             * "короче сделай что бы было 643 ) т.е. та валюта в которой цены на сайте"
-             */
-            $product['currency'] = 643;
-
-            /** а здесь ниже нормальный вариант */
-            //$product['currency'] = $allowedBuyPrice['currency'];
-        }
         //\Yii::$app->pr->print_r2($product);
-
-
 
         return true;
     }
+
+
 }

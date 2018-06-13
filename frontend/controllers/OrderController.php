@@ -90,13 +90,12 @@ class OrderController extends Controller
             echo 'Из формы приходят следующие данные:';
             \Yii::$app->pr->print_r2($forRabbitSendData);
 
-            //получаем строку для ЕРП вида ID|количество|цена|код_валюты&ID|количество|цена|код_валюты& etc...
+            //получаем строку для ЕРП вида ID|количество|STORAGE|цена|код_валюты&ID|количество|STORAGE|цена|код_валюты& etc...
             $forRabbitSendData['dataForErp'] = $form_model->getDataForErp();
 
             /** потом отправляем в очередь на отправку заказа в ЕРП! @TODO включить обратно !!!*/
             //$rabbitModel = new RabbitOrder('order_queue');
             //$rabbitModel->sendDataToRabbit(json_encode($forRabbitSendData));
-
 
             //ТЕСТОВАЯ ОТПРАВКА НАПРЯМУЮ БЕЗ РАББИТА !
             $export = new Export();

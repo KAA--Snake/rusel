@@ -69,11 +69,11 @@ IP клиента: <?=$order->client_ip;?>
 
     <hr>
     <br>
-    Артикул: <?=$oneProduct->artikul;?>
+    Артикул: <?=$oneProduct->productData->artikul;?>
     <br>
-    Описание: <?=$oneProduct->_source->name;?>
+    Описание: <?=$oneProduct->productData->name;?>
     <br>
-    Производитель: <?=$oneProduct->_source->properties->proizvoditel;?>
+    Производитель: <?=$oneProduct->productData->properties->proizvoditel;?>
     <br>
     Кол-во: <?=$oneProduct->count;?>
     <br>
