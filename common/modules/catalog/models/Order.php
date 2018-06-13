@@ -241,8 +241,7 @@ class Order extends ActiveRecord
                 'html' => 'views/order/order.created.admin.php',
                 //'text' => 'views/order/order.created.admin.php',
             ], $params)
-                //->setTo([$emailParams['admin_order'] => 'Admin'])
-                ->setTo(['smu_139@mail.ru' => 'Admin'])
+                ->setTo([$emailParams['admin_order'] => 'Admin'])
                 ->setSubject('Rusel24.ru: Запрос № '.$this->id. ' ' .date('Y-m-d H:i:s'))
                 ->send();
         }catch(Exception $exception){
