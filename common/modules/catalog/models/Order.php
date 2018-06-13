@@ -202,9 +202,9 @@ class Order extends ActiveRecord
 
                 $oneProductStroke[] = $oneProduct->id;
                 $oneProductStroke[] = $oneProduct->count;
-	            $oneProductStroke[] = $oneProduct->storageId;
                 $oneProductStroke[] = $oneProduct->price;
                 $oneProductStroke[] = $oneProduct->currency;
+	            $oneProductStroke[] = $oneProduct->storageId;
 
                 $oneProductStroke = implode('|', $oneProductStroke);
 
