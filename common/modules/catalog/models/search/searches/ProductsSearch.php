@@ -661,6 +661,70 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
 	/**
+	 * Получает товар по его св-ву url
+	 *
+	 * @param $productUrl
+	 * @return bool
+	 */
+	public function getProductByUrl($productUrl)
+	{
+
+		$url = str_replace('/', '|', $productUrl);
+
+		$params = [
+			'body' => [
+				//'from' => 0,
+				//'size' => 3,
+				'query' => [
+					'term' => [
+						'url' => $url
+					]
+				]
+			]
+		];
+
+
+		$json = '{
+            "from" : 0,
+            "size" : 3,
+            "query" : {
+                "term" : {
+                    "uri" : "'.$url.'"
+                }
+            }
+        }';
+
+		/*$params = [
+			'body' => $json
+		];*/
+
+		//\Yii::$app->pr->print_r2($params);
+		//\Yii::$app->pr->print_r2($response);
+		// die();
+		//print_r($response);
+
+		$params = Product::productData + $params;
+
+		$response = Elastic::getElasticClient()->search($params);
+
+		/*\Yii::$app->pr->print_r2($params);
+		\Yii::$app->pr->print_r2($response);
+		die();*/
+
+		if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
+
+			$this->_setSingleStorageAsMulti($response);
+
+			/** заполним аксессуарами (если они есть) */
+			$this->setAccessoriedProds($response);
+			return $response['hits']['hits'][0]['_source'];
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Проходит по всем товарам корзины и убирает из них не относящиеся к ним склады
 	 */
 	public function removeCartStorages(&$products, $cartStorages){

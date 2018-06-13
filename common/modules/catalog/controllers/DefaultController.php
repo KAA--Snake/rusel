@@ -113,7 +113,7 @@ class DefaultController extends Controller
 
 
         /** карточка товара */
-        $productModel = new Product();
+        $productModel = new ProductsSearch();
 
         $product = $productModel->getProductByUrl($pathForParse);
         //
@@ -124,6 +124,8 @@ class DefaultController extends Controller
             $this->view->params['breadcrumbs'] = $breadcrumbs;
 
             $this->layout = 'catalogDetail';
+	        //\Yii::$app->pr->print_r2($product);
+	        //die();
             return $this->render('productDetail', ['oneProduct' => $product]);
         }
 
