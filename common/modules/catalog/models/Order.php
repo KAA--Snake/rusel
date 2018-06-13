@@ -11,6 +11,7 @@ namespace common\modules\catalog\models;
 
 use common\helpers\cart\BuyHelper;
 use common\models\elasticsearch\Product;
+use common\modules\catalog\models\search\searches\ProductsSearch;
 use yii\base\Exception;
 use yii\base\Model;
 use yii\db\ActiveRecord;
@@ -127,33 +128,51 @@ class Order extends ActiveRecord
         $neededIds = [];
 
         $products = explode('&', $_COOKIE['cart']);
-        //\Yii::$app->pr->print_r2($products);
+
+
+
         if(count($products) > 0){
             foreach($products as $oneProduct){
                 $productData = explode('|', $oneProduct);
 
                 $productId = $productData[0];
                 $productCount = $productData[1];
+	            $storageId = $productData[2];
 
                 //заполняем для будущей выборки товаров
-                $neededIds[] = $productId;
+                $neededIds[$productId] = $productId;
 
-                $orders[$productId] = [
+                $orders[] = [
+                	'id' => $productId,
+                	'storageId' => $storageId,
                     'count' => $productCount
                 ];
 
             }
         }
 
+	    $neededIds = array_values($neededIds);
+
+
         //тепреь делаем выборку и формируем данные по заказу
-        $productModel = new Product();
+        $productModel = new ProductsSearch();
 
         $productsDetailed = $productModel->getProductsByIds($neededIds)['hits'];
 
+
         foreach($productsDetailed as $oneProduct){
 
-            //полная передачу данных по товарам в заказ
-            foreach($oneProduct as $key => $subValue){
+	        //полная передачу данных по товарам в заказ
+        	foreach($orders as $oK => $oneOrder){
+        		if($oneOrder['id'] == $oneProduct['_source']['id']){
+			        $orders[$oK]['productData'] = $oneProduct['_source'];
+		        }
+	        }
+
+
+
+
+           /* foreach($oneProduct as $key => $subValue){
                 $orders[$oneProduct['_source']['id']][$key] = $subValue;
             }
 
@@ -163,10 +182,16 @@ class Order extends ActiveRecord
             $orders[$oneProduct['_source']['id']]['marketing'] = $oneProduct['_source']['marketing'];
 
             //добавляем к товару текущую цену в пересчете на курс
-            BuyHelper::setPriceForOrderProduct($orders[$oneProduct['_source']['id']]);
+            BuyHelper::setPriceForOrderProduct($orders[$oneProduct['_source']['id']]);*/
         }
 
-        //и возвращаем для сохранения полный json с заказом
+	    \Yii::$app->pr->print_r2($orders);
+	    \Yii::$app->pr->print_r2($productsDetailed);
+
+	    die();
+
+
+	    //и возвращаем для сохранения полный json с заказом
         $order = json_encode($orders);
 
         return $order;
