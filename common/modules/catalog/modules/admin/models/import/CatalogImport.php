@@ -142,10 +142,11 @@ class CatalogImport extends Model
      */
     public function sendRespondToErp($fileName, $result){
 
-	    $result = json_encode($orderData);
+	    $result = json_encode($result);
 
 	    $payload = array(
 		    'type' => 'site_answer',
+		    'filename' => $fileName,
 		    'result' => $result,
 	    );
 
