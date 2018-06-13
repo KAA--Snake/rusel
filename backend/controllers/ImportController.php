@@ -306,6 +306,18 @@ class ImportController extends Controller
                             $catalogImportModel->filePath = $erpParams['upload_folder'].$postData['file_name'];
                             //$catalogImportModel->filePath = '/webapp/upload/erp/list1502263897108.txt';
 
+
+	                        //первичное сохранение логгера
+	                        Import_log::deleteAll(); //сначала чистим
+	                        Import_log::$currentImportModel = [
+		                        'import_file_name' => $postData['file_name'],
+		                        'import_status' => 0,
+		                        'start_date' => date('Y-m-d H:i:s'),
+
+	                        ];
+	                        Import_log::checkAndSave();
+
+
                             $catalogImportModel->import();
                             //return json_encode(['IMPORT_RESULT' => 'DONE']);
 
@@ -363,6 +375,17 @@ class ImportController extends Controller
 
                 //запустить импорт
                 if(isset($postData['file_name']) && !empty($postData['file_name'])){
+
+
+	                //первичное сохранение логгера
+	                Import_log::deleteAll(); //сначала чистим
+	                Import_log::$currentImportModel = [
+		                'import_file_name' => $postData['file_name'],
+		                'import_status' => 0,
+		                'start_date' => date('Y-m-d H:i:s'),
+
+	                ];
+	                Import_log::checkAndSave();
 
                     exec('nohup php /webapp/yii import/manual '.$postData['file_name']. ' > /dev/null &');
 
