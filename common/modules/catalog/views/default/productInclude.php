@@ -299,7 +299,7 @@ use common\modules\catalog\models\currency\Currency;
                                                     <div class="ordered_icon_close js-cancel-order flr"></div>
                                                     <div class="ordered_count">В запросе: <span class="bold"> </span></div>
                                                     <br>
-                                                    <div class="ordered_price">На сумму: <span class="bold">0 Р.</span></div>
+                                                    <div class="ordered_price">Сумма: <span class="bold">0 Р.</span></div>
 
                                                 </div>
 
@@ -404,7 +404,7 @@ use common\modules\catalog\models\currency\Currency;
                                                 <div class="ordered_icon_close js-cancel-order flr"></div>
                                                 <div class="ordered_count">В запросе: <span class="bold"> </span></div>
                                                 <br>
-                                                <div class="ordered_price">На сумму: <span class="bold">0 Р.</span></div>
+                                                <div class="ordered_price">Сумма: <span class="bold">0 Р.</span></div>
 
                                             </div>
 

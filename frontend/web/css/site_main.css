@@ -2019,7 +2019,7 @@
               .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.order .order_block .order_btn.add svg path {
                 fill: #ffffff; }
         .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.order .ordered_block {
-          margin-top: 10px; }
+          /*margin-top: 10px;*/ }
           .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.order .ordered_block .count_tooltip {
             position: absolute;
             display: block;
