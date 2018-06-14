@@ -119,12 +119,15 @@ class Currency extends \yii\db\ActiveRecord
             'currency_id' => $currencyId
         ])->one();
 
-
         if($currency){
-            $course = round($currency->course_to_rub, 0);
+            $course = $currency->course_to_rub;
         }
 
-	    $summ = round($course * $price, 2, PHP_ROUND_HALF_UP);
+	    //$price = round($price, 2, PHP_ROUND_HALF_UP);
+
+	    $summ = $course * $price;
+
+	    $summ = round($summ, 2, PHP_ROUND_HALF_UP);
 	    //$summ = $course * $price;
         //$print_number = "$ " .  number_format ($number, 2, ".", ",") ;
 
@@ -178,7 +181,7 @@ class Currency extends \yii\db\ActiveRecord
         $retData = [];
         if($currencies){
             foreach ($currencies as $oneCurrency){
-                $retData[$oneCurrency['currency_id']] = round($oneCurrency['course_to_rub']);
+                $retData[$oneCurrency['currency_id']] = $oneCurrency['course_to_rub'];
             }
             //добавляем рубли
             $retData[643] = 1;
