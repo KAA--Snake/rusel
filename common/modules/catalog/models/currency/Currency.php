@@ -121,10 +121,10 @@ class Currency extends \yii\db\ActiveRecord
 
 
         if($currency){
-            $course = $currency->course_to_rub;
+            $course = round($currency->course_to_rub, 0);
         }
 
-	    $summ = round($course * $price);
+	    $summ = round($course * $price, 2, PHP_ROUND_HALF_UP);
 	    //$summ = $course * $price;
         //$print_number = "$ " .  number_format ($number, 2, ".", ",") ;
 
