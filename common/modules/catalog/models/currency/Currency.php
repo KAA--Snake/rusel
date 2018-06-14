@@ -178,7 +178,7 @@ class Currency extends \yii\db\ActiveRecord
         $retData = [];
         if($currencies){
             foreach ($currencies as $oneCurrency){
-                $retData[$oneCurrency['currency_id']] = $oneCurrency['course_to_rub'];
+                $retData[$oneCurrency['currency_id']] = round($oneCurrency['course_to_rub']);
             }
             //добавляем рубли
             $retData[643] = 1;
