@@ -69,7 +69,7 @@ use yii\helpers\Html;
                                         $len = count($oneProduct['_source']['prices']['storage']);
                                         ?>
                                         <?php foreach ($oneProduct['_source']['prices']['storage'] as $oneStorage) { ?>
-                                            <tr>
+                                            <tr class="js-store-row">
                                                 <td class="stores_amount left_bordered">
                                                     <table class="in_stock">
                                                         <?php /*if (empty($oneStorage['quantity']['stock']['count'])) {

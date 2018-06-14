@@ -2655,7 +2655,7 @@ $white:#ffffff;
                     display: block;
                     text-align: center;
                     .order_button{
-                      display: inline-block;
+                      display: block;
                       cursor: pointer;
                       line-height: 28px;
                       color: $white;
@@ -2663,8 +2663,10 @@ $white:#ffffff;
                       padding: 0 10px;
                       margin-bottom: 8px;
                       margin-top: 8px;
+                      margin-left: 10px;
+                      margin-right: 10px;
                       &+.order_button{
-                        margin-left: 30px;
+                        /*margin-left: 30px;*/
                       }
                     }
                     .approve_delete_pos{

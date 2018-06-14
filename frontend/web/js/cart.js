@@ -99,11 +99,11 @@ $(document).ready(function () {
 
 
         if (document.location.pathname == '/cart/') {
-            $(this).closest('.ordered_block').append('<span class="count_tooltip">Удалить наименование из формы запроса?<br><span class="order_buttons_block"><span class="order_button approve_delete_pos">да</span> <span class="order_button decline_delete_pos">нет</span></span><span>Для изменения количества в запросе нужно только повторить ввод с новым значением.</span> <span class="corner"></span></span>');
+            $(this).closest('.ordered_block').append('<span class="count_tooltip"><span class="order_buttons_block"><span class="order_button decline_delete_pos">изменить количество</span> <span class="order_button approve_delete_pos">удалить из запроса</span></span> <span class="corner"></span></span>');
 
             $('.approve_delete_pos').click(function () {
                 cartPositionDelete(productID, productCount, productData.storage_id || null);
-                productContainer.closest('.js-product_card').remove();
+                productContainer.closest('.js-store-row').remove();
 
                 var sum = 0;
                 $('.ordered_price .bold').each(function () {
@@ -114,6 +114,10 @@ $(document).ready(function () {
             });
             $('.decline_delete_pos').click(function () {
                 $(this).closest('.count_tooltip').remove();
+                cartPositionDelete(productID, productCount, productData.storage_id || null)
+                orderInput.show().removeClass('hidden');
+                orderedBlock.hide().addClass('hidden');
+                productContainer.find('.js-order_count').val('');
             });
         } else {
             cartPositionDelete(productID, productCount, productData.storage_id || null);
@@ -169,14 +173,21 @@ $(document).ready(function () {
 
                             var rn = r + 1 == productData.productPrices.price_range.length ? productData.productPrices.price_range.length - 1 : r + 1;
                             if (parseInt(productData.productPrices.price_range[r].range) <= productCount && parseInt(productData.productPrices.price_range[rn].range) > productCount) {
-                                orderPrice = parseFloat(+productData.productPrices.price_range[r].value * getRateOfExchange(productData.productPrices.price_range[r].currency)).toFixed(2);
+                                orderPrice = +productData.productPrices.price_range[r].value * getRateOfExchange(productData.productPrices.price_range[r].currency);
+                                console.log('r');
+                                console.log(+productData.productPrices.price_range[r].value + '*' + getRateOfExchange(productData.productPrices.price_range[r].currency) + '=' + orderPrice);
+                                console.log('r');
                                 break;
                             } else {
-                                orderPrice = parseFloat(+productData.productPrices.price_range[rn].value * getRateOfExchange(productData.productPrices.price_range[rn].currency)).toFixed(2);
+                                orderPrice = (+productData.productPrices.price_range[rn].value * getRateOfExchange(productData.productPrices.price_range[rn].currency));
+                                console.log('rn');
+                                console.log(+productData.productPrices.price_range[r].value + '*' + getRateOfExchange(productData.productPrices.price_range[r].currency) + '=' + orderPrice);
+                                console.log('rn');
                             }
                         }
                     } else {
-                        orderPrice = parseFloat(+productData.productPrices.price_range.value * getRateOfExchange(productData.productPrices.price_range.currency)).toFixed(2);
+                        orderPrice = parseFloat(+productData.productPrices.price_range.value * getRateOfExchange(productData.productPrices.price_range.currency));
+
                     }
                 }
             }
@@ -221,7 +232,7 @@ $(document).ready(function () {
                     orderedBlock.show().removeClass('hidden');
                     cartUpdate(productID, productCount, productData.storage_id || null);
                     orderedCountField.html(productCount + ' шт');
-                    orderedPriceField.html((productCount * orderPrice).toFixed(2) + ' р');
+                    orderedPriceField.html((productCount * orderPrice) + ' р');
 
                     productContainer.find('.js-order_count').val('');
                     if (productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0) {
@@ -299,6 +310,8 @@ function getRateOfExchange(code) {
         currencies = +$('body').data('currencies')[code]
     }
 
+    //console.log(currencies);
+    //console.log((Math.round(currencies * 100))/100);
     return currencies;
 };
 
@@ -453,7 +466,8 @@ function cartPositionDelete(id, count, store_id) {
     var cartArr = cartString.length ? cartString.split('&') : [];
 
     for (var i = 0; i < cartArr.length; i++) {
-        if (cartArr[i].indexOf(id) !== -1 && cartArr[i].indexOf(store_id) !== -1) {
+        if (cartArr[i].indexOf(id + '|') !== -1 && cartArr[i].indexOf('|' + store_id) !== -1) {
+            console.log(cartArr[i]);
             cartArr.splice(i, 1);
         }
     }

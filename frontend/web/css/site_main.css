@@ -2042,16 +2042,18 @@
               display: block;
               text-align: center; }
               .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.order .ordered_block .count_tooltip .order_buttons_block .order_button {
-                display: inline-block;
+                display: block;
                 cursor: pointer;
                 line-height: 28px;
                 color: #ffffff;
                 text-align: center;
                 padding: 0 10px;
                 margin-bottom: 8px;
-                margin-top: 8px; }
+                margin-top: 8px;
+                margin-left: 10px;
+                margin-right: 10px; }
                 .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.order .ordered_block .count_tooltip .order_buttons_block .order_button + .order_button {
-                  margin-left: 30px; }
+                  /*margin-left: 30px;*/ }
               .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.order .ordered_block .count_tooltip .order_buttons_block .approve_delete_pos {
                 background: #9f0f18; }
               .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.order .ordered_block .count_tooltip .order_buttons_block .decline_delete_pos {
