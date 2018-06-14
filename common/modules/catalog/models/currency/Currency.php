@@ -124,15 +124,18 @@ class Currency extends \yii\db\ActiveRecord
             $course = $currency->course_to_rub;
         }
 
+	    $summ = round($course * $price);
+	    //$summ = $course * $price;
         //$print_number = "$ " .  number_format ($number, 2, ".", ",") ;
 
         if($precision){
-            $number = number_format ($course * $price, $precision, ".", "");
+            $number = number_format ($summ, $precision, ".", "");
             return $number;
             //return round($currency->course_to_rub * $price, 2);
         }
 
-        $number = number_format ($course * $price, 2, ".", "");
+
+        $number = number_format ($summ, 2, ".", "");
         return $number;
         //return $currency->course_to_rub * $price;
 

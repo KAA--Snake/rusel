@@ -23,6 +23,7 @@ class BuyHelper
     public static function setPriceForOrderProduct(&$product){
 
         $allowedBuyPrice = [];
+	    //\Yii::$app->pr->print_r2($product);
 
         if(empty($product['productData'])) return false;
 
@@ -65,8 +66,8 @@ class BuyHelper
 						//проходим по отсортированному массиву
 						foreach($allPrices as $priceRange => $onePriceArr){
 
-							//находим доступный диапазон цен для выбранного количества
-							if($oneStorage['quantity']['stock']['count'] >= $priceRange){
+							//находим доступный диапазон цен для выбранного склада
+							if($oneStorage['id'] == $product['storageId']){
 								$allowedBuyPrice = $onePriceArr;
 
 								break;

@@ -204,6 +204,11 @@ class Order extends ActiveRecord
                 $oneProductStroke[] = $oneProduct->count;
                 $oneProductStroke[] = $oneProduct->price;
                 $oneProductStroke[] = $oneProduct->currency;
+
+                if($oneProduct->storageId == 'null'){//lol :)
+	                //\Yii::$app->pr->print_r2($oneProduct);
+	                $oneProduct->storageId = 0;
+                }
 	            $oneProductStroke[] = $oneProduct->storageId;
 
                 $oneProductStroke = implode('|', $oneProductStroke);

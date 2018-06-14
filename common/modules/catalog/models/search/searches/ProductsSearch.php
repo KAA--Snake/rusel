@@ -591,7 +591,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		foreach ($response['hits']['hits'] as $k => $oneProduct){
 
 			/** Если склад один, то приведем его к массиву, чтобы не гемороиться дальше */
-			if($oneProduct['_source']['prices']['stores'] == 1){
+			if($oneProduct['_source']['prices']['stores'] == 1 || $oneProduct['_source']['prices']['stores'] == 0){
 				$singleStorage = $oneProduct['_source']['prices']['storage'];
 				unset($response['hits']['hits'][$k]['_source']['prices']['storage']);
 				$response['hits']['hits'][$k]['_source']['prices']['storage'][] = $singleStorage;
@@ -768,13 +768,18 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 * Проходит по всем товарам корзины и убирает из них не относящиеся к ним склады
 	 */
 	public function removeCartStorages(&$products, $cartStorages){
+
 		/** Пройдем по всем записям и удалим те скалды, которые не были в покупках */
 		foreach ($products as &$oneCartProduct){
+
+			if($oneCartProduct['_source']['prices']['stores'] == 0){
+				unset($oneCartProduct['_source']['prices']['storage']);
+				continue;
+			}
 			//\Yii::$app->pr->print_r2($cartStorages);
 			//\Yii::$app->pr->print_r2($oneCartProduct);
 
 			$storagesForCurrentProduct = $cartStorages[$oneCartProduct['_source']['id']];
-			//\Yii::$app->pr->print_r2($storagesForCurrentProduct);
 
 			//пройдем по складам
 			foreach($oneCartProduct['_source']['prices']['storage'] as $k => $oneStorage){
