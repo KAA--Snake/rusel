@@ -360,10 +360,9 @@ class ImportController extends Controller
 
             $postData = \Yii::$app->getRequest()->post();
 
-            $model = new CatalogImport();
 
-                //запустить импорт
-                if(isset($postData['file_name']) && !empty($postData['file_name'])){
+	            //запустить импорт
+	        if(isset($postData['file_name']) && !empty($postData['file_name'])){
 
 
 	                //первичное сохранение логгера
@@ -376,7 +375,7 @@ class ImportController extends Controller
 	                ];
 	                Import_log::checkAndSave();
 
-                    exec('nohup php /webapp/yii import/manual '.$postData['file_name']. ' > /dev/null &');
+	                exec('nohup php /webapp/yii import/manual '.$postData['file_name']. ' > /dev/null &');
 
                 }
         }

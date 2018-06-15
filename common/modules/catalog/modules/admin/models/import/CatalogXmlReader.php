@@ -305,6 +305,9 @@ class CatalogXmlReader
 			//\Yii::$app->pr->print_r2($encoded);
 			//die();
 
+			$this->bulkData['body'][] = $this->productModel->clearBlockForUpdate($encoded)['for_index'];
+			$this->bulkData['body'][] = $this->productModel->clearBlockForUpdate($encoded)['for_body'];
+
 			$this->bulkData['body'][] = $this->productModel->getParamsForBulkLoadRemains($encoded)['for_index'];
 			$this->bulkData['body'][] = $this->productModel->getParamsForBulkLoadRemains($encoded)['for_body'];
 

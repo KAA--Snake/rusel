@@ -58,6 +58,9 @@ class ImportController extends Controller
 
             $catalogImportModel->import();
 
+	        /** запускаем проход по импортированному каталогу и генерим ему урлы*/
+	        $catalogImportModel->generateCatalogUrls();
+
 	        $resUlt = [
 		        'RES' => 'DONE',
 		        'ERRORS' => $_SESSION['ERRORS']

@@ -336,11 +336,13 @@ class Product extends Model
 	 */
 	public function getParamsForBulkLoadRemains(&$product){
 		//\Yii::$app->pr->print_r2($product);
+		//die();
 		$params['for_index'] = array(
 			'update' => array(
 				'_index' => 'product',
 				'_type' => 'product_type',
 				'_id' => $product['id'],
+
 			)
 		);
 
@@ -350,7 +352,10 @@ class Product extends Model
 		$params['for_body'] = [
 			'doc' => [
 				'prices' => $product
-			]
+			],
+			//'script' => 'ctx._source.remove("prices")',
+			//'doc_as_upsert' => true,
+			'detect_noop' => false
 		];
 
 		/*foreach($comments as $comment) {
@@ -370,7 +375,32 @@ class Product extends Model
 	}
 
 
+	/**
+	 * Удаляет полностью блок prices.
+	 * Нужен для того, чобы не было наслоений старых данных и новых.
+	 * Вместо него можно использовать пустые блоки.
+	 *
+	 * @return mixed
+	 */
+	public function clearBlockForUpdate(&$product){
+		//\Yii::$app->pr->print_r2($product);
+		$params['for_index'] = array(
+			'update' => array(
+				'_index' => 'product',
+				'_type' => 'product_type',
+				'_id' => $product['id'],
+			)
+		);
 
+		$params['for_body'] = [
+			"script" => 'ctx._source.remove("prices");',
+			//'script' => 'ctx._source.remove("prices")',
+			//'doc_as_upsert' => true,
+			'detect_noop' => false
+		];
+
+		return $params;
+	}
 
 
 
