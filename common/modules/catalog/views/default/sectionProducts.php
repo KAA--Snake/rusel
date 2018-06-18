@@ -368,7 +368,10 @@ die();*/
                                             <?php } ?>
                                             <?php $i++; ?>
                                         <?php } ?>
-                                    <?php } else { ?>
+                                    <?php } else {
+                                        //if no storages make them null
+	                                    $oneStorage = false;
+                                        ?>
                                         <tr>
                                             <td class="stores_amount left_bordered">
                                                 <table class="in_stock">
