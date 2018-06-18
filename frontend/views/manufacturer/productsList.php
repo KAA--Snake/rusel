@@ -418,7 +418,9 @@ $perPage = $paginator['maxSizeCnt'];
                                             <?php } ?>
                                             <?php $i++; ?>
                                         <?php } ?>
-                                    <?php } else { ?>
+                                    <?php } else {
+	                                    $oneStorage = false;
+                                        ?>
                                         <tr>
                                             <td class="stores_amount left_bordered">
                                                 <table class="in_stock">
