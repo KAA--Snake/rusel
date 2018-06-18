@@ -301,7 +301,7 @@ use yii\helpers\Html;
                                                             <div class="ordered_icon_close js-cancel-order flr"></div>
                                                             <div class="ordered_count">В запросе: <span class="bold"> </span></div>
                                                             <br>
-                                                            <div class="ordered_price">сумма: <span class="bold">по запросу</span></div>
+                                                            <div class="ordered_price">Сумма: <span class="bold">по запросу</span></div>
 
                                                         </div>
 
@@ -406,7 +406,7 @@ use yii\helpers\Html;
                                                         <div class="ordered_icon_close js-cancel-order flr"></div>
                                                         <div class="ordered_count">В запросе: <span class="bold"> </span></div>
                                                         <br>
-                                                        <div class="ordered_price">сумма: <span class="bold">по запросу</span></div>
+                                                        <div class="ordered_price">Сумма: <span class="bold">по запросу</span></div>
 
                                                     </div>
 
