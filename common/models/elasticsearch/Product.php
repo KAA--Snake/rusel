@@ -173,7 +173,16 @@ class Product extends Model
 		                            "total" => [ "type" => "integer" ],
 		                            "stores" => [ "type" => "integer" ],
 		                            "storage" => [
-		                            	"type" => "nested"
+		                            	"type" => "nested",
+
+			                            "properties" => [
+				                            "id" => [ "type" => "keyword" ],
+				                            "quantity" => [ "type" => "nested" ],
+				                            "marketing" => [ "type" => "nested" ],
+				                            "prices" => [ "type" => "nested"],
+			                            ]
+
+
 		                            ],
 							    ]
                             ],

@@ -70,10 +70,10 @@ use common\modules\catalog\models\currency\Currency;
                                     <tr>
                                         <td class="stores_amount left_bordered">
                                             <table class="in_stock">
-                                                <?php if (empty($oneStorage['quantity']['stock']['count'])) {
+                                                <?php /*if (empty($oneStorage['quantity']['stock']['count'])) {
                                                     \Yii::$app->pr->print_r2($oneProduct);
                                                     die();
-                                                }?>
+                                                }*/?>
                                                 <?php if (!empty($oneStorage['quantity']['stock']['count']) && $oneStorage['quantity']['stock']['count'] > 0) { ?>
                                                     <tr>
                                                         <!--<td class="square_mark"><span></span></td>-->

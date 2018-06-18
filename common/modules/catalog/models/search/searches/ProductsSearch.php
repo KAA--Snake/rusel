@@ -392,8 +392,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
 
-/*
-        \Yii::$app->pr->print_r2($_POST);
+
+        /*\Yii::$app->pr->print_r2($_POST);
         \Yii::$app->pr->print_r2($manufacturers);
         \Yii::$app->pr->print_r2($filterData);*/
 
@@ -452,8 +452,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	     */
 	    //добавим пустые значения для выбранного фильтра
 	    $this->_addEmptyProps($allFilterDataProps, $filterData);
-	    //\Yii::$app->pr->print_r2($filterDataForSection);
-	    //die();
+	    /*\Yii::$app->pr->print_r2($pagination);
+	    \Yii::$app->pr->print_r2($allManufacturers);
+	    \Yii::$app->pr->print_r2($filterDataForSection);
+	    die();*/
 		//unset($allFilterDataProps);
 
 	    //добавим пустые значения для выбранного фильтра по производителям

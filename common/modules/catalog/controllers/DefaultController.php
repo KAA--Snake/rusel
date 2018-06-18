@@ -149,6 +149,7 @@ class DefaultController extends Controller
         //\Yii::$app->pr->print_r2($sectionProducts);
 
 
+
         /** раскомментить ниже если нужен только 1 подраздел */
         //$sectionData = $sectionModel->getSectionByUrl($pathForParse, 1);
 
