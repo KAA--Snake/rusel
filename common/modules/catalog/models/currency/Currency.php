@@ -70,7 +70,7 @@ class Currency extends \yii\db\ActiveRecord
 
             $attr= [
                 'currency_id' => intval($el->NumCode),
-                'course_to_rub' => floatval($price),
+                'course_to_rub' => round(floatval($price), 4),
                 'currency_code' => strval($el->CharCode),
             ];
             $selfCurrency->setAttributes($attr);
