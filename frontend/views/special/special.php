@@ -547,7 +547,6 @@ $this->title = 'Спецпредложения rusel24';
                             <?php if (isset($oneProduct['_source']['accessories']) && count($oneProduct['_source']['accessories']) > 0) { ?>
                                 <div class="product_tab_content" id="appurtenant">
 
-
                                     <?= $this->render('@common/modules/catalog/views/default/productInclude', ['currentSectionProducts' => $oneProduct['_source']['accessories']]); ?>
 
 

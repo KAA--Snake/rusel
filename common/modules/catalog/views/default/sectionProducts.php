@@ -315,7 +315,7 @@ die();*/
 
 
                                                 <td class="stores_order left_bordered">
-                                                    <?\Yii::$app->pr->print_r2($oneStorage);?>
+                                                    <?//\Yii::$app->pr->print_r2($oneStorage);?>
                                                     <div class="card_part order js-order_data"
                                                          data-product-prices="<?= urlencode(json_encode($oneStorage['prices'])); ?>"
                                                          data-product-norma_upakovki="<?= urlencode(json_encode($oneStorage['product_logic']['norma_upakovki'])); ?>"
