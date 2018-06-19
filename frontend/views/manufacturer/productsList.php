@@ -118,11 +118,11 @@ $perPage = $paginator['maxSizeCnt'];
                 $url = Url::to('@catalogDir/' . str_replace('|', '/', $oneProduct['_source']['url']) . '/');
 
                 /** Если склад один, то приведем его к массиву, чтобы не гемороиться дальше */
-                if($oneProduct['_source']['prices']['stores'] == 1){
+               /* if($oneProduct['_source']['prices']['stores'] == 1){
                     $singleStorage = $oneProduct['_source']['prices']['storage'];
                     unset($oneProduct['_source']['prices']['storage']);
                     $oneProduct['_source']['prices']['storage'][] = $singleStorage;
-                }
+                }*/
                 ?>
                 <?php //\Yii::$app->pr->print_r2($oneProduct);?>
                 <div class="product_card js-product_card js-tab_collapsed">

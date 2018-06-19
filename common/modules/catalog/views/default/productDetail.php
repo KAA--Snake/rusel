@@ -10,11 +10,11 @@ use common\modules\catalog\models\currency\Currency;
 $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
 
 /** Если склад один, то приведем его к массиву, чтобы не гемороиться дальше */
-if($oneProduct['_source']['prices']['stores'] == 1){
+/*if($oneProduct['_source']['prices']['stores'] == 1){
     $singleStorage = $oneProduct['_source']['prices']['storage'];
     unset($oneProduct['_source']['prices']['storage']);
     $oneProduct['_source']['prices']['storage'][] = $singleStorage;
-}
+}*/
 ?>
 <?php //Yii::$app->pr->print_r2($oneProduct);?>
 
