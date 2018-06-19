@@ -582,8 +582,8 @@ $perPage = $paginator['maxSizeCnt'];
                                                 if (empty($oneDoc)) continue;
                                                 ?>
                                                 <li class="docs_item pdf">
-                                                    <a class="docs_file_link "
-                                                       href="<?= Url::to('@catDocs/' . $oneDoc); ?>"><?= $oneDoc; ?></a>
+                                                    <a class="docs_file_link " href="<?= $oneDoc; ?>"><?= $oneDoc; ?></a>
+	                                                <?/* <a class="docs_file_link " href="<?= Url::to('@catDocs/' . $oneDoc); ?>"><?= $oneDoc; ?></a><?*/?>
                                                 </li>
                                             <? } ?>
                                         </ul>
