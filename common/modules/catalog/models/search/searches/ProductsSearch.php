@@ -461,6 +461,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	    //добавим пустые значения для выбранного фильтра по производителям
 	    $this->_addEmptyManufacturers($allManufacturers, $filteredManufacturers);
 
+	    $this->_setSingleStorageAsMulti($filterDataForSection);
+
+	    $this->_setSinglePriceAsMulty($filterDataForSection);
+
 	    static::setAccessoriedProds($filterDataForSection);
 
         return
@@ -590,6 +594,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 * @return bool
 	 */
 	private function _setSingleStorageAsMulti(&$response){
+
 		foreach ($response['hits']['hits'] as $k => $oneProduct){
 
 			/** Если склад один, то приведем его к массиву, чтобы не гемороиться дальше */
@@ -598,6 +603,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				unset($response['hits']['hits'][$k]['_source']['prices']['storage']);
 				$response['hits']['hits'][$k]['_source']['prices']['storage'][] = $singleStorage;
 				unset($singleStorage);
+
+				//\Yii::$app->pr->print_r2($oneProduct);
+				//die();
 			}
 
 		}

@@ -66,7 +66,7 @@ die();*/
             <?php foreach ($currentSectionProducts as $oneProduct) {
                 $json = json_encode($oneProduct);
                 $url = Url::to('@catalogDir/' . str_replace('|', '/', $oneProduct['_source']['url']) . '/');
-
+                //\Yii::$app->pr->print_r2($oneProduct);
                 /** Если склад один, то приведем его к массиву, чтобы не гемороиться дальше */
                 /*if($oneProduct['_source']['prices']['stores'] == 1){
 	                $singleStorage = $oneProduct['_source']['prices']['storage'];
