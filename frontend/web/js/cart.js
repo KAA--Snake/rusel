@@ -202,7 +202,7 @@ $(document).ready(function () {
                             }
                         }
                     } else {
-                        orderPrice = parseFloat(+productData.productPrices.price_range.value * getRateOfExchange(productData.productPrices.price_range.currency));
+                        orderPrice = (+productData.productPrices.price_range.value * getRateOfExchange(productData.productPrices.price_range.currency)).toFixed(2);
 
                     }
                 }
@@ -293,10 +293,10 @@ function getRateOfExchange(code) {
             }
         });
     } else {
-        currencies = +$('body').data('currencies')[code]
+        currencies = +$('body').data('currencies')[code];
     }
 
-    //console.log(currencies);
+    console.log('currency : ' + currencies);
     //console.log((Math.round(currencies * 100))/100);
     return currencies;
 };
