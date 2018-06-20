@@ -326,6 +326,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
      * Отдает товары и фильтр по заданным параметрам
      *
      * TODO отрефакторить, т.к. чтото слишком огромный
+     * @TODO NEED CACHE BADLY !!! VERY OVERLOAD PIECE OF SHEET !!
      *
      *
      * @param $params
@@ -400,9 +401,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
 
-        /*\Yii::$app->pr->print_r2($_POST);
+       /* \Yii::$app->pr->print_r2($_POST);
         \Yii::$app->pr->print_r2($manufacturers);
-        \Yii::$app->pr->print_r2($filterData);*/
+        \Yii::$app->pr->print_r2($filterData);
+        die();*/
 
         /** сборка для уже выбранных параметров фильтра */
         $appliedFilter = [];
@@ -1036,6 +1038,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 */
     private function _addEmptyProps(&$fullFilterData, &$filteredData){
 
+	    /*\Yii::$app->pr->print_r2($fullFilterData);
+	    \Yii::$app->pr->print_r2($filteredData);
+	    die();*/
+
     	//если товары не найдены, но фильтрации не было (фильтр по сути не использовался))
     	if(!$filteredData && !$this->isEmptyResult) return false;
 
@@ -1051,11 +1057,14 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			    if($this->isEmptyResult) continue;
 
 			    //а те что есть- заменим doc_count на те, что были в выбранном
-		    	foreach($filteredData[$propId]['prop_values']['buckets'] as $onePickedProperty){
-					if($oneFullProperty['key'] == $onePickedProperty['key']){
-						$fullFilterData[$propId]['prop_values']['buckets'][$mainPropKey]['doc_count'] = $onePickedProperty['doc_count'];
-					}
+			    if(!empty($filteredData[$propId])){
+				    foreach($filteredData[$propId]['prop_values']['buckets'] as $onePickedProperty){
+					    if($oneFullProperty['key'] == $onePickedProperty['key']){
+						    $fullFilterData[$propId]['prop_values']['buckets'][$mainPropKey]['doc_count'] = $onePickedProperty['doc_count'];
+					    }
+				    }
 			    }
+
 
 		    }
 
