@@ -177,8 +177,8 @@ class Section extends \yii\db\ActiveRecord
             ],*/
             'sort' => [
                 'defaultOrder' => [
-                    'depth_level' => SORT_ASC,
-                    //'name' => SORT_DESC
+                    //'depth_level' => SORT_ASC,
+                    'name' => SORT_ASC
                 ]
             ],
         ]);
