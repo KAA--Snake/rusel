@@ -89,12 +89,18 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
             //\Yii::$app->pr->print_r2(json_encode($params));
 
-            $response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+            $response = Elastic::getElasticClient()->search($params);
 
             //\Yii::$app->pr->print_r2($response);
             if(!empty($response)){
+
+	            $this->_setSingleStorageAsMulti($response);
+
+	            $this->_setSinglePriceAsMulty($response);
+
+
                 //добавляем аксессуары к продуктам
-                Product::setAccessoriedProds($response);
+                static::setAccessoriedProds($response);
                 $this->foundGoodResultsCount++;
             }else{
                 $response = ['error' => 'Товаров не найдено'];
@@ -102,9 +108,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
 
-            //\Yii::$app->pr->print_r2($response);
+            /*\Yii::$app->pr->print_r2($response);
+            die();*/
 
-            $productsFound[] = $response;
+            $productsFound[] = $response['hits']['hits'];
 
             unset($response);
 
