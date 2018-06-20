@@ -781,13 +781,14 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 		/** Пройдем по всем записям и удалим те скалды, которые не были в покупках */
 		foreach ($products as &$oneCartProduct){
-
-			if($oneCartProduct['_source']['prices']['stores'] == 0){
-				unset($oneCartProduct['_source']['prices']['storage']);
-				continue;
-			}
 			//\Yii::$app->pr->print_r2($cartStorages);
 			//\Yii::$app->pr->print_r2($oneCartProduct);
+			if($oneCartProduct['_source']['prices']['stores'] == 0){
+				/*unset($oneCartProduct['_source']['prices']['storage']);
+				continue;*/
+				continue;
+			}
+
 
 			$storagesForCurrentProduct = $cartStorages[$oneCartProduct['_source']['id']];
 

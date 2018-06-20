@@ -98,7 +98,7 @@ class CartController extends Controller
             $products = $productsModel->getProductsByIds($prodIds)['hits'];
 
             //удалим те скалды, которые не были в покупках
-	        //$productsModel->removeCartStorages($products, $storages);
+	        $productsModel->removeCartStorages($products, $storages);
             //\Yii::$app->pr->print_r2($products);
         }
 
