@@ -11,7 +11,7 @@ use common\modules\catalog\models\currency\Currency;
     <div class="file_name_block">
         <div>
             Список:
-            <span class="uploaded_file_name"><?= Yii::$app->session->getFlash('uploadedFileName'); ?></span>
+            <span class="uploaded_file_name"><?=$uploadedFileName; ?></span>
             <div class="by-artikuls_submit_btn_fin">Поиск завершен</div>
         </div>
     </div>

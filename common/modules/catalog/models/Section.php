@@ -176,9 +176,11 @@ class Section extends \yii\db\ActiveRecord
                 'pageSize' => $sectionsCount,
             ],*/
             'sort' => [
+
                 'defaultOrder' => [
                     //'depth_level' => SORT_ASC,
-                    'name' => SORT_ASC
+                    'sort' => SORT_ASC
+                    //'name' => SORT_ASC
                 ]
             ],
         ]);

@@ -107,10 +107,11 @@ class SearchController extends Controller
                     //\Yii::$app->pr->print_r2($searchResult);
 
                     //пробрасывавем имя файла для последующей страницы
-                    Yii::$app->session->addFlash('uploadedFileName', $fileSearchModel->file->baseName . '.' . $fileSearchModel->file->extension);
+                    $fn = $fileSearchModel->file->baseName . '.' . $fileSearchModel->file->extension;
+	                \Yii::$app->session->set('uploadedFileNameAfter', $fn);
 
                     return $this->render('listSearchLoaded', [
-                        'uploadedFileName' => $fileSearchModel->file->baseName . '.' . $fileSearchModel->file->extension,
+                        'uploadedFileName' => $fn,
                         'artiklesList' => $artiklesList,
                         //'products' => $searchResult,
                         //'searchModel' => $fileSearchModel,
@@ -147,9 +148,16 @@ class SearchController extends Controller
             $searchResult = $searchModel->searchByArtikuls(Yii::$app->getRequest()->post()['articles']);
 
         }
-        //\Yii::$app->pr->print_r2($searchResult);
+
+	    //пробрасывавем имя файла для последующей страницы
+	    $fn = \Yii::$app->session->get('uploadedFileNameAfter', 'unknown name');
+	    \Yii::$app->session->remove('uploadedFileNameAfter');
+	    //\Yii::$app->pr->print_r2($uploadedFilename);
+
+	    //die();
 
         return $this->render('listSearchResult', [
+	        'uploadedFileName' => $fn,
             'productsList' => $searchResult,
             'artiklesList' => Yii::$app->getRequest()->post()['articles'],
         ]);
