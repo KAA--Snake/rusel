@@ -67,14 +67,14 @@ use common\modules\catalog\models\currency\Currency;
                 <div class="articles_item_body product_cards_block">
 
                     <?php if (count($articleProducts) > 0) { ?>
-                        <?php foreach ($articleProducts as $oneProduct) {
+                        <?php foreach ($articleProducts as $k =>  $oneProduct) {
                             if ($foundProducts > 0) {
                             $json = json_encode($oneProduct);
                             $url = Url::to('@catalogDir/' . str_replace('|', '/', $oneProduct['_source']['url']) . '/');
 
                             ?>
                             <?php //\Yii::$app->pr->print_r2($oneProduct);?>
-                            <div class="product_card js-product_card js-tab_collapsed">
+                            <div class="product_card js-product_card js-tab_collapsed <?php if($k > 9){?>product_card--hidden<?php }?>">
                                 <table class="product_card_inner_wrap">
                                     <tr>
                                         <td class="product_name_td">
