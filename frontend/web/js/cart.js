@@ -1,3 +1,4 @@
+
 var currenciesData;
 $(document).ready(function () {
 
@@ -96,10 +97,21 @@ $(document).ready(function () {
             orderedCountField = orderedBlock.find('.ordered_count .bold'),
             orderedPriceField = orderedBlock.find('.ordered_price .bold'),
             orderValue = productID + '|' + productCount,
-            orderPrice = 0;
+            orderPrice = 0,
+            self = $(this);
 
 
         if (document.location.pathname == '/cart/') {
+
+
+            if($(this).closest('.ordered_block').find('.count_tooltip').length){
+                $('.count_tooltip').remove();
+                return false;
+            }
+
+
+
+
             $(this).closest('.ordered_block').append('<span class="count_tooltip"><span class="order_buttons_block"><span class="order_button decline_delete_pos">изменить количество</span> <span class="order_button approve_delete_pos">удалить из запроса</span></span> <span class="corner"></span></span>');
 
             $('.approve_delete_pos').click(function () {
@@ -135,14 +147,14 @@ $(document).ready(function () {
                 productContainer.find('.js-order_count').val('');
 
             });
+
         } else {
             cartPositionDelete(productID, productCount, productData.storage_id || null);
             orderInput.show().removeClass('hidden');
             orderedBlock.hide().addClass('hidden');
             productContainer.find('.js-order_count').val('');
-
-
         }
+
 
 
     });
@@ -423,9 +435,13 @@ function cartPositionDelete(id, count, store_id) {
 
 
     $('.contact_item.order .order_count').text(cartArr.length);
+    var date = new Date();
+    date.setHours(0,0,0,0);
+    date.setDate(date.getDate() + 1);
+    console.log(date);
     cookie.setCookie('cart', cartArr.join('&'), {
         path: '/',
-        expires: 'Tue, 19 Jan 2038 03:14:07 GMT'
+        expires: date
     });
 };
 
@@ -453,9 +469,13 @@ function cartUpdate(id, count, store_id) {
     }
     console.log(cartArr);
     $('.contact_item.order .order_count').text(cartArr.length);
+    var date = new Date();
+    date.setHours(0,0,0,0);
+    date.setDate(date.getDate() + 1);
+    console.log(date);
     cookie.setCookie('cart', cartArr.join('&'), {
         path: '/',
-        expires: 'Tue, 19 Jan 2038 03:14:07 GMT'
+        expires: date
     });
 
     if (document.location.pathname == '/cart/') {
