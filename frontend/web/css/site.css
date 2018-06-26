@@ -77,7 +77,7 @@ table {
     margin-left: 240px;
 }
 .hidden{
-    display: none;
+    display: none !important;
 }
 .bold{
     font-weight: 700;

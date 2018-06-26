@@ -104,17 +104,20 @@ $(document).ready(function () {
         if (document.location.pathname == '/cart/') {
 
 
-            if($(this).closest('.ordered_block').find('.count_tooltip').length){
-                $('.count_tooltip').remove();
-                return false;
-            }
 
 
 
 
-            $(this).closest('.ordered_block').append('<span class="count_tooltip"><span class="order_buttons_block"><span class="order_button decline_delete_pos">изменить количество</span> <span class="order_button approve_delete_pos">удалить из запроса</span></span> <span class="corner"></span></span>');
+
+            $(this).closest('.ordered_block').append('<span class="count_tooltip js-remove-from-cart"><span class="order_buttons_block"><span class="order_button decline_delete_pos">изменить количество</span> <span class="order_button approve_delete_pos">удалить из запроса</span></span> <span class="corner"></span></span>');
+            $(document.body).prepend('<div class="tooltip_layer"></div>');
+            $('.tooltip_layer').click(function (e) {
+                self.closest('.ordered_block').find('.js-remove-from-cart').remove();
+                $(this).remove();
+            });
 
             $('.approve_delete_pos').click(function () {
+                $('.tooltip_layer').remove();
                 cartPositionDelete(productID, productCount, productData.storage_id || null);
                 productContainer.closest('.js-store-row').remove();
                 console.log(productCard.find('.js-store-row'));
@@ -140,6 +143,7 @@ $(document).ready(function () {
 
             });
             $('.decline_delete_pos').click(function () {
+                $('.tooltip_layer').remove();
                 $(this).closest('.count_tooltip').remove();
                 cartPositionDelete(productID, productCount, productData.storage_id || null)
                 orderInput.show().removeClass('hidden');

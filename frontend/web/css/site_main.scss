@@ -720,7 +720,25 @@ $white:#ffffff;
               .tag_list{
                 padding-left: 70px;
                 padding-right: 70px;
-                .name{
+                .filter_more_btn {
+                  display: inline-block;
+                  color: $blue;
+                  font-size: 14px;
+                  font-weight: 700;
+                  line-height: 50px;
+                  text-decoration: underline;
+                  text-transform: uppercase;
+                  padding: 0 20px;
+                  cursor: pointer;
+                  transition: 0.2s;
+                  /*flex-grow:1;*/
+                  &:hover{
+                    color:#7194b8;
+                    text-decoration: none;
+                    transition: 0.2s;
+                  }
+                }
+                  .name{
                   margin-left: -70px;
                   display: inline-block;
                   color: #333333;
@@ -3295,9 +3313,17 @@ $white:#ffffff;
     font-size: 12px;
     font-weight: 300;
     line-height: 82px;
-
   }
   .footer-right{
+    span{
+      opacity: 0.5;
+      color: #333333;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 20px;
+      display: block;
+      margin-top: 22px;
+    }
     .contact_block{
       margin-top: 24px;
       .contact_item{
@@ -3686,4 +3712,15 @@ $white:#ffffff;
       text-decoration: none;
     }
   }
+}
+
+.tooltip_layer{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9;
 }

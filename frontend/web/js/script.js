@@ -436,6 +436,17 @@ $(document).ready(function () {
         }
     });
 
+    $('.js-filter-param-item-more').click(function () {
+       var list = $(this).closest('.tag_list'),
+           items = list.find('.js-filter-param-item.hidden');
+
+       items.each(function (k, item) {
+
+           item.classList.remove('hidden');
+       });
+       $(this).hide();
+    });
+
 
     var filterQuery = $('#filter_applied').attr('data') || '';
 
