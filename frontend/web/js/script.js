@@ -334,7 +334,7 @@ $(document).ready(function () {
 
     $('.js-selected_show_in_stock_vars').click(function () {
         if($(this).next('.show_in_stock_vars').hasClass('active')){
-            $(this).next('.show_in_stock_vars').fadeOut().removeClass('active');
+            $(this).next('.show_in_stock_vars').fadeOut().removeClass('hidden').removeClass('active');
         }else{
             $(this).next('.show_in_stock_vars').fadeIn().addClass('active');
         }
@@ -356,8 +356,8 @@ $(document).ready(function () {
             e.preventDefault();
             catalogItem.slideDown(function () {
                 spListHeightToggle();
-            });
-            producersBlock.slideDown();
+            }).removeClass('hidden');
+            producersBlock.slideDown().removeClass('hidden');
             $(this).removeClass('inactive').addClass('active');
             $(this).find('.tree_header_icon').removeClass('inactive').addClass('active');
         }else if($(this).hasClass('active')  && catalogItem.length) {

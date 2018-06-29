@@ -62,36 +62,14 @@ $sectionModel = new Section();
                                 <div class="tree_header_icon inactive"></div>
                             </a>
                         </h2>
-                        <?php if (count($oneSibling->childs) > 0) { ?>
+                        <?php /*if (count($oneSibling->childs) > 0) { */?><!--
                         <div class="producers_block hidden">
-                            <span class="producers_block_header">Производители по разделу: </span>
-                            <span class="producers_item"><a href="">EPCOS (TDK)</a>,</span>
-                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
-                            <span class="producers_item"><a href="">KEMMET</a>,</span>
-                            <span class="producers_item"><a href="">ADESTO</a>,</span>
-                            <span class="producers_item"><a href="">APLHA</a>,</span>
-                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
-                            <span class="producers_item"><a href="">KEMMET</a>,</span>
-                            <span class="producers_item"><a href="">EPCOS (TDK)</a>,</span>
-                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
-                            <span class="producers_item"><a href="">KEMMET</a>,</span>
-                            <span class="producers_item"><a href="">ADESTO</a>,</span>
-                            <span class="producers_item"><a href="">APLHA</a>,</span>
-                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
-                            <span class="producers_item"><a href="">KEMMET</a>,</span>
-                            <span class="producers_item"><a href="">EPCOS (TDK)</a>,</span>
-                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
-                            <span class="producers_item"><a href="">KEMMET</a>,</span>
-                            <span class="producers_item"><a href="">ADESTO</a>,</span>
-                            <span class="producers_item"><a href="">APLHA</a>,</span>
-                            <span class="producers_item"><a href="">SAMSUNG</a>,</span>
-                            <span class="producers_item"><a href="">KEMMET</a>,</span>
-                            <span class="producers_item"><a href="">ADESTO</a></span>
+
                         </div>
-                         <?php } ?>
+                         --><?php /*} */?>
 
                         <?php if (count($oneSibling->childs) > 0) { ?>
-                            <div class="tree_list hidden">
+                            <div class="tree_list" style="display: none;">
                                 <?php
                                 $sectionModel->recursiveLevel = 1;
                                 $sectionModel->listTree($oneSibling->childs);

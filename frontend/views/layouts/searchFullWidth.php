@@ -94,7 +94,7 @@ AppAsset::register($this);
                         //'id'        =>  'breadCrumbs',
                         'class'        =>  'breadcrumbs_list',
                     ],
-                    'homeLink' => ['label' => 'Навигация по каталогу:'],
+                    'homeLink' => ['label' => 'Каталог:'],
                     'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // for main
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]);?>

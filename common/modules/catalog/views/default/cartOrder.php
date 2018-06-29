@@ -505,7 +505,8 @@ use yii\helpers\Html;
     </div>
 
     <div class="_order_section _summary">
-        Итого по выбранным наименованиям: <span class="sum_amount bold">000,00 руб</span>
+        Внимание! Работаем только с юридическим лицами и индивидуальными предпринимателями.
+
     </div>
 
     <form action="/order/send/" method="post" name="Order" id="order_request_form" class="order_request_form">
@@ -520,7 +521,7 @@ use yii\helpers\Html;
                 <label for="var1">Коммерческое предложение</label>
 
                 <input type="radio" id="var2" name="Order[answer_var]" class="radio_btn js-order-type org_required" value="2">
-                <label for="var2">Счет на оплату (потребуются данные организации)</label>
+                <label for="var2">Счет на оплату</label>
             </div>
 
         </div>
@@ -551,7 +552,7 @@ use yii\helpers\Html;
                     <div class="col col_1">
                         <label class="text_label" for="org">Организация или ИП:</label>
                         <input type="text" id="org" name="Order[org]" data-validation="required" class="_order_inp">
-                        <div class="org_tooltip"><span class="org_tooltip_arrow"></span>Введите название, ИНН или адрес</div>
+                        <div class="org_tooltip"><span class="org_tooltip_arrow"></span> Начните вводить название или ИНН, затем выбирайте из списка</div>
                     </div>
                     <div class="selected_org"></div>
                 </div>
@@ -564,19 +565,18 @@ use yii\helpers\Html;
             <div class="form_part_wrap">
                 <input type="radio" id="delivery_var1" name="Order[delivery_var]" class="radio_btn js-delivery-radio js-delivery-self_dispatch" value="1" checked="checked">
                 <label for="delivery_var1">Самовывоз с пункта выдачи заказов (бесплатная услуга)
-                    <span class="address">Адрес:
-                    <a href=""><span class="addres_icon"></span> ул. Пушкина 24, дом 254, офис 25</a>
+                    <a href="/company/delivery/#dostavka">Подробнее &rarr;</a>
                 </span>
                 </label>
 
                 <input type="radio" id="delivery_var2" name="Order[delivery_var]" class="radio_btn js-delivery-radio js-delivery-half" value="2">
-                <label for="delivery_var2">Доставка транспортной компанией до терминала в ближайшем городе покупателя (платная услуга, дополнительно оплачивается покупателем заказа)
-                    <a href="">Тарифы</a>
+                <label for="delivery_var2">Доставка транспортной компанией до терминала в городе покупателя (платная услуга, дополнительно
+                    оплачивается грузополучателем)
                 </label>
 
                 <input type="radio" id="delivery_var3" name="Order[delivery_var]" class="radio_btn js-delivery-radio js-delivery-full" value="3">
-                <label for="delivery_var3">Доставка транспортной компанией до «двери» покупателя (платная услуга, дополнительно оплачивается получателем заказа)
-                    <a href="">Тарифы</a>
+                <label for="delivery_var3">Доставка транспортной компанией «до двери» покупателя (платная услуга, дополнительно оплачивается
+                    грузополучателем)
                 </label>
             </div>
 
@@ -587,19 +587,11 @@ use yii\helpers\Html;
                 </div>
 
                 <div class="row clear js-delivery-input js-delivery-half hidden">
-                    <div class="col col_3">
+                    <div class="col col_1">
                         <label class="text_label" for="delivery_city">Выбрать город</label>
                         <select class="_order_sel js-city-select" name="fake[delivery_city]" id="delivery_city">
                             <option value=""></option>
                         </select>
-                    </div>
-                    <div class="col col_3">
-                        <label class="text_label" for="delivery_contact_person">Контактное лицо:</label>
-                        <input type="text" id="delivery_contact_person" name="Order[delivery_contact_person]" class="_order_inp" value="<?=$cartFields->delivery_contact_person;?>">
-                    </div>
-                    <div class="col col_3">
-                        <label class="text_label" for="delivery_tel">Телефон для связи:</label>
-                        <input type="text" id="delivery_tel" name="Order[delivery_tel]" class="_order_inp" value="<?=$cartFields->delivery_tel;?>">
                     </div>
                 </div>
 
@@ -622,6 +614,7 @@ use yii\helpers\Html;
         </div>
 
         <div class="_order_submit_wrap">
+            <div class="grey_text">Нажимая на кнопку Вы даете согласие на сбор, хранение и обработку своих персональных данных.</div>
             <input class="order_submit_btn" type="submit" value="Отправить запрос">
         </div>
 

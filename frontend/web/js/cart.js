@@ -21,14 +21,14 @@ $(document).ready(function () {
         onSelect: showSuggestion
     });
 
-    $("#delivery_address").suggestions({
+    /*$("#delivery_address").suggestions({
         token: "240612ffd28e9888533a15c054c025ea2968155f",
         type: "ADDRESS",
-        /* Вызывается, когда пользователь выбирает одну из подсказок */
+        /!* Вызывается, когда пользователь выбирает одну из подсказок *!/
         onSelect: function (suggestion) {
             $('input[name="Order[delivery_city_index]"]').val(suggestion.data.postal_code);
         }
-    });
+    });*/
 
     /*$('.js-city-select').selectmenu();*/
     $('.js-city-select').on('change', function () {
@@ -48,10 +48,11 @@ $(document).ready(function () {
     })*/
 
     $('.js-delivery-radio').click(function (e) {
+        console.log($(this));
         if (this.checked && $(this).hasClass('js-delivery-full')) {
-            $('.js-delivery-input').show();
-            $('.address_subheader').show();
-            $('.js-delivery-input input').attr('data-validation', 'required');
+            $('.js-delivery-input').show().removeClass('hidden');
+            $('.address_subheader').show().removeClass('hidden');
+            $('input#tel').attr('data-validation', 'required');
             $('#delivery_city').attr('data-validation', 'required');
 
             if ($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') == -1 && $('.delivery_time_text').text().length > 0) {
@@ -60,15 +61,17 @@ $(document).ready(function () {
         } else if (this.checked && $(this).hasClass('js-delivery-half')) {
             $('.js-delivery-input.js-delivery-full').hide();
             $('.js-delivery-input.js-delivery-full input').attr('data-validation', '');
-            $('.js-delivery-input.js-delivery-half').show();
+            $('.js-delivery-input.js-delivery-half').show().removeClass('hidden');
+            $('input#tel').attr('data-validation', 'required');
             $('.js-delivery-input.js-delivery-half input').attr('data-validation', 'required');
             $('#delivery_city').attr('data-validation', 'required');
-            $('.address_subheader').show();
+            $('.address_subheader').show().removeClass('hidden');
             if ($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') !== -1 && $('.delivery_time_text').text().length > 0) {
                 $('.delivery_time_text').text($('.delivery_time_text').text().slice(0, $('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.')));
             }
         } else {
             $('.js-delivery-input').hide();
+            $('input#tel').attr('data-validation', '');
             $('.js-delivery-input input').attr('data-validation', '');
             $('#delivery_city').attr('data-validation', '');
             $('.address_subheader').hide();
@@ -123,11 +126,11 @@ $(document).ready(function () {
                 console.log(productCard.find('.js-store-row'));
                 if(!productCard.find('.js-store-row').length) productCard.remove();
 
-                var sum = 0;
+                /*var sum = 0;
                 $('.ordered_price .bold').each(function () {
                     sum += parseFloat($(this).text());
                 });
-                $('.sum_amount').text(sum.toFixed(2) + ' руб');
+                $('.sum_amount').text(sum.toFixed(2) + ' руб');*/
 
                 console.log(productCard);
                 console.log(productCard.length);
@@ -415,14 +418,14 @@ function cartCheck() {
                 </div>`
             );
         }
-        var sum = 0;
+        /*var sum = 0;
         $('.ordered_price .bold').each(function () {
             if($(this).text().indexOf('по запросу') == -1){
                 sum += parseFloat($(this).text());
             }
 
         });
-        $('.sum_amount').text(sum.toFixed(2) + ' руб');
+        $('.sum_amount').text(sum.toFixed(2) + ' руб');*/
     }
 };
 
@@ -482,13 +485,13 @@ function cartUpdate(id, count, store_id) {
         expires: date
     });
 
-    if (document.location.pathname == '/cart/') {
+    /*if (document.location.pathname == '/cart/') {
         var sum = 0;
         $('.ordered_price .bold').each(function () {
             sum += parseFloat($(this).text());
         });
         $('.sum_amount').text(sum.toFixed(2) + ' руб');
-    }
+    }*/
 }
 
 

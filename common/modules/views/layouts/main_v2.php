@@ -69,29 +69,7 @@ AppAsset2::register($this);
 </div>
 
 <footer class="footer">
-    <div class="mw1350 clear">
-        <div class="footer-left fll">&copy; Русєл24. Торговля электронными компонентами. Все права защищены. <?= date('Y') ?></div>
-
-        <div class="footer-right flr">
-            <div class="contact_block">
-                <div class="contact_item phone">
-                    <div class="icon "></div>
-                    <div class="contact">
-                        <div class="top">8 (495) 589-34-23</div>
-                        <!--<div class="bottom js-recall_popup_trigger">Обратный звонок</div>-->
-                        <div class="bottom">Пн-Пт 9:00-18:00(МСК)</div>
-                    </div>
-                </div>
-                <div class="contact_item mail">
-                    <div class="icon"></div>
-                    <div class="contact">
-                        <div class="top">zapros@rusel24.ru</div>
-                        <div class="bottom"><a class="mailto-link" href="mailto:zapros@rusel24.ru">Отправить письмо</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <? echo \Yii::$app->view->renderFile('@app/views/includes/layout_v1/footer.php');?>
 </footer>
 
 <?php $this->endBody() ?>

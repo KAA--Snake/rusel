@@ -289,7 +289,7 @@ $white:#ffffff;
         max-width: 220px;
         &-fullwidth{
           transform-origin:top;
-          border: 1px solid #e5e5e5;
+          border: 1px solid $blue;
           background-color: $white;
           padding: 20px 18px 12px;
           position: absolute;
@@ -302,8 +302,8 @@ $white:#ffffff;
             position: absolute;
             transform: rotate(45deg);
             background: $white;
-            border: 1px solid #e5e5e5;
-            top: -10px;
+            border: 1px solid $blue;
+            top: -11px;
             left: 100px;
             border-bottom: none;
             border-right: none;
@@ -441,6 +441,7 @@ $white:#ffffff;
             transition: 0.4s;
             width: 100vw;
             max-width: 940px;
+            z-index: 3;
             .gc_item{
               position: relative;
               background-color: $white;
@@ -2746,15 +2747,18 @@ $white:#ffffff;
                         display: block;
                         background: #fff;
                         color: #000;
-                        border: 1px solid #336699;
+                        border: 1px solid $blue;
                         width: 220px;
                         line-height: 26px;
                         text-align: center;
                         z-index: 10;
-                        top: -84px;
+                        top: -64px;
                         left: 50%;
                         box-shadow: 3px 3px 18px -4px #000;
                         margin-left: -106px;
+                        font-weight: 600;
+                        font-size: 12px;
+                        padding: 0;
                         .corner {
                           width: 10px;
                           height: 10px;
@@ -2854,7 +2858,7 @@ $white:#ffffff;
                     font-size: 12px;
                     font-weight: 300;
                     line-height: 35px;
-                    width: 35%;
+                    width: 52%;
                   }
                   .param_value{
                     color: #000000;
@@ -2940,7 +2944,7 @@ $white:#ffffff;
                 font-size: 12px;
                 font-weight: 300;
                 line-height: 35px;
-                width: 35%;
+                width: 52%;
               }
               .param_value{
                 color: #000000;
@@ -3107,11 +3111,12 @@ $white:#ffffff;
               }
             }
             &._summary{
-              text-align: right;
-              font-size: 14px;
+              text-align: center;
+              font-size: 12px;
               line-height: 20px;
-              color: #adadad;
+              color: #a3a3a3;
               font-weight: 300;
+
               .sum_amount{
                 color: #000000;
                 font-weight: 600;
@@ -3168,7 +3173,6 @@ $white:#ffffff;
             }
           }
           ._order_submit_wrap{
-            margin-top: 30px;
             text-align: center;
             .order_submit_btn{
               width: 240px;
@@ -3197,7 +3201,7 @@ $white:#ffffff;
                 font-size: 12px;
                 font-weight: 300;
                 line-height: 35px;
-                width: 35%;
+                width: 52%;
               }
               .param_value{
                 color: #000000;
@@ -3723,4 +3727,18 @@ $white:#ffffff;
   top: 0;
   bottom: 0;
   z-index: 9;
+}
+
+.suggestions-hint{
+  color: #9f0f18;
+}
+
+.grey_text{
+  color: #a3a3a3;
+  font-size: 12px;
+  line-height: 60px;
+}
+
+.form-error{
+  color: #9f0f18;
 }
