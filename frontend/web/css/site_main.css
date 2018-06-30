@@ -2870,4 +2870,12 @@
 .form-error {
   color: #9f0f18; }
 
+.prod_warn {
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 30px 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: #a3a3a3; }
+
 /*# sourceMappingURL=site_main.css.map */
