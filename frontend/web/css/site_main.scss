@@ -2822,7 +2822,6 @@ $white:#ffffff;
                 .docs_list{
                   list-style: none;
                   .docs_item{
-                    background: url("../img/pdf_fileicon.png") left center no-repeat;
                     .docs_file_link{
                       line-height: 28px;
                       color: #9f0f18;
@@ -2832,6 +2831,9 @@ $white:#ffffff;
                       padding-left: 34px;
                       &:hover{
                         text-decoration: none;
+                      }
+                      svg{
+                        width: 120px;
                       }
                     }
                   }
@@ -2960,7 +2962,6 @@ $white:#ffffff;
             .docs_list{
               list-style: none;
               .docs_item{
-                background: url("../img/pdf_fileicon.png") left center no-repeat;
                 .docs_file_link{
                   line-height: 28px;
                   color: #9f0f18;
@@ -2970,6 +2971,9 @@ $white:#ffffff;
                   padding-left: 34px;
                   &:hover{
                     text-decoration: none;
+                  }
+                  svg{
+                    width: 120px;
                   }
                 }
               }
