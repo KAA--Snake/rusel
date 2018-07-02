@@ -24,7 +24,7 @@
                         <ul class="tag_list">
                             <li data-param="manufacturer" class="name js-filter-param-name">Производитель:</li>
                             <?foreach($filterManufacturers as $oneFilter){?>
-                                <li data-tag="<?=$oneFilter['key'];?>" class="tag_item rjs-filter-param-item"><?=$oneFilter['key'];?> <span class="filter_param_count">(<?=$oneFilter['doc_count'];?>)</span></li>
+                                <li data-tag="<?=$oneFilter['key'];?>" class="tag_item js-filter-param-item"><?=$oneFilter['key'];?> <span class="filter_param_count">(<?=$oneFilter['doc_count'];?>)</span></li>
                             <?}?>
                         </ul>
                     </td>

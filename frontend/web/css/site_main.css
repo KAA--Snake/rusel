@@ -1,12 +1,13 @@
 /*#00a3e8*/
 .container.main .alert-danger {
   margin: 20px 0 40px;
-  border: 1px solid red;
+  border: 1px solid #9f0f18;
   padding: 12px;
   line-height: 20px;
   font-size: 16px;
-  color: red;
-  background: #fff; }
+  color: #9f0f18;
+  background: #fff;
+  text-align: center; }
   .container.main .alert-danger .close {
     border: 0;
     background: transparent;
@@ -428,9 +429,10 @@
       text-align: center;
       text-decoration: none;
       cursor: pointer;
-      border: none; }
+      border: none;
+      margin-left: -4px; }
     .container.main .content_wrap .content_top .search_block .list_seach {
-      margin-left: 14px;
+      margin-left: 8px;
       width: 157px;
       height: 40px;
       background-color: #336699;
@@ -442,7 +444,8 @@
       text-align: center;
       text-decoration: none;
       cursor: pointer;
-      border: none; }
+      border: none;
+      display: inline-block; }
 .container.main .content_wrap .breadcrumbs_menu {
   margin-bottom: 20px;
   margin-left: 20px; }

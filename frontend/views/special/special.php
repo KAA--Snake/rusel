@@ -48,7 +48,7 @@ $this->title = 'Спецпредложения rusel24';
 
         <div class="catalog_render_count flr">
             На странице: <span class="count_num_selected js-selected_count_vars"><?=$data['paginator']['maxSizeCnt'];?></span> строк
-            <div class="count_vars hidden">
+            <div class="count_vars" style="display: none;">
                 <div class="top_corner"></div>
                 <ul class="count_vars_list">
                     <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage', '25');?>">25</a></li>
