@@ -29,6 +29,24 @@ class CompanyController extends Controller
         ];
     }
 
+	public function behaviors()
+	{
+		return [
+
+			'manufacturers' => [
+				'class' => 'common\modules\catalog\behaviours\Manufacturers_beh',
+				/*'in_attribute' => 'name',
+				'out_attribute' => 'slug',
+				'translit' => true*/
+			],
+			'pagination' => [
+				'class' => 'common\modules\catalog\behaviours\Pagination_beh',
+				'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
+
+			],
+		];
+	}
+
     /**
      * Displays homepage.
      *
