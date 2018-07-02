@@ -148,6 +148,15 @@ class Product extends Model
                             'sort' => [
                                 'type' => 'integer'
                             ],
+                            /*'artikul' => [
+	                            'type' => 'text',
+	                            'fields' => [
+                                    'raw' => [
+                                        'type' => 'keyword'
+                                    ]
+                                ]
+                            ],*/
+
                             'artikul' => [
                                 'type' => 'keyword',
                                 //мульти поле, для сортировки по нему

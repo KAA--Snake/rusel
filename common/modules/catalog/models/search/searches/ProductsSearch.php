@@ -28,6 +28,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         'manufacturer'
     ];
 
+	/** Массив для названий доп свойств(лежащих в nested) */
+	private $additionalProps = [
+		'on_stores',
+		'marketing'
+	];
+
 
     private $productAggregation = [];
 
@@ -77,7 +83,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				//'from' => $from,
 				//'size' => $this->searchConfig['max_by_manual_result'],
 				/*'sort' => [
-					'artikul' => 'asc'
+					'artikul' => ['order' => 'asc']
 				],*/
 				'query' => [
 					'prefix' => [
@@ -87,6 +93,48 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 						]
 					]
 				]
+
+				/*'query' => [
+					'regexp' => [
+						'artikul' => [
+							'value' => '.{0,5}'.$searchString.'.{0,5}'
+							//'value' => '*'.$searchString.'*'
+						]
+					]
+				]*/
+
+
+				/*'query' => [
+					'fuzzy' => [
+						'artikul' => [
+							'value' => $searchString,
+							//"boost"=> 2.0,
+			                "fuzziness"=> 2,
+			                "prefix_length"=> 0,
+			                //"max_expansions"=> 100,
+							//'boost' => 2.0
+						]
+					]
+				]*/
+
+				/*'query' => [
+					'wildcard' => [
+						'artikul' => [
+							'value' => '*'.$searchString.'*'
+						]
+					]
+				],*/
+				/*'query' => [
+					'more_like_this' => [
+						'fields' => [
+							'artikul', 'name', 'properties.detail_text'
+						],
+						"like" => $searchString,
+			            //"min_term_freq" => 1,
+			            //"max_query_terms" => 12,
+
+					]
+				]*/
 			]
 		];
 
@@ -99,6 +147,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 		//\Yii::$app->pr->print_r2($response);
 
+		//die();
 
 		if(!empty($response)){
 
@@ -154,7 +203,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     //'from' => $from,
                     'size' => $this->searchConfig['max_by_files_result'],
                     'sort' => [
-                        'artikul' => 'asc'
+	                    'artikul' => ['order' => 'asc']
                     ],
                     'query' => [
                         'prefix' => [
@@ -262,6 +311,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         ];
 
 
+
+
         $nestedFilters = [];
         foreach($searchParams as $propId=>$propValue){
 
@@ -289,6 +340,65 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             }
 
 
+	        /** Если пришли фильтры по складам и спецпредложениям */
+	        if(in_array($propId, $this->additionalProps)){
+
+	        	switch($propId){
+			        case 'on_stores':
+
+				        /** Доступные на складах */
+				        $must[] = [
+					        "nested"=> [
+
+						        "path"=> "prices.storage.quantity",
+						        "query"=> [
+							        'bool' => [
+								        'must' => [
+									        [
+										        "range"=> [
+											        "prices.storage.quantity.stock.count" => [
+												        "gte" => 0,
+											        ],
+										        ],
+									        ],
+								        ],
+							        ]
+						        ]
+					        ]
+				        ];
+
+			        	break;
+
+			        case 'marketing':
+
+				        /** Спецпредложения */
+				        $must[] = [
+					        "nested"=> [
+
+						        "path"=> "prices.storage.marketing",
+						        "query"=> [
+							        'bool' => [
+								        'must' => [
+									        [
+										        "range"=> [
+											        "prices.storage.marketing.id" => [
+												        "gte" => 0,
+											        ],
+										        ],
+									        ],
+								        ],
+							        ]
+						        ]
+					        ]
+				        ];
+
+				        break;
+		        }
+
+
+		        unset($searchParams[$propId]);
+		        continue;
+	        }
 
 
 
@@ -329,9 +439,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             'body' =>[
                 'from' => $pagination['from'],
                 'size' => $pagination['maxSizeCnt'],
-                'sort' => [
+                /*'sort' => [
                     'artikul' => ['order' => 'asc']
-                ],
+                ],*/
+	            'sort' => [
+					'artikul' => ['order' => 'asc']
+				],
                 "query"=> [
                     "bool"=> [
 
