@@ -163,4 +163,44 @@ class SearchController extends Controller
         ]);
     }
 
+
+    public function actionManual(){
+	    //пробрасывается в контроллер из Pagination_beh.php
+	    $pagination = \Yii::$app->controller->pagination;
+
+	    $searchQuery = '';
+	    $searchResult = [];
+	    if(isset(Yii::$app->getRequest()->post()['msearch']) && !empty(Yii::$app->getRequest()->post()['msearch'])){
+		    $searchQuery = Yii::$app->getRequest()->post()['msearch'];
+	    }
+
+	    if(isset(Yii::$app->getRequest()->get()['msearch']) && !empty(Yii::$app->getRequest()->get()['msearch'])){
+		    $searchQuery = Yii::$app->getRequest()->get()['msearch'];
+	    }
+
+	    if($searchQuery != ''){
+
+		    $searchModel = new ProductsSearch();
+		    $searchResult = $searchModel->searchManual($searchQuery);
+			//\Yii::$app->pr->print_r2($searchResult);
+
+		    //die();
+
+		    if( isset($searchResult['hits']['total']) ){
+			    $totalFound = $searchResult['hits']['total'];
+
+			    $pagination['totalCount'] = $searchResult['hits']['total'];
+		    }
+	    }
+
+	    return $this->render('manualSearchResult', [
+
+	    	'searchBy' => $searchQuery,
+		    'productsList' => $searchResult['hits']['hits'],
+		    'paginator' => $pagination,
+		    'totalFound' => $totalFound
+		    //'artiklesList' => Yii::$app->getRequest()->post()['articles'],
+	    ]);
+    }
+
 }

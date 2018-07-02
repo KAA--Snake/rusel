@@ -16,6 +16,7 @@ class Paginator extends Widget
 {
 
     public $pagination;
+    public $mquery;
 
 
     protected function renderPageButton($label, $page, $class, $disabled, $active)
@@ -171,8 +172,9 @@ class Paginator extends Widget
 
     public function init()
     {
-        parent::init();
-
+	    parent::init();
+	    /*\Yii::$app->pr->print_r2($this);
+	    die();*/
 
         //yiiwebJqueryAsset::register($this->getView());
     }
@@ -187,10 +189,13 @@ class Paginator extends Widget
         unset($queryParams[0]);
 
 
+        if(isset($this->mquery) && !empty($this->mquery)){
+	        $queryParams[$this->mquery['name']] = $this->mquery['value'];
+        }
+
 
         $queryParams['page'] = $page;
-        //\Yii::$app->pr->print_r2($_SERVER['QUERY_STRING']);
-        //die();
+
         //$path = parse_url($pathinfo.'?'.$_SERVER['QUERY_STRING']);
 
         //parse_str($_SERVER['QUERY_STRING'], $res);

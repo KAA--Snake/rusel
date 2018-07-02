@@ -42,6 +42,89 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     }
 
 
+	/**
+	 * Ищет по нескольким полям (по условию ИЛИ)
+	 *
+	 * @param string $artikuls
+	 *
+	 * @return array
+	 */
+	public function searchManual(string $searchString)
+	{
+
+		$pagination = \Yii::$app->controller->pagination;
+
+		if(strlen($searchString) == 0){
+			$productsFound = ['error' => 'пустой артикул !'];
+			return $productsFound;
+		}
+
+		$productsFound = [];
+
+
+		if(!$this->_isLengthIsGood($searchString)) {
+			$productsFound = ['error' => 'Длина артикула не подходит под условие поиска!'];
+			return $productsFound;
+		}
+
+		$params = [
+			'body' => [
+				'from' => $pagination['from'],
+				'size' => $pagination['maxSizeCnt'],
+				'sort' => [
+					'artikul' => ['order' => 'asc']
+				],
+				//'from' => $from,
+				//'size' => $this->searchConfig['max_by_manual_result'],
+				/*'sort' => [
+					'artikul' => 'asc'
+				],*/
+				'query' => [
+					'prefix' => [
+						'artikul' => [
+							'value' => $searchString,
+							//'boost' => 2.0
+						]
+					]
+				]
+			]
+		];
+
+
+		$params = $this->productData + $params;
+
+		//\Yii::$app->pr->print_r2(json_encode($params));
+
+		$response = Elastic::getElasticClient()->search($params);
+
+		//\Yii::$app->pr->print_r2($response);
+
+
+		if(!empty($response)){
+
+			$this->_setSingleStorageAsMulti($response);
+
+			$this->_setSinglePriceAsMulty($response);
+
+
+			//добавляем аксессуары к продуктам
+			static::setAccessoriedProds($response);
+			$this->foundGoodResultsCount++;
+		}else{
+			$response = ['error' => 'Товаров не найдено'];
+		}
+
+
+
+		/*\Yii::$app->pr->print_r2($response);
+		die();*/
+
+
+
+		return $response;
+
+	}
+
     public function searchByArtikuls(array $artikuls)
     {
         //пробрасывается в контроллер из Pagination_beh.php

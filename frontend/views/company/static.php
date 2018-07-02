@@ -1,5 +1,6 @@
 <?php
 use common\widgets\catalog\CatalogMenu;
+use common\widgets\search\WSearch;
 ?>
 <div class="content_wrap mw1180">
 
@@ -18,11 +19,7 @@ use common\widgets\catalog\CatalogMenu;
 
         <?=CatalogMenu::widget();?>
 
-        <div class="search_block">
-            <input type="text" placeholder="Введите искомый артикул" class="search_field">
-            <button class="submit_search">Найти</button>
-            <a href="/search/" class="list_seach">Поиск по списку</a>
-        </div>
+        <?=WSearch::widget();?>
 
     </div>
 

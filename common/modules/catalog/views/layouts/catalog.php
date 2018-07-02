@@ -10,6 +10,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\widgets\catalog\CatalogMenu;
+use common\widgets\search\WSearch;
 
 AppAsset::register($this);
 ?>
@@ -77,11 +78,7 @@ AppAsset::register($this);
         <div class="content_top col_940">
             <?=CatalogMenu::widget();?>
 
-            <div class="search_block">
-                <input type="text" placeholder="Введите искомый артикул" class="search_field">
-                <button class="submit_search">Найти</button>
-                <a href="/search/" class="list_seach">Поиск по списку</a>
-            </div>
+            <?=WSearch::widget();?>
 
         </div>
 

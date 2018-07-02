@@ -32,6 +32,7 @@ return [
 
         'search' => [
             'max_by_files_result' => 100,
+            'max_by_manual_result' => 100,
             'min_artikul_length' => 4,
             'max_artikul_length' => 100,
         ]
