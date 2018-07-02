@@ -334,7 +334,7 @@ $(document).ready(function () {
 
     $('.js-selected_show_in_stock_vars').click(function () {
         if($(this).next('.show_in_stock_vars').hasClass('active')){
-            $(this).next('.show_in_stock_vars').fadeOut().removeClass('hidden').removeClass('active');
+            $(this).next('.show_in_stock_vars').fadeOut().removeClass('active');
         }else{
             $(this).next('.show_in_stock_vars').fadeIn().addClass('active');
         }
@@ -452,26 +452,6 @@ $(document).ready(function () {
 
     if(filterQuery.length && filterQuery !== '[]') {
 
-        /*var query = decodeURIComponent(window.location.search.substring(1));
-        var vars = query.split('&');
-        var finishSearchQuery = [];
-        var finishSearchString = '';
-
-        for (var i = 0; i < vars.length; i++) {
-            var param = vars[i].slice(0, vars[i].indexOf('='));
-            if (excludedFilterParams.indexOf(param) !== -1) {
-                finishSearchQuery.push(vars[i]);
-            }
-        }
-        for (var x = 0; x < finishSearchQuery.length; x++) {
-            if (x == finishSearchQuery.length - 1) {
-                finishSearchString += finishSearchQuery[x]
-            } else {
-                finishSearchString += finishSearchQuery[x] + '&'
-            }
-        }
-        localStorage.setItem('searchQuery', finishSearchString);*/
-
         var queryParams = JSON.parse(filterQuery);
 
         var selectedFliterLine = $('.filter_params_applied');
@@ -492,8 +472,6 @@ $(document).ready(function () {
                             }else{
                                 selectedFliterLine.append('<div class="applied_param_block"><div class="applied_param_name applied_param_' + p + '" data-param="'+ p +'">' + filterParamCat.text() + '</div><div class="applied_param_values"><span>'+ queryParams[p][i] + '</span></div> </div><div class="divider"></div>');
                             }
-
-                            //console.log(selectedFliterLine.find('.applied_param_name').data('param'));
 
                             $(this).addClass('selected');
                             $('#filter-form').find('input[name="'+ p +'"]').val(

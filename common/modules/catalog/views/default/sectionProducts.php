@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use common\widgets\catalog\Paginator;
 use common\modules\catalog\models\currency\Currency;
 use common\widgets\filter\CatalogFilter;
+use common\widgets\Alert;
 
 //echo Url::current(['perPage' => '50']);
 //echo ;
@@ -29,7 +30,7 @@ die();*/
 
         <div class="filter_counter fll">
             Показать: <span class="show_in_stock js-selected_show_in_stock_vars">все</span>
-            <div class="show_in_stock_vars hidden">
+            <div class="show_in_stock_vars" style="display: none;">
                 <div class="top_corner"></div>
                 <ul class="show_in_stock_list">
                     <li class="show_in_stock_item"><a class="js-filter-post-send" href="">все</a></li>
@@ -43,7 +44,7 @@ die();*/
 
         <div class="catalog_render_count flr">
             На странице: <span class="count_num_selected js-selected_count_vars"><?= $perPage; ?></span> строк
-            <div class="count_vars hidden">
+            <div class="count_vars" style="display: none;">
                 <div class="top_corner"></div>
                 <ul class="count_vars_list">
                     <li class="count_vars_item"><a class="js-filter-post-send"
@@ -59,6 +60,8 @@ die();*/
         </div>
 
     </div>
+
+    <?= Alert::widget() ?>
 
     <div class="product_cards_block">
 

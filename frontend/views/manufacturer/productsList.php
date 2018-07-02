@@ -43,11 +43,11 @@ $perPage = $paginator['maxSizeCnt'];
 
                                     ?>
                                     <h2>
-                                        <a class="tree_header active"
+                                        <a class="tree_header inactive"
                                            href="<?= Url::toRoute(['@catalogDir/' . $oneSubSibling['url']]); ?>">
                                             <span class="red_icon"></span>
                                             <?= $oneSubSibling['name']; ?>
-                                            <div class="tree_header_icon <?php if (count($oneSubSibling['childs']) > 0) { ?>active<? } else { ?>inactive<? } ?>"></div>
+                                            <div class="tree_header_icon <?php if (count($oneSubSibling['childs']) > 0) { ?>inactive<? } else { ?>inactive<? } ?>"></div>
                                         </a>
                                     </h2>
 
@@ -55,7 +55,7 @@ $perPage = $paginator['maxSizeCnt'];
                                     <?php if (count($oneSubSibling['childs']) > 0) {
                                         //if($oneSibling->not_show) continue;
                                         ?>
-                                        <div class="tree_list">
+                                        <div class="tree_list" style="display: none;">
 
                                             <?php
                                             $sectionModel->recursiveLevel = 1;
@@ -97,7 +97,7 @@ $perPage = $paginator['maxSizeCnt'];
         </div>
         <div class="catalog_render_count flr">
             На странице: <span class="count_num_selected js-selected_count_vars"><?=$perPage;?></span> строк
-            <div class="count_vars hidden">
+            <div class="count_vars" style="display:none;">
                 <div class="top_corner"></div>
                 <ul class="count_vars_list">
                     <li class="count_vars_item"><a href="<?=Paginator::addToUrl('perPage', '25');?>">25</a></li>
@@ -108,7 +108,6 @@ $perPage = $paginator['maxSizeCnt'];
             </div>
         </div>
     </div>
-
 
     <div class="product_cards_block">
 

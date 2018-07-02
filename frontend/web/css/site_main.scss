@@ -5,12 +5,13 @@ $white:#ffffff;
 
   .alert-danger{
     margin: 20px 0 40px;
-    border: 1px solid red;
+    border: 1px solid #9f0f18;
     padding: 12px;
     line-height: 20px;
     font-size: 16px;
-    color: red;
+    color: #9f0f18;;
     background: #fff;
+    text-align: center;
     .close{
       border: 0;
       background: transparent;
@@ -543,9 +544,10 @@ $white:#ffffff;
           text-decoration: none;
           cursor: pointer;
           border: none;
+          margin-left: -4px;
         }
         .list_seach{
-          margin-left: 14px;
+          margin-left: 8px;
           width: 157px;
           height: 40px;
           background-color: $blue;
@@ -558,6 +560,7 @@ $white:#ffffff;
           text-decoration: none;
           cursor: pointer;
           border: none;
+          display: inline-block;
         }
       }
     }

@@ -63,7 +63,7 @@ class Alert extends \yii\bootstrap\Widget
 
                     echo \yii\bootstrap\Alert::widget([
                         'body' => $message,
-                        'closeButton' => $this->closeButton,
+                        'closeButton' => false,
                         'options' => $this->options,
                     ]);
                 }
