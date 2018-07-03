@@ -23,8 +23,18 @@ class WFilterSmall extends Widget
 
     public function run()
     {
+	    $picked = 'all';
 
+		if(!empty(\Yii::$app->request->post()['on_stores'])){
+			$picked = 'on_stores';
+		}else if(\Yii::$app->request->post()['marketing']){
+			$picked = 'marketing';
+		}
 
-        return $this->render('search', ['totalProductsFound' => $this->totalProductsFound]);
+        return $this->render('search', [
+        	'totalProductsFound' => $this->totalProductsFound,
+        	'picked' => $picked,
+
+        ]);
     }
 }

@@ -10,7 +10,7 @@ use yii\helpers\Url;
 ?>
 
 <div class="filter_counter fll">
-    Показать: <span class="show_in_stock js-selected_show_in_stock_vars">все</span>
+    Показать: <span data-picked="<?=$picked;?>" class="show_in_stock js-selected_show_in_stock_vars">все</span>
     <div class="show_in_stock_vars hidden">
         <div class="top_corner"></div>
         <ul class="show_in_stock_list">
