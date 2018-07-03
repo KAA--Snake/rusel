@@ -516,7 +516,8 @@
       line-height: 50px;
       /*padding: 0 16px;*/
       flex-grow: 2;
-      max-height: 50px; }
+      max-height: 50px;
+      overflow: hidden; }
       .container.main .content_wrap .goods_filter_block .goods_filter_wrap .filter_params_applied .applied_param_block {
         display: inline-block;
         height: 50px;
@@ -2291,6 +2292,8 @@
         text-decoration: none; }
       .container.main .content_wrap .content_inner_wrap .product_cards_block._detail .tech_docs .docs_list .docs_item .docs_file_link svg {
         width: 120px; }
+  .container.main .content_wrap .content_inner_wrap .product_cards_block._order.--done {
+    margin-top: -20px; }
   .container.main .content_wrap .content_inner_wrap .product_cards_block._order .selected_org {
     margin: 20px; }
     .container.main .content_wrap .content_inner_wrap .product_cards_block._order .selected_org p {
@@ -2430,6 +2433,11 @@
       margin-bottom: 20px; }
     .container.main .content_wrap .content_inner_wrap .product_cards_block._order ._order_section._order_answer_vars {
       padding-bottom: 1px; }
+    .container.main .content_wrap .content_inner_wrap .product_cards_block._order ._order_section._done p {
+      color: #000000;
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 30px; }
     .container.main .content_wrap .content_inner_wrap .product_cards_block._order ._order_section .form_part_wrap {
       padding-top: 10px; }
       .container.main .content_wrap .content_inner_wrap .product_cards_block._order ._order_section .form_part_wrap .row + .row {
@@ -2880,5 +2888,29 @@
   font-size: 12px;
   line-height: 16px;
   color: #a3a3a3; }
+
+.man_search_header {
+  background-color: #ffffff;
+  color: #a3a3a3;
+  font-size: 14px;
+  line-height: 56px;
+  padding-left: 20px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  margin-top: -20px; }
+  .man_search_header .man_search_name {
+    color: #336699;
+    text-transform: uppercase;
+    font-weight: 700; }
+
+.empty_man_search {
+  background-color: #ffffff;
+  color: #9f0f18;
+  font-size: 14px;
+  line-height: 56px;
+  padding-left: 20px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  text-align: center; }
 
 /*# sourceMappingURL=site_main.css.map */

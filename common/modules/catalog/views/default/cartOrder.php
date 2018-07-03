@@ -55,7 +55,7 @@ use yii\helpers\Html;
                                     <?php } ?>
                                 </div>
                             </td>
-                            <td class="left_bordered">
+                            <td class="">
                                 <table class="card_part stores">
                                     <!-- --><?php
                                     /*                                    //флаг- есть ли хоть 1 товар в доступных ?
@@ -180,7 +180,7 @@ use yii\helpers\Html;
                                                             );
                                                             ?>
                                                             <div class="special_tape left_bordered"><?= $oneStorage['marketing']['name']; ?></div>
-                                                            <div class="price_vars left_bordered">
+                                                            <div class="price_vars">
                                                                 <div class="price_var_item clear">
                                                                     <span class="count fll"></span>
                                                                     <span class="price flr"><?= $price; ?>

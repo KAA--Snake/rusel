@@ -10,8 +10,18 @@ use yii\helpers\Url;
 ?>
 
 <div class="filter_counter fll">
-    Показать: <span data-picked="<?=$picked;?>" class="show_in_stock js-selected_show_in_stock_vars">все</span>
-    <div class="show_in_stock_vars hidden">
+    Показать: <span data-picked="<?=$picked;?>" class="show_in_stock js-selected_show_in_stock_vars">
+        <?if($picked == 'all') {?>
+        все
+        <?}?>
+        <?if($picked == 'on_stores') {?>
+            доступные на складах
+        <?}?>
+        <?if($picked == 'marketing') {?>
+            спец.предложения
+        <?}?>
+    </span>
+    <div class="show_in_stock_vars" style="display: none;">
         <div class="top_corner"></div>
         <ul class="show_in_stock_list">
             <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="all" href="">все</a></li>

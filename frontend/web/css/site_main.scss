@@ -651,6 +651,7 @@ $white:#ffffff;
           /*padding: 0 16px;*/
           flex-grow:2;
           max-height: 50px;
+          overflow: hidden;
           .applied_param_block{
             display: inline-block;
             height: 50px;
@@ -2991,6 +2992,9 @@ $white:#ffffff;
           }
         }
         &._order{
+          &.--done{
+            margin-top: -20px;
+          }
           .selected_org{
             margin: 20px;
             p{
@@ -3157,6 +3161,14 @@ $white:#ffffff;
             }
             &._order_answer_vars{
               padding-bottom: 1px;
+            }
+            &._done{
+              p{
+                color: #000000;
+                font-size: 14px;
+                line-height: 20px;
+                margin-bottom: 30px;
+              }
             }
             .form_part_wrap{
               padding-top: 10px;
@@ -3757,4 +3769,30 @@ $white:#ffffff;
   font-size: 12px;
   line-height: 16px;
   color: #a3a3a3;
+}
+
+.man_search_header{
+  background-color: $white;
+  color: #a3a3a3;
+  font-size: 14px;
+  line-height: 56px;
+  padding-left: 20px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  margin-top: -20px;
+  .man_search_name{
+    color: $blue;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+}
+.empty_man_search{
+  background-color: $white;
+  color: #9f0f18;;
+  font-size: 14px;
+  line-height: 56px;
+  padding-left: 20px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  text-align: center;
 }
