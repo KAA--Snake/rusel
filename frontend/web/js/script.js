@@ -404,6 +404,22 @@ $(document).ready(function () {
        }
     });
 
+    $('.js-filter-show_in_stock').click(function (e) {
+        e.preventDefault();
+        var type = $(this).data('type');
+        if(type == 'all'){
+            $('#on_stores').val('');
+            $('#marketing').val('');
+        }else if(type == 'on_stores'){
+            $('#on_stores').val('y');
+            $('#marketing').val('');
+        }else if(type == 'marketing'){
+            $('#on_stores').val('');
+            $('#marketing').val('y');
+        }
+        $('#filter-form').submit();
+    });
+
     $('.js-filter-param-item').click(function (e) {
         var selectedFliterLine = $('.filter_params_applied');
         var filterForm = $('#filter-form');

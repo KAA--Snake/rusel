@@ -87,9 +87,9 @@ $perPage = $paginator['maxSizeCnt'];
             <div class="show_in_stock_vars hidden">
                 <div class="top_corner"></div>
                 <ul class="show_in_stock_list">
-                    <li class="show_in_stock_item"><a class="js-filter-post-send" href="">все</a></li>
-                    <li class="show_in_stock_item"><a class="js-filter-post-send" href="">доступные на складах</a></li>
-                    <li class="show_in_stock_item"><a class="js-filter-post-send" href="">спец.предложения</a></li>
+                    <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="all" href="">все</a></li>
+                    <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="on_stores" href="">доступные на складах</a></li>
+                    <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="marketing" href="">спец.предложения</a></li>
                 </ul>
             </div>
             &nbsp;&nbsp;&nbsp;<span class="arr">→</span>&nbsp;&nbsp;&nbsp;
