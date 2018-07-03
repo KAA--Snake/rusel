@@ -74,10 +74,10 @@ class Export
 
         );
 
-        echo 'на адрес https://188.120.237.24:9999/exchange?type=client_query <br> ';
-        echo 'уходят следующие данные, используя метод POST: <br> ';
+        //echo 'на адрес https://188.120.237.24:9999/exchange?type=client_query <br> ';
+        //echo 'уходят следующие данные, используя метод POST: <br> ';
 
-        \Yii::$app->pr->print_r2($payload);
+        //\Yii::$app->pr->print_r2($payload);
 
         $erpParams = \Yii::$app->getModule('catalog')->params['erp'];
         $url =$erpParams['server']."/exchange?type=client_query";
@@ -119,7 +119,7 @@ class Export
 
         $result = $this->sendOrderToErp($orderData);
 
-        echo '<br /> ответ ЕРП:'. $result;
+        //echo '<br /> ответ ЕРП:'. $result;
 
         if($result == 'client_query:ok'){
 
@@ -140,7 +140,7 @@ class Export
         }
 
         //@TODO удалить после тестирования !!
-        file_put_contents('/webapp/orderErpError', print_r($orderData, true), FILE_APPEND);
+        //file_put_contents('/webapp/orderErpError', print_r($orderData, true), FILE_APPEND);
 
         return false;
     }

@@ -35,6 +35,12 @@ class OrderController extends Controller
                 'maxSizeCnt' => \Yii::$app->getModule('catalog')->params['max_products_cnt']
 
             ],
+            'manufacturers' => [
+	            'class' => 'common\modules\catalog\behaviours\Manufacturers_beh',
+	            /*'in_attribute' => 'name',
+				'out_attribute' => 'slug',
+				'translit' => true*/
+            ],
         ];
     }
 
@@ -87,8 +93,8 @@ class OrderController extends Controller
 
             //это тут передается для того, чтобы после экспорта обновить данные в заказе
             $forRabbitSendData = $form_model->getAttributes();
-            echo 'Из формы приходят следующие данные:';
-            \Yii::$app->pr->print_r2($forRabbitSendData);
+            //echo 'Из формы приходят следующие данные:';
+            //\Yii::$app->pr->print_r2($forRabbitSendData);
 
             //получаем строку для ЕРП вида ID|количество|STORAGE|цена|код_валюты&ID|количество|STORAGE|цена|код_валюты& etc...
             $forRabbitSendData['dataForErp'] = $form_model->getDataForErp();
@@ -99,19 +105,21 @@ class OrderController extends Controller
 
             //ТЕСТОВАЯ ОТПРАВКА НАПРЯМУЮ БЕЗ РАББИТА !
             $export = new Export();
-            $export->exportOrder(json_encode($forRabbitSendData));
+            $res = $export->exportOrder(json_encode($forRabbitSendData));
 
-            /** отправляем письмо о новом заказе */
-            $form_model->sendMail();
+            if($res && $saveResult){
+	            /** отправляем письмо о новом заказе */
+	            $form_model->sendMail();
 
-            unset($_COOKIE['cart']);
+	            Yii::$app->session->addFlash('order_id', $form_model->id);
+	            return $this->redirect('/order/done/');
+            }else{
 
-            if($saveResult){
-
-                //Yii::$app->session->addFlash('order_id', $form_model->id);
-                //return $this->redirect('/order/done/');
+	            Yii::$app->session->addFlash('error', 'Не удалось отправить заказ ! Свяжитесь с администратором сайта.');
+	            return $this->redirect('/cart/');
 
             }
+
             //$file = file_get_contents('/webapp/RabbitProcess');
 
         }
