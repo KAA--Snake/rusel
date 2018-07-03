@@ -18,7 +18,6 @@ class WFilterSmall extends Widget
     {
         parent::init();
 
-
         //yiiwebJqueryAsset::register($this->getView());
     }
 
