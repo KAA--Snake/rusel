@@ -82,19 +82,8 @@ $perPage = $paginator['maxSizeCnt'];
 </div>
 <div class="content_wrap">
     <div class="sub_filter_wrap clear">
-        <div class="filter_counter fll">
-            Показать: <span class="show_in_stock js-selected_show_in_stock_vars">все</span>
-            <div class="show_in_stock_vars hidden">
-                <div class="top_corner"></div>
-                <ul class="show_in_stock_list">
-                    <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="all" href="">все</a></li>
-                    <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="on_stores" href="">доступные на складах</a></li>
-                    <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="marketing" href="">спец.предложения</a></li>
-                </ul>
-            </div>
-            &nbsp;&nbsp;&nbsp;<span class="arr">→</span>&nbsp;&nbsp;&nbsp;
-            Найдено: <span class="filter_num"><?=$totalProductsFound;?></span> позиций
-        </div>
+        <?=\common\widgets\filter_small\WFilterSmall::widget(['totalProductsFound' => $totalProductsFound]);?>
+
         <div class="catalog_render_count flr">
             На странице: <span class="count_num_selected js-selected_count_vars"><?=$perPage;?></span> строк
             <div class="count_vars" style="display:none;">
