@@ -2,6 +2,10 @@
 var currenciesData;
 $(document).ready(function () {
 
+    if (document.location.pathname == '/order/done/') {
+            cookie.deleteCookie('cart');
+    }
+
 
     getCityList();
     cartCheck();

@@ -26,7 +26,7 @@ use yii\helpers\Url;
         <ul class="show_in_stock_list">
             <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="all" href="">все</a></li>
             <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="on_stores" href="">доступные на складах</a></li>
-            <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="marketing" href="">спец.предложения</a></li>
+            <li class="show_in_stock_item"><a class="js-filter-show_in_stock" data-type="marketing" href="">по акции</a></li>
         </ul>
     </div>
     &nbsp;&nbsp;&nbsp;<span class="arr">→</span>&nbsp;&nbsp;&nbsp;
