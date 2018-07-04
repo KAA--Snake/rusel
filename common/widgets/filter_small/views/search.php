@@ -18,7 +18,7 @@ use yii\helpers\Url;
             доступные на складах
         <?}?>
         <?if($picked == 'marketing') {?>
-            спец.предложения
+            по акции
         <?}?>
     </span>
     <div class="show_in_stock_vars" style="display: none;">
