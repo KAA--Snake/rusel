@@ -486,7 +486,7 @@ $(document).ready(function () {
 
                                 selectedFliterLine.find('.applied_param_' + p).next('.applied_param_values').append('; <span>'+ queryParams[p][i] + '</span>');
                             }else{
-                                selectedFliterLine.append('<div class="applied_param_block"><div class="applied_param_name applied_param_' + p + '" data-param="'+ p +'">' + filterParamCat.text() + '</div><div class="applied_param_values"><span>'+ queryParams[p][i] + '</span></div> </div><div class="divider"></div>');
+                                selectedFliterLine.append('<div class="applied_param_block"><div class="applied_param_name applied_param_' + p + '" data-param="'+ p +'">' + filterParamCat.text() + '</div><div class="applied_param_values"><span>'+ queryParams[p][i] + '</span></div> </div>');
                             }
 
                             $(this).addClass('selected');

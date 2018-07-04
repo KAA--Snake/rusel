@@ -4,6 +4,7 @@ $(document).ready(function () {
 
     if (document.location.pathname == '/order/done/') {
             cookie.deleteCookie('cart');
+            console.log(document.cookie);
     }
 
 
@@ -58,6 +59,7 @@ $(document).ready(function () {
             $('.address_subheader').show().removeClass('hidden');
             $('input#tel').attr('data-validation', 'required');
             $('#delivery_city').attr('data-validation', 'required');
+            $('#delivery_address').attr('data-validation', 'required');
 
             if ($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') == -1 && $('.delivery_time_text').text().length > 0) {
                 $('.delivery_time_text').append(' + 1-2 раб.дн. до двери.');
@@ -69,6 +71,7 @@ $(document).ready(function () {
             $('input#tel').attr('data-validation', 'required');
             $('.js-delivery-input.js-delivery-half input').attr('data-validation', 'required');
             $('#delivery_city').attr('data-validation', 'required');
+            $('#delivery_address').attr('data-validation', '');
             $('.address_subheader').show().removeClass('hidden');
             if ($('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.') !== -1 && $('.delivery_time_text').text().length > 0) {
                 $('.delivery_time_text').text($('.delivery_time_text').text().slice(0, $('.delivery_time_text').text().indexOf(' + 1-2 раб.дн. до двери.')));
@@ -626,5 +629,6 @@ var cookie = {
         this.setCookie(name, "", {
             expires: -1
         });
+        console.log(document.cookie)
     }
 };

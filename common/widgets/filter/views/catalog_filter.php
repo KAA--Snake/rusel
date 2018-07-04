@@ -9,11 +9,11 @@
     <div class="goods_filter_wrap">
 
         <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
-        <div class="divider"></div>
+
         <div class="filter_params_applied" data-empty="&nbsp;&nbsp;&nbsp;Фильтр не применен">&nbsp;&nbsp;&nbsp;Фильтр не применен
         </div>
-        <div class="divider"></div>
-        <div class="filter_reset_btn">Сброс</div>
+
+        <div class="filter_reset_btn"><div>Сброс</div></div>
     </div>
     <div class="filter_selector_wrap collapsed">
         <table class="filter_tab">
