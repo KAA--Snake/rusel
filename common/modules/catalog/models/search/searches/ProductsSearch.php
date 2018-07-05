@@ -74,7 +74,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			return $productsFound;
 		}
 
-		$minifiltersParam = MiniFilterHelper::getMiniFilterOption();
+
 
 
 		$must[] = [
@@ -89,8 +89,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		];
 
 
-
-		 $miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
+		$minifiltersParam = MiniFilterHelper::getMiniFilterOption();
+		$miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
 		if($miniFilterTerm){
 			$must[] = $miniFilterTerm;
 		}
@@ -790,6 +790,18 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		$pagination = \Yii::$app->controller->pagination;
 		//\Yii::$app->pr->print_r2($pagination);
 
+		$must[] = [
+			'terms' => [
+				'properties.proizv_id' => $manufacturersIds
+			]
+		];
+
+		$minifiltersParam = MiniFilterHelper::getMiniFilterOption();
+		$miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
+		if($miniFilterTerm){
+			$must[] = $miniFilterTerm;
+		}
+
 		$params = [
 			'body' => [
 				'from' => $pagination['from'],
@@ -797,21 +809,21 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				'sort' => [
 					'artikul' => ['order' => 'asc']
 				],
+
 				'query' => [
-					'constant_score' => [
-						'filter' => [
-							'terms' => [
-								'properties.proizv_id' => $manufacturersIds
-							]
-						]
+					'bool'=> [
+						'must' =>$must
 					]
+
 				],
+
 			]
 		];
 
 		$params = Product::productData + $params;
 
 		//\Yii::$app->pr->print_r2($params);
+		//die();
 
 		$response = Elastic::getElasticClient()->search($params);
 
@@ -827,6 +839,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 		//добавляем аксессуары к продуктам
 		$this->setAccessoriedProds($response);
+
+		$this->_clearProductsForMiniFilter($response);
 
 
 		return $response;
