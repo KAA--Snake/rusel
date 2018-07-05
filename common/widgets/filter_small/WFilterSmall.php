@@ -8,6 +8,7 @@
 
 namespace common\widgets\filter_small;
 
+use common\helpers\minifilter\MiniFilterHelper;
 use yii\base\Widget;
 
 class WFilterSmall extends Widget
@@ -23,13 +24,12 @@ class WFilterSmall extends Widget
 
     public function run()
     {
-	    $picked = 'all';
 
-		if(!empty(\Yii::$app->request->post()['on_stores'])){
-			$picked = 'on_stores';
-		}else if(\Yii::$app->request->post()['marketing']){
-			$picked = 'marketing';
-		}
+	    $picked = MiniFilterHelper::getMiniFilterOption();
+
+	    if($picked == ''){
+	    	$picked = 'all';
+	    }
 
         return $this->render('search', [
         	'totalProductsFound' => $this->totalProductsFound,
