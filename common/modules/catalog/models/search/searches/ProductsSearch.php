@@ -9,6 +9,7 @@
 namespace common\modules\catalog\models\search\searches;
 
 
+use common\helpers\minifilter\MiniFilterHelper;
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\elastic\Elastic;
 use Yii;
@@ -567,7 +568,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         /** делаем запрос на выборку */
         $filterDataForSection = $this->getFilterDataForSectionId($params);
 
-
+	    //\Yii::$app->pr->print_r2($params);
         /** собираем отфильтрованные товары */
         if( isset($filterDataForSection['hits']['total']) ){
             $totalFound = $filterDataForSection['hits']['total'];
@@ -671,6 +672,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	    $this->_setSinglePriceAsMulty($filterDataForSection);
 
 	    static::setAccessoriedProds($filterDataForSection);
+
+	    $this->_clearProductsForMiniFilter($filterDataForSection, $params);
 
         return
             [
@@ -1198,6 +1201,60 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     	return $filterData;
     }
 
+	/**
+	 * Проходит по всем складам и очищает пыстые склады- спецпредлы. В зависимости от выбранного минифильтра
+	 * Показывать- Все-Только доступные на складах-Только спецпредложения
+	 *
+	 * @param $requestParams
+	 */
+    private function _clearProductsForMiniFilter(&$filteredData,&$requestParams){
+
+    	//получаем параметри или из поста или из гета
+	    $isMinifilterSet = MiniFilterHelper::getMiniFilterOption($requestParams);
+
+	    if(!$isMinifilterSet) return true;
+
+	    if(empty($filteredData['hits']['hits'])) return true;
+
+	    foreach ($filteredData['hits']['hits'] as $p => $oneProduct){
+
+		    if(!empty($requestParams['on_stores'])){ //удалим если на складе 0
+
+			    if(!empty($oneProduct['_source']['prices']['storage']) && $oneProduct['_source']['prices']['stores']  > 0){
+
+				    foreach($oneProduct['_source']['prices']['storage'] as $s => $oneStorage){
+				    	//удалим если на складе 0
+					    if (empty($oneStorage['quantity']['stock']['count']) || $oneStorage['quantity']['stock']['count'] <= 0) {
+
+						    unset($filteredData['hits']['hits'][$p]['_source']['prices']['storage'][$s]);
+
+					    }
+				    }
+
+			    }
+
+		    }else if(!empty($requestParams['marketing'])){ //удалим если не маркетинг
+			    //\Yii::$app->pr->print_r2($oneProduct['_source']['prices']);
+			    if(!empty($oneProduct['_source']['prices']['storage']) && $oneProduct['_source']['prices']['stores']  > 0){
+
+				    foreach($oneProduct['_source']['prices']['storage'] as $s => $oneStorage){
+					    //удалим если не маркетинг
+					    if (empty($oneStorage['marketing']['id']) || $oneStorage['marketing']['id'] <= 0) {
+
+						    unset($filteredData['hits']['hits'][$p]['_source']['prices']['storage'][$s]);
+
+					    }
+				    }
+
+			    }
+			    //\Yii::$app->pr->print_r2($requestParams);
+		    }
+
+
+
+
+	    }
+    }
 
 	/**
 	 * Создает массив значений для свойств, индексированный ИДами свойств.
