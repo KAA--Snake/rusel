@@ -1,4 +1,32 @@
-<?/*=\Yii::$app->session->getFlash('order_id')[0];*/?>
+<?/*=\Yii::$app->session->getFlash('order_id')[0];*/
+
+?>
+<script>
+
+    document.addEventListener("DOMContentLoaded", ready);
+
+    function cartPositionDeleteAll() {
+
+        var date = new Date();
+        date.setHours(0,0,0,0);
+        date.setDate(date.getDate() + 1);
+
+        cookie.setCookie('cart', [], {
+            path: '/',
+            expires: date
+        });
+        $('.contact_item.order .order_count').text(0);
+    };
+
+
+    function ready() {
+        cartPositionDeleteAll();
+    }
+
+
+</script>
+
+
 
 <div class="product_cards_block _order --done">
     <h1>Форма запроса</h1>
