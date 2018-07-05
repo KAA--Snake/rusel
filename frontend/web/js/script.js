@@ -21,7 +21,7 @@ $(document).ready(function () {
     if($('.js-sp_filter').length > 0) {
         $('.js-sp_filter').on('input', function() {
             var sp_list = $('.js-sp_item');
-            if(this.value.length > 2){
+            if(this.value.length >= 1){
 
                 for(let k=0;k<sp_list.length;k++) {
 
@@ -407,17 +407,37 @@ $(document).ready(function () {
     $('.js-filter-show_in_stock').click(function (e) {
         e.preventDefault();
         var type = $(this).data('type');
+        var locationSearchQuery = document.location.search.slice(1).split('&')
+
         if(type == 'all'){
-            $('#on_stores').val('');
-            $('#marketing').val('');
+
+            for(let i=0;i<locationSearchQuery.length;i++){
+                if(locationSearchQuery[i] == 'on_stores=y' || locationSearchQuery[i] == 'marketing=y'){
+                    locationSearchQuery.splice(i,1);
+                }
+            }
+
         }else if(type == 'on_stores'){
-            $('#on_stores').val('y');
-            $('#marketing').val('');
+
+            for(let i=0;i<locationSearchQuery.length;i++){
+                if(locationSearchQuery[i] == 'marketing=y'){
+                    locationSearchQuery.splice(i,1);
+                }
+            }
+            if(!locationSearchQuery.includes('on_stores=y')) locationSearchQuery.push('on_stores=y');
+
         }else if(type == 'marketing'){
-            $('#on_stores').val('');
-            $('#marketing').val('y');
+
+            for(let i=0;i<locationSearchQuery.length;i++){
+                if(locationSearchQuery[i] == 'on_stores=y'){
+                    locationSearchQuery.splice(i,1);
+                }
+            }
+            if(!locationSearchQuery.includes('marketing=y')) locationSearchQuery.push('marketing=y');
         }
-        $('#filter-form').submit();
+        document.location.search = '?' + locationSearchQuery.join('&');
+        console.log(document.location.search);
+        /*document.location.reload();*/
     });
 
     $('.js-filter-param-item').click(function (e) {

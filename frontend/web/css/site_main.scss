@@ -511,6 +511,9 @@ $white:#ffffff;
         display: flex;
         align-items: center;
         margin-bottom: 20px;
+        form{
+          display: flex;
+        }
         .search_field{
           line-height: 38px;
           border: 1px solid #e6e6e6;
