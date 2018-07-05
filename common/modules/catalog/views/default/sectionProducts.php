@@ -737,7 +737,8 @@ die();*/
 
     <?
     echo Paginator::widget([
-        'pagination' => $paginator,
+	    'pagination' => $paginator,
+	    'miniFilterPicked' => \common\helpers\minifilter\MiniFilterHelper::getMiniFilterOption(),
     ]);
     ?>
 

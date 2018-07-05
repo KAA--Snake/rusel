@@ -17,6 +17,7 @@ class Paginator extends Widget
 
     public $pagination;
     public $mquery;
+    public $miniFilterPicked;
 
 
     protected function renderPageButton($label, $page, $class, $disabled, $active)
@@ -188,11 +189,16 @@ class Paginator extends Widget
         unset($queryParams['pathForParse']);
         unset($queryParams[0]);
 
+	    //\Yii::$app->pr->print_r2($this);
 
+
+        /** здесь доп значения для минифильтра и для поиска */
         if(isset($this->mquery) && !empty($this->mquery)){
 	        $queryParams[$this->mquery['name']] = $this->mquery['value'];
         }
-
+	    if(isset($this->miniFilterPicked) && !empty($this->miniFilterPicked)){
+		    $queryParams[$this->miniFilterPicked] = 'y';
+	    }
 
         $queryParams['page'] = $page;
 

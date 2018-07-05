@@ -7,7 +7,7 @@ use common\widgets\catalog\Paginator;
 ?>
 
 <div class="man_search_header">
-    результат поиска по критерию: <span class="man_search_name">&laquo;test 123&raquo;</span>
+    результат поиска по критерию: <span class="man_search_name"><?=$searchBy;?></span>
 </div>
 
 <div class="sub_filter_wrap clear">
@@ -597,6 +597,17 @@ use common\widgets\catalog\Paginator;
     <?php } ?>
 
 </div>
+
+<?
+echo Paginator::widget([
+	'pagination' => $paginator,
+	'mquery' => [
+		'name' => 'search',
+		'value' => $searchBy
+	],
+]);
+?>
+
 <?php if($totalFound > 0){?>
 <div class="prod_warn">
     ВНИМАНИЕ! Все указанные цены на сайте не являются публичной офертой, оплата за товар осуществляется ТОЛЬКО на

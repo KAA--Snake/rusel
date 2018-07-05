@@ -10,33 +10,53 @@ namespace common\helpers\minifilter;
 
 
 use common\modules\catalog\models\currency\Currency;
+use Yii;
 
 class MiniFilterHelper
 {
 
     /**
-     * добавляет к товару текущую цену в пересчете на курс
+     * selfnote
      *
-     * @param $product
      * @return bool
      */
-    public static function getMiniFilterOption(&$requestParams){
-		if(!empty($requestParams['on_stores'])){
-			return true;
-		}else if(!empty($requestParams['on_stores'])){
-			return true;
-		}
+    public static function getMiniFilterOption(){
 
-		if(!empty(\Yii::$app->request->get('on_stores'))){
-			$requestParams['on_stores'] = 'y';
-			return true;
-		}else if(!empty(\Yii::$app->request->get('marketing'))){
-			$requestParams['marketing'] = 'y';
-			return true;
-		}
+	    $requestParams = '';
+
+	    /*if(isset(Yii::$app->getRequest()->post()['msearch']) && !empty(Yii::$app->getRequest()->post()['msearch'])){
+		    $searchQuery = Yii::$app->getRequest()->post()['msearch'];
+	    }
+
+	    if(isset(Yii::$app->getRequest()->get()['msearch']) && !empty(Yii::$app->getRequest()->get()['msearch'])){
+		    $searchQuery = Yii::$app->getRequest()->get()['msearch'];
+	    }*/
 
 
-		return false;
+	    if(!empty(\Yii::$app->request->get('on_stores'))){
+		    $requestParams = 'on_stores';
+
+	    }
+
+	    if(!empty(\Yii::$app->request->get('marketing'))){
+		    $requestParams = 'marketing';
+
+	    }
+
+	    if(!empty(\Yii::$app->request->post('on_stores'))){
+		    $requestParams = 'on_stores';
+
+	    }
+
+	    if(!empty(\Yii::$app->request->post('marketing'))){
+		    $requestParams = 'marketing';
+
+	    }
+
+
+
+		return $requestParams;
+
     }
 
 

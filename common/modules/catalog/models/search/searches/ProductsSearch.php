@@ -564,6 +564,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $cacheKey = 'getFilterForSection'.$params['sectionId'];
 
         //if (!$filterDataForSection = $cache->get($cacheKey) || true){
+		$minifilterparams = MiniFilterHelper::getMiniFilterOption();
+		if($minifilterparams != ''){
+			$params[$minifilterparams] = 'y';
+		}
+
+	    //\Yii::$app->pr->print_r2($minifilterparams);
 
         /** делаем запрос на выборку */
         $filterDataForSection = $this->getFilterDataForSectionId($params);
@@ -673,7 +679,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 	    static::setAccessoriedProds($filterDataForSection);
 
-	    $this->_clearProductsForMiniFilter($filterDataForSection, $params);
+	    $this->_clearProductsForMiniFilter($filterDataForSection);
 
         return
             [
@@ -1207,25 +1213,25 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 *
 	 * @param $requestParams
 	 */
-    private function _clearProductsForMiniFilter(&$filteredData,&$requestParams){
+    private function _clearProductsForMiniFilter(&$filteredData){
 
     	//получаем параметри или из поста или из гета
-	    $isMinifilterSet = MiniFilterHelper::getMiniFilterOption($requestParams);
+	    $requestParams = MiniFilterHelper::getMiniFilterOption();
 
-	    if(!$isMinifilterSet) return true;
+	    if($requestParams == '') return true;
 
 	    if(empty($filteredData['hits']['hits'])) return true;
 
 	    foreach ($filteredData['hits']['hits'] as $p => $oneProduct){
 
-		    if(!empty($requestParams['on_stores'])){ //удалим если на складе 0
+		    if($requestParams == 'on_stores'){ //удалим если на складе 0
 
 			    if(!empty($oneProduct['_source']['prices']['storage']) && $oneProduct['_source']['prices']['stores']  > 0){
 
 				    foreach($oneProduct['_source']['prices']['storage'] as $s => $oneStorage){
 				    	//удалим если на складе 0
 					    if (empty($oneStorage['quantity']['stock']['count']) || $oneStorage['quantity']['stock']['count'] <= 0) {
-
+						    //\Yii::$app->pr->print_r2($oneProduct);
 						    unset($filteredData['hits']['hits'][$p]['_source']['prices']['storage'][$s]);
 
 					    }
@@ -1233,7 +1239,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 			    }
 
-		    }else if(!empty($requestParams['marketing'])){ //удалим если не маркетинг
+		    }else if($requestParams == 'marketing'){ //удалим если не маркетинг
 			    //\Yii::$app->pr->print_r2($oneProduct['_source']['prices']);
 			    if(!empty($oneProduct['_source']['prices']['storage']) && $oneProduct['_source']['prices']['stores']  > 0){
 
@@ -1247,7 +1253,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				    }
 
 			    }
-			    //\Yii::$app->pr->print_r2($requestParams);
+
 		    }
 
 
