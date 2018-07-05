@@ -12,7 +12,7 @@ use common\widgets\catalog\Paginator;
 
 <div class="sub_filter_wrap clear">
 
-    <?= \common\widgets\filter_small\WFilterSmall::widget(['totalProductsFound' => $totalProductsFound]); ?>
+    <?= \common\widgets\filter_small\WFilterSmall::widget(['totalProductsFound' => $totalFound]); ?>
 
     <div class="catalog_render_count flr">
         На странице: <span class="count_num_selected js-selected_count_vars"><?= $perPage; ?></span> строк
@@ -601,10 +601,10 @@ use common\widgets\catalog\Paginator;
 <?
 echo Paginator::widget([
 	'pagination' => $paginator,
-	'mquery' => [
+	/*'mquery' => [
 		'name' => 'search',
 		'value' => $searchBy
-	],
+	],*/
 ]);
 ?>
 

@@ -74,6 +74,28 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			return $productsFound;
 		}
 
+		$minifiltersParam = MiniFilterHelper::getMiniFilterOption();
+
+
+		$must[] = [
+
+			'prefix' => [
+				'artikul' => [
+					'value' => $searchString,
+					//'boost' => 2.0
+				]
+			]
+
+		];
+
+
+
+		 $miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
+		if($miniFilterTerm){
+			$must[] = $miniFilterTerm;
+		}
+		//\Yii::$app->pr->print_r2($must);
+
 		$params = [
 			'body' => [
 				'from' => $pagination['from'],
@@ -87,13 +109,23 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 					'artikul' => ['order' => 'asc']
 				],*/
 				'query' => [
-					'prefix' => [
-						'artikul' => [
-							'value' => $searchString,
-							//'boost' => 2.0
+
+						/*'prefix' => [
+							'artikul' => [
+								'value' => $searchString,
+								//'boost' => 2.0
+							]
+						],*/
+						'bool'=> [
+
+							/** обязательный блок (для ИД раздела ) */
+							'must' => $must
 						]
-					]
-				]
+
+
+				],
+
+
 
 				/*'query' => [
 					'regexp' => [
@@ -142,8 +174,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 		$params = $this->productData + $params;
 
-		//\Yii::$app->pr->print_r2(json_encode($params));
+		//\Yii::$app->pr->print_r2($params);
 
+		//die();
 		$response = Elastic::getElasticClient()->search($params);
 
 		//\Yii::$app->pr->print_r2($response);
@@ -1371,6 +1404,68 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		}
 
 		return true;
+	}
+
+
+	private function _getMiniFiltersQuery($minifilterType){
+		/** Если пришли фильтры по складам и спецпредложениям */
+
+		$must = false;
+
+		switch($minifilterType){
+			case 'on_stores':
+
+				/** Доступные на складах */
+				$must = [
+					"nested"=> [
+
+						"path"=> "prices.storage.quantity",
+						"query"=> [
+							'bool' => [
+								'must' => [
+									[
+										"range"=> [
+											"prices.storage.quantity.stock.count" => [
+												"gte" => 0,
+											],
+										],
+									],
+								],
+							]
+						]
+					]
+				];
+
+				break;
+
+			case 'marketing':
+
+				/** Спецпредложения */
+				$must = [
+					"nested"=> [
+
+						"path"=> "prices.storage.marketing",
+						"query"=> [
+							'bool' => [
+								'must' => [
+									[
+										"range"=> [
+											"prices.storage.marketing.id" => [
+												"gte" => 0,
+											],
+										],
+									],
+								],
+							]
+						]
+					]
+				];
+
+				break;
+		}
+
+		return $must;
+
 	}
 
 }

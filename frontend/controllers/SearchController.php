@@ -168,6 +168,16 @@ class SearchController extends Controller
 	    //пробрасывается в контроллер из Pagination_beh.php
 	    $pagination = \Yii::$app->controller->pagination;
 
+
+	    $perPage = \Yii::$app->getModule('catalog')->params['max_products_cnt'];
+
+	    $isNeedPerPage = \Yii::$app->request->get('perPage');
+	    if(isset($isNeedPerPage)){
+		    $perPage = $isNeedPerPage;
+	    }
+	    $this->view->params['perPage'] = $perPage;
+
+
 	    $searchQuery = '';
 	    $searchResult = [];
 	    if(isset(Yii::$app->getRequest()->post()['msearch']) && !empty(Yii::$app->getRequest()->post()['msearch'])){
@@ -194,11 +204,11 @@ class SearchController extends Controller
 	    }
 
 	    return $this->render('manualSearchResult', [
-
 	    	'searchBy' => $searchQuery,
 		    'productsList' => $searchResult['hits']['hits'],
 		    'paginator' => $pagination,
-		    'totalFound' => $totalFound
+		    'totalFound' => $totalFound,
+		    'perPage' => $perPage
 		    //'artiklesList' => Yii::$app->getRequest()->post()['articles'],
 	    ]);
     }
