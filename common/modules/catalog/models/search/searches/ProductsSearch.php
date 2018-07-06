@@ -192,6 +192,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 			//добавляем аксессуары к продуктам
 			static::setAccessoriedProds($response);
+
+			$this->_clearProductsForMiniFilter($response);
+
 			$this->foundGoodResultsCount++;
 		}else{
 			$response = ['error' => 'Товаров не найдено'];
@@ -267,6 +270,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
                 //добавляем аксессуары к продуктам
                 static::setAccessoriedProds($response);
+
+	            //$this->_clearProductsForMiniFilter($response);
+
                 $this->foundGoodResultsCount++;
             }else{
                 $response = ['error' => 'Товаров не найдено'];
@@ -1264,7 +1270,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
     	//получаем параметри или из поста или из гета
 	    $requestParams = MiniFilterHelper::getMiniFilterOption();
-
+	    //\Yii::$app->pr->print_r2($filteredData);
 	    if($requestParams == '') return true;
 
 	    if(empty($filteredData['hits']['hits'])) return true;
@@ -1278,7 +1284,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				    foreach($oneProduct['_source']['prices']['storage'] as $s => $oneStorage){
 				    	//удалим если на складе 0
 					    if (empty($oneStorage['quantity']['stock']['count']) || $oneStorage['quantity']['stock']['count'] <= 0) {
-						    //\Yii::$app->pr->print_r2($oneProduct);
+
 						    unset($filteredData['hits']['hits'][$p]['_source']['prices']['storage'][$s]);
 
 					    }

@@ -207,14 +207,14 @@ class DefaultController extends Controller
         /** если раздел не содержит товаров, но есть список подразделов, выведем их*/
         else if( !empty($sectionData['groupedSiblings']) ){
 
-
+	        //return $this->render('sectionProducts', $returnData);
             return $this->render('sectionsList', $returnData);
         }
         /** последний подраздел, но без списка товаров (по идее сюда не должно заходить, т.к. товары должны быть!)*/
         else if( $sectionData['currentSection'] ){
 
+	        return $this->render('sectionProducts', $returnData);
 
-            return $this->render('sectionsList', $returnData);
         }
 
 
