@@ -407,53 +407,70 @@ $(document).ready(function () {
     $('.js-filter-show_in_stock').click(function (e) {
         e.preventDefault();
         var type = $(this).data('type');
-        var locationSearchQuery = document.location.search.slice(1).split('&')
-
-        if(type == 'all'){
-
-            for(let i=0;i<locationSearchQuery.length;i++){
-                if(locationSearchQuery[i] == 'on_stores=y' || locationSearchQuery[i] == 'marketing=y'){
-                    locationSearchQuery.splice(i,1);
-                }
-                if(locationSearchQuery[i] == ''){
-                    locationSearchQuery.splice(i,1);
-                }
-                if(locationSearchQuery[i].indexOf('page=') != -1){
-                    locationSearchQuery[i] = 'page=1';
-                }
+        var locationSearchQuery = document.location.search.slice(1).split('&') || [];
+        if($('#filter-form').length){
+            if(type == 'all'){
+                $('#on_stores').val('');
+                $('#marketing').val('');
+            }else if(type == 'on_stores'){
+                $('#on_stores').val('y');
+                $('#marketing').val('');
+            }else if(type == 'marketing'){
+                $('#on_stores').val('');
+                $('#marketing').val('y');
             }
+            $('#filter-form').submit();
+        }else {
+            if(type == 'all'){
 
-        }else if(type == 'on_stores'){
+                for(let i=0;i<locationSearchQuery.length;i++){
+                    if(locationSearchQuery[i].indexOf('page=') != -1){
+                        locationSearchQuery[i] = 'page=1';
+                    }
+                    if(locationSearchQuery[i] == 'on_stores=y' || locationSearchQuery[i] == 'marketing=y'){
+                        locationSearchQuery.splice(i,1);
+                    }
+                    if(locationSearchQuery[i] == ''){
+                        locationSearchQuery.splice(i,1);
+                    }
 
-            for(let i=0;i<locationSearchQuery.length;i++){
-                if(locationSearchQuery[i] == 'marketing=y'){
-                    locationSearchQuery.splice(i,1);
                 }
-                if(locationSearchQuery[i] == ''){
-                    locationSearchQuery.splice(i,1);
+
+            }else if(type == 'on_stores'){
+
+                for(let i=0;i<locationSearchQuery.length;i++){
+                    if(locationSearchQuery[i].indexOf('page=') != -1){
+                        locationSearchQuery[i] = 'page=1';
+                    }
+                    if(locationSearchQuery[i] == 'marketing=y'){
+                        locationSearchQuery.splice(i,1);
+                    }
+                    if(locationSearchQuery[i] == ''){
+                        locationSearchQuery.splice(i,1);
+                    }
+
                 }
-                if(locationSearchQuery[i].indexOf('page=') != -1){
-                    locationSearchQuery[i] = 'page=1';
+                if(!locationSearchQuery.includes('on_stores=y')) locationSearchQuery.push('on_stores=y');
+
+            }else if(type == 'marketing'){
+                for(let i=0;i<locationSearchQuery.length;i++){
+                    if(locationSearchQuery[i].indexOf('page=') != -1){
+                        locationSearchQuery[i] = 'page=1';
+                    }
+                    if(locationSearchQuery[i] == 'on_stores=y'){
+                        locationSearchQuery.splice(i,1);
+                    }
+                    if(locationSearchQuery[i] == ''){
+                        locationSearchQuery.splice(i,1);
+                    }
+
                 }
+                if(!locationSearchQuery.includes('marketing=y')) locationSearchQuery.push('marketing=y');
             }
-            if(!locationSearchQuery.includes('on_stores=y')) locationSearchQuery.push('on_stores=y');
+            document.location.search = '?' + locationSearchQuery.join('&');
 
-        }else if(type == 'marketing'){
-            for(let i=0;i<locationSearchQuery.length;i++){
-                if(locationSearchQuery[i] == 'on_stores=y'){
-                    locationSearchQuery.splice(i,1);
-                }
-                if(locationSearchQuery[i] == ''){
-                    locationSearchQuery.splice(i,1);
-                }
-                if(locationSearchQuery[i].indexOf('page=') != -1){
-                    locationSearchQuery[i] = 'page=1';
-                }
-            }
-            if(!locationSearchQuery.includes('marketing=y')) locationSearchQuery.push('marketing=y');
         }
-        document.location.search = '?' + locationSearchQuery.join('&');
-        console.log(document.location.search);
+
         /*document.location.reload();*/
     });
 
