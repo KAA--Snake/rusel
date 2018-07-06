@@ -1,5 +1,10 @@
 <?/*=\Yii::$app->session->getFlash('order_id')[0];*/
-
+if(empty(\Yii::$app->session->getFlash('order_id')[0])){?>
+<script>
+    location.href = "/"
+</script>
+<?
+}
 ?>
 <script>
 
