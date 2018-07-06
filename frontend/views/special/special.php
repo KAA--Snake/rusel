@@ -18,7 +18,7 @@ $this->title = 'Спецпредложения rusel24';
 <div class="content_inner_wrap left0 col_1180">
     <h1 class="special_offer_h1">Специальное предложение: <span class="special_offe_name"><?=$data['products']['offer']->name;?></span></h1>
 
-    <?=CatalogFilter::widget([
+    <?/*=CatalogFilter::widget([
         'options' => [
             'totalFound' => $data['totalProductsFound'],
             'filterData' => $filterData,
@@ -28,7 +28,7 @@ $this->title = 'Спецпредложения rusel24';
             'filterManufacturers' => $filterManufacturers,
         ],
 
-    ]);?>
+    ]);*/?>
 
     <div class="sub_filter_wrap clear">
 

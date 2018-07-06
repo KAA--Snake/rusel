@@ -935,6 +935,17 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			$pagination = \Yii::$app->controller->pagination;
 		}
 
+        $must[] = [
+            'terms' => [
+                'id' => $ids
+            ]
+        ];
+
+        $minifiltersParam = MiniFilterHelper::getMiniFilterOption();
+        $miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
+        if($miniFilterTerm){
+            $must[] = $miniFilterTerm;
+        }
 
 		$params = [
 			'body' => [
@@ -943,15 +954,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				'sort' => [
 					'artikul' => ['order' => 'asc']
 				],
-				'query' => [
-					'constant_score' => [
-						'filter' => [
-							'terms' => [
-								'id' => $ids
-							]
-						]
-					]
-				]
+                'query' => [
+                    'bool'=> [
+                        /** обязательный блок (для ИД раздела ) */
+                        'must' => $must
+                    ]
+                ],
 			]
 		];
 
@@ -969,6 +977,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		$this->_setSinglePriceAsMulty($response);
 		//добавляем аксессуары к продуктам
 		$this->setAccessoriedProds($response);
+
+		$this->_clearProductsForMiniFilter($response);
 
 
 		return $response['hits'];
