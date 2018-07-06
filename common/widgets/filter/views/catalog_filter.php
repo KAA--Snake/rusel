@@ -40,7 +40,7 @@
                                 <li data-tag="<?=$oneBucket['key'];?>" class="tag_item js-filter-param-item <?php if($i >= 10){?> hidden <?}?>"><?=$oneBucket['key'];?> <span class="filter_param_count">(<?=$oneBucket['doc_count'];?>)</span></li>
                             <?}?>
                             <?php if(count($oneFilter['prop_values']['buckets']) > 10) {?>
-                                <li class="filter_more_btn js-filter-param-item-more">ЕЩЕ ↓</li>
+                                <li class="filter_more_btn js-filter-param-item-more">показать все ↓</li>
                             <?}?>
                         </ul>
                     </td>

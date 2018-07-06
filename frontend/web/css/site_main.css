@@ -602,15 +602,15 @@
             font-size: 14px;
             font-weight: 700;
             line-height: 50px;
-            text-decoration: underline;
-            text-transform: uppercase;
+            text-decoration: none;
+
             padding: 0 20px;
             cursor: pointer;
             transition: 0.2s;
             /*flex-grow:1;*/ }
             .container.main .content_wrap .goods_filter_block .filter_selector_wrap .filter_tab .filter_selector_item .tags .tag_list .filter_more_btn:hover {
               color: #7194b8;
-              text-decoration: none;
+              text-decoration: underline;
               transition: 0.2s; }
           .container.main .content_wrap .goods_filter_block .filter_selector_wrap .filter_tab .filter_selector_item .tags .tag_list .name {
             margin-left: -70px;
