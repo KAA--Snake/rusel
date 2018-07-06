@@ -408,6 +408,7 @@ $(document).ready(function () {
         e.preventDefault();
         var type = $(this).data('type');
         var locationSearchQuery = document.location.search.slice(1).split('&') || [];
+
         if($('#filter-form').length){
             if(type == 'all'){
                 $('#on_stores').val('');
@@ -419,7 +420,20 @@ $(document).ready(function () {
                 $('#on_stores').val('');
                 $('#marketing').val('y');
             }
+
+            for(let i=0;i<locationSearchQuery.length;i++){
+                if(locationSearchQuery[i].indexOf('page=') != -1){
+                    locationSearchQuery[i] = 'page=1';
+                }
+                if(locationSearchQuery[i] == ''){
+                    locationSearchQuery.splice(i,1);
+                }
+            }
+
+            var formHref =  '?' + locationSearchQuery.join('&');
+            $('#filter-form').attr('action', formHref);
             $('#filter-form').submit();
+
         }else {
             if(type == 'all'){
 
