@@ -1,4 +1,7 @@
 <?/*=\Yii::$app->session->getFlash('order_id')[0];*/
+
+$this->title = 'RUSEL24 - Заказ оформлен';
+
 if(empty(\Yii::$app->session->getFlash('order_id')[0])){?>
 <script>
     location.href = "/"

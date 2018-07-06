@@ -41,7 +41,7 @@ use common\modules\catalog\models\Section;
 $sectionModel = new Section();
 
 //$sectionModel->listTree($groupedSiblings);
-
+$this->title = 'RUSEL24 - ' .$currentSection->name;
 ?>
 <div class="section_list_wrap clear">
     <h1><?= $currentSection->name; ?></h1>

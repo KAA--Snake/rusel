@@ -12,6 +12,8 @@ use common\modules\catalog\models\currency\Currency;
 
 //\Yii::$app->pr->print_r2($groupedSections);
 
+$this->title = 'RUSEL24 - '.$manufacturer;
+
 $sectionModel = new Section();
 $totalProductsFound = $paginator['totalCount'];
 $perPage = $paginator['maxSizeCnt'];

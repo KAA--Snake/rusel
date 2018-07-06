@@ -1,7 +1,7 @@
 <?php
 use yii\widgets\ActiveForm;
 
-
+$this->title = 'RUSEL24 - Поиск по списку';
 ?>
 
 <?php

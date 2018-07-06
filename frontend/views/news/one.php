@@ -8,6 +8,8 @@
 use yii\helpers\Url;
 use common\widgets\catalog\CatalogMenu;
 use common\widgets\search\WSearch;
+
+$this->title = 'RUSEL24 - Новости';
 ?>
 <div class="content_wrap mw1180">
 

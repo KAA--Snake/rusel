@@ -2,7 +2,7 @@
 
 use yii\helpers\Url;
 use common\modules\catalog\models\currency\Currency;
-
+$this->title = 'RUSEL24 - Результат поиска';
 ?>
 
 <div class="search_by_list">

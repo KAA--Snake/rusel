@@ -11,7 +11,7 @@ use common\widgets\Alert;
 /*\Yii::$app->pr->print_r2($currentSectionProducts);
 
 die();*/
-
+$this->title = 'RUSEL24 - ' .$currentSection->name;
 ?>
 <div class="content_inner_wrap left0 col_1180">
     <?= CatalogFilter::widget([

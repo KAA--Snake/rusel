@@ -6,6 +6,7 @@ use common\modules\catalog\models\currency\Currency;
 use yii\helpers\Html;
 ?>
 <?
+$this->title = 'RUSEL24 - Форма запроса';
 //\Yii::$app->pr->print_r2($cart);
 ?>
 

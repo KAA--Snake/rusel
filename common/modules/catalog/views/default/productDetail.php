@@ -15,6 +15,9 @@ $url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
     unset($oneProduct['_source']['prices']['storage']);
     $oneProduct['_source']['prices']['storage'][] = $singleStorage;
 }*/
+
+
+$this->title = 'RUSEL24 - '.$oneProduct['name'];
 ?>
 <?php //Yii::$app->pr->print_r2($oneProduct);?>
 

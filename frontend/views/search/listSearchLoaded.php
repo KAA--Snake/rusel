@@ -1,3 +1,8 @@
+
+<?
+$this->title = 'RUSEL24 - Поиск по списку';
+?>
+
 <? if ($uploaded) { ?>
 
     <div class="search_by_list">

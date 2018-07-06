@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use common\modules\catalog\models\currency\Currency;
 use common\widgets\catalog\Paginator;
 
+$this->title = 'RUSEL24 - Поиск по '.$searchBy;
 ?>
 
 <div class="man_search_header">
