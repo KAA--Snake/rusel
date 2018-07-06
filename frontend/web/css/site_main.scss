@@ -752,15 +752,16 @@ $white:#ffffff;
                   font-size: 14px;
                   font-weight: 700;
                   line-height: 50px;
-                  text-decoration: underline;
-                  text-transform: uppercase;
+                  text-decoration: none;
+                  /*text-transform: uppercase;*/
                   padding: 0 20px;
                   cursor: pointer;
                   transition: 0.2s;
                   /*flex-grow:1;*/
                   &:hover{
                     color:#7194b8;
-                    text-decoration: none;
+
+                    text-decoration: underline;
                     transition: 0.2s;
                   }
                 }
