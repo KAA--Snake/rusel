@@ -603,7 +603,7 @@
             font-weight: 700;
             line-height: 50px;
             text-decoration: none;
-
+            /*text-transform: uppercase;*/
             padding: 0 20px;
             cursor: pointer;
             transition: 0.2s;
@@ -2933,5 +2933,41 @@
   text-transform: uppercase;
   margin-bottom: 20px;
   text-align: center; }
+
+.page_404 {
+  margin-top: 85px; }
+  .page_404 .img_404 {
+    float: left; }
+  .page_404 .txt_404 {
+    float: left;
+    margin-left: 88px;
+    padding-top: 84px; }
+    .page_404 .txt_404 h1 {
+      color: #9f0f18;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 36.37px;
+      text-transform: uppercase;
+      margin-bottom: 26px; }
+    .page_404 .txt_404 p {
+      color: #000000;
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 24px;
+      margin-bottom: 24px; }
+
+.blue_btn {
+  display: inline-block;
+  background-color: #336699;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 44px;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  padding: 0 40px; }
 
 /*# sourceMappingURL=site_main.css.map */

@@ -626,7 +626,7 @@ $this->title = 'RUSEL24 - Форма запроса';
                 </div>
 
                 <div class="row clear js-delivery-input js-delivery-half hidden">
-                    <div class="col col_1">
+                    <div class="col col_3">
                         <label class="text_label" for="delivery_city">Выбрать город</label>
                         <select class="_order_sel js-city-select" name="fake[delivery_city]" id="delivery_city">
                             <option value=""></option>

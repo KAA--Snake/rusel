@@ -3,7 +3,7 @@
         <nav class="top_menu">
             <a href="/company/about/" class="nav_item">О компании</a>
             <a href="/company/delivery/" class="nav_item">Оплата и доставка</a>
-            <a href="/company/documents/" class="nav_item">Публичная оферта</a>
+            <a href="/company/documents/" class="nav_item">Оферта</a>
             <a href="/company/cooperation/" class="nav_item">Сотрудничество</a>
             <a href="/company/vacancies/" class="nav_item">Вакансии</a>
             <a href="/company/contacts/" class="nav_item">Контакты</a>

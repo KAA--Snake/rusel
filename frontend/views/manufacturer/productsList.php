@@ -79,9 +79,9 @@ $perPage = $paginator['maxSizeCnt'];
 
 
 
-<div class="filter_unavailable">
+<!--<div class="filter_unavailable">
     Для использования фильтра требуется выбрать группу
-</div>
+</div>-->
 <div class="content_wrap">
     <div class="sub_filter_wrap clear">
         <?=\common\widgets\filter_small\WFilterSmall::widget(['totalProductsFound' => $totalProductsFound]);?>
