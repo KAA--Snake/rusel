@@ -1539,7 +1539,8 @@
                       color: #336699; }
   .container.main .content_wrap .content_inner_wrap .manufacturer_tree_wrap {
     background: #ffffff;
-    margin-top: -20px; }
+    margin-top: -20px;
+    margin-bottom: 20px; }
     .container.main .content_wrap .content_inner_wrap .manufacturer_tree_wrap .catalog_tree_container .tree_container {
       margin-bottom: 30px; }
       .container.main .content_wrap .content_inner_wrap .manufacturer_tree_wrap .catalog_tree_container .tree_container .tree_img {
