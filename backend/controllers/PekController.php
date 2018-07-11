@@ -11,6 +11,7 @@ namespace backend\controllers;
 
 use yii\rest\ActiveController;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 
 
 class PekController extends Controller

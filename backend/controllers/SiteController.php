@@ -17,27 +17,21 @@ class SiteController extends Controller
      */
     public function behaviors()
     {
-        return [];
-
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                //'only' => ['login', 'logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
                         'allow' => true,
+                        'actions' => ['login'],
+                        'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'index'],
                         'allow' => true,
-                        //'roles' => ['@'],
+                        //'actions' => ['*'],
+                        'roles' => ['@'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
                 ],
             ],
         ];

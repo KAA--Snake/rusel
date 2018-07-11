@@ -13,11 +13,38 @@ use common\modules\catalog\models\Info;
 use yii\web\Controller;
 use Yii;
 use yii\web\UploadedFile;
+use yii\filters\AccessControl;
 
 class InfoController extends Controller
 {
 
     public $enableCsrfValidation = false;
+
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['login', 'logout', 'signup'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['login'],
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        //'actions' => ['*'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc

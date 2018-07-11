@@ -11,11 +11,37 @@ namespace backend\controllers;
 use common\modules\catalog\models\Offers;
 use yii\web\Controller;
 use Yii;
+use yii\filters\AccessControl;
 
 class OffersController extends Controller
 {
 
     public $enableCsrfValidation = false;
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['login', 'logout', 'signup'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['login'],
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        //'actions' => ['*'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
