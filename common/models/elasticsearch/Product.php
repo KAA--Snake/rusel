@@ -121,10 +121,29 @@ class Product extends Model
         $params = [
             'index' => 'product',
             'body' => [
-                //'settings' => [
-                //    'number_of_shards' => 3,
-                //    'number_of_replicas' => 2
-                //],
+
+                'settings' => [
+                    'number_of_shards' => 5,
+                    'number_of_replicas' => 2,
+
+                    "analysis" => [
+                        "analyzer"   => [
+                            "analyzer_keyword" => [
+                                "tokenizer" => "standard",
+                                "filter"    => ["lowercase", "asciifolding"]
+                            ]
+                        ],
+                        "normalizer" => [
+                            "lowerasciinormalizer" => [
+                                "type"   => "custom",
+                                "filter" => ["lowercase", "asciifolding"]
+                            ]
+                        ]
+                    ]
+
+
+
+                ],
                 'mappings' => [
                     'product_type' => [
                         '_source' => [
@@ -159,6 +178,9 @@ class Product extends Model
 
                             'artikul' => [
                                 'type' => 'keyword',
+                                //'search_analyzer' => 'defaul',
+                                //'search_analyzer' => 'analyzer_keyword',
+                                'normalizer' => 'lowerasciinormalizer'
                                 //мульти поле, для сортировки по нему
                                 /*'fields' => [
                                     'raw' => [
