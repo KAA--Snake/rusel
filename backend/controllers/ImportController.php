@@ -18,6 +18,7 @@ use common\modules\catalog\models\Section;
 use common\modules\catalog\modules\admin\models\import\CatalogImport;
 use phpDocumentor\Reflection\Location;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\UploadedFile;
@@ -28,6 +29,31 @@ class ImportController extends Controller
 
     //@TODO временно отключаем валидацию токенов для тестирования
     public $enableCsrfValidation = false;
+
+
+    public function behaviors()
+    {
+
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['login', 'logout', 'signup'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['login'],
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        //'actions' => ['*'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
 
 
 

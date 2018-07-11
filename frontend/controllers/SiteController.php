@@ -135,6 +135,8 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        return '404';
+
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
@@ -158,6 +160,8 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        return '404';
+
         return $this->render('about');
     }
 
@@ -168,6 +172,8 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
+        return 'Not allowed ! Ask administration for it!';
+
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
@@ -189,6 +195,8 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
+        return '404';
+
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -214,6 +222,8 @@ class SiteController extends Controller
      */
     public function actionResetPassword($token)
     {
+        return '404';
+
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidParamException $e) {
