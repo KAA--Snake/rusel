@@ -10,9 +10,11 @@ namespace common\modules\catalog\models\search\searches;
 
 
 use common\helpers\minifilter\MiniFilterHelper;
+use common\models\CacheHelper;
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\elastic\Elastic;
 use Yii;
+use yii\redis\Cache;
 
 class ProductsSearch extends BaseSearch implements iProductSearch
 {
@@ -23,6 +25,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
     private $savedFilter;
     private $isEmptyResult = false; //свитч для пустого результата поиска
+
+    private $cacheCallbackParams; //это параметры пробрасываемые в колбек кеша для поиска по выборке. НЕ ПУТАТЬ С КЛЮЧОМ КЕША!
 
     /** Массив для названий главных свойств (не лежащих в nested) */
     private $mainProps = [
@@ -573,7 +577,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         //$filter = \Yii::$app->session->get('saved_filter');
         //\Yii::$app->pr->print_r2((array)json_decode($filter));
 
-        //var_dump($filter);
 
         //пробрасывается в контроллер из Pagination_beh.php
         $pagination = \Yii::$app->controller->pagination;
@@ -582,10 +585,25 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             return false;
         }
 
+        /** @var Cache $cache */
+        $cache = \Yii::$app->cache;
+        //$cache->flush();
+        /** Кешируем первичный запрос на полную выборку */
+        $serializedParams = serialize($params);
+        $cacheKey = md5($serializedParams);
+
+        //пробрасываем в колбек поисковые параметры для запроса
+        $this->cacheCallbackParams = $params;
+
+        //echo '<br>' . $cacheKey . '<br>';
+        $filterDataForSection = $cache->getOrSet(
+            $cacheKey,
+            function(){
+                return $this->getFilterDataForSectionId($this->cacheCallbackParams);
+            }
+        );
 
         $resultData = [];
-
-	    $filterDataForSection = $this->getFilterDataForSectionId($params);
 
 	    $allFilterDataProps = $this->_getProps($filterDataForSection);
 	    $allManufacturers = $this->_getManufacturers($filterDataForSection);
@@ -595,12 +613,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             $this->__setParamsFromPost($params);
         }
 
-	    /** @var Cache $cache */
-        $cache = \Yii::$app->cache;
-
         $totalFound = 0;
-
-        $cacheKey = 'getFilterForSection'.$params['sectionId'];
 
         //if (!$filterDataForSection = $cache->get($cacheKey) || true){
 		$minifilterparams = MiniFilterHelper::getMiniFilterOption();
@@ -608,10 +621,33 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			$params[$minifilterparams] = 'y';
 		}
 
-	    //\Yii::$app->pr->print_r2($minifilterparams);
 
-        /** делаем запрос на выборку */
-        $filterDataForSection = $this->getFilterDataForSectionId($params);
+        /** Кешируем */
+        $additCacheParams = CacheHelper::getAdditionalCacheParamsFromRequest(); //проверим есть ли в GET пагинатор и тп
+        $cacheParams = $params+$pagination+$additCacheParams;
+
+        $cacheKey = serialize($cacheParams);
+        $cacheKey = sha1($cacheKey);
+
+        //\Yii::$app->pr->print_r2($cacheParams);
+        //echo $cacheKey. '<br>';
+
+        if($cacheKey){
+
+            if($cache->exists($cacheKey)){
+                //взять из кеша
+                //echo 'taked from cache <br>';
+                $filterDataForSection = $cache->get($cacheKey);
+            }else{
+                //echo 'caching <br>';
+                /** делаем запрос на выборку*/
+                $filterDataForSection = $this->getFilterDataForSectionId($params);
+                $cache->set($cacheKey, $filterDataForSection);
+            }
+
+        }
+
+        //$filterDataForSection = $this->getFilterDataForSectionId($params);
 
 	    //\Yii::$app->pr->print_r2($params);
         /** собираем отфильтрованные товары */
@@ -1162,7 +1198,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $resultData = [];
 
         /** @var Cache $cache */
-        $cache = \Yii::$app->cache;
+        //$cache = \Yii::$app->cache;
+
+        //var_dump($cache);
+        //die();
 
         $totalFound = 0;
 

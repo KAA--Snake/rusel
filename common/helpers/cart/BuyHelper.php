@@ -90,7 +90,7 @@ class BuyHelper
 					//$product['overallPrice'] = $price * $product['count'];
 
 					/**
-					 * глупый идиотизм. @TODO в нормальном магазе выпилить это
+					 *
 					 * "короче сделай что бы было 643 ) т.е. та валюта в которой цены на сайте"
 					 */
 					$product['currency'] = 643;

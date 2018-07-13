@@ -9,6 +9,7 @@
 namespace backend\controllers;
 
 
+use yii\redis\Cache;
 use yii\rest\ActiveController;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -51,28 +52,30 @@ class PekController extends Controller
     /**
      * Получает список ВСЕХ городов ПЭК
      *
-     * @TODO ОБЯЗАТЕЛЬНО СДЕЛАТЬ КЕШИРОВАНИЕ ! Сейчас пишет в сессию- это ТОЛЬКО для тестирования !
-     *
      * @return mixed
      */
     public function actionGetTowns(){
-        $session = \Yii::$app->session;
 
-        $pekTowns = $session->get('pek-towns');
+        /** @var Cache $cache */
+        $cache = \Yii::$app->cache;
 
-        if(!isset($pekTowns) || empty($pekTowns)){
+        $cacheKey = 'perTowns';
 
-            $ch = curl_init( 'https://pecom.ru/ru/calc/towns.php' );
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-            curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-            $result = curl_exec($ch);
-            curl_close($ch);
+        //echo '<br>' . $cacheKey . '<br>';
+        $result = $cache->getOrSet(
+            $cacheKey,
+            function(){
+                $ch = curl_init( 'https://pecom.ru/ru/calc/towns.php' );
+                curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+                curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+                $result = curl_exec($ch);
+                curl_close($ch);
 
-            $session->set('pek-towns', $result);
-        }else{
+                return $result;
+            },
+            86400
+        );
 
-            $result = $pekTowns;
-        }
 
         return $result;
         //echo json_encode($result,JSON_PRETTY_PRINT);
@@ -84,14 +87,12 @@ class PekController extends Controller
     /**
      * Получает расчет по доставке для городов from-to
      *
-     * @TODO ОБЯЗАТЕЛЬНО СДЕЛАТЬ КЕШИРОВАНИЕ ! Сейчас пишет в сессию- это ТОЛЬКО для тестирования !
-     *
      * @param int $take
      * @param int $delivery
      * @return mixed
      */
     public function actionGetDelivery($take=63123, $delivery=63123){
-        $session = \Yii::$app->session;
+        /*$session = \Yii::$app->session;
 
         $pekDelivery = $session->get('pek-delivery');
 
@@ -101,17 +102,34 @@ class PekController extends Controller
             if(isset($pekDelivery->$take->$delivery) && !empty($pekDelivery->$take->$delivery)){
                 return $pekDelivery->$take->$delivery;
             }
-        }
+        }*/
 
 
-        $ch = curl_init( 'http://calc.pecom.ru/bitrix/components/pecom/calc/ajax.php?places[0]&take[town]='.$take.'&deliver[town]='.$delivery );
+        /** @var Cache $cache */
+        $cache = \Yii::$app->cache;
+        $cacheKey = md5('actionGetDelivery_'.$take.'_'.$delivery);
+        //echo '<br>' . $cacheKey . '<br>';
+        $result = $cache->getOrSet(
+            $cacheKey,
+            function(){
+                $ch = curl_init( 'http://calc.pecom.ru/bitrix/components/pecom/calc/ajax.php?places[0]&take[town]='.$take.'&deliver[town]='.$delivery );
+                curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+                curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+                $result = curl_exec($ch);
+                curl_close($ch);
+
+                return $result;
+            }
+        );
+
+        /*$ch = curl_init( 'http://calc.pecom.ru/bitrix/components/pecom/calc/ajax.php?places[0]&take[town]='.$take.'&deliver[town]='.$delivery );
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         $result = curl_exec($ch);
         curl_close($ch);
         $pekDelivery = [];
         $pekDelivery[$take][$delivery] = $result;
-        $session->set('pek-delivery', json_encode($pekDelivery));
+        $session->set('pek-delivery', json_encode($pekDelivery));*/
 
         //echo 'nocache';
         return $result;
