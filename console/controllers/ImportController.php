@@ -13,6 +13,7 @@ use common\modules\catalog\models\catalog_import\Import_log;
 use common\modules\catalog\modules\admin\models\import\CatalogImport;
 use yii\console\Controller;
 use yii\db\Exception;
+use yii\redis\Cache;
 
 class ImportController extends Controller
 {
@@ -35,6 +36,10 @@ class ImportController extends Controller
 
         //запустить импорт
         if(isset($postData['file_name']) && !empty($postData['file_name'])){
+
+            /** @var Cache $cache */
+            $cache = \Yii::$app->cache;
+            $cache->flush();
 
             //unset($_SESSION['ERRORS']);
 

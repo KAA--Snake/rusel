@@ -8,6 +8,7 @@ use yii\db\Exception;
 use common\helpers\translit\Translit;
 use yii\helpers\Url;
 use common\models\elasticsearch\Product;
+use yii\redis\Cache;
 
 /**
  * This is the model class for table "public.section".
@@ -742,32 +743,52 @@ class Section extends \yii\db\ActiveRecord
      */
     public function getTreeForGroupIds($groupIds){
 
+        $grouped = [];
 
-        $idsList = explode(';', $groupIds);
+        /** @var Cache $cache */
+        $cache = \Yii::$app->cache;
 
-        //$idsList = array_unique($idsList);
-        $unsortedSections = static::find()
-            //->where(['unique_id' => $idsList])
-            ->orderBy
-            (
-                //['depth_level' => SORT_ASC]
-                ['sort' => SORT_ASC]
-                //['parent_id' => SORT_ASC]
+        $cacheKey = sha1('getTreeForGroupIds_'.$groupIds);
 
-            )
-            ->asArray()
-            ->all();
+        if($cacheKey){
 
-        //индексирование массива ИДами разделов
-        foreach($unsortedSections as $group){
-            $this->unsortedSections[$group['unique_id']] = $group;
+            if($cache->exists($cacheKey)){
+                //взять из кеша
+                //echo 'taked from cache <br>';
+                $grouped = $cache->get($cacheKey);
+            }else{
+                //echo 'caching <br>';
+                /** делаем запрос на выборку*/
+
+                $idsList = explode(';', $groupIds);
+
+                //$idsList = array_unique($idsList);
+                $unsortedSections = static::find()
+                    //->where(['unique_id' => $idsList])
+                                          ->orderBy
+                    (
+                    //['depth_level' => SORT_ASC]
+                        ['sort' => SORT_ASC]
+                    //['parent_id' => SORT_ASC]
+
+                    )->asArray()->all();
+
+                //индексирование массива ИДами разделов
+                foreach($unsortedSections as $group){
+                    $this->unsortedSections[$group['unique_id']] = $group;
+                }
+                unset($unsortedSections);
+
+                $this->deleteUnnecessarySections($idsList);
+
+                //пересобираем заново с уже измененными(убранными) разделами
+                $grouped = $this->buildTreeManufacturer($this->unsortedSections, 0);
+
+                $cache->set($cacheKey, $grouped, 86400);
+            }
+
         }
-        unset($unsortedSections);
 
-        $this->deleteUnnecessarySections($idsList);
-
-        //пересобираем заново с уже измененными(убранными) разделами
-        $grouped = $this->buildTreeManufacturer($this->unsortedSections, 0);
 
         //\Yii::$app->pr->print_r2($this->unsortedSections);
 
