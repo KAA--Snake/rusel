@@ -733,6 +733,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $appliedFilter = json_encode($appliedFilter, JSON_UNESCAPED_SLASHES);
 
 	    //\Yii::$app->pr->print_r2($allFilterDataProps);
+	    //die();
 	    /**
 	     * производим добавление пустых значений для фильтра
 	     * (полный фильтр + найденные)
@@ -1402,6 +1403,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	    /*\Yii::$app->pr->print_r2($fullFilterData);
 	    \Yii::$app->pr->print_r2($filteredData);
 	    die();*/
+	    if(empty($fullFilterData)) return false;
 
     	//если товары не найдены, но фильтрации не было (фильтр по сути не использовался))
     	if(!$filteredData && !$this->isEmptyResult) return false;
