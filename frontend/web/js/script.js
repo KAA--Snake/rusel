@@ -1,6 +1,19 @@
 var excludedFilterParams = ['page', 'perPage'];
 $(document).ready(function () {
 
+    $('#top_search_form').on('submit', function (e) {
+        if($('#top_search_form .search_field').val().length < 4){
+            $(this).append('<span class="count_tooltip">Для поиска введите минимум 4 символа<span class="corner"></span></span>');
+            setTimeout(function () {
+                $('#top_search_form').find('.count_tooltip').fadeOut(function () {
+                    $(this).remove();
+                });
+            }, 5000);
+            return false;
+        }else{
+            $('#top_search_form').submit();
+        }
+    });
 
     if($('#by-artikuls').length > 0) {
         var form = $('#by-artikuls');
