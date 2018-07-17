@@ -240,4 +240,9 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
+    public function actionError(){
+        return 'error';
+    }
 }

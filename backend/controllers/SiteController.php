@@ -93,5 +93,7 @@ class SiteController extends Controller
     }
 
 
-
+    public function actionError(){
+        return 'error';
+    }
 }

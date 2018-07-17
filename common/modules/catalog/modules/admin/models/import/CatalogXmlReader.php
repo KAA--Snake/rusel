@@ -233,7 +233,7 @@ class CatalogXmlReader
                     unset($responses);
 
 
-                    sleep(3);
+                    sleep(1);
 
                 }catch (Exception $exception){
                     Import_log::$currentImportModel['errors_log'][] = $exception->getMessage();
