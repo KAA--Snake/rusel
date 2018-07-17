@@ -402,6 +402,37 @@
     margin-bottom: 20px; }
     .container.main .content_wrap .content_top .search_block form {
       display: flex; }
+      .container.main .content_wrap .content_top .search_block form .count_tooltip {
+        position: absolute;
+        display: block;
+        background: #fff;
+        color: #000;
+        border: 1px solid #336699;
+        width: 300px;
+        line-height: 20px;
+        text-align: left;
+        z-index: 10;
+        top: -20px;
+        left: 34%;
+        box-shadow: 3px 3px 18px -4px #000;
+        margin-left: -200px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 14px;
+        font-weight: 300; }
+        .container.main .content_wrap .content_top .search_block form .count_tooltip .corner {
+          width: 10px;
+          height: 10px;
+          background: #fff;
+          position: absolute;
+          left: 50%;
+          bottom: -6px;
+          margin-left: -5px;
+          border-left: 1px solid #336699;
+          border-bottom: 1px solid #336699;
+          transform: rotate(-45deg);
+          z-index: 11;
+          box-shadow: 3px 3px 18px -4px #000; }
     .container.main .content_wrap .content_top .search_block .search_field {
       line-height: 38px;
       border: 1px solid #e6e6e6;
