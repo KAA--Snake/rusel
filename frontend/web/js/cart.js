@@ -143,11 +143,7 @@ $(document).ready(function () {
                 console.log(productCard.length);
                 if(!$('.js-product_card').length){
                     $('.product_cards_block._order').html(
-                        `<h1>Форма запроса</h1>
-                <div class="_order_section _selected_products">
-                    <h2>Выбранные наименования</h2>
-                    <div class="empty_order">Вы еще не добавили ни одного наименования в запрос</div>
-                </div>`
+                        '<h1>Форма запроса</h1> <div class="_order_section _selected_products"> <h2>Выбранные наименования</h2> <div class="empty_order">Вы еще не добавили ни одного наименования в запрос</div> </div>'
                     );
                 }
 
@@ -418,11 +414,7 @@ function cartCheck() {
         if (cartString.length == 0) {
             //$('.product_cards_block._order').html('<h1>Вы еще не добавили ни одного наименования в запрос</h1>');
             $('.product_cards_block._order').html(
-                `<h1>Форма запроса</h1>
-                <div class="_order_section _selected_products">
-                    <h2>Выбранные наименования</h2>
-                    <div class="empty_order">Вы еще не добавили ни одного наименования в запрос</div>
-                </div>`
+                '<h1>Форма запроса</h1> <div class="_order_section _selected_products"> <h2>Выбранные наименования</h2> <div class="empty_order">Вы еще не добавили ни одного наименования в запрос</div> </div>'
             );
         }
         /*var sum = 0;
