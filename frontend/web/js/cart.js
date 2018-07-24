@@ -143,11 +143,7 @@ $(document).ready(function () {
                 console.log(productCard.length);
                 if(!$('.js-product_card').length){
                     $('.product_cards_block._order').html(
-                        `<h1>Форма запроса</h1>
-                <div class="_order_section _selected_products">
-                    <h2>Выбранные наименования</h2>
-                    <div class="empty_order">Вы еще не добавили ни одного наименования в запрос</div>
-                </div>`
+                        '<h1>Форма запроса</h1> <div class="_order_section _selected_products"> <h2>Выбранные наименования</h2> <div class="empty_order">Вы еще не добавили ни одного наименования в запрос</div> </div>'
                     );
                 }
 
@@ -251,14 +247,14 @@ $(document).ready(function () {
 
                 /*cartPositionDelete(productID, productCount, productData.storage_id || null);*/
 
-                if (productCount < parseInt(productData.productMin_zakaz)) {
-                    orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно соответствовать минимальной партии.<span class="corner"></span></span>');
+                if (productCount < parseInt(productData.productMin_zakaz) && +productData.productCount !== +productCount) {
+                    orderInput.append('<span class="count_tooltip">Запрашиваемое количество должно соответствовать минимальной партии, либо всему остатку на складе.<span class="corner"></span></span>');
                     setTimeout(function () {
                         orderInput.find('.count_tooltip').fadeOut(function () {
                             $(this).remove();
                         });
                     }, 5000);
-                } else if (productCount % parseInt(productData.productNorma_upakovki)) {
+                } else if (productCount % parseInt(productData.productNorma_upakovki) && +productData.productCount !== +productCount) {
                     orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно быть кратно упаковке.<span class="corner"></span></span>');
                     setTimeout(function () {
                         orderInput.find('.count_tooltip').fadeOut(function () {
@@ -418,11 +414,7 @@ function cartCheck() {
         if (cartString.length == 0) {
             //$('.product_cards_block._order').html('<h1>Вы еще не добавили ни одного наименования в запрос</h1>');
             $('.product_cards_block._order').html(
-                `<h1>Форма запроса</h1>
-                <div class="_order_section _selected_products">
-                    <h2>Выбранные наименования</h2>
-                    <div class="empty_order">Вы еще не добавили ни одного наименования в запрос</div>
-                </div>`
+                '<h1>Форма запроса</h1> <div class="_order_section _selected_products"> <h2>Выбранные наименования</h2> <div class="empty_order">Вы еще не добавили ни одного наименования в запрос</div> </div>'
             );
         }
         /*var sum = 0;

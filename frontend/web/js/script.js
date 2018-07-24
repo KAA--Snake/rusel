@@ -25,7 +25,7 @@ $(document).ready(function () {
             shadow.classList.add('s_shadow_layer');
             popup.classList.add('s_popup');
 
-            popup.innerHTML = `<div class="preloader"></div> <div class="text"> Пожалуйста, подождите. <br> Идет обработка данных... </div> <a class="reset_link" href="/search/">Остановить процесс</a>`
+            popup.innerHTML = '<div class="preloader"></div> <div class="text"> Пожалуйста, подождите. <br> Идет обработка данных... </div> <a class="reset_link" href="/search/">Остановить процесс</a>'
             document.body.appendChild(shadow);
             document.body.appendChild(popup);
         });
@@ -597,10 +597,6 @@ $(document).ready(function () {
                     formData.set(param,1);
                 }else{
                     formData.set(param, vars[i].slice(vars[i].indexOf('=')+1));
-
-                }
-
-                for(var pair of formData.entries()) {
 
                 }
             }

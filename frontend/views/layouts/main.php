@@ -27,7 +27,7 @@ AppAsset::register($this);
 <!-- Excitel {call button} -->
 <script type="text/javascript">
     //<![CDATA[
-    (function(){var widget=document.createElement('script');widget.type='text/javascript';widget.async=true;widget.src='//excitel.net/widget-0d05ef9d93eb7cea8a104d6cefcbbee8.js';document.getElementsByTagName('head')[0].appendChild(widget);})();
+    /*(function(){var widget=document.createElement('script');widget.type='text/javascript';widget.async=true;widget.src='//excitel.net/widget-0d05ef9d93eb7cea8a104d6cefcbbee8.js';document.getElementsByTagName('head')[0].appendChild(widget);})();*/
     //]]>
 </script>
 <!-- Excitel {/call button} -->
@@ -118,7 +118,7 @@ AppAsset::register($this);
 
 <!-- Begin Verbox {literal} -->
 <script type='text/javascript'>
-    (function(d, w, m) {
+    /*(function(d, w, m) {
         window.supportAPIMethod = m;
         var s = d.createElement('script');
         s.type ='text/javascript'; s.id = 'supportScript'; s.charset = 'utf-8';
@@ -129,7 +129,7 @@ AppAsset::register($this);
         w[m] = w[m] || function() { (w[m].q = w[m].q || []).push(arguments); };
         if (sc) sc.parentNode.insertBefore(s, sc);
         else d.documentElement.firstChild.appendChild(s);
-    })(document, window, 'Verbox');
+    })(document, window, 'Verbox');*/
 </script>
 <!-- {/literal} End Verbox -->
 </body>
