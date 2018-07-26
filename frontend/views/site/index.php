@@ -7,7 +7,7 @@ use common\widgets\catalog\CatalogMenu;
 use common\widgets\main_slider\MainSlider;
 use common\widgets\search\WSearch;
 
-$this->title = 'Rusel24.ru';
+$this->title = 'RUSEL24: Комплексное снабжение комплектующими';
 
 
 //меню каталога доступно в $catalog_menu. Раскомментируй отладку ниже чтобы посмотреть его структуру
