@@ -45,15 +45,15 @@ class SpecialController extends Controller
 
         $data = $offersSearch->getProductsForOffer($url);
 
-        //\Yii::$app->pr->print_r2($products);
-
+        //\Yii::$app->pr->print_r2($data);
+        //throw new HttpException(404);
 
         return $this->render('special', ['data' => $data]);
     }
 
 
     public function actionAll(){
-        return 'not applied yet';
-        //throw new HttpException(404, 'not applied yed');
+        //return 'not applied yet';
+        throw new HttpException(404);
     }
 }

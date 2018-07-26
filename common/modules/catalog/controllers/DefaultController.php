@@ -106,8 +106,9 @@ class DefaultController extends Controller
         /** для нулевого уровня каталога показываем только главные разделы */
         if(!$pathForParse){
             $rootSections = $sectionModel->getRootSections();
-
-            return $this->render('catalogRoot', ['rootSections' => $rootSections]);
+            throw new HttpException(404);
+            return false;
+            //return $this->render('catalogRoot', ['rootSections' => $rootSections]);
         }
 
 

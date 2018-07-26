@@ -11,10 +11,13 @@ namespace frontend\controllers;
 
 use common\modules\catalog\models\News;
 use yii\web\Controller;
+use yii\web\HttpException;
 
 class NewsController extends Controller
 {
     public function actionIndex(){
+
+        throw new HttpException(404);
 
         $models = News::find()
             ->orderBy('date DESC')
