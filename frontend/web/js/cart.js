@@ -248,14 +248,14 @@ $(document).ready(function () {
                 /*cartPositionDelete(productID, productCount, productData.storage_id || null);*/
 
                 if (productCount < parseInt(productData.productMin_zakaz) && +productData.productCount !== +productCount) {
-                    orderInput.append('<span class="count_tooltip">Запрашиваемое количество должно соответствовать минимальной партии, либо всему остатку на складе.<span class="corner"></span></span>');
+                    orderInput.append('<span class="count_tooltip" style="top: -74px;">Запрашиваемое количество должно соответствовать минимальной партии, либо всему остатку на складе.<span class="corner"></span></span>');
                     setTimeout(function () {
                         orderInput.find('.count_tooltip').fadeOut(function () {
                             $(this).remove();
                         });
                     }, 5000);
                 } else if (productCount % parseInt(productData.productNorma_upakovki) && +productData.productCount !== +productCount) {
-                    orderInput.append('<span class="count_tooltip">Неверное количество! <br>Запрашиваемое количество должно быть кратно упаковке.<span class="corner"></span></span>');
+                    orderInput.append('<span class="count_tooltip">Запрашиваемое количество должно быть кратно упаковке.<span class="corner"></span></span>');
                     setTimeout(function () {
                         orderInput.find('.count_tooltip').fadeOut(function () {
                             $(this).remove();
