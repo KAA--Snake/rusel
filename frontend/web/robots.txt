@@ -1,4 +1,5 @@
-User-agent: * 
-Disallow: /?manufacturer=*
-Disallow: /?perPage=*
-Disallow: /?perPage=*
+User-agent: *
+Disallow: */?manufacturer=*
+Disallow: */?perPage=*
+Disallow: */?page=*
+Disallow: /cart/
