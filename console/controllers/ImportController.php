@@ -37,9 +37,7 @@ class ImportController extends Controller
         //запустить импорт
         if(isset($postData['file_name']) && !empty($postData['file_name'])){
 
-            /** @var Cache $cache */
-            $cache = \Yii::$app->cache;
-            $cache->flush();
+
 
             //unset($_SESSION['ERRORS']);
 
@@ -65,6 +63,11 @@ class ImportController extends Controller
 
 	        /** запускаем проход по импортированному каталогу и генерим ему урлы*/
 	        $catalogImportModel->generateCatalogUrls();
+
+
+            /** @var Cache $cache */
+            $cache = \Yii::$app->cache;
+            $cache->flush();
 
 	        $resUlt = [
 		        'RES' => 'DONE',
