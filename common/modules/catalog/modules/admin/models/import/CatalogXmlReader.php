@@ -39,13 +39,15 @@ class CatalogXmlReader
     private $isTableSectionClear = false;
 
     public function __construct($xml_path) {
-
+        //$xml_path = '/webapp/upload/erp/stock.xml';
         $this->productModel = new Product();
 
         $this->reader = new XMLReader();
         if(is_file($xml_path)){
+            //file_put_contents('/webapp/import.log', 'opened file');
             $this->reader->open($xml_path);
         }else{
+            //file_put_contents('/webapp/import.log', 'XML file {'.$xml_path.'} STILL not exists!');
             throw new \Exception('XML file {'.$xml_path.'} not exists!');
         }
 

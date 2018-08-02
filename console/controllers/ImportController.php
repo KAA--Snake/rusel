@@ -29,7 +29,7 @@ class ImportController extends Controller
         //$postData = \Yii::$app->getRequest()->post();
 
         //$postData['file_name'] = 'list-1-1516437522108.xml';
-        $postData['file_name'] = $filename;
+        $postData['file_name'] = trim($filename);
 
         //\Yii::$app->pr->print_r2($postData);
 
@@ -41,7 +41,7 @@ class ImportController extends Controller
 
             //unset($_SESSION['ERRORS']);
 
-            //file_put_contents('/webapp/import.log', 'Start import: '.date("H:i:s"), FILE_APPEND);
+            //file_put_contents('/webapp/import.log', 'Start import: '.date("H:i:s"));
             //\Yii::error('start process as '. date('H:i:s'));
             $catalogImportModel = new CatalogImport();
 
@@ -57,7 +57,7 @@ class ImportController extends Controller
             ];
             Import_log::checkAndSave();
 
-            $catalogImportModel->filePath = $erpParams['upload_folder'].$postData['file_name'];
+            $catalogImportModel->filePath = trim($erpParams['upload_folder'].$filename);
 
             $catalogImportModel->import();
 
