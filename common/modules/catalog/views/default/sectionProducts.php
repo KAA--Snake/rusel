@@ -525,7 +525,7 @@ $this->title = 'RUSEL24 - ' .$currentSection->name;
                                                 if (empty($oneDoc)) continue;
                                                 ?>
                                                 <li class="docs_item pdf">
-                                                    <a class="docs_file_link " target="_blank" href="<?= $oneDoc; ?>"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    <a class="docs_file_link" rel="nofollow" target="_blank" href="<?= $oneDoc; ?>"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                                                                            viewBox="0 0 174.7 212.3" style="enable-background:new 0 0 174.7 212.3;" xml:space="preserve">
 <g>
     <path class="st0" fill="#336699"  d="M101.2,171.1l-2.2,5.6h5.5l-2.1-5.6c-0.2-0.4-0.4-1-0.6-1.8C101.7,169.9,101.5,170.5,101.2,171.1z"/>

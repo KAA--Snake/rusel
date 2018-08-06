@@ -572,7 +572,7 @@ $perPage = $paginator['maxSizeCnt'];
                                                 if (empty($oneDoc)) continue;
                                                 ?>
                                                 <li class="docs_item pdf">
-                                                    <a class="docs_file_link " target="_blank" href="<?= $oneDoc; ?>">
+                                                    <a class="docs_file_link " rel="nofollow" target="_blank" href="<?= $oneDoc; ?>">
                                                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                              viewBox="0 0 174.7 212.3" style="enable-background:new 0 0 174.7 212.3;" xml:space="preserve">
 <g>

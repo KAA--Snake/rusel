@@ -19,7 +19,7 @@ AppAsset::register($this);
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <link rel="shortcut icon" type="image/ico" href="/img/favicon.ico"/>
+    <link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=1200px, initial-scale=0.0">
     <meta name="format-detection" content="telephone=no">
