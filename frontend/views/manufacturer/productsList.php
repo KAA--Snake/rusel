@@ -12,7 +12,7 @@ use common\modules\catalog\models\currency\Currency;
 
 //\Yii::$app->pr->print_r2($groupedSections);
 
-$this->title = 'RUSEL24 - '.$manufacturer;
+$this->title = $manufacturer . ' | Каталог';
 
 $sectionModel = new Section();
 $totalProductsFound = $paginator['totalCount'];
