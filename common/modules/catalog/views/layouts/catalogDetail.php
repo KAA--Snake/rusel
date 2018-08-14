@@ -19,7 +19,7 @@ AppAsset::register($this);
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
+    <link rel="shortcut icon" type="image/ico" href="/favicon.png"/>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="yandex-verification" content="eec399b374c34790" />
     <meta name="viewport" content="width=1200px, initial-scale=0.0">
