@@ -30,7 +30,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                 <td class="product_name_td">
                     <div class="card_part name">
                         <div class="model">
-                            <a target="_blank" href="<?= $url; ?>"><?= $oneProduct['artikul']; ?></a>
+                            <h1><?= $oneProduct['artikul']; ?></h1>
                         </div>
                         <div class="firm_name">
                             <a target="_blank" href="/manufacturer/<?= $oneProduct['properties']['proizvoditel']; ?>/"><?= $oneProduct['properties']['proizvoditel']; ?></a>

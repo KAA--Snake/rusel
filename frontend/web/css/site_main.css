@@ -1816,6 +1816,13 @@
             text-transform: uppercase; }
             .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.name .model a:hover {
               text-decoration: none; }
+          .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.name .model h1 {
+            color: #9f0f18;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 18px;
+            text-decoration: none;
+            text-transform: uppercase; }
         .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.name .firm_name {
           margin-bottom: 4px; }
           .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.name .firm_name a {
