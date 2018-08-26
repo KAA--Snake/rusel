@@ -18,7 +18,7 @@ $perPage = $paginator['maxSizeCnt'];
 ?>
 <div class="manufacturer_tree_wrap clear">
     <div class="manufacturer_tree_header">
-        Программа поставок: <span class="manufacturer_name"><?= $manufacturer;?></span>
+        Программа поставок: <h1 class="manufacturer_name"><?= $manufacturer;?></h1>
     </div>
     <div class="catalog_tree_container fll">
         <?php
