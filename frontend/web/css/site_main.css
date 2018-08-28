@@ -690,6 +690,14 @@
         outline: none; }
         .container.main .content_wrap .goods_filter_block .filter_selector_wrap .apply_filter_btn_wrap .apply_filter_btn:hover {
           text-decoration: none; }
+.container.main .content_wrap .catalog_h1 {
+  color: #282828;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 19px;
+  text-transform: uppercase;
+  margin-left: 20px;
+  margin-bottom: 20px; }
 .container.main .content_wrap .content_inner_wrap {
   margin-left: 240px;
   /*h1{

@@ -859,12 +859,21 @@ $white:#ffffff;
         }
       }
     }
-
+    .catalog_h1{
+      color: #282828;
+      font-size: 25px;
+      font-weight: 700;
+      line-height: 19px;
+      text-transform: uppercase;
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
     .content_inner_wrap{
       margin-left: 240px;
       &.left0{
         margin-left: 0;
       }
+
       &.in_news{
         &_list{
           h1{
