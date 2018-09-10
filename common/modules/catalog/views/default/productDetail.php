@@ -105,7 +105,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 
                                                 if (!is_array($oneProduct['quantity']['for_order']['description'])) {
                                                     $overText = 'Доп. заказ:';
-                                                    if (!$isAnyAvailable) {
+                                                    if ($oneStorage['quantity']['stock']['count'] == 0) {
                                                         $overText = 'Под заказ:';
                                                     } ?>
                                                     <tr>
