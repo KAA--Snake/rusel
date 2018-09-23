@@ -16,7 +16,7 @@ use yii\web\Controller;
 
 class ManufacturerController extends Controller
 {
-    public $layout = 'searchFullWidth';
+    public $layout = 'manufacturer';
     public $pagination;
 
 
@@ -50,6 +50,8 @@ class ManufacturerController extends Controller
         $manufacturerModel = new Manufacturer();
 
         $manufacturer = $manufacturerModel->getByName($manufacturer);
+
+        $this->view->params['seo']['manufacturer'] = $manufacturer;
 
         if(empty($manufacturer->m_id) || !isset($manufacturer->m_id) || empty($manufacturer->m_group_ids)) {
             return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);

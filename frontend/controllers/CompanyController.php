@@ -70,6 +70,8 @@ class CompanyController extends Controller
             throw new HttpException(404);
         }
 
+        $this->view->params['seo']['static'] = $model;
+
         return $this->render('static', ['model' => $model]);
     }
 

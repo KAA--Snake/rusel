@@ -124,7 +124,12 @@ class DefaultController extends Controller
             $breadcrumbs = $breadCrumbsObj->getForCatalogProduct($product);
             $this->view->params['breadcrumbs'] = $breadcrumbs;
 
+            $this->view->params['seo']['product'] = $product;
+
             $this->layout = 'catalogDetail';
+            /*if(!empty($_GET['s'])){
+                \Yii::$app->pr->print_r2($breadcrumbs);
+            }*/
 	        //\Yii::$app->pr->print_r2($product);
 	        //die();
             return $this->render('productDetail', ['oneProduct' => $product]);
@@ -202,6 +207,7 @@ class DefaultController extends Controller
 
             $this->layout = 'catalogFullWidth';
 
+            $this->view->params['seo']['section'] = $sectionData['currentSection'];
 
             return $this->render('sectionProducts', $returnData);
         }

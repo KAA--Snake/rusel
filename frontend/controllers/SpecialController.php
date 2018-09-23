@@ -15,7 +15,7 @@ use yii\web\HttpException;
 
 class SpecialController extends Controller
 {
-    public $layout = '@common/modules/catalog/views/layouts/catalogFullWidth.php';
+    public $layout = 'special';
 
     /**
      * @inheritdoc
@@ -47,6 +47,7 @@ class SpecialController extends Controller
 
         //\Yii::$app->pr->print_r2($data);
         //throw new HttpException(404);
+        $this->view->params['seo']['special'] = $data['products']['offer'];
 
         return $this->render('special', ['data' => $data]);
     }

@@ -19,15 +19,35 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+    <link rel="canonical" href="<?= Yii::$app->request->baseUrl;?>">
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="yandex-verification" content="eec399b374c34790" />
     <meta name="viewport" content="width=1200px, initial-scale=0.0">
     <meta name="format-detection" content="telephone=no">
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+    <meta name="robots" content="index,follow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126173792-1"></script>
+
+<script>
+
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-126173792-1');
+
+</script>
 <script type="text/javascript" >
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {

@@ -12,7 +12,7 @@ use common\widgets\filter\CatalogFilter;
 //\Yii::$app->pr->print_r2($data);
 //die();
 
-$this->title = 'Спецпредложения rusel24';
+$this->title = $data['products']['offer']->name;
 //this->params['breadcrumbs'][] = 'Спецпредложения';
 ?>
 <div class="content_inner_wrap left0 col_1180">
