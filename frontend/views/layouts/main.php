@@ -25,6 +25,7 @@ AppAsset::register($this);
     <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
     <meta name="robots" content="index,follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="C4rArFRoh6XOiiizt7sk3wn1lAK1IoQrPfKcmqqYw5s" />
     <meta name="description" content="Компания осуществляет комплексные мелкооптовые и оптовые поставки комплектующих: электронные компоненты, электротехнические изделия, клеммы, разъемы, соединители, контрольно-измерительные проборы и устройства, блоки питания и ИБП, устройства автоматизации и управления. В каталоге более 1 млн. наименований от 250 производителей, актуальные цены, наличие, сроки поставки, описание, техническая документация, параметрический поиск">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>

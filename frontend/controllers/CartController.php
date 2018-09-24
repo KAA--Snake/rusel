@@ -43,7 +43,7 @@ class CartController extends Controller
      */
     public function actionIndex(){
 
-        $this->layout = '@common/modules/catalog/views/layouts/catalogDetail';
+        $this->layout = 'cart';
 
         // получаем поля для введенной ранее формы (еси были)
         $cartFields = \Yii::$app->session->get('cartFields');

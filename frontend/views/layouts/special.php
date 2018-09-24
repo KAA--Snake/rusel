@@ -18,7 +18,7 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
-    <link rel="canonical" href="<?= Yii::$app->request->absoluteUrl;?>">
+    <link rel="canonical" href="http://rusel24.ru/<?= Yii::$app->request->pathInfo;?>">
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="yandex-verification" content="eec399b374c34790" />
     <meta name="viewport" content="width=1200px, initial-scale=0.0">
@@ -26,7 +26,7 @@ AppAsset::register($this);
     <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
     <meta name="robots" content="index,follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="<?=$this->title;?>">
+    <meta name="description" content="Компания осуществляет комплексные мелкооптовые и оптовые поставки комплектующих: электронные компоненты, электротехнические изделия, клеммы, разъемы, соединители, контрольно-измерительные проборы и устройства, блоки питания и ИБП, устройства автоматизации и управления. В каталоге более 1 млн. наименований от 250 производителей, актуальные цены, наличие, сроки поставки, описание, техническая документация, параметрический поиск">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>

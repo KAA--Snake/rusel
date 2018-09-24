@@ -14,6 +14,17 @@ use common\widgets\catalog\CatalogMenu;
 use common\widgets\search\WSearch;
 
 
+$catalogParentLink = '';
+if(count($this->params['breadcrumbs']) > 0){
+    foreach($this->params['breadcrumbs'] as $bCrumb){
+        if(isset($bCrumb['finalItem'])){
+            if($bCrumb['finalItem'] == true){
+                $catalogParentLink = '<link rel="parent" href="http://rusel24.ru'.$bCrumb['url'].'">';
+            }
+        }
+    }
+}
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -21,6 +32,8 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+    <link rel="canonical" href="<?= Yii::$app->request->absoluteUrl;?>">
+    <?=$catalogParentLink;?>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="yandex-verification" content="eec399b374c34790" />
     <meta name="viewport" content="width=1200px, initial-scale=0.0">
@@ -32,22 +45,6 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126173792-1"></script>
-
-<script>
-
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag(){dataLayer.push(arguments);}
-
-    gtag('js', new Date());
-
-    gtag('config', 'UA-126173792-1');
-
-</script>
 <script type="text/javascript" >
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
@@ -72,6 +69,24 @@ AppAsset::register($this);
     })(document, window, "yandex_metrika_callbacks2");
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/49726129" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126173792-1"></script>
+
+<script>
+
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag(){dataLayer.push(arguments);}
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-126173792-1');
+
+</script>
+
+
 <?php $this->beginBody() ?>
 
 <div class="popup_container recall hidden">
@@ -123,40 +138,89 @@ AppAsset::register($this);
 
 
             <div class="content_top col_940">
-                <?=CatalogMenu::widget(['maket' => 'menu_full_width']);?>
+	            <?=CatalogMenu::widget();?>
 
                 <?=WSearch::widget();?>
 
             </div>
 
             <div class="breadcrumbs_menu col_1180">
+                <?/*?>
+                <ul class="breadcrumbs_list">
+                    <li class="breadcrumbs_item breadcrumbs_head">Каталог:</li>
+                    <li class="breadcrumbs_item">
+                        <a href="">Измерительные приборы</a>
+                        <span class="arrow_next">→</span>
+                    </li>
+                    <li class="breadcrumbs_item">
+                        <a href="">Комутационная апаратура</a>
+                        <span class="arrow_next">→</span>
+                    </li>
+                    <li class="breadcrumbs_item">
+                        <a href="">Пружинные проходные клеммы</a>
+                        <span class="arrow_next">→</span>
+                    </li>
+                    <li class="breadcrumbs_item current">
+                        DF-0394 HJ75
+                    </li>
+                </ul>
+                <?*/?>
                 <?= Breadcrumbs::widget([
                     'options'       =>  [
                         //'id'        =>  'breadCrumbs',
                         'class'        =>  'breadcrumbs_list',
                     ],
                     'homeLink' => ['label' => 'Каталог:'],
-                    'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // for main
+                    'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // template for all links
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]);?>
-
             </div>
 
 
-            <div class="content_inner_wrap left0 col_1180 search_by_list">
+            <div class="content_inner_wrap left0 col_1180">
+
 
                 <?= Alert::widget() ?>
                 <?= $content ?>
-
-
             </div>
         </div>
+
+        <?php
+        /*    NavBar::begin([
+                'brandLabel' => 'My Company',
+                'brandUrl' => Yii::$app->homeUrl,
+                'options' => [
+                    'class' => 'navbar-inverse navbar-fixed-top',
+                ],
+            ]);
+            $menuItems = [
+                ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'About', 'url' => ['/site/about']],
+                ['label' => 'Contact', 'url' => ['/site/contact']],
+            ];
+            if (Yii::$app->user->isGuest) {
+                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+                $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+            } else {
+                $menuItems[] = '<li>'
+                    . Html::beginForm(['/site/logout'], 'post')
+                    . Html::submitButton(
+                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>';
+            }
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav navbar-right'],
+                'items' => $menuItems,
+            ]);
+            NavBar::end();
+            */ ?>
 
 
     </div>
 </div>
-</div>
-
 
 <footer class="footer">
     <? echo \Yii::$app->view->renderFile('@app/views/includes/layout_v1/footer.php');?>
