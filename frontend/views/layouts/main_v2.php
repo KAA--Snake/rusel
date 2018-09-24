@@ -17,7 +17,7 @@ AppAsset2::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <link rel="shortcut icon" type="image/png" href="/img/favicon.ico"/>
-    <link rel="canonical" href="<?= Yii::$app->request->absoluteUrl;?>">
+    <link rel="canonical" href="http://rusel24.ru/<?= Yii::$app->request->pathInfo;?>">
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="yandex-verification" content="eec399b374c34790" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
