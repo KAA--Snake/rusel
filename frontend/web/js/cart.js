@@ -210,7 +210,8 @@ $(document).ready(function () {
                         for (var r = 0; r < productData.productPrices.price_range.length; r++) {
 
                             var rn = r + 1 == productData.productPrices.price_range.length ? productData.productPrices.price_range.length - 1 : r + 1;
-                            if (parseInt(productData.productPrices.price_range[r].range) <= productCount && parseInt(productData.productPrices.price_range[rn].range) > productCount) {
+
+                            if ((parseInt(productData.productPrices.price_range[r].range) > productCount)||(parseInt(productData.productPrices.price_range[r].range) <= productCount && parseInt(productData.productPrices.price_range[rn].range) > productCount)) {
                                 orderPrice = (+productData.productPrices.price_range[r].value * getRateOfExchange(productData.productPrices.price_range[r].currency)).toFixed(2);
                                 console.log('r');
                                 console.log(+productData.productPrices.price_range[r].value + '*' + getRateOfExchange(productData.productPrices.price_range[r].currency) + '=' + orderPrice);
@@ -255,7 +256,7 @@ $(document).ready(function () {
                         });
                     }, 5000);
                 } else if (productCount % parseInt(productData.productNorma_upakovki) && +productData.productCount !== +productCount) {
-                    orderInput.append('<span class="count_tooltip">Запрашиваемое количество должно быть кратно упаковке.<span class="corner"></span></span>');
+                    orderInput.append('<span class="count_tooltip" style="top: -74px;">Запрашиваемое количество должно быть кратно упаковке, либо всему остатку на складе.<span class="corner"></span></span>');
                     setTimeout(function () {
                         orderInput.find('.count_tooltip').fadeOut(function () {
                             $(this).remove();
