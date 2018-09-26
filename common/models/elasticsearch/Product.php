@@ -797,6 +797,7 @@ class Product extends Model
 
         }else{
             //@TODO нет раздела для товара, значит сбрасываем его в корень кталога. Подумать как это реализовать!
+            return $productCode;
         }
 
         /*echo '$section->url = ' . $section->url . '<br />';
@@ -815,7 +816,7 @@ class Product extends Model
             return $url;
         }else{
             //@TODO не найден такой раздела в каталоге для товара, сбрасываем товар в корень каталога
-
+            return $productCode;
         }
 
         //если раздела не существует, то хотя бы генерим урл из кода
