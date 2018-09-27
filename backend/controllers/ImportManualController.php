@@ -204,6 +204,10 @@ class ImportManualController extends Controller
                     /** запускаем проход по импортированному каталогу и генерим ему урлы*/
                     $model->generateCatalogUrls();
 
+                    /** @var Cache $cache */
+                    $cache = \Yii::$app->cache;
+                    $cache->flush();
+
                     ob_end_clean();
                     echo "<script type='text/javascript'>  window.location='/admin/import-manual/'; </script>";
 
