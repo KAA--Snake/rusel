@@ -13,7 +13,7 @@ use common\widgets\Alert;
 die();*/
 $this->title = $currentSection->name . ' | Каталог';
 ?>
-<h1 class="catalog_h1"><?=$this->title = $currentSection->name;?></h1>
+<h1 class="catalog_h1"><?=$currentSection->name;?></h1>
 <div class="content_inner_wrap left0 col_1180">
 
     <?= CatalogFilter::widget([
