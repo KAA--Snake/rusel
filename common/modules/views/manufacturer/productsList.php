@@ -155,10 +155,7 @@ $perPage = $paginator['maxSizeCnt'];
                                                 <td class="instock_count">
                                                     <?= $oneProduct['_source']['quantity']['stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>
 
-                                                    <?php if(!empty($oneProduct['_source']['quantity']['stock']['description'])){?>
-                                                        <span class="count_tooltip_trigger"><?= $oneProduct['_source']['quantity']['stock']['description'];?> <span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span class="corner"></span></span></span>
 
-                                                    <?php }?>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -171,9 +168,7 @@ $perPage = $paginator['maxSizeCnt'];
                                                 <td class="instock_count partner">
                                                     <?= $oneProduct['_source']['quantity']['partner_stock']['count'];?> <?= $oneProduct['_source']['ed_izmerenia'];?>
 
-                                                    <?php if(!empty($oneProduct['_source']['quantity']['partner_stock']['description']) && !is_array($oneProduct['_source']['quantity']['partner_stock']['description'])){?>
-                                                        <span class="count_tooltip_trigger"><?= $oneProduct['_source']['quantity']['partner_stock']['description'];?><span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span class="corner"></span></span></span>
-                                                    <?php }?>
+
                                                 </td>
                                             </tr>
 
@@ -182,32 +177,35 @@ $perPage = $paginator['maxSizeCnt'];
                                         <?php if(!$isAnyAvailable && !$isAnyAvailablePartner) {?>
                                             <tr>
                                                 <td class="instock_def">Доступно:</td>
-                                                <td class="instock_count">0 <?= $oneProduct['_source']['ed_izmerenia'];?></td>
+                                                <td class="instock_count">под заказ</td>
                                             </tr>
                                         <?php }?>
 
                                         <?php if( isset($oneProduct['_source']['quantity']['for_order']['description']) ){
 
                                             if(!is_array($oneProduct['_source']['quantity']['for_order']['description'])){
-                                                $overText = 'Доп. заказ:';
+                                                $overText = 'Срок отгрузки:';
                                                 if(!$isAnyAvailable && !$isAnyAvailablePartner) {
-                                                    $overText = 'Под заказ:';
+                                                    $overText = 'Срок поставки:';
                                                 }?>
                                                 <tr>
                                                     <td class="instock_def"><?= $overText;?></td>
                                                     <td class="instock_count">
-                                                        <?php if(!empty($oneProduct['_source']['quantity']['for_order']['description']) && !is_array($oneProduct['_source']['quantity']['for_order']['description'])){?>
-                                                            <?= $oneProduct['_source']['quantity']['for_order']['description'];?>
-                                                        <?php }?>
+                                                        <?php if (!empty($oneStorage['quantity']['stock']['description'])) { ?>
+                                                            <span class="count_tooltip_trigger"><?= $oneStorage['quantity']['stock']['description']; ?>
+                                                                <span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span
+                                                                            class="corner"></span></span></span>
+
+                                                        <?php } else { ?>
+                                                            <?php if (!empty($oneStorage['quantity']['for_order']['description']) && !is_array($oneStorage['quantity']['for_order']['description'])) { ?>
+                                                                <?= $oneStorage['quantity']['for_order']['description']; ?>
+                                                            <?php } ?>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
 
                                             <?php } ?>
                                         <?php } ?>
-                                        <tr>
-                                            <td><br></td>
-                                            <td><br></td>
-                                        </tr>
 
                                         <tr>
                                             <td class="instock_def">Упаковка: </td>
@@ -215,7 +213,7 @@ $perPage = $paginator['maxSizeCnt'];
                                         </tr>
 
                                         <tr>
-                                            <td class="instock_def">Мин. партия: </td>
+                                            <td class="instock_def">Минимум: </td>
                                             <td class="instock_count"><?= $oneProduct['_source']['product_logic']['min_zakaz'];?> <?= $oneProduct['_source']['ed_izmerenia'];?></td>
                                         </tr>
                                     </table>
@@ -263,7 +261,7 @@ $perPage = $paginator['maxSizeCnt'];
                                                         ?>
 
                                                         <div class="price_var_item js-price_available clear">
-                                                            <span class="count fll"><?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
+                                                            <span class="count fll">от <?= $oneProduct['_source']['prices']['price_range']['range'];?></span>
                                                             <?
                                                             $price = Currency::getPriceForCurrency(
                                                                 $oneProduct['_source']['prices']['price_range']['currency'],
@@ -291,7 +289,7 @@ $perPage = $paginator['maxSizeCnt'];
                                                                     ?>
 
                                                                     <div class="price_var_item js-price_available clear">
-                                                                        <span class="count fll"><?= $singlePrices['range'];?></span>
+                                                                        <span class="count fll">от <?= $singlePrices['range'];?></span>
                                                                         <span class="price flr"><?=$price;?> <?=Currency::getCurrencyName();?>/<?= $oneProduct['_source']['ed_izmerenia'];?></span>
                                                                     </div>
 
