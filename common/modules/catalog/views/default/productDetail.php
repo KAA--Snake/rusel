@@ -205,7 +205,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                                                         2
                                                                     );
                                                                     ?>
-                                                                    <span class="price flr"><?= $price; ?> &#8381;</span>
+                                                                    <span class="price flr"><?= $price; ?> <?= Currency::getCurrencyName(); ?></span>
                                                                 </div>
 
                                                                 <?php

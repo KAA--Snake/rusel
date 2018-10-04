@@ -176,9 +176,7 @@ $this->title = 'RUSEL24 - Форма запроса';
                                                             <div class="price_vars">
                                                                 <div class="price_var_item clear">
                                                                     <span class="count fll"></span>
-                                                                    <span class="price flr"><?= $price; ?>
-                                                                        <?= Currency::getCurrencyName(); ?>
-                                                                        /<?= $oneProduct['_source']['ed_izmerenia']; ?></span>
+                                                                    <span class="price flr"><?= $price; ?> <?= Currency::getCurrencyName(); ?></span>
                                                                 </div>
                                                             </div>
 
@@ -211,8 +209,7 @@ $this->title = 'RUSEL24 - Форма запроса';
                                                                                     2
                                                                                 );
                                                                                 ?>
-                                                                                <span class="price flr"><?= $price; ?> <?= Currency::getCurrencyName(); ?>
-                                                                                    /<?= $oneProduct['_source']['ed_izmerenia']; ?></span>
+                                                                                <span class="price flr"><?= $price; ?> <?= Currency::getCurrencyName(); ?></span>
                                                                             </div>
 
                                                                             <?php
@@ -234,7 +231,7 @@ $this->title = 'RUSEL24 - Форма запроса';
                                                                                         <div class="price_var_item js-price_available clear">
                                                                                             <span class="count fll">от <?= $singlePrices['range']; ?></span>
                                                                                             <span class="price flr"><?= $price; ?> <?= Currency::getCurrencyName(); ?>
-                                                                                                /<?= $oneProduct['_source']['ed_izmerenia']; ?></span>
+                                                                                               </span>
                                                                                         </div>
 
                                                                                         <?php
