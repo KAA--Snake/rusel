@@ -73,6 +73,9 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                                     <td class="instock_def first_def">Доступно:</td>
                                                     <td class="instock_count">
                                                         <?= $oneStorage['quantity']['stock']['count']; ?> <?= $oneProduct['ed_izmerenia']; ?>
+                                                        <?php
+/*                                                        \Yii::$app->pr->print_r2($oneStorage['quantity']['for_order']['description']);
+                                                        */?>
 
                                                     </td>
                                                 </tr>
@@ -96,13 +99,14 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                                 </tr>
                                             <?php } ?>
 
-                                            <?php if (isset($oneStorage['quantity']['for_order']['description'])) {
+                                            <?php
 
-                                                if (!is_array($oneProduct['quantity']['for_order']['description'])) {
+                                                if (!is_array($oneProduct['quantity']['stock']['description'])) {
                                                     $overText = 'Срок отгрузки:';
-                                                    if ($oneStorage['quantity']['stock']['count'] == 0) {
+                                                    if ($oneStorage['quantity']['stock']['count'] == 0 && isset($oneStorage['quantity']['for_order']['description'])) {
                                                         $overText = 'Срок поставки:';
                                                     } ?>
+                                                <?php } ?>
                                                     <tr>
                                                         <td class="instock_def"><?= $overText; ?></td>
                                                         <td class="instock_count">
@@ -119,8 +123,6 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                                         </td>
                                                     </tr>
 
-                                                <?php } ?>
-                                            <?php } ?>
                                             <?php if (isset($oneStorage['product_logic']['norma_upakovki'])) { ?>
                                                 <tr>
                                                     <td class="instock_def">Упаковка:</td>

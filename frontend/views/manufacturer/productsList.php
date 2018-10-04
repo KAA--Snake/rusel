@@ -196,31 +196,29 @@ $perPage = $paginator['maxSizeCnt'];
                                                             </tr>
                                                         <?php } ?>
 
-                                                        <?php if (isset($oneStorage['quantity']['for_order']['description'])) {
+                                                        <?php
 
-                                                            if (!is_array($oneProduct['_source']['quantity']['for_order']['description'])) {
-                                                                $overText = 'Срок отгрузки:';
-                                                                if ($oneStorage['quantity']['stock']['count'] == 0) {
-                                                                    $overText = 'Срок поставки:';
-                                                                } ?>
-                                                                <tr>
-                                                                    <td class="instock_def"><?= $overText; ?></td>
-                                                                    <td class="instock_count">
-                                                                        <?php if (!empty($oneStorage['quantity']['stock']['description'])) { ?>
-                                                                            <span class="count_tooltip_trigger"><?= $oneStorage['quantity']['stock']['description']; ?>
-                                                                                <span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span
-                                                                                            class="corner"></span></span></span>
-
-                                                                        <?php } else { ?>
-                                                                            <?php if (!empty($oneStorage['quantity']['for_order']['description']) && !is_array($oneStorage['quantity']['for_order']['description'])) { ?>
-                                                                                <?= $oneStorage['quantity']['for_order']['description']; ?>
-                                                                            <?php } ?>
-                                                                        <?php } ?>
-                                                                    </td>
-                                                                </tr>
-
-                                                            <?php } ?>
+                                                        if (!is_array($oneProduct['quantity']['stock']['description'])) {
+                                                            $overText = 'Срок отгрузки:';
+                                                            if ($oneStorage['quantity']['stock']['count'] == 0 && isset($oneStorage['quantity']['for_order']['description'])) {
+                                                                $overText = 'Срок поставки:';
+                                                            } ?>
                                                         <?php } ?>
+                                                        <tr>
+                                                            <td class="instock_def"><?= $overText; ?></td>
+                                                            <td class="instock_count">
+                                                                <?php if (!empty($oneStorage['quantity']['stock']['description'])) { ?>
+                                                                    <span class="count_tooltip_trigger"><?= $oneStorage['quantity']['stock']['description']; ?>
+                                                                        <span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span
+                                                                                    class="corner"></span></span></span>
+
+                                                                <?php } else { ?>
+                                                                    <?php if (!empty($oneStorage['quantity']['for_order']['description']) && !is_array($oneStorage['quantity']['for_order']['description'])) { ?>
+                                                                        <?= $oneStorage['quantity']['for_order']['description']; ?>
+                                                                    <?php } ?>
+                                                                <?php } ?>
+                                                            </td>
+                                                        </tr>
 
                                                         <?php if (isset($oneStorage['product_logic']['norma_upakovki'])) { ?>
                                                             <tr>
