@@ -155,7 +155,7 @@ class Currency extends \yii\db\ActiveRecord
     public static function getCurrencyName($currencyId=false){
 
         if($currencyId == 643 || $currencyId == 810 || !$currencyId){
-            return 'р';
+            return '&#8381;';
         }
 
         $currency = static::find()->where([
