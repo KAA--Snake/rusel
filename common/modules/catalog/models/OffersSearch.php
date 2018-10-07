@@ -52,8 +52,12 @@ class OffersSearch extends Offers
             if(!empty($oneOffer->product_ids)){
                 $ids = explode(';', $oneOffer->product_ids);
 
+                $neededStores = [];
+                if(!empty($oneOffer->property_ids)){
+                    $neededStores = explode(';', $oneOffer->property_ids);
+                }
                 $productMod = new ProductsSearch();
-                $products = $productMod->getProductsByIds($ids);
+                $products = $productMod->getProductsByIds($ids, $neededStores);
 
                 if(!empty($products)){
                     $result['products'] = $products;

@@ -958,7 +958,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 * @param $ids
 	 * @return array
 	 */
-	public function getProductsByIds($ids=[]){
+	public function getProductsByIds($ids=[], $storesIds=[]){
 
 		if(count($ids) <= 0){
 			return [];
@@ -977,6 +977,26 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'id' => $ids
             ]
         ];
+
+		//если у спецпредложения выбраны склады, добавляем их в фильтр
+		if(count($storesIds) > 0){
+            $must[] = [
+                "nested"=> [
+                    "path"=> "prices.storage",
+                    "query"=> [
+                        'bool' => [
+                            'must' => [
+                                [
+                                    'terms' => [
+                                        'prices.storage.id' => $storesIds
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+        }
 
         $minifiltersParam = MiniFilterHelper::getMiniFilterOption();
         $miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
