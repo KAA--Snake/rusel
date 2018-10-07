@@ -275,8 +275,8 @@ $(document).ready(function () {
                     }else {
                         orderedPriceField.html('по запросу');
                     }
-                    console.log('(productCount * orderPrice)')
-                    console.log(productCount + '*' + orderPrice + '=' + (productCount * orderPrice))
+                    console.log('(productCount * orderPrice)');
+                    console.log(productCount + '*' + orderPrice + '=' + (productCount * orderPrice));
 
                     productContainer.find('.js-order_count').val('');
                     if (productData.productPrices.price_not_available && (productData.productMarketingPrice == null || productData.productMarketingPrice == 0) && orderedPriceField.find('.count_tooltip').length == 0) {

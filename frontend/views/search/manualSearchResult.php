@@ -107,13 +107,6 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                             <td class="instock_def first_def">Доступно:</td>
                                                             <td class="instock_count">
                                                                 <?= $oneStorage['quantity']['stock']['count']; ?> <?= $oneProduct['_source']['ed_izmerenia']; ?>
-
-                                                                <?php if (!empty($oneStorage['quantity']['stock']['description'])) { ?>
-                                                                    <span class="count_tooltip_trigger"><?= $oneStorage['quantity']['stock']['description']; ?>
-                                                                        <span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span
-                                                                                    class="corner"></span></span></span>
-
-                                                                <?php } ?>
                                                             </td>
                                                         </tr>
 
@@ -122,7 +115,8 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                         <tr>
                                                             <td class="instock_def">Доступно:</td>
                                                             <td class="instock_count">
-                                                                0 <?= $oneProduct['_source']['ed_izmerenia']; ?></td>
+                                                                под заказ
+                                                            </td>
                                                         </tr>
 
                                                     <?php } ?>
@@ -135,28 +129,30 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                         </tr>
                                                     <?php } ?>
 
-                                                    <?php if (isset($oneStorage['quantity']['for_order']['description'])) {
+                                                    <?php
 
-                                                        if (!is_array($oneProduct['_source']['quantity']['for_order']['description'])) {
-                                                            $overText = 'Доп. заказ:';
-                                                            if ($oneStorage['quantity']['stock']['count'] == 0) {
-                                                                $overText = 'Под заказ:';
-                                                            } ?>
-                                                            <tr>
-                                                                <td class="instock_def"><?= $overText; ?></td>
-                                                                <td class="instock_count">
-                                                                    <?php if (!empty($oneStorage['quantity']['for_order']['description']) && !is_array($oneStorage['quantity']['for_order']['description'])) { ?>
-                                                                        <?= $oneStorage['quantity']['for_order']['description']; ?>
-                                                                    <?php } ?>
-                                                                </td>
-                                                            </tr>
-
-                                                        <?php } ?>
+                                                    if (!is_array($oneProduct['quantity']['stock']['description'])) {
+                                                        $overText = 'Срок отгрузки:';
+                                                        if ($oneStorage['quantity']['stock']['count'] == 0 && isset($oneStorage['quantity']['for_order']['description'])) {
+                                                            $overText = 'Срок поставки:';
+                                                        } ?>
                                                     <?php } ?>
                                                     <tr>
-                                                        <td><br></td>
-                                                        <td><br></td>
+                                                        <td class="instock_def"><?= $overText; ?></td>
+                                                        <td class="instock_count">
+                                                            <?php if (!empty($oneStorage['quantity']['stock']['description'])) { ?>
+                                                                <span class="count_tooltip_trigger"><?= $oneStorage['quantity']['stock']['description']; ?>
+                                                                    <span class="count_tooltip">Срок отгрузки со склада РУСЭЛ.24 после оплаты счета <span
+                                                                                class="corner"></span></span></span>
+
+                                                            <?php } else { ?>
+                                                                <?php if (!empty($oneStorage['quantity']['for_order']['description']) && !is_array($oneStorage['quantity']['for_order']['description'])) { ?>
+                                                                    <?= $oneStorage['quantity']['for_order']['description']; ?>
+                                                                <?php } ?>
+                                                            <?php } ?>
+                                                        </td>
                                                     </tr>
+
                                                     <?php if (isset($oneStorage['product_logic']['norma_upakovki'])) { ?>
                                                         <tr>
                                                             <td class="instock_def">Упаковка:</td>
@@ -174,18 +170,14 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                             </td>
                                                         </tr>
                                                     <?php } ?>
-
+                                                    <?php if (isset($oneStorage['product_logic']['min_zakaz'])) { ?>
                                                     <tr>
-                                                        <td class="instock_def">Мин. партия:</td>
+                                                        <td class="instock_def">Минимум:</td>
                                                         <td class="instock_count">
-                                                            <?php if (isset($oneStorage['product_logic']['min_zakaz'])) { ?>
-                                                                <?= $oneStorage['product_logic']['min_zakaz']; ?> <?= $oneProduct['_source']['ed_izmerenia']; ?>
-                                                            <?php } else { ?>
-                                                                по запросу
-                                                            <?php } ?>
-
+                                                            <?= $oneStorage['product_logic']['min_zakaz']; ?> <?= $oneProduct['_source']['ed_izmerenia']; ?>
                                                         </td>
                                                     </tr>
+                                                <?php } ?>
                                                 </table>
                                             </td>
 
@@ -207,7 +199,7 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                                 <span class="count fll"></span>
                                                                 <span class="price flr"><?= $price; ?>
                                                                     <?= Currency::getCurrencyName(); ?>
-                                                                    /<?= $oneProduct['_source']['ed_izmerenia']; ?></span>
+                                                                    </span>
                                                             </div>
                                                         </div>
 
@@ -232,7 +224,7 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                                         ?>
 
                                                                         <div class="price_var_item js-price_available clear">
-                                                                            <span class="count fll"><?= $oneStorage['prices']['price_range']['range']; ?></span>
+                                                                            <span class="count fll">от <?= $oneStorage['prices']['price_range']['range']; ?></span>
                                                                             <?
                                                                             $price = Currency::getPriceForCurrency(
                                                                                 $oneStorage['prices']['price_range']['currency'],
@@ -241,7 +233,7 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                                             );
                                                                             ?>
                                                                             <span class="price flr"><?= $price; ?> <?= Currency::getCurrencyName(); ?>
-                                                                                /<?= $oneProduct['_source']['ed_izmerenia']; ?></span>
+                                                                                </span>
                                                                         </div>
 
                                                                         <?php
@@ -261,9 +253,9 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                                                     ?>
 
                                                                                     <div class="price_var_item js-price_available clear">
-                                                                                        <span class="count fll"><?= $singlePrices['range']; ?></span>
+                                                                                        <span class="count fll">от <?= $singlePrices['range']; ?></span>
                                                                                         <span class="price flr"><?= $price; ?> <?= Currency::getCurrencyName(); ?>
-                                                                                            /<?= $oneProduct['_source']['ed_izmerenia']; ?></span>
+                                                                                            </span>
                                                                                     </div>
 
                                                                                     <?php
@@ -356,28 +348,13 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
                                                     <!--<td class="square_mark"><span></span></td>-->
                                                     <td class="instock_def first_def">Доступно:</td>
                                                     <td class="instock_count">
-                                                        0 шт
-
-
+                                                        под заказ
                                                     </td>
                                                 </tr>
 
-
-                                                <tr>
-                                                    <td><br></td>
-                                                    <td><br></td>
-                                                </tr>
                                                 <tr>
                                                     <td class="instock_def"></td>
                                                     <td class="instock_count">
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="instock_def">Мин. партия:</td>
-                                                    <td class="instock_count">
-                                                        по запросу
-
                                                     </td>
                                                 </tr>
                                                 </tbody>
