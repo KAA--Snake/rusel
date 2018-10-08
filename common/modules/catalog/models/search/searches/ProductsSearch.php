@@ -1032,6 +1032,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		$this->_setSingleStorageAsMulti($response);
 
 		$this->_setSinglePriceAsMulty($response);
+
+		$this->_removeStoresNotInList($response, $storesIds);
+
 		//добавляем аксессуары к продуктам
 		$this->setAccessoriedProds($response);
 
@@ -1558,5 +1561,25 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		return $must;
 
 	}
+
+    /**
+     * Удаляет из выборки склады, ИД которых нет в $storesIds
+     *
+     * @param $response
+     * @param array $storesIds
+     * @return bool
+     */
+	private function _removeStoresNotInList(&$response, array $storesIds = []){
+
+	    if(count($storesIds) <= 0) return true;
+
+        foreach($response['hits']['hits'] as &$oneProduct){
+            foreach ($oneProduct['_source']['prices']['storage'] as $storageKey => $oneStorage){
+                if(!in_array($oneStorage['id'], $storesIds)){
+                    unset($oneProduct['_source']['prices']['storage'][$storageKey]);
+                }
+            }
+        }
+    }
 
 }
