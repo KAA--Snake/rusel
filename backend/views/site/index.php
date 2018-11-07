@@ -16,6 +16,7 @@ $this->title = 'admin main page';
                 <a class="dashboard_section-link" href="/admin/offers">Специальные предложения</a>
                 <a class="dashboard_section-link" href="/admin/info">Полезная информация</a>
                 <a class="dashboard_section-link" href="/admin/news">Новости</a>
+                <a class="dashboard_section-link" href="/admin/static/seo_text">СЕО текст в карточке товара</a>
             </div>
         </div>
 

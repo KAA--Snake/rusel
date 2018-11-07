@@ -225,6 +225,9 @@ class ImportManualController extends Controller
                 $productModel->mapIndex();
                 $isProductsClear = true;
 
+                /** @var Cache $cache */
+                $cache = \Yii::$app->cache;
+                $cache->flush();
             }
 
 

@@ -490,6 +490,8 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
     <?php }?>
 </div>
 
+<div class="seo_text"><?=$seoText;?></div>
+
 <div class="prod_warn">
     ВНИМАНИЕ! Все указанные цены на сайте не являются публичной офертой, оплата за товар осуществляется ТОЛЬКО на основании выставленного Счета на оплату.
 

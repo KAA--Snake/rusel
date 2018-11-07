@@ -3,6 +3,7 @@
 namespace common\modules\catalog\controllers;
 
 use common\models\elasticsearch\Product;
+use common\modules\catalog\models\Artikle;
 use common\modules\catalog\models\BreadCrumbs;
 use common\modules\catalog\models\filter\CatalogFilter;
 use common\modules\catalog\models\search\searches\ProductsSearch;
@@ -81,7 +82,15 @@ class DefaultController extends Controller
     public function actionIndex($pathForParse = false)
     {
 
-        //\Yii::$app->pr->print_r2($this->view->params);
+        //получаем СЕО текст
+        //$seoArtikle = \Artikle::find()->andWhere(['type' => 'seo_text'])->one();
+        $seoArtikle = Artikle::find()->andWhere(['type' => 'seo_text'])->one();
+        $seoText = '';
+        if(isset($seoArtikle->full_text)){
+            $seoText = $seoArtikle->full_text;
+        }
+        $this->view->params['seo']['artikle'] = $seoText;
+        //\Yii::$app->pr->print_r2($seoArtikle);
 
         $perPage = \Yii::$app->getModule('catalog')->params['max_products_cnt'];
 
@@ -132,7 +141,7 @@ class DefaultController extends Controller
             }*/
 	        //\Yii::$app->pr->print_r2($product);
 	        //die();
-            return $this->render('productDetail', ['oneProduct' => $product]);
+            return $this->render('productDetail', ['oneProduct' => $product, 'seoText' => $seoText]);
         }
 
 
