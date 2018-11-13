@@ -6,15 +6,21 @@
 
     <filter_applied id="filter_applied" data='<?=$appliedFilterJson;?>'></filter_applied>
 
+
+
     <div class="goods_filter_wrap">
 
         <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
 
         <div class="filter_params_applied" data-empty="&nbsp;&nbsp;&nbsp;Фильтр не применен">&nbsp;&nbsp;&nbsp;Фильтр не применен
+
         </div>
 
         <div class="filter_reset_btn"><div>Сброс</div></div>
     </div>
+
+
+
     <div class="filter_selector_wrap collapsed">
         <table class="filter_tab">
 
@@ -70,5 +76,58 @@
 
             <input type="submit" form="filter-form" class="apply_filter_btn" value="Применить фильтр">
         </div>
+    </div>
+</div>
+
+
+<div class="goods_filter_block_2 col_1180">
+
+    <filter_applied id="filter_applied" data='<?=$appliedFilterJson;?>'></filter_applied>
+
+
+
+    <div class="goods_filter_wrap">
+
+        <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
+
+        <div class="filter_params_applied">
+            <div class="filter__inner_empty">Выбрать параметры для фильтра </div>
+            <div class="filter__inner_params">
+                <div class="filter_selector_wrap collapsed">
+                    <?if(isset($filterManufacturers) && is_array($filterManufacturers)){?>
+                        <div class="filter-group">
+                            <div class="filter-group__name js-filter-param-name " data-param="manufacturer">Производитель:</div>
+                            <div class="filter-group__collapse-btn ">Выбрать из списка <span class="arrow"></span></div>
+                            <div class="filter-group__params-box collapsed">
+                                <ul class="filter-group__params-list js-scroll-pane">
+                                    <?foreach($filterManufacturers as $oneFilter){?>
+                                        <li data-tag="<?=$oneFilter['key'];?>" class="filter-group__params-item js-filter-param-item"><?=$oneFilter['key'];?> <span class="filter-group__params-count">(<?=$oneFilter['doc_count'];?>)</span></li>
+                                    <?}?>
+                                </ul>
+                                <input type="submit" form="filter-form" class="filter-group__apply" value="Применить">
+                            </div>
+                        </div>
+                    <?}?>
+
+                    <?foreach($filterData as $key => $oneFilter){?>
+                        <div class="filter-group">
+                            <div class="filter-group__name js-filter-param-name " data-param="<?=$key;?>"><?=$oneFilter['prop_name'];?>:</div>
+                            <div class="filter-group__collapse-btn ">Выбрать из списка <span class="arrow"></span></div>
+                            <div class="filter-group__params-box collapsed">
+                                <ul class="filter-group__params-list js-scroll-pane">
+                                    <?foreach($oneFilter['prop_values']['buckets'] as $i => $oneBucket){?>
+                                        <li data-tag="<?=$oneBucket['key'];?>" class="filter-group__params-item js-filter-param-item"><?=$oneBucket['key'];?> <span class="filter-group__params-count">(<?=$oneBucket['doc_count'];?>)</span></li>
+                                    <?}?>
+                                </ul>
+                                <input type="submit" form="filter-form" class="filter-group__apply" value="Применить">
+                            </div>
+                        </div>
+                    <?}?>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="filter_reset_btn"><div>Сброс</div></div>
     </div>
 </div>
