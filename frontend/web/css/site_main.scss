@@ -640,7 +640,7 @@ $white:#ffffff;
       }
     }
     .goods_filter_block{
-      /*display: none;*/
+      display: none;
       margin-bottom: 20px;
       .goods_filter_wrap{
         display: flex;
@@ -942,7 +942,7 @@ $white:#ffffff;
     }
 
     .goods_filter_block_2{
-      display: none;
+      /*display: none;*/
       margin-bottom: 20px;
       .goods_filter_wrap{
         display: flex;
@@ -1063,14 +1063,18 @@ $white:#ffffff;
       }
       .filter_selector_wrap{
         background: $white;
+        margin-top: 10px;
         &.collapsed{
           display: none;
         }
         .filter-group{
+          margin-bottom: 20px;
+          line-height: 18px;
           &__name{
             color: #999999;
             font-size: 14px;
             font-weight: 300;
+
           }
           &__collapse-btn{
             color: #336699;
@@ -1080,13 +1084,34 @@ $white:#ffffff;
             text-decoration: underline;
             cursor: pointer;
             .arrow{
-              margin-left: 22px;
+              margin-left: 10px;
               display: inline-block;
-              background-image: url('../img/arrow_blue.svg');
+              background-image: url('../img/filter_arrow.svg');
+              background-position: center;
+              width: 5px;
+              height: 9px;
+              /*line-height: 52px;*/
+              vertical-align: middle;
+            }
+          }
+          &__applied_params{
+            display: none;
+            color: $blue;
+            font-size: 14px;
+            font-weight: 400;
+            /*line-height: 33px;*/
+            .applied_filter_params_list{
+              vertical-align: middle;
+            }
+            .cross{
+              cursor: pointer;
+              margin-left: 10px;
+              display: inline-block;
+              background-image: url('../img/filter_cross.svg');
               background-position: center;
               width: 11px;
-              height: 20px;
-              line-height: 52px;
+              height: 11px;
+              /*line-height: 52px;*/
               vertical-align: middle;
             }
           }
@@ -1094,13 +1119,14 @@ $white:#ffffff;
             border: 1px solid #dfdfdf;
             padding: 20px;
             &.collapsed{
-              /*display: none;*/
+              display: none;
             }
           }
           &__params-list{
             height: 160px;
             max-height: 318px;
             overflow: hidden;
+            outline: none;
 
           }
           &__params-item{
