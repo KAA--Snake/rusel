@@ -390,6 +390,7 @@ $(document).ready(function () {
         $(this).next('.filter-group__params-box').slideDown().removeClass('collapsed').addClass('expanded');
         $(this).hide();
     });
+
     $('.js-reset-filter-group').click(function () {
         var paramsBox = $(this).closest('.filter-group__params-box');
         paramsBox.slideUp().addClass('collapsed').removeClass('expanded');
@@ -615,6 +616,7 @@ $(document).ready(function () {
                     $('.filter-group').each(function () {
                         var filterParamCat = $(this).find('.js-filter-param-name');
                         var selectedFilterParamsBlock = $(this).find('.js-applied_filter_group');
+                        var showParamsBtn = $(this).find('.js-show-filter_group');
                         var selectedFilterParamsList = selectedFilterParamsBlock.find('.js-applied_filter_params_list');
                         var showFilterGroupBtn = $(this).find('.js-show-filter_group');
                         var cancelFilterGroupBtn = $(this).find('.js-cancel-filter-group');
@@ -623,6 +625,8 @@ $(document).ready(function () {
                                 selectedFilterParamsList.append('<span>'+queryParams[p][i]+'; </span>');
                             }else{
                                 selectedFilterParamsList.append('<span>'+queryParams[p][i]+'</span>');
+                                showParamsBtn.remove();
+
                             }
                             selectedFilterParamsBlock.show();
                             showFilterGroupBtn.hide();
@@ -692,6 +696,7 @@ $(document).ready(function () {
                 $('.filter-group').each(function () {
                     var filterParamCat = $(this).find('.js-filter-param-name');
                     var selectedFilterParamsBlock = $(this).find('.js-applied_filter_group');
+                    var showParamsBtn = $(this).find('.js-show-filter_group');
                     var selectedFilterParamsList = selectedFilterParamsBlock.find('.js-applied_filter_params_list');
                     var showFilterGroupBtn = $(this).find('.js-show-filter_group');
                     var cancelFilterGroupBtn = $(this).find('.js-cancel-filter-group');
@@ -700,6 +705,7 @@ $(document).ready(function () {
                             selectedFilterParamsList.append('<span>'+queryParams[p][i]+'; </span>');
                         }else{
                             selectedFilterParamsList.append('<span>'+queryParams[p][i]+'</span>');
+                            showParamsBtn.remove();
                         }
                         selectedFilterParamsBlock.show();
                         showFilterGroupBtn.hide();
@@ -709,7 +715,7 @@ $(document).ready(function () {
                     }
 
                     cancelFilterGroupBtn.click(function () {
-                        $('#filter-form').find('input[name="'+ p +'"]').val('');
+                        $('#filter-form').find('input[name="'+ cancelFilterGroupBtn.data('param') +'"]').val('');
                         $('#filter-form').submit();
                     });
                 });
@@ -742,7 +748,7 @@ $(document).ready(function () {
     });
 
     $('.filter_reset_btn').click(function (e) {
-        window.location = window.location.href;
+        window.location = window.location.pathname;
         /*if (window.location.search) {
             var query = decodeURIComponent(window.location.search.substring(1));
             var vars = query.split('&');

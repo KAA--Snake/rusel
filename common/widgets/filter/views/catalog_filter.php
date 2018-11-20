@@ -97,7 +97,7 @@
                     <?if(isset($filterManufacturers) && is_array($filterManufacturers)){?>
                         <div class="filter-group">
                             <div class="filter-group__name js-filter-param-name " data-param="manufacturer">Производитель:</div>
-                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span class="cross js-cancel-filter-group"></span></div>
+                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="manufacturer" class="cross js-cancel-filter-group"></span></div>
                             <div class="filter-group__collapse-btn js-show-filter_group">Выбрать из списка <span class="arrow"></span></div>
                             <div class="filter-group__params-box collapsed">
                                 <ul class="filter-group__params-list ">
@@ -116,7 +116,7 @@
                     <?foreach($filterData as $key => $oneFilter){?>
                         <div class="filter-group">
                             <div class="filter-group__name js-filter-param-name " data-param="<?=$key;?>"><?=$oneFilter['prop_name'];?>:</div>
-                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span class="cross js-cancel-filter-group"></span></div>
+                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="<?=$key;?>" class="cross js-cancel-filter-group"></span></div>
                             <div class="filter-group__collapse-btn js-show-filter_group">Выбрать из списка <span class="arrow"></span></div>
                             <div class="filter-group__params-box collapsed">
                                 <ul class="filter-group__params-list ">
