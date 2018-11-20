@@ -46,7 +46,7 @@ $perPage = $paginator['maxSizeCnt'];
                                     ?>
                                     <h2>
                                         <a class="tree_header inactive"
-                                           href="<?= Url::toRoute(['@catalogDir/' . $oneSubSibling['url']]); ?>">
+                                           href="<?= Url::toRoute(['@catalogDir/' . $oneSubSibling['url']]).'?manufacturer='.$manufacturer; ?>">
                                             <span class="red_icon"></span>
                                             <?= $oneSubSibling['name']; ?>
                                             <div class="tree_header_icon <?php if (count($oneSubSibling['childs']) > 0) { ?>inactive<? } else { ?>inactive<? } ?>"></div>
@@ -61,7 +61,7 @@ $perPage = $paginator['maxSizeCnt'];
 
                                             <?php
                                             $sectionModel->recursiveLevel = 1;
-                                            $sectionModel->listTree2($oneSubSibling['childs']);
+                                            $sectionModel->listTreeManufacturer($oneSubSibling['childs'], $manufacturer);
                                             ?>
 
                                         </div>

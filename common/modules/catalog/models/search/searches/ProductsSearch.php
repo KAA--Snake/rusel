@@ -621,6 +621,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			$params[$minifilterparams] = 'y';
 		}
 
+		//добавляем фильтр по производителю (костыль по желанию заказчика)
+        if(!empty(\Yii::$app->request->get('manufacturer'))){
+            $params['manufacturer'] = \Yii::$app->request->get('manufacturer');
+        }
 
         /** Кешируем */
         $additCacheParams = CacheHelper::getAdditionalCacheParamsFromRequest(); //проверим есть ли в GET пагинатор и тп
@@ -642,7 +646,14 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 //echo 'caching <br>';
                 /** делаем запрос на выборку*/
                 $filterDataForSection = $this->getFilterDataForSectionId($params);
-                $cache->set($cacheKey, $filterDataForSection);
+
+                //\Yii::$app->pr->print_r2($filterDataForSection);
+                if($filterDataForSection['hits']['total'] !== 0){
+                    \Yii::$app->pr->print_r2($cacheKey);
+                    $cache->set($cacheKey, $filterDataForSection);
+                }
+
+
             }
 
         }

@@ -540,6 +540,74 @@ class Section extends \yii\db\ActiveRecord
         //return $tree;
     }
 
+    /**
+     * Выводит в каталоге список
+     *
+     * @param $oneSibling
+     * @return array
+     * @internal param int $level
+     * @internal param $groupedSiblings
+     * @internal param $data
+     * @internal param int $rootID
+     */
+    public function listTreeManufacturer($oneSibling, $manufacturer){
+
+        //\Yii::$app->pr->print_r2($oneSibling);
+
+        if($this->recursiveLevel === 1){
+            $sub = '';
+            echo '<ul class="catalog_tree lv'.$this->recursiveLevel.'">';
+        }else{
+            $sub = ' sublvl';
+            echo '<ul class="catalog_tree lv'.$this->recursiveLevel.' sublvl collapsed">';
+        }
+
+
+
+        $overallChildsCnt = count($oneSibling);
+
+        $cnt = 0;
+        foreach ($oneSibling as $id => $oneChild) {
+            $classFst= '';
+            if($cnt == 0 && $this->recursiveLevel === 1 && $overallChildsCnt > 1){
+                $classFst .= ' ct_first';
+            }
+
+            $cnt++;
+
+            $class='';
+            if($overallChildsCnt == 1){
+                $class .= ' ct_last';
+            }
+
+            if(count($oneChild['childs']) > 0){
+                $class .= ' ct_dir';
+                $class .= ' child_collapsed';
+            }
+
+            echo '<li class="ct_item'.$class.$classFst.$sub.'">';
+
+            $url = Url::toRoute(['@catalogDir/' . $oneChild['url']]).'?manufacturer='.$manufacturer;
+            echo '<a href="'.$url.'">'.$oneChild['name'].'</a>';
+
+            if(isset($oneChild['childs']) && count($oneChild['childs']) > 0){
+                $this->recursiveLevel++;
+                $this->listTreeManufacturer($oneChild['childs'], $manufacturer);
+            }
+
+            echo '</li>';
+
+            $overallChildsCnt--;
+            //\Yii::$app->pr->print_r2($node->getAttributes());
+        }
+
+
+
+
+        echo '</ul>';
+        //return $tree;
+    }
+
 
     /**
      * Выводит в каталоге список
