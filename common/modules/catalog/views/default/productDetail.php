@@ -375,6 +375,11 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 
                                         </div>
 
+
+                                        <?if($oneProduct['artikul'] == 'A21SP16J') {?>
+                                            <span style="color: #a3a3a3;font-size: 10px;margin-left: 2px"><span style="transform: rotate(90deg);display: inline-block;">&nbsp;&rfloor;&nbsp;</span> минимум/кратно 10/2</span>
+                                        <?}?>
+
                                         <div class="ordered_block hidden">
                                             <div class="ordered_icon_close js-cancel-order flr"></div>
                                             <div class="ordered_count">В запросе: <span class="bold"> </span></div>

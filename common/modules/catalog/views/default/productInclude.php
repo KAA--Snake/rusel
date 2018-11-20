@@ -202,7 +202,7 @@ use common\modules\catalog\models\currency\Currency;
                                                                     ?>
 
                                                                     <div class="price_var_item js-price_available clear">
-                                                                        <span class="count fll">от <?= $oneProduct['_source']['prices']['price_range']['range']; ?></span>
+                                                                        <span class="count fll">от <?= $oneStorage['prices']['price_range']['range']; ?></span>
                                                                         <?
                                                                         $price = Currency::getPriceForCurrency(
                                                                             $oneStorage['prices']['price_range']['currency'],
