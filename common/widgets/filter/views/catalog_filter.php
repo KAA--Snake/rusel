@@ -97,15 +97,18 @@
                     <?if(isset($filterManufacturers) && is_array($filterManufacturers)){?>
                         <div class="filter-group">
                             <div class="filter-group__name js-filter-param-name " data-param="manufacturer">Производитель:</div>
-                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span class="cross js-cancel-filter-group"></span></div>
+                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="manufacturer" class="cross js-cancel-filter-group"></span></div>
                             <div class="filter-group__collapse-btn js-show-filter_group">Выбрать из списка <span class="arrow"></span></div>
                             <div class="filter-group__params-box collapsed">
-                                <ul class="filter-group__params-list js-scroll-pane">
+                                <ul class="filter-group__params-list ">
                                     <?foreach($filterManufacturers as $oneFilter){?>
                                         <li data-tag="<?=$oneFilter['key'];?>" class="filter-group__params-item js-filter-param-item"><?=$oneFilter['key'];?> <span class="filter-group__params-count">(<?=$oneFilter['doc_count'];?>)</span></li>
                                     <?}?>
                                 </ul>
-                                <input type="submit" form="filter-form" class="filter-group__apply" value="Применить">
+                                <div class="filter-group__buttons_block">
+                                    <button class="filter-group__reset js-reset-filter-group">Закрыть</button>
+                                    <input type="submit" form="filter-form" class="filter-group__apply js-submit-filter" data-param="manufacturer" value="Применить">
+                                </div>
                             </div>
                         </div>
                     <?}?>
@@ -113,15 +116,18 @@
                     <?foreach($filterData as $key => $oneFilter){?>
                         <div class="filter-group">
                             <div class="filter-group__name js-filter-param-name " data-param="<?=$key;?>"><?=$oneFilter['prop_name'];?>:</div>
-                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span class="cross js-cancel-filter-group"></span></div>
+                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="<?=$key;?>" class="cross js-cancel-filter-group"></span></div>
                             <div class="filter-group__collapse-btn js-show-filter_group">Выбрать из списка <span class="arrow"></span></div>
                             <div class="filter-group__params-box collapsed">
-                                <ul class="filter-group__params-list js-scroll-pane">
+                                <ul class="filter-group__params-list ">
                                     <?foreach($oneFilter['prop_values']['buckets'] as $i => $oneBucket){?>
                                         <li data-tag="<?=$oneBucket['key'];?>" class="filter-group__params-item js-filter-param-item"><?=$oneBucket['key'];?> <span class="filter-group__params-count">(<?=$oneBucket['doc_count'];?>)</span></li>
                                     <?}?>
                                 </ul>
-                                <input type="submit" form="filter-form" class="filter-group__apply" value="Применить">
+                                <div class="filter-group__buttons_block">
+                                    <button class="filter-group__reset js-reset-filter-group">Закрыть</button>
+                                    <input type="submit" form="filter-form" class="filter-group__apply js-submit-filter" data-param="<?=$key;?>" value="Применить">
+                                </div>
                             </div>
                         </div>
                     <?}?>

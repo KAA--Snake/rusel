@@ -385,9 +385,17 @@ $(document).ready(function () {
     });
 
     $('.js-show-filter_group').click(function () {
-        $(this).next('.filter-group__params-box').slideDown().removeClass('collapsed');
+        $('.filter-group__params-box.expanded').slideUp().addClass('collapsed').removeClass('expanded');
+        $('.js-show-filter_group').show();
+        $(this).next('.filter-group__params-box').slideDown().removeClass('collapsed').addClass('expanded');
         $(this).hide();
-    })
+    });
+
+    $('.js-reset-filter-group').click(function () {
+        var paramsBox = $(this).closest('.filter-group__params-box');
+        paramsBox.slideUp().addClass('collapsed').removeClass('expanded');
+        paramsBox.prev('.js-show-filter_group').show();
+    });
 
     $('.js-filter_dropdown').click(function(e){
         if($(this).hasClass('inactive')) {
@@ -583,6 +591,62 @@ $(document).ready(function () {
        $(this).hide();
     });
 
+    $('.js-submit-filter').click(function (e) {
+        e.preventDefault();
+        var form = $('#filter-form');
+        var filterParamName = $(this).data('param');
+        var filterQuery = $('#filter_applied').attr('data') || '';
+        var formFields = form.find('.js-filter-param');
+
+        formFields.each(function (i) {
+            if($(this).attr('name') != filterParamName){
+                $(this).val('');
+            }
+        });
+
+        if(filterQuery.length && filterQuery !== '[]') {
+
+            var queryParams = JSON.parse(filterQuery);
+            $('.js-filter_dropdown').trigger('click');
+
+            for( var p in queryParams) {
+                queryParams[p] = queryParams[p].split('|');
+
+                for(var i=0;i<queryParams[p].length;i++){
+                    $('.filter-group').each(function () {
+                        var filterParamCat = $(this).find('.js-filter-param-name');
+                        var selectedFilterParamsBlock = $(this).find('.js-applied_filter_group');
+                        var showParamsBtn = $(this).find('.js-show-filter_group');
+                        var selectedFilterParamsList = selectedFilterParamsBlock.find('.js-applied_filter_params_list');
+                        var showFilterGroupBtn = $(this).find('.js-show-filter_group');
+                        var cancelFilterGroupBtn = $(this).find('.js-cancel-filter-group');
+                        if(filterParamCat.data('param') == p) {
+                            if (i < queryParams[p].length -1) {
+                                selectedFilterParamsList.append('<span>'+queryParams[p][i]+'; </span>');
+                            }else{
+                                selectedFilterParamsList.append('<span>'+queryParams[p][i]+'</span>');
+                                showParamsBtn.remove();
+
+                            }
+                            selectedFilterParamsBlock.show();
+                            showFilterGroupBtn.hide();
+
+                            $('#filter-form').find('input[name="'+ p +'"]').val(
+                                queryParams[p].length !== 1 ? queryParams[p].join('|') : queryParams[p][0]);
+                        }
+
+                        cancelFilterGroupBtn.click(function () {
+                            $('#filter-form').find('input[name="'+ p +'"]').val('');
+                            $('#filter-form').submit();
+                        });
+                    });
+                }
+            }
+        }
+
+        form.submit();
+    });
+
 
     var filterQuery = $('#filter_applied').attr('data') || '';
 
@@ -632,6 +696,7 @@ $(document).ready(function () {
                 $('.filter-group').each(function () {
                     var filterParamCat = $(this).find('.js-filter-param-name');
                     var selectedFilterParamsBlock = $(this).find('.js-applied_filter_group');
+                    var showParamsBtn = $(this).find('.js-show-filter_group');
                     var selectedFilterParamsList = selectedFilterParamsBlock.find('.js-applied_filter_params_list');
                     var showFilterGroupBtn = $(this).find('.js-show-filter_group');
                     var cancelFilterGroupBtn = $(this).find('.js-cancel-filter-group');
@@ -640,6 +705,7 @@ $(document).ready(function () {
                             selectedFilterParamsList.append('<span>'+queryParams[p][i]+'; </span>');
                         }else{
                             selectedFilterParamsList.append('<span>'+queryParams[p][i]+'</span>');
+                            showParamsBtn.remove();
                         }
                         selectedFilterParamsBlock.show();
                         showFilterGroupBtn.hide();
@@ -649,16 +715,12 @@ $(document).ready(function () {
                     }
 
                     cancelFilterGroupBtn.click(function () {
-                        $('#filter-form').find('input[name="'+ p +'"]').val('');
+                        $('#filter-form').find('input[name="'+ cancelFilterGroupBtn.data('param') +'"]').val('');
                         $('#filter-form').submit();
                     });
                 });
             }
         }
-
-
-
-
     }
 
     $('.apply_filter_btn').click(function(e){
@@ -686,7 +748,7 @@ $(document).ready(function () {
     });
 
     $('.filter_reset_btn').click(function (e) {
-        window.location = window.location.href;
+        window.location = window.location.pathname;
         /*if (window.location.search) {
             var query = decodeURIComponent(window.location.search.substring(1));
             var vars = query.split('&');
