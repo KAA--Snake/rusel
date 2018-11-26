@@ -91,7 +91,7 @@
         <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
 
         <div class="filter_params_applied">
-            <div class="filter__inner_empty js-empty-filter">Выбрать параметры для фильтра </div>
+            <div class="filter__inner_empty js-empty-filter js-filter_dropdown inactive">Выбрать параметры для фильтра <span class="arrow"></span></div>
             <div class="filter__inner_params">
                 <div class="filter_selector_wrap collapsed">
                     <?if(isset($filterManufacturers) && is_array($filterManufacturers)){?>

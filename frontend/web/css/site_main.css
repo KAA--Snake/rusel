@@ -822,6 +822,17 @@
         line-height: 30px;
         text-transform: uppercase;
         padding: 0 14px; }
+      .container.main .content_wrap .goods_filter_block_2 .goods_filter_wrap .filter_params_applied .filter__inner_empty {
+        cursor: pointer; }
+        .container.main .content_wrap .goods_filter_block_2 .goods_filter_wrap .filter_params_applied .filter__inner_empty .arrow {
+          margin-left: 10px;
+          display: inline-block;
+          background-image: url("../img/filter_arrow_grey.svg");
+          background-position: center;
+          width: 5px;
+          height: 9px;
+          /*line-height: 52px;*/
+          vertical-align: middle; }
     .container.main .content_wrap .goods_filter_block_2 .goods_filter_wrap .filter_reset_btn {
       display: inline-block;
       color: #336699;

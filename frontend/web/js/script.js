@@ -402,13 +402,13 @@ $(document).ready(function () {
             $('.filter_selector_wrap').slideDown(function () {
                 spListHeightToggle();
             }).removeClass('collapsed').addClass('expanded');
-            $(this).removeClass('inactive').addClass('active');
+            $('.js-filter_dropdown').removeClass('inactive').addClass('active');
             $('.js-empty-filter').hide();
         }else if($(this).hasClass('active')) {
             $('.filter_selector_wrap').slideUp(function () {
                 spListHeightToggle();
             }).removeClass('expanded').addClass('collapsed');
-            $(this).removeClass('active').addClass('inactive');
+            $('.js-filter_dropdown').removeClass('active').addClass('inactive');
             $('.js-empty-filter').show();
         }
     });

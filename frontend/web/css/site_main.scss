@@ -1025,6 +1025,17 @@ $white:#ffffff;
 
           .filter__inner{
             &_empty{
+              cursor: pointer;
+              .arrow{
+                margin-left: 10px;
+                display: inline-block;
+                background-image: url('../img/filter_arrow_grey.svg');
+                background-position: center;
+                width: 5px;
+                height: 9px;
+                /*line-height: 52px;*/
+                vertical-align: middle;
+              }
             }
           }
         }
