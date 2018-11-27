@@ -649,7 +649,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
                 //\Yii::$app->pr->print_r2($filterDataForSection);
                 if($filterDataForSection['hits']['total'] !== 0){
-                    \Yii::$app->pr->print_r2($cacheKey);
+                    //\Yii::$app->pr->print_r2($cacheKey);
                     $cache->set($cacheKey, $filterDataForSection);
                 }
 
@@ -962,6 +962,51 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 		return true;
 	}
+
+
+    /**
+     * Отдает продукт по его ИД
+     *
+     * @param $id
+     * @return array
+     */
+    public function getProductByIds($id){
+
+        $id = (int)$id;
+
+        if($id <= 0){
+            return [];
+        }
+
+        $must[] = [
+            'term' => [
+                'id' => $id
+            ]
+        ];
+
+        $params = [
+            'body' => [
+                'query' => [
+                    'bool'=> [
+                        /** обязательный блок (для ИД раздела ) */
+                        'must' => $must
+                    ]
+                ],
+            ]
+        ];
+
+        $params = Product::productData + $params;
+        //\Yii::$app->pr->print_r2($params);
+        //die();
+        $response = Elastic::getElasticClient()->search($params);
+
+        //\Yii::$app->pr->print_r2($response);
+
+        //$response = Elastic::getElasticClient()->search($params)['hits']['hits'];
+
+        return $response['hits'];
+    }
+
 
 	/**
 	 * Отдает список товаров по их ИДам

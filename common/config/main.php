@@ -116,7 +116,8 @@ return [
                 'special/' => 'special/all',
                 'special/<url:.+>' => 'special/index',
 
-
+                //для редиректа со страницы itrm/123
+                'item/<item:.*>' => 'item/index',
 
 
                 //test for mng/elastic

@@ -27,6 +27,20 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'catalog'],
     'controllerNamespace' => 'frontend\controllers',
+
+    'on beforeRequest' => function () {
+        $pathInfo = Yii::$app->request->pathInfo;
+        $query = Yii::$app->request->queryString;
+        if (!empty($pathInfo) && substr($pathInfo, -1) !== '/') {
+            $url = '/' . $pathInfo . '/';
+            if ($query) {
+                $url .= '?' . $query;
+            }
+            Yii::$app->response->redirect($url, 301);
+            Yii::$app->end();
+        }
+    },
+
     'components' => [
 
         'request' => [
