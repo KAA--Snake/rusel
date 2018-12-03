@@ -3457,6 +3457,9 @@ $white:#ffffff;
             background-color: #ffffff;
             padding: 20px;
             margin-bottom: 10px;
+            .bold{
+              font-weight: 400;
+            }
             .show-more-stores{
               &__block{
                 color: $blue;

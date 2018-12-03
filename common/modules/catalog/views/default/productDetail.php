@@ -259,9 +259,9 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 
                                     <div class="ordered_block hidden">
                                         <div class="ordered_icon_close js-cancel-order flr"></div>
-                                        <div class="ordered_count">В корзине: <span class=""> </span></div>
+                                        <div class="ordered_count">В корзине: <span class="bold"> </span></div>
                                         <br>
-                                        <div class="ordered_price">Сумма: <span class="">0 Р.</span></div>
+                                        <div class="ordered_price">Сумма: <span class="bold">0 Р.</span></div>
 
                                     </div>
 
@@ -311,9 +311,9 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 
                                 <div class="ordered_block hidden">
                                     <div class="ordered_icon_close js-cancel-order flr"></div>
-                                    <div class="ordered_count">В корзине: <span class=""> </span></div>
+                                    <div class="ordered_count">В корзине: <span class="bold"> </span></div>
                                     <br>
-                                    <div class="ordered_price">Сумма: <span class="">0 Р.</span></div>
+                                    <div class="ordered_price">Сумма: <span class="bold">0 Р.</span></div>
 
                                 </div>
 
@@ -595,9 +595,9 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 
                                             <div class="ordered_block hidden">
                                                 <div class="ordered_icon_close js-cancel-order flr"></div>
-                                                <div class="ordered_count">В корзине: <span class=""> </span></div>
+                                                <div class="ordered_count">В корзине: <span class="bold"> </span></div>
                                                 <br>
-                                                <div class="ordered_price">Сумма: <span class="">0 Р.</span></div>
+                                                <div class="ordered_price">Сумма: <span class="bold">0 Р.</span></div>
 
                                             </div>
 

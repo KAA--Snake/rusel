@@ -2690,6 +2690,8 @@
     background-color: #ffffff;
     padding: 20px;
     margin-bottom: 10px; }
+    .container.main .content_wrap .content_inner_wrap .product_cards_block._detail .product-card2 .bold {
+      font-weight: 40; }
     .container.main .content_wrap .content_inner_wrap .product_cards_block._detail .product-card2 .show-more-stores__block {
       color: #336699;
       font-size: 14px;
