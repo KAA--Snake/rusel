@@ -23,6 +23,315 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 
 <div class="product_cards_block _detail">
 
+    <div class="product-card2 js-product_card" <?php if($oneProduct['artikul'] !== 'AP331AWG-7') {?> style="display: none;"<?php } ?> >
+        <div class="product-card2__info-wrap">
+            <ul class="product-card2__creds-list">
+                <li class="product-card2__creds-item">
+                    <div class="product-card2__creds-item_name">Артикул:</div>
+                    <h1 class="product-card2__creds-item_artikul"><?= $oneProduct['artikul']; ?></h1>
+                </li>
+                <li class="product-card2__creds-item">
+                    <div class="product-card2__creds-item_name">Производитель:</div>
+                    <a class="product-card2__creds-item_manufacturer" target="_blank" href="/manufacturer/<?= $oneProduct['properties']['proizvoditel']; ?>/"><?= $oneProduct['properties']['proizvoditel']; ?></a>
+                </li>
+                <li class="product-card2__creds-item">
+                    <div class="product-card2__creds-item_name">Наименование:</div>
+                    <div class="product-card2__creds-item_product-title"><?= $oneProduct['name']; ?></div>
+                </li>
+                <!--@todo скрыто пока не сделана передача группы товара в шаблон smu138-->
+                <!--<li class="product-card2__creds-item">
+                    <div class="product-card2__creds-item_name">Группа:</div>
+                    <a class="product-card2__creds-item_group" href="">какая-то группа</a>
+                </li>-->
+            </ul>
+            <div class="product-card2__img">
+                <?php if (isset($oneProduct['properties']['main_picture']) && !is_array($oneProduct['properties']['main_picture'])) { ?>
+                    <img src="<?= Url::to('@catImages/' . $oneProduct['properties']['main_picture']); ?>"
+                         alt="<?= $oneProduct['artikul']; ?>" title="<?= $oneProduct['artikul']; ?>">
+                <?php } else { ?>
+                    <img src="/img/image-regular.svg"
+                         alt="<?= $oneProduct['artikul']; ?>" title="<?= $oneProduct['artikul']; ?>">
+                <?php }  ?>
+            </div>
+            <div class="product-card2__controls">
+                <div class="product-card2__btn">Хотите дешевле?</div>
+
+                <div class="product-card2__share-block">
+                    <div class="product-card2__share-block_head">Поделиться:</div>
+                    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                    <script src="//yastatic.net/share2/share.js"></script>
+                    <div class="ya-share2" data-bare data-services="vkontakte,facebook,twitter,whatsapp,skype,telegram"></div>
+                </div>
+            </div>
+        </div>
+        <div class="product-card2__stores-wrap">
+            <table class="product-card2__stores-table">
+                <thead>
+                <tr>
+                    <td style="width: 160px">Срок поставки</td>
+                    <td style="width: 160px">Доступно</td>
+                    <td style="width: 240px">Цена</td>
+                    <td style="width: 290px">Примечание</td>
+                    <td>Выбрать</td>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if ($oneProduct['prices']['stores'] > 0 ) { ?>
+                    <?php
+                    $i = 0;
+                    $len = count($oneProduct['prices']['storage']);
+                    ?>
+                <?php foreach ($oneProduct['prices']['storage'] as $oneStorage) { ?>
+                        <?php
+                        $i++;
+                        ?>
+                        <tr
+                            <?php if($i > 5) {?> class="js-hidden-store" style="display: none;" <?php } ?>
+                        >
+                            <td>
+
+                                <?php if (!empty($oneStorage['quantity']['stock']['description'])) { ?>
+                                    <?= $oneStorage['quantity']['stock']['description']; ?>
+                                <?php } else { ?>
+                                    <?php if (!empty($oneStorage['quantity']['for_order']['description']) && !is_array($oneStorage['quantity']['for_order']['description'])) { ?>
+                                        <?= $oneStorage['quantity']['for_order']['description']; ?>
+                                    <?php } ?>
+                                <?php } ?>
+                            </td>
+                            <td>
+                        <?php if ($oneStorage['quantity']['stock']['count'] > 0) { ?>
+                            <?= $oneStorage['quantity']['stock']['count']; ?> <?= $oneProduct['ed_izmerenia']; ?>
+                        <?php } else { ?>
+                            под заказ
+                        <?php } ?>
+                            </td>
+                            <td>
+                                <!--prices----------------------------------------------------------------------------->
+                                <!--prices----------------------------------------------------------------------------->
+                                <!--prices----------------------------------------------------------------------------->
+                                <div class="card_part prices">
+                                    <?php if (!empty($oneStorage['marketing']['price']) && $oneStorage['marketing']['price'] > 0) { ?>
+                                        <?
+
+                                        $price = Currency::getPriceForCurrency(
+                                            $oneStorage['marketing']['currency'],
+                                            $oneStorage['marketing']['price'],
+                                            2
+                                        );
+                                        ?>
+
+                                        <div class="price_vars">
+                                            <div class="price_var_item clear">
+                                                <span class="count fll"></span>
+                                                <span class="price flr"><?= $price; ?>
+                                                    <?= Currency::getCurrencyName(); ?>
+                                                    /<?= $oneProduct['ed_izmerenia']; ?></span>
+                                            </div>
+                                        </div>
+
+                                    <?php } else { ?>
+
+                                        <div class="price_vars">
+                                            <?php
+                                            if (!empty($oneStorage['prices']) && count($oneStorage['prices']) > 0) {
+
+                                                if (isset($oneStorage['prices']['price_not_available'])) {
+                                                    ?>
+
+                                                    <div class="price_var_item js-price_not_available clear">
+                                                        <span class="price flr"><?= $oneStorage['price_not_available']['value']; ?></span>
+                                                    </div>
+
+                                                    <?php
+
+                                                } else {
+
+                                                    if (isset($oneStorage['prices']['price_range']['value'])) {
+                                                        ?>
+
+                                                        <div class="price_var_item js-price_available clear">
+                                                            <span class="count fll">от <?= $oneStorage['prices']['price_range']['range']; ?> <?= $oneProduct['ed_izmerenia']; ?></span>
+                                                            <?
+                                                            $price = Currency::getPriceForCurrency(
+                                                                $oneStorage['prices']['price_range']['currency'],
+                                                                $oneStorage['prices']['price_range']['value'],
+                                                                2
+                                                            );
+                                                            ?>
+                                                            <span class="price flr"><?= $price; ?> <?= Currency::getCurrencyName(); ?></span>
+                                                        </div>
+
+                                                        <?php
+
+                                                    } else {
+
+                                                        foreach ($oneStorage['prices'] as $onePrice) {
+
+                                                            if (count($onePrice) > 0) {
+                                                                foreach ($onePrice as $singlePrices) {
+
+                                                                    $price = Currency::getPriceForCurrency(
+                                                                        $singlePrices['currency'],
+                                                                        $singlePrices['value'],
+                                                                        2
+                                                                    );
+                                                                    ?>
+
+                                                                    <div class="price_var_item js-price_available clear">
+                                                                        <span class="count fll">от <?= $singlePrices['range']; ?> <?= $oneProduct['ed_izmerenia']; ?></span>
+                                                                        <span class="price flr"><?= $price; ?> &#8381;</span>
+                                                                    </div>
+
+                                                                    <?php
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            } else { ?>
+                                                <div class="price_var_item js-price_not_available clear">
+                                                    <span class="price flr">Цены по запросу</span>
+                                                </div>
+                                            <?php }; ?>
+                                        </div>
+
+                                    <?php } ?>
+
+                                </div>
+                                <!--/prices---------------------------------------------------------------------------->
+                                <!--/prices---------------------------------------------------------------------------->
+                                <!--/prices---------------------------------------------------------------------------->
+                            </td>
+                            <td>
+                                <?php if (!empty($oneStorage['marketing']['price']) && $oneStorage['marketing']['price'] > 0) { ?>
+
+                                    <div class="special_tape"><?= $oneStorage['marketing']['name']; ?></div>
+
+                                <?php } ?>
+                                <?php if (isset($oneStorage['product_logic']['min_zakaz'])) { ?>
+                                    Минимум: <span class=""><?= $oneStorage['product_logic']['min_zakaz']; ?> <?= $oneProduct['ed_izmerenia']; ?></span><br>
+                                <?php } ?>
+                                <?php if (isset($oneStorage['product_logic']['norma_upakovki'])) { ?>
+                                    Кратность: <span class=""><?= $oneStorage['product_logic']['norma_upakovki']; ?> <?= $oneProduct['ed_izmerenia']; ?></span> <br>
+                                    <?php if (isset($oneStorage['type'])) { ?>
+                                        Тип упаковки:  <span class=""><?= $oneStorage['type']; ?></span><br>
+                                    <?php } ?>
+                                <?php } ?>
+
+
+
+                                <?php if (isset($oneStorage['datacode'])) { ?>
+                                    DC: <span class=""><?= $oneStorage['datacode']; ?></span>
+                                <?php } ?>
+                            </td>
+                            <td class="product-card2__order-block">
+                                <div class="card_part order js-order_data"
+                                     data-product-prices="<?= urlencode(json_encode($oneStorage['prices'])); ?>"
+                                     data-product-norma_upakovki="<?= urlencode(json_encode($oneStorage['product_logic']['norma_upakovki'])); ?>"
+                                     data-product-min_zakaz="<?= urlencode(json_encode($oneStorage['product_logic']['min_zakaz'])); ?>"
+                                     data-product-partner-count="<?= urlencode(json_encode($oneStorage['quantity']['partner_stock']['count'])); ?>"
+                                     data-product-count="<?= urlencode(json_encode($oneStorage['quantity']['stock']['count'])); ?>"
+                                     data-product-marketing-price="<?= urlencode(json_encode($oneStorage['marketing']['price'])); ?>"
+                                     data-product-marketing-price-currency="<?= urlencode(json_encode($oneStorage['marketing']['currency'])); ?>"
+                                     data-product_id="<?= $oneProduct['id']; ?>"
+                                     data-product-storage-id="<?= $oneStorage['id']; ?>"
+                                >
+
+                                    <div class="order_block">
+                                        <input type="text" class="order_input js-order_count"
+                                               placeholder="Введите количество">
+                                        <div class="order_btn add js-add_to_cart">
+                                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                 viewBox="0 0 35 35" enable-background="new 0 0 35 35"
+                                                 xml:space="preserve">
+                                            <g>
+                                                <path d="M28.5,0l-0.8,4H0.5l2.5,15.1h21.5l-0.7,3.5H4v1.7H25l4.8-22.7h4.7V0H28.5z M24.8,17.5H4.4L2.4,5.7h24.8L24.8,17.5z"/>
+                                                <path d="M4.9,27.3c-2.1,0-3.8,1.7-3.8,3.8S2.8,35,4.9,35s3.8-1.7,3.8-3.8S7,27.3,4.9,27.3z M6.4,32.7c-0.4,0.4-1,0.6-1.5,0.6
+                                                    c-1.2,0-2.2-1-2.2-2.2s1-2.2,2.2-2.2S7,30,7,31.2C7,31.7,6.8,32.3,6.4,32.7z"/>
+                                                <path d="M22.9,27.3c-2.1,0-3.8,1.7-3.8,3.8s1.7,3.8,3.8,3.8s3.8-1.7,3.8-3.8S25,27.3,22.9,27.3z M22.9,33.3c-1.2,0-2.2-1-2.2-2.2
+                                                    s1-2.2,2.2-2.2s2.2,1,2.2,2.2S24.1,33.3,22.9,33.3z"/>
+                                            </g>
+                                        </svg>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="ordered_block hidden">
+                                        <div class="ordered_icon_close js-cancel-order flr"></div>
+                                        <div class="ordered_count">В корзине: <span class=""> </span></div>
+                                        <br>
+                                        <div class="ordered_price">Сумма: <span class="">0 Р.</span></div>
+
+                                    </div>
+
+
+                                </div>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                <?php } else { ?>
+                    <tr>
+                        <td></td>
+                        <td>под заказ</td>
+                        <td>Цена по запросу</td>
+                        <td></td>
+                        <td>
+                            <div class="card_part order js-order_data"
+                                 data-product-prices="<?= urlencode(json_encode($oneStorage['prices'])); ?>"
+                                 data-product-norma_upakovki="<?= urlencode(json_encode($oneStorage['product_logic']['norma_upakovki'])); ?>"
+                                 data-product-min_zakaz="<?= urlencode(json_encode($oneStorage['product_logic']['min_zakaz'])); ?>"
+                                 data-product-partner-count="<?= urlencode(json_encode($oneStorage['quantity']['partner_stock']['count'])); ?>"
+                                 data-product-count="<?= urlencode(json_encode($oneStorage['quantity']['stock']['count'])); ?>"
+                                 data-product-marketing-price="<?= urlencode(json_encode($oneStorage['marketing']['price'])); ?>"
+                                 data-product-marketing-price-currency="<?= urlencode(json_encode($oneStorage['marketing']['currency'])); ?>"
+                                 data-product_id="<?= $oneProduct['id']; ?>"
+                                 data-product-storage-id="null"
+                            >
+
+                                <div class="order_block">
+                                    <input type="text" class="order_input js-order_count"
+                                           placeholder="Введите количество">
+                                    <div class="order_btn add js-add_to_cart">
+                                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                             viewBox="0 0 35 35" enable-background="new 0 0 35 35"
+                                             xml:space="preserve">
+                                            <g>
+                                                <path d="M28.5,0l-0.8,4H0.5l2.5,15.1h21.5l-0.7,3.5H4v1.7H25l4.8-22.7h4.7V0H28.5z M24.8,17.5H4.4L2.4,5.7h24.8L24.8,17.5z"/>
+                                                <path d="M4.9,27.3c-2.1,0-3.8,1.7-3.8,3.8S2.8,35,4.9,35s3.8-1.7,3.8-3.8S7,27.3,4.9,27.3z M6.4,32.7c-0.4,0.4-1,0.6-1.5,0.6
+                                                    c-1.2,0-2.2-1-2.2-2.2s1-2.2,2.2-2.2S7,30,7,31.2C7,31.7,6.8,32.3,6.4,32.7z"/>
+                                                <path d="M22.9,27.3c-2.1,0-3.8,1.7-3.8,3.8s1.7,3.8,3.8,3.8s3.8-1.7,3.8-3.8S25,27.3,22.9,27.3z M22.9,33.3c-1.2,0-2.2-1-2.2-2.2
+                                                    s1-2.2,2.2-2.2s2.2,1,2.2,2.2S24.1,33.3,22.9,33.3z"/>
+                                            </g>
+                                        </svg>
+                                    </div>
+
+                                </div>
+
+                                <div class="ordered_block hidden">
+                                    <div class="ordered_icon_close js-cancel-order flr"></div>
+                                    <div class="ordered_count">В корзине: <span class=""> </span></div>
+                                    <br>
+                                    <div class="ordered_price">Сумма: <span class="">0 Р.</span></div>
+
+                                </div>
+
+
+                            </div>
+                        </td>
+                    </tr>
+                <?php } ?>
+
+                </tbody>
+            </table>
+            <?php if($len > 5) {?>
+                <div class="show-more-stores__block js-show-more-stores_block">
+                    <span class="show-more-stores__btn js-show-more-stores_btn">Показать еще</span>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
 
     <div class="product_card js-product_card js-tab_collapsed">
         <table class="product_card_inner_wrap">
@@ -286,9 +595,9 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 
                                             <div class="ordered_block hidden">
                                                 <div class="ordered_icon_close js-cancel-order flr"></div>
-                                                <div class="ordered_count">В запросе: <span class="bold"> </span></div>
+                                                <div class="ordered_count">В корзине: <span class=""> </span></div>
                                                 <br>
-                                                <div class="ordered_price">Сумма: <span class="bold">0 Р.</span></div>
+                                                <div class="ordered_price">Сумма: <span class="">0 Р.</span></div>
 
                                             </div>
 
@@ -376,15 +685,11 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                         </div>
 
 
-                                        <?if($oneProduct['artikul'] == 'A21SP16J') {?>
-                                            <span style="color: #a3a3a3;font-size: 10px;margin-left: 2px"><span style="transform: rotate(90deg);display: inline-block;">&nbsp;&rfloor;&nbsp;</span> минимум/кратно 10/2</span>
-                                        <?}?>
-
                                         <div class="ordered_block hidden">
                                             <div class="ordered_icon_close js-cancel-order flr"></div>
-                                            <div class="ordered_count">В запросе: <span class="bold"> </span></div>
+                                            <div class="ordered_count">В корзине: <span class=""> </span></div>
                                             <br>
-                                            <div class="ordered_price">Сумма: <span class="bold">0 Р.</span></div>
+                                            <div class="ordered_price">Сумма: <span class="">0 Р.</span></div>
 
                                         </div>
 
@@ -493,22 +798,11 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
             <?= $this->render('@common/modules/catalog/views/default/productInclude', ['currentSectionProducts' => $oneProduct['accessories']]); ?>
     </div>
     <?php }?>
+    <div class="_detail_section description">
+        <h2>Информация</h2>
+        <?=$seoText;?>
+    </div>
 </div>
 
-<div class="seo_text"><?=$seoText;?></div>
 
-<div class="prod_warn">
-    ВНИМАНИЕ! Все указанные цены на сайте не являются публичной офертой, оплата за товар осуществляется ТОЛЬКО на основании выставленного Счета на оплату.
 
-    Для покупателей с рамочными(календарными) поставками предоставляются специальные цены на полный объем, а также по договоренности гарантированный 1-2х месячный запас на буферном складе.
-
-    Для торговых агентов и компаний-партнеров предоставляются персональные взаимовыгодные условия.
-
-    Цены на сайте указаны за единицу товара в рублях РФ (с НДС) по курсу ЦБ РФ и действительны только в течении текущего дня. Цены не включают стоимость доставки до грузополучателя.
-
-    Доступное количество товара, указанное на сайте, действительно по состоянию на 9:00 (по Москве).
-
-    Сроки отгрузки, указанные в наименовании товара, носят ознакомительный характер и действительны только на текущую дату.
-
-    Внимание! Характеристики товаров на сайте указаны только для ознакомления, для получения точной информации используйте официальную техническую документацию от производителя.
-</div>

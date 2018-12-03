@@ -336,6 +336,11 @@ $(document).ready(function () {
 
     });
 
+    $('.js-show-more-stores_btn').click(function () {
+        $('.js-hidden-store').show().removeClass('js-hidden-store');
+        $('.js-show-more-stores_btn').closest('.js-show-more-stores_block').remove();
+    })
+
     $('.js-selected_count_vars').click(function () {
         if($(this).next('.count_vars').hasClass('active')){
             $(this).next('.count_vars').fadeOut().removeClass('active');
