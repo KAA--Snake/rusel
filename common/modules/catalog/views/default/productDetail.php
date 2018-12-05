@@ -123,7 +123,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                         <div class="price_vars">
                                             <div class="price_var_item clear">
                                                 <span class="count fll"></span>
-                                                <span class="price flr"><?= $price; ?>
+                                                <span class="price_marketing flr"><?= $price; ?>
                                                     <?= Currency::getCurrencyName(); ?>
                                                     /<?= $oneProduct['ed_izmerenia']; ?></span>
                                             </div>
