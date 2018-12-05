@@ -2,6 +2,7 @@
 
 namespace common\modules\catalog\controllers;
 
+use common\helpers\templater\Templater;
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\Artikle;
 use common\modules\catalog\models\BreadCrumbs;
@@ -81,17 +82,6 @@ class DefaultController extends Controller
      */
     public function actionIndex($pathForParse = false)
     {
-
-        //получаем СЕО текст
-        //$seoArtikle = \Artikle::find()->andWhere(['type' => 'seo_text'])->one();
-        $seoArtikle = Artikle::find()->andWhere(['type' => 'seo_text'])->one();
-        $seoText = '';
-        if(isset($seoArtikle->full_text)){
-            $seoText = $seoArtikle->full_text;
-        }
-        $this->view->params['seo']['artikle'] = $seoText;
-        //\Yii::$app->pr->print_r2($seoArtikle);
-
         $perPage = \Yii::$app->getModule('catalog')->params['max_products_cnt'];
 
         $isNeedPerPage = \Yii::$app->request->get('perPage');
@@ -136,6 +126,22 @@ class DefaultController extends Controller
             $this->view->params['seo']['product'] = $product;
 
             $this->layout = 'catalogDetail';
+
+            //получаем СЕО текст
+            //$seoArtikle = \Artikle::find()->andWhere(['type' => 'seo_text'])->one();
+            $seoArtikle = Artikle::find()->andWhere(['type' => 'seo_text'])->one();
+            $seoText = '';
+            if(isset($seoArtikle->full_text)){
+                $seoText = Templater::makeSubstitution(
+                    $seoArtikle->full_text,
+                    $product['artikul'],
+                    $product['properties']['proizvoditel']
+                );
+
+            }
+            $this->view->params['seo']['artikle'] = $seoText;
+            //\Yii::$app->pr->print_r2($seoArtikle);
+
             /*if(!empty($_GET['s'])){
                 \Yii::$app->pr->print_r2($breadcrumbs);
             }*/
