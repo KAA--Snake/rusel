@@ -107,6 +107,28 @@ $white:#ffffff;
         font-size: 14px;
         line-height: 14px;
         font-weight: 300;
+        .show_in_stock_list{
+          display: inline-block;
+          padding-left: 10px;
+          padding-right: 10px;
+          .show_in_stock_item{
+            display: inline-block;
+            a{
+              text-decoration: none;
+              display: block;
+              line-height: 30px;
+              padding-left: 10px;
+              padding-right: 10px;
+              border: 1px solid #cecece;
+            }
+            &.active{
+              a{
+                background-color: #336699;
+                color: #ffffff;
+              }
+            }
+          }
+        }
         .filter_num{
           font-weight: 700;
         }
@@ -177,7 +199,7 @@ $white:#ffffff;
       }
       .catalog_render_count{
         font-size: 14px;
-        line-height: 18px;
+        line-height: 32px;
         color: #333333;
         font-weight: 300;
         margin-right: 30px;

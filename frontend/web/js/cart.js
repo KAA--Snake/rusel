@@ -518,12 +518,13 @@ function showSuggestion(suggestion) {
         '<p>ИНН: ' + suggestion.data.inn + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;КПП: ' + suggestion.data.kpp + '</p>'
     );
 
+    var city = suggestion.data.address.data ? suggestion.data.address.data.city ? suggestion.data.address.data.city : null : null;
     $('input[name="Order[client_kpp]"]').val(suggestion.data.kpp);
     $('input[name="Order[client_inn]"]').val(suggestion.data.inn);
     $('input[name="Order[client_fullname]"]').val(suggestion.data.name.full_with_opf);
     $('input[name="Order[client_shortname]"]').val(suggestion.data.name.short_with_opf);
     $('input[name="Order[client_address]"]').val(suggestion.data.address.value);
-    $('input[name="Order[client_city]"]').val(suggestion.data.address.data.city);
+    $('input[name="Order[client_city]"]').val(city);
 
     var data = suggestion.data;
     if (!data)

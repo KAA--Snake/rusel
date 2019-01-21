@@ -604,10 +604,11 @@ $this->title = 'RUSEL24 - Форма запроса';
 
                 <div class="row clear js-delivery-input js-delivery-half hidden">
                     <div class="col col_3">
-                        <label class="text_label" for="delivery_city">Выбрать город</label>
-                        <select class="_order_sel js-city-select" name="fake[delivery_city]" id="delivery_city">
+                        <label class="text_label" for="delivery_city">Укажите город</label>
+                        <!--<select class="_order_sel js-city-select" name="fake[delivery_city]" id="delivery_city">
                             <option value=""></option>
-                        </select>
+                        </select>-->
+                        <input type="text" class="_order_inp" name="Order[delivery_city]" id="delivery_city">
                     </div>
                 </div>
 
@@ -645,7 +646,7 @@ $this->title = 'RUSEL24 - Форма запроса';
         <input type="hidden" name="Order[client_inn]" value="">
         <input type="hidden" name="Order[client_kpp]" value="">
         <input type="hidden" class="js-delivery_city_index" name="Order[delivery_city_index]" value="">
-        <input type="hidden" class="js-delivery_city_name" name="Order[delivery_city]" value="">
+        <!--<input type="hidden" class="js-delivery_city_name" name="Order[delivery_city]" value="">-->
         <input type="hidden" class="js-delivery_time" name="Order[delivery_time]" value="">
         <input type="hidden" class="js-client_address" name="Order[client_address]" value="">
         <input type="hidden" class="js-client_address" name="Order[client_city]" value="">

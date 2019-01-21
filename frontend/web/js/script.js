@@ -612,7 +612,7 @@ $(document).ready(function () {
         if(filterQuery.length && filterQuery !== '[]') {
 
             var queryParams = JSON.parse(filterQuery);
-            $('.js-filter_dropdown').trigger('click');
+            // $('.js-filter_dropdown').trigger('click');
 
             for( var p in queryParams) {
                 queryParams[p] = queryParams[p].split('|');
@@ -626,13 +626,13 @@ $(document).ready(function () {
                         var showFilterGroupBtn = $(this).find('.js-show-filter_group');
                         var cancelFilterGroupBtn = $(this).find('.js-cancel-filter-group');
                         if(filterParamCat.data('param') == p) {
-                            if (i < queryParams[p].length -1) {
+                            /*if (i < queryParams[p].length -1) {
                                 selectedFilterParamsList.append('<span>'+queryParams[p][i]+'; </span>');
                             }else{
                                 selectedFilterParamsList.append('<span>'+queryParams[p][i]+'</span>');
                                 showParamsBtn.remove();
 
-                            }
+                            }*/
                             selectedFilterParamsBlock.show();
                             showFilterGroupBtn.hide();
 
@@ -692,7 +692,7 @@ $(document).ready(function () {
     if(filterQuery.length && filterQuery !== '[]') {
 
         var queryParams = JSON.parse(filterQuery);
-        $('.js-filter_dropdown').trigger('click');
+
 
         for( var p in queryParams) {
             queryParams[p] = queryParams[p].split('|');
@@ -726,6 +726,14 @@ $(document).ready(function () {
                 });
             }
         }
+        // $('.js-filter_dropdown').trigger('click');
+
+            $('.filter_selector_wrap').slideDown(function () {
+                spListHeightToggle();
+            }).removeClass('collapsed').addClass('expanded');
+            $('.js-filter_dropdown').removeClass('inactive').addClass('active');
+            $('.js-empty-filter').hide();
+
     }
 
     $('.apply_filter_btn').click(function(e){
