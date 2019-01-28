@@ -19,7 +19,7 @@ AppAsset2::register($this);
     <link rel="shortcut icon" type="image/png" href="/img/favicon.ico"/>
     <link rel="canonical" href="http://rusel24.ru/<?= Yii::$app->request->pathInfo;?>">
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="yandex-verification" content="eec399b374c34790" />
+    <meta name="yandex-verification" content="e582749fff05335f" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
     <meta name="robots" content="index,follow">
