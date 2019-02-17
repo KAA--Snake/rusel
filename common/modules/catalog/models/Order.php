@@ -162,12 +162,13 @@ class Order extends ActiveRecord
         	foreach($orders as $oK => &$oneOrder){
         		if($oneOrder['id'] == $oneProduct['_source']['id']){
 			        $orders[$oK]['productData'] = $oneProduct['_source'];
-
+                    //\Yii::$app->pr->print_r2($oneProduct);
 			        BuyHelper::setPriceForOrderProduct($orders[$oK]);
 		        }
 	        }
         }
 
+        //die();
 	    //\Yii::$app->pr->print_r2($oneProduct);
 	    //die();
 	    //\Yii::$app->pr->print_r2($productsDetailed);

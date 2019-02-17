@@ -24,6 +24,7 @@ class BuyHelper
 
         $allowedBuyPrice = [];
 	    //\Yii::$app->pr->print_r2($product);
+	    //die();
 
         if(empty($product['productData'])) return false;
 
@@ -59,25 +60,29 @@ class BuyHelper
 						}
 
 						//распределим их по возрастанию доступных количеств
-						asort($allPrices);
+                        ksort($allPrices);
 
-						//\Yii::$app->pr->print_r2($product);
 
 						//проходим по отсортированному массиву
+                        $allowedPriceRangeKey = false; //ключ массива цены, по которой разрешено купить
 						foreach($allPrices as $priceRange => $onePriceArr){
 
 							//находим доступный диапазон цен для выбранного склада
 							if($oneStorage['id'] == $product['storageId']){
-								$allowedBuyPrice = $onePriceArr;
+
+                                if((int)$product['count'] >= (int)$priceRange) {
+                                    $allowedPriceRangeKey = $priceRange;
+                                }
 
 								break;
 							}
 						}
 
+                        $allowedBuyPrice = $allPrices[$allowedPriceRangeKey];
 					}
-
 				}
-
+                //\Yii::$app->pr->print_r2($allowedBuyPrice);
+                //die();
 
 				//если цена найдена, добавим выборку по курсу валюты и сохраним ее в массиве заказа
 				if(count($allowedBuyPrice) > 0){
