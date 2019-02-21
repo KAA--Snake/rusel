@@ -2256,10 +2256,13 @@
             text-decoration: underline; }
       .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.img {
         min-width: 120px;
-        padding-right: 20px; }
+        padding-right: 20px;
+        text-align: center; }
         .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.img img {
-          width: 80px;
+          width: auto;
           height: auto;
+          max-height: 80px;
+          max-width: 80px;
           box-sizing: content-box; }
       .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .card_part.stores .store_row > td {
         height: 28px; }

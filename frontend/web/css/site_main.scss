@@ -2895,11 +2895,12 @@ $white:#ffffff;
             &.img{
               min-width: 120px;
               padding-right: 20px;
-
+              text-align: center;
               img{
-
-                width: 80px;
+                width: auto;
                 height: auto;
+                max-height: 80px;
+                max-width: 80px;
                 box-sizing: content-box;
               }
             }
