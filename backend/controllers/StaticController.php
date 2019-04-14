@@ -68,6 +68,7 @@ class StaticController extends Controller
         $model = false;
 
         //$models = Artikle::find()->all();
+        //die();
 
         if($type){
 
@@ -78,6 +79,16 @@ class StaticController extends Controller
     }
 
 
+    /**
+     * Добавляет новую статью в базу
+     * Чтобы ее стало видно, надо сделать вьюху с таким же type и сохранить ее в
+     * backend/views/static
+     * @return string
+     */
+    public function actionNew() {
+        $model = new Artikle();
+        return $this->render('add-new', ['model' => $model]);
+    }
 
 
     public function actionDelete($id=false){
@@ -98,10 +109,11 @@ class StaticController extends Controller
     }
 
 
-
-
+    /**
+     * Редактирование статьи (не добавление, а именно редактирование.)
+     * @return string
+     */
     public function actionAdd(){
-
 
         $model = new Artikle();
 
@@ -109,14 +121,11 @@ class StaticController extends Controller
 
         if($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
 
-
             $model = $model->saveMe();
 
         }
 
-
         //\Yii::$app->pr->print_r2($model->getErrors());
-
         //$models = Artikle::find()->all();
 
         return $this->render($model->type, ['uploadResult' => $result, 'model' => $model]);

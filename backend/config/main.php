@@ -49,6 +49,7 @@ return [
                 'GET news/delete/<id:\d+>' => 'news/delete',
                 'GET news/update/<id:\d+>' => 'news/update',
 
+                'GET static/new' => 'static/new',
                 'GET static/<type:\w+>' => 'static/index',
                 'POST static/add' => 'static/add',
                 'GET static/delete/<id:\d+>' => 'static/delete',

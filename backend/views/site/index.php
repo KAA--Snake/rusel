@@ -29,6 +29,7 @@ $this->title = 'admin main page';
                 <a class="dashboard_section-link" href="/admin/static/cooperation">Сотрудничество</a>
                 <a class="dashboard_section-link" href="/admin/static/vacancies">Вакансии</a>
                 <a class="dashboard_section-link" href="/admin/static/contacts">Контакты</a>
+                <a class="dashboard_section-link" href="/admin/static/zamery_parametrov_elektroseti">Замеры параметров электросети</a>
             </div>
         </div>
     </div>
