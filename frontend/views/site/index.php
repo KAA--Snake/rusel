@@ -57,6 +57,6 @@ $this->title = 'RUSEL24: Комплексное снабжение компле�
 
         <?= \common\widgets\info\WInfo::widget();?>
 
-        <?= \common\widgets\news\WNews::widget();?>
+        <?= \common\widgets\news\SeoManufacturers::widget();?>
     </div>
 </div>

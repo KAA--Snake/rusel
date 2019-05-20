@@ -117,7 +117,7 @@ class SeoManufacturerController extends Controller
 
         $models = SeoManufacturer::find()->all();
 
-        return $this->render('@backend/views/seo/manufacturers', ['models' => $models, 'model' => $model]);
+        return $this->render('@backend/views/seo/manufacturers', ['uploadResult' => $result, 'models' => $models, 'model' => $model]);
 
     }
 

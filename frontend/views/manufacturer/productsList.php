@@ -23,6 +23,10 @@ $perPage = $paginator['maxSizeCnt'];
         Программа поставок: <h1 class="manufacturer_name"><?= $manufacturer;?></h1>
     </div>
     <div class="catalog_tree_container fll">
+
+        <div class="seo_block"><?php echo $seoText;?></div>
+
+
         <?php
         if(count($groupedSections) > 0){
             foreach ($groupedSections as $oneSibling) { ?>
@@ -761,8 +765,6 @@ $perPage = $paginator['maxSizeCnt'];
     <?php */ ?>
 
     </div>
-
-    <div class="seo_block"><?php echo $seoText;?></div>
 
 <?
 echo Paginator::widget([

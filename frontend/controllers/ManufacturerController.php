@@ -13,6 +13,7 @@ use common\modules\catalog\models\Manufacturer;
 use common\modules\catalog\models\search\searches\ProductsSearch;
 use common\modules\catalog\models\Section;
 use common\modules\catalog\models\seo\SeoManufacturer;
+use common\widgets\seo_manufacturer\SeoManufacturers;
 use yii\web\Controller;
 
 class ManufacturerController extends Controller
@@ -43,6 +44,7 @@ class ManufacturerController extends Controller
     /**
      * Cтраница поиска по названию производителя
      *
+     * @throws \Exception
      */
     public function actionIndex($manufacturer = ''){
 
@@ -54,8 +56,12 @@ class ManufacturerController extends Controller
 
         $this->view->params['seo']['manufacturer'] = $manufacturer;
 
-        //search for seo text
-        $seoTextForManufacturer= SeoManufacturer::getTextByManufacturerId($manufacturer->m_id);
+        //seo text widget
+        $seoTextForManufacturer = SeoManufacturers::widget([
+            'options' => [
+                'manufacturerId' => $manufacturer->m_id
+            ],
+        ]);
 
         if(empty($manufacturer->m_id) || !isset($manufacturer->m_id) || empty($manufacturer->m_group_ids)) {
             return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);

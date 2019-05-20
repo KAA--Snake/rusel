@@ -34,14 +34,30 @@ if($model){
 
         <div class="flex_wrap">
             <div class="left_wrap">
-                <div class="label">ID производителя:</div>
-                <input class="news-name" type="text" name="SeoManufacturer[manufacturer_id]" value="<?=$model->manufacturer_id;?>">
-                <div class="label">Название для отображения:</div>
+                <div class="label">Название для отображения</div>
                 <input class="news-name" type="text" name="SeoManufacturer[name]" value="<?=$model->name;?>">
-                <div class="label">СЕО текст:</div>
-                <textarea class="static_textarea" cols="100" rows="10" name="SeoManufacturer[text]"><?=$model->text;?></textarea>
             </div>
 
+            <div class="right_wrap news-id_block">
+                <div class="label">ID производителя:</div>
+                <input class="news-id" type="text" name="SeoManufacturer[manufacturer_id]" value="<?=$model->manufacturer_id;?>">
+            </div>
+        </div>
+
+        <div class="flex_wrap news-content_row">
+            <div class="left_wrap">
+                <div class="label">Картинка:</div>
+                <div class="uploaded_img" style="background-image: url(<?=$model->big_img_src;?>);">
+                    <img class="js-filereader-target" src="backend/web/img/no_photo.png" alt="">
+                </div>
+                <input type="file" name="SeoManufacturer[file]" class="offer-img-upload hidden js-img-upload_input">
+                <div class="img_instructions">Размер картинки: <span class="img-size">220 x 170 px</span></div>
+                <button class="news-upload_btn js-img-upload_btn btn btn-transparent">Загрузить</button>
+            </div>
+
+            <div class="right_wrap news-textarea_block">
+                <textarea class="static_textarea" cols="100" rows="10" name="SeoManufacturer[text]"><?=$model->text;?></textarea>
+            </div>
         </div>
 
         <div class="divider-gray"></div>
