@@ -43,6 +43,14 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keywords" content="<?=$this->params['seo']['product']['artikul'];?>, <?=$this->params['seo']['product']['name'];?>, <?=$this->params['seo']['product']['properties']['proizvoditel'];?>, купить, цена, наличие, сроки, обзор, инструкция, описание, документация, pdf, datasheet">
     <meta name="description" content="Артикул (Part #): <?=$this->params['seo']['product']['artikul'];?> / Производитель: <?=$this->params['seo']['product']['properties']['proizvoditel'];?> / <?=$this->params['seo']['product']['name'];?>. Цены, наличие, сроки поставки, описание, техническая документация, параметрический поиск. Поставки со склада и под заказ. В каталоге более 1 млн. наименований от 250 производителей.">
+    <?php
+    if (
+            isset($this->params['seo']['product']['properties']['main_picture'])
+            && !is_array($this->params['seo']['product']['properties']['main_picture'])
+    )
+    { ?>
+    <meta name="image" content="http://rusel24.ru<?= \yii\helpers\Url::to('@catImages/' . $this->params['seo']['product']['properties']['main_picture']); ?>" />
+    <?php } ?>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
