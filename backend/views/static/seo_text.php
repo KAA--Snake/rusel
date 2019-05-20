@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'admin about page';
+$this->title = 'admin seo text page';
 
 if($model){
     $errors = $model->getErrors();

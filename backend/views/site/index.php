@@ -16,7 +16,6 @@ $this->title = 'admin main page';
                 <a class="dashboard_section-link" href="/admin/offers">Специальные предложения</a>
                 <a class="dashboard_section-link" href="/admin/info">Полезная информация</a>
                 <a class="dashboard_section-link" href="/admin/news">Новости</a>
-                <a class="dashboard_section-link" href="/admin/static/seo_text">СЕО текст в карточке товара</a>
             </div>
         </div>
 
@@ -30,6 +29,13 @@ $this->title = 'admin main page';
                 <a class="dashboard_section-link" href="/admin/static/vacancies">Вакансии</a>
                 <a class="dashboard_section-link" href="/admin/static/contacts">Контакты</a>
                 <a class="dashboard_section-link" href="/admin/static/zamery_parametrov_elektroseti">Замеры параметров электросети</a>
+            </div>
+        </div>
+        <div class="dashboard_section">
+            <h3 class="dashboard_section-header">СЕО БЛОКИ</h3>
+            <div class="dashboard_section-body">
+                <a class="dashboard_section-link" href="/admin/static/seo_text">СЕО текст в карточке товара</a>
+                <a class="dashboard_section-link" href="/admin/seo/manufacturer">СЕО текст для Производителей</a>
             </div>
         </div>
     </div>
