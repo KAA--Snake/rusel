@@ -95,4 +95,18 @@ class SeoManufacturer extends ActiveRecord
 
     }
 
+    /**
+     * @param $manufacturerId
+     */
+    public static function getTextByManufacturerId($manufacturerId) {
+        if (!empty($manufacturerId)) {
+            $foundOne = parent::findOne(['manufacturer_id' => $manufacturerId]);
+        }
+
+        if ($foundOne) {
+            return $foundOne->text;
+        }
+
+        return '';
+    }
 }

@@ -762,6 +762,7 @@ $perPage = $paginator['maxSizeCnt'];
 
     </div>
 
+    <div class="seo_block"><?php echo $seoText;?></div>
 
 <?
 echo Paginator::widget([
