@@ -24,7 +24,7 @@ $perPage = $paginator['maxSizeCnt'];
     </div>
     <div class="catalog_tree_container fll">
 
-        <div class="seo_block"><?php echo $seoText;?></div>
+        <div class="seo__block"><?php echo $seoText;?></div>
 
 
         <?php
