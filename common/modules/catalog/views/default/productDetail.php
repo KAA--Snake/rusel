@@ -54,7 +54,11 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                 <?php }  ?>
             </div>
             <div class="product-card2__controls">
-                <div class="product-card2__btn">Хотите дешевле?</div>
+                <!--<div class="product-card2__btn">Хотите дешевле?</div>-->
+                <a class="product-card2__manufact-icon" target="_blank" href="/manufacturer/<?= $oneProduct['properties']['proizvoditel']; ?>/">
+                    <img src="/upload/images/logo-mnf/<?=$oneProduct['properties']['proizv_id'];?>.jpg" alt="">
+                    <div class="text">Каталог продукции</div>
+                </a>
 
                 <div class="product-card2__share-block">
                     <div class="product-card2__share-block_head">Поделиться:</div>

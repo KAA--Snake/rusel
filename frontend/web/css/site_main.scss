@@ -1373,7 +1373,7 @@ $white:#ffffff;
           margin-right: 20px;
           img{
             width: 220px;
-            height: 170px;
+            /*height: 170px;*/
           }
         }
         &__text-block{
@@ -3605,6 +3605,26 @@ $white:#ffffff;
                 background-color: $blue;
                 border: 1px solid $blue;
                 transition: 0.3s;
+              }
+            }
+            &__manufact-icon{
+              width: 205px;
+              border: 1px solid #dfdfdf;
+              text-align: center;
+              text-decoration: none;
+              cursor:pointer;
+              padding: 4px;
+
+              img{
+                width: 100%;
+                height: auto;
+
+              }
+              .text{
+                text-transform: uppercase;
+                color: #adadad;
+                padding-top: 4px;
+                letter-spacing: 0.6px;
               }
             }
             &__share-block{
