@@ -277,8 +277,8 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                 <?php } else { ?>
                     <tr>
                         <td></td>
-                        <td>под заказ</td>
-                        <td>Цена по запросу</td>
+                        <td>Под заказ</td>
+                        <td>По запросу</td>
                         <td></td>
                         <td class="product-card2__order-block">
                             <div class="card_part order js-order_data"
