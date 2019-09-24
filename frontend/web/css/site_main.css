@@ -2921,7 +2921,8 @@
         padding: 10px 20px;
         line-height: 24px;
         vertical-align: middle;
-        border-bottom: 1px solid #cecece; }
+        border-bottom: 1px solid #cecece;
+        position: relative; }
       .container.main .content_wrap .content_inner_wrap .product_cards_block._detail .product-card2__stores-table thead td {
         background-color: #f6f6f5;
         color: #000000;
@@ -2929,6 +2930,15 @@
         font-weight: 700;
         line-height: 30px;
         border: none; }
+      .container.main .content_wrap .content_inner_wrap .product_cards_block._detail .product-card2__stores-table .more_stores {
+        color: #cecece;
+        border: 1px solid #cecece;
+        padding: 0 10px;
+        position: absolute;
+        bottom: -10px;
+        left: 20px;
+        background-color: #fff;
+        line-height: 16px; }
     .container.main .content_wrap .content_inner_wrap .product_cards_block._detail .product-card2__order-block .card_part.order {
       /*padding-left: 20px;*/
       width: 250px;

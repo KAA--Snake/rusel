@@ -3760,7 +3760,7 @@ $white:#ffffff;
                 line-height: 24px;
                 vertical-align: middle;
                 border-bottom: 1px solid #cecece;
-
+                position: relative;
               }
               thead{
                 td{
@@ -3771,6 +3771,17 @@ $white:#ffffff;
                   line-height: 30px;
                   border: none;
                 }
+              }
+              .more_stores{
+                color:#cecece;
+                border: 1px solid #cecece;
+                padding: 0 10px;
+                position: absolute;
+                bottom: -10px;
+                left: 20px;
+                background-color: #fff;
+                line-height: 16px;
+
               }
 
             }

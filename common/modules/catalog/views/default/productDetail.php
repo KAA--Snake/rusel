@@ -101,6 +101,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                         <?= $oneStorage['quantity']['for_order']['description']; ?>
                                     <?php } ?>
                                 <?php } ?>
+                                <?php if($len > 1 && $i == 1) {?> <span class="more_stores">еще</span> <?php } ?>
                             </td>
                             <td>
                         <?php if ($oneStorage['quantity']['stock']['count'] > 0) { ?>
