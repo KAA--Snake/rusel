@@ -107,7 +107,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                         <?php if ($oneStorage['quantity']['stock']['count'] > 0) { ?>
                             <?= $oneStorage['quantity']['stock']['count']; ?> <?= $oneProduct['ed_izmerenia']; ?>
                         <?php } else { ?>
-                            под заказ
+                            Под заказ
                         <?php } ?>
                             </td>
                             <td>
@@ -195,7 +195,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                                 }
                                             } else { ?>
                                                 <div class="price_var_item js-price_not_available clear">
-                                                    <span class="price flr" style="position: static">Цены по запросу</span>
+                                                    <span class="price" style="position: static">По запросу</span>
                                                 </div>
                                             <?php }; ?>
                                         </div>
