@@ -28,7 +28,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
             <ul class="product-card2__creds-list">
                 <li class="product-card2__creds-item">
                     <div class="product-card2__creds-item_name">Артикул:</div>
-                    <h1 class="product-card2__creds-item_artikul"><?= $oneProduct['artikul']; ?></h1>
+                    <h1 class="product-card2__creds-item_artikul" itemprop="name"><?= $oneProduct['artikul']; ?></h1>
                 </li>
                 <li class="product-card2__creds-item">
                     <div class="product-card2__creds-item_name">Производитель:</div>
@@ -36,7 +36,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                 </li>
                 <li class="product-card2__creds-item">
                     <div class="product-card2__creds-item_name">Наименование:</div>
-                    <div class="product-card2__creds-item_product-title"><?= $oneProduct['name']; ?></div>
+                    <div class="product-card2__creds-item_product-title" itemprop="description"><?= $oneProduct['name']; ?></div>
                 </li>
                 <!--@todo скрыто пока не сделана передача группы товара в шаблон smu138-->
                 <!--<li class="product-card2__creds-item">
@@ -44,10 +44,11 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                     <a class="product-card2__creds-item_group" href="">какая-то группа</a>
                 </li>-->
             </ul>
-            <div class="product-card2__img">
+            <div class="product-card2__img" itemscope itemtype="http://schema.org/ImageObject">
                 <?php if (isset($oneProduct['properties']['main_picture']) && !is_array($oneProduct['properties']['main_picture'])) { ?>
                     <img src="<?= Url::to('@catImages/' . $oneProduct['properties']['main_picture']); ?>"
-                         alt="<?= $oneProduct['artikul']; ?>" title="<?= $oneProduct['artikul']; ?>">
+                         alt="<?= $oneProduct['artikul']; ?>" title="<?= $oneProduct['artikul']; ?>"
+                         itemprop="contentUrl">
                 <?php } else { ?>
                     <img src="/img/nofoto.png"
                          alt="<?= $oneProduct['artikul']; ?>" title="<?= $oneProduct['artikul']; ?>">
@@ -101,7 +102,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                                         <?= $oneStorage['quantity']['for_order']['description']; ?>
                                     <?php } ?>
                                 <?php } ?>
-                                <?php if($len > 1 && $i == 1) {?> <span class="more_stores">еще</span> <?php } ?>
+                                <?php if($len > 1 && $i !== $len) {?> <span class="more_stores">еще</span> <?php } ?>
                             </td>
                             <td>
                         <?php if ($oneStorage['quantity']['stock']['count'] > 0) { ?>
