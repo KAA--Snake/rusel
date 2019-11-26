@@ -24,7 +24,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 <div class="product_cards_block _detail">
 
     <div class="product-card2 js-product_card">
-        <div class="product-card2__info-wrap">
+        <div class="product-card2__info-wrap" itemscope itemtype="http://schema.org/ImageObject">
             <ul class="product-card2__creds-list">
                 <li class="product-card2__creds-item">
                     <div class="product-card2__creds-item_name">Артикул:</div>
@@ -44,7 +44,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
                     <a class="product-card2__creds-item_group" href="">какая-то группа</a>
                 </li>-->
             </ul>
-            <div class="product-card2__img" itemscope itemtype="http://schema.org/ImageObject">
+            <div class="product-card2__img" >
                 <?php if (isset($oneProduct['properties']['main_picture']) && !is_array($oneProduct['properties']['main_picture'])) { ?>
                     <img src="<?= Url::to('@catImages/' . $oneProduct['properties']['main_picture']); ?>"
                          alt="<?= $oneProduct['artikul']; ?>" title="<?= $oneProduct['artikul']; ?>"
