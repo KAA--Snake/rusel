@@ -19,10 +19,10 @@ class AppAsset2 extends AssetBundle
         'css/vendor/fotorama.css',
     ];
     public $js = [
-        'js/vendor/jquery-3.2.1.js',
-        'js/vendor/jquery-ui.js',
+        'js/vendor/jquery-3.2.1.min.js',
+        'js/vendor/jquery-ui.min.js',
         'js/vendor/fotorama.js',
-        'js/script.js',
+        'js/script.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

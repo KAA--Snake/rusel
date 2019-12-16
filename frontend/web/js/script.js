@@ -36,7 +36,7 @@ $(document).ready(function () {
             var sp_list = $('.js-sp_item');
             if(this.value.length >= 1){
 
-                for(let k=0;k<sp_list.length;k++) {
+                for(let k=0; k < sp_list.length; k++) {
 
                     if (sp_list.eq(k).find('a').text().toLowerCase().indexOf(this.value.toLowerCase()) == -1){
                         sp_list.eq(k).hide();

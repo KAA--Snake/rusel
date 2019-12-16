@@ -213,9 +213,7 @@ $(document).ready(function () {
 
                             if ((parseInt(productData.productPrices.price_range[r].range) > productCount)||(parseInt(productData.productPrices.price_range[r].range) <= productCount && parseInt(productData.productPrices.price_range[rn].range) > productCount)) {
                                 orderPrice = (+productData.productPrices.price_range[r].value * getRateOfExchange(productData.productPrices.price_range[r].currency)).toFixed(2);
-                                console.log('r');
-                                console.log(+productData.productPrices.price_range[r].value + '*' + getRateOfExchange(productData.productPrices.price_range[r].currency) + '=' + orderPrice);
-                                console.log('r');
+
                                 break;
                             } else {
                                 orderPrice = (+productData.productPrices.price_range[rn].value * getRateOfExchange(productData.productPrices.price_range[rn].currency)).toFixed(2);

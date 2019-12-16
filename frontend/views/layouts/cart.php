@@ -36,7 +36,7 @@ AppAsset::register($this);
     <?=$catalogParentLink;?>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="yandex-verification" content="e582749fff05335f" />
-    <meta name="viewport" content="width=1200px, initial-scale=0.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.0">
     <meta name="format-detection" content="telephone=no">
     <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

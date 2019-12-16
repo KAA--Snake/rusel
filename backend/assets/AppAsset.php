@@ -18,10 +18,10 @@ class AppAsset extends AssetBundle
         'css/site_main.css',
     ];
     public $js = [
-        'js/vendor/jquery-3.2.1.js',
-        'js/vendor/jquery-ui.js',
+        'js/vendor/jquery-3.2.1.min.js',
+        'js/vendor/jquery-ui.min.js',
         'js/vendor/jquery.mousewheel.js',
-        'js/script.js',
+        'js/script.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
