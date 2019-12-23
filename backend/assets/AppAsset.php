@@ -21,7 +21,7 @@ class AppAsset extends AssetBundle
         'js/vendor/jquery-3.2.1.min.js',
         'js/vendor/jquery-ui.min.js',
         'js/vendor/jquery.mousewheel.js',
-        'js/script.min.js',
+        'js/script.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
