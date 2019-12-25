@@ -436,6 +436,37 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
         <?=$seoText;?>
     </div>
 </div>
-
-
-
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Product",
+        "image": "http://rusel24.ru<?php if (isset($oneProduct['properties']['main_picture']) && !is_array($oneProduct['properties']['main_picture'])) { ?><?= Url::to('@catImages/' . $oneProduct['properties']['main_picture']); ?><?php }  ?>",
+        "name": "<?= $oneProduct['artikul']; ?> | <?= $oneProduct['properties']['proizvoditel']; ?> | <?= $oneProduct['name']; ?>",
+        "description": "Осуществляем комплексные поставки комплектующих от всемирно известных производителей по приемлемым ценам. На сайте цены, складские данные, сроки поставки, описание, техническая документация, параметрический поиск",
+        "sku": "<?= $oneProduct['artikul']; ?>",
+        "url": "http://rusel24.ru/",
+        "brand": {
+          "@type": "Brand",
+          "name": "<?= $oneProduct['properties']['proizvoditel']; ?>"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "http://rusel24.ru/",
+          "availability": "http://schema.org/InStock",
+          "price": "<?php
+    if (!empty($oneStorage['prices']) && count($oneStorage['prices']) > 0 && isset($oneStorage['prices']['price_range']['value'])) {?>
+        <?
+        $price2 = Currency::getPriceForCurrency(
+            $oneStorage['prices']['price_range']['currency'],
+            $oneStorage['prices']['price_range']['value'],
+            2
+        );
+        ?>
+        <?= $price2; ?>
+    <?php } else { ?>
+    0.00
+<?php } ?>",
+          "priceCurrency": "RUB"
+      }
+    }
+</script>
