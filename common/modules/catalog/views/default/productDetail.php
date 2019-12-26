@@ -456,18 +456,12 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
           "url": "<?php echo $absoluteUrl;?>",
           "availability": "http://schema.org/InStock",
           "price": "<?php
-    if (!empty($oneStorage['prices']) && count($oneStorage['prices']) > 0 && isset($oneStorage['prices']['price_range']['value'])) {?>
-        <?
+    if (!empty($oneStorage['prices']) && count($oneStorage['prices']) > 0 && isset($oneStorage['prices']['price_range']['value'])) {?><?
         $price2 = Currency::getPriceForCurrency(
             $oneStorage['prices']['price_range']['currency'],
             $oneStorage['prices']['price_range']['value'],
             2
-        );
-        ?>
-        <?= $price2; ?>
-    <?php } else { ?>
-    0.00
-<?php } ?>",
+        );?><?= $price2; ?><?php } else { ?>0.00<?php } ?>",
           "priceCurrency": "RUB"
       }
     }
