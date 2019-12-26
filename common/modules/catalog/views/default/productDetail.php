@@ -7,7 +7,9 @@ use common\modules\catalog\models\currency\Currency;
 //\Yii::$app->pr->print_r2($oneProduct);
 //print_r($product['properties']);
 
-$url = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
+$clearUrl = Url::to('@catalogDir/'.str_replace('|', '/', $oneProduct['url']).'/');
+$urlWithQuery = Url::current();
+$absoluteUrl = Yii::$app->request->getAbsoluteUrl();
 
 /** Если склад один, то приведем его к массиву, чтобы не гемороиться дальше */
 /*if($oneProduct['_source']['prices']['stores'] == 1){
@@ -451,7 +453,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
         },
         "offers": {
           "@type": "Offer",
-          "url": "http://rusel24.ru/",
+          "url": "<?php echo $absoluteUrl;?>",
           "availability": "http://schema.org/InStock",
           "price": "<?php
     if (!empty($oneStorage['prices']) && count($oneStorage['prices']) > 0 && isset($oneStorage['prices']['price_range']['value'])) {?>
