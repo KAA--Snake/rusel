@@ -460,31 +460,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
           "@type": "Offer",
           "url": "<?php echo $absoluteUrl;?>",
           "availability": "http://schema.org/InStock",
-          "price": "<?php foreach ($oneProduct['prices']['storage'] as $oneStorage) { ?><?php if (!empty($oneStorage['marketing']['price']) && $oneStorage['marketing']['price'] > 0) { ?>
-        <?$price = Currency::getPriceForCurrency(
-            $oneStorage['marketing']['currency'],
-            $oneStorage['marketing']['price'],
-            2
-        ); ?><?= $price; ?><?php } else { ?><?php if (!empty($oneStorage['prices']) && count($oneStorage['prices']) > 0) {
-        if (isset($oneStorage['prices']['price_not_available'])) { ?>0.00<?php } else {
-            if (isset($oneStorage['prices']['price_range']['value'])) { ?>
-                <?= $oneStorage['prices']['price_range']['range']; ?>
-                <?
-                $price = Currency::getPriceForCurrency(
-                    $oneStorage['prices']['price_range']['currency'],
-                    $oneStorage['prices']['price_range']['value'],
-                    2
-                );
-                ?><?= $price; ?><?php
-            } else {
-                $price = Currency::getPriceForCurrency(
-                                $oneStorage['prices'][0][0]['currency'],
-                                $oneStorage['prices'][0][0]['value'],
-                                2
-                            );?><?= $singlePrice; ?><?php
-            }
-        }
-    } else { ?>0.00<?php }; ?><?php } ?><?php }?>",
+          "price": "<?php if ($price > 1) {?><?= $price; ?><?php }else{?><?='0.00'?><?php } ?>",
           "priceCurrency": "RUB"
       }
     }
