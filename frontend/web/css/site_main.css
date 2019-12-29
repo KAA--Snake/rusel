@@ -3825,4 +3825,9 @@
   border: none;
   padding: 0 40px; }
 
+.table {
+  border: 1px solid black; }
+  .table td {
+    border: 1px solid black; }
+
 /*# sourceMappingURL=site_main.css.map */
