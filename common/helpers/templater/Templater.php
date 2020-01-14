@@ -21,11 +21,13 @@ class Templater
     ];
 
 
-    public static function makeSubstitution($text, $artikle, $manufacturer)
+    public static function makeSubstitution(string $text, array $product)
     {
-        $text = preg_replace('/{artikle}/i', $artikle, $text);
+        $text = preg_replace('/{artikle}/i', $product['artikul'] ?? '', $text);
 
-        $text = preg_replace('/{manufacturer}/', $manufacturer, $text);
+        $text = preg_replace('/{manufacturer}/i', $product['properties']['proizvoditel'] ?? '', $text);
+
+        $text = preg_replace('/{name}/i', $product['name'] ?? '', $text);
 
         return $text;
     }
