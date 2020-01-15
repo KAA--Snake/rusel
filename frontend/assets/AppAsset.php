@@ -32,7 +32,7 @@ class AppAsset extends AssetBundle
         'https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js',
         'https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/js/jquery.suggestions.min.js',
         '//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js',
-        'js/script.min.js',
+        'js/script.js',
         'js/cart.min.js',
     ];
     public $depends = [

@@ -1,6 +1,16 @@
 var excludedFilterParams = ['page', 'perPage'];
 $(document).ready(function () {
 
+    $( "#accordion" ).accordion({
+        collapsible: true,
+        active: false,
+        icons: false,
+        classes: {
+            "ui-accordion": "manufacturer__accordion"
+        },
+        heightStyle: "content"
+    });
+
     $('#top_search_form').on('submit', function (e) {
         if($('#top_search_form .search_field').val().length < 4){
             $(this).append('<span class="count_tooltip">Для поиска введите минимум 4 символа<span class="corner"></span></span>');
