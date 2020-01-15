@@ -134,8 +134,7 @@ class DefaultController extends Controller
             if(isset($seoArtikle->full_text)){
                 $seoText = Templater::makeSubstitution(
                     $seoArtikle->full_text,
-                    $product['artikul'],
-                    $product['properties']['proizvoditel']
+                    $product
                 );
 
             }
