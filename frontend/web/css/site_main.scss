@@ -4973,11 +4973,9 @@ $white:#ffffff;
       flex-shrink: 0;
       margin-right: 20px;
     }
-    //span{
-    //  flex-grow: 1;
-    //  flex-shrink: 0;
-    //  word-break: break-all;
-    //}
+    span{
+      width: 100%;
+    }
     &:after{
       content: "";
       display: inline-block;

@@ -3851,6 +3851,8 @@
     flex-grow: 0;
     flex-shrink: 0;
     margin-right: 20px; }
+  .manufacturer__accordion h3.ui-accordion-header span {
+    width: 100%; }
   .manufacturer__accordion h3.ui-accordion-header:after {
     content: "";
     display: inline-block;
