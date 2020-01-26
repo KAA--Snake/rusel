@@ -1,6 +1,8 @@
 var excludedFilterParams = ['page', 'perPage'];
 $(document).ready(function () {
 
+    new ClipboardJS('.firm_descr');
+
     $( "#accordion" ).accordion({
         collapsible: true,
         active: false,

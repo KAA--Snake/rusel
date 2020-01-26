@@ -28,6 +28,7 @@ class AppAsset extends AssetBundle
         'js/vendor/jquery.mousewheel.js',
         'js/vendor/jquery.jscrollpane.min.js',
         'js/vendor/slick.min.js',
+        'js/vendor/clipboard.min.js',
         'js/vendor/jquery.inputmask.bundle.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js',
         'https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/js/jquery.suggestions.min.js',
