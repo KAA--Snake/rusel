@@ -185,7 +185,9 @@ AppAsset::register($this);
                         'itemtype'        =>  'http://schema.org/BreadcrumbList',
                     ],
                     'homeLink' => ['label' => 'Каталог:'],
-                    'itemTemplate' => '<li class="width breadcrumbs_item breadcrumbs_head" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><span itemprop="name">{link}</span><meta itemprop="position" content="1"></li>', // template for all links
+                    'itemTemplate' => '<li class="width breadcrumbs_item breadcrumbs_head" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="/"><span itemprop="name">{link}</span></a>
+                        <meta itemprop="position" content="1"></li>', // template for all links
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]);?>
             </div>

@@ -153,7 +153,7 @@ class BreadCrumbs
     private function __fillProductItems(&$parentSections, &$product){
         $cnt = 2;
         foreach($parentSections as &$oneSection){
-            $url = Url::to('@catalogDir/'.$oneSection['url'].'/'.$product['code'], true);
+            $url = Url::to('@catalogDir/'.$oneSection['url'].$product['code'], true);
             $oneSection['itemprop'] = 'item';
             $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
 
