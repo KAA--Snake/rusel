@@ -103,29 +103,43 @@ class BreadCrumbs
      * @internal param $oneSection
      */
     private function __fillSectionItems(&$parentSections){
-        foreach($parentSections as &$oneSection){
 
+        $cnt = 2;
+        foreach($parentSections as &$oneSection){
 
             if(!$oneSection['finalItem']){
 
-                $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
+                $oneSection['itemprop'] = 'item';
 
-                $oneSection['template'] = '
-                    <li class="breadcrumbs_item">
+                $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
+                $seoUrl = Url::to('@catalogDir/'.$oneSection['url'], true);
+
+                $oneSection['template'] = "
+                     <li class='width breadcrumbs_item' itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
                         {link}
-                        <span class="arrow_next">→</span>
+                        <span class='arrow_next'>→</span>
+                        <meta itemprop='position' content='$cnt'>
                     </li>
-                ';
+                ";
             }else{
                 unset($oneSection['url']);
-                $oneSection['template'] = '
-                    <li class="breadcrumbs_item current">
-                        {link}
+                $oneSection['template'] = "
+                    <li class='width breadcrumbs_item current' itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
+                        <span itemprop='name'>{link}</span>
+                        <meta itemprop='item' content='{$seoUrl}'>
+                        <meta itemprop='position' content='$cnt'>
                     </li>
-                ';
+                ";
             }
 
-            //\Yii::$app->pr->print_r2($oneSection);
+            $cnt++;
+
+            //$oneSection["label"] = "<span itemprop='name'>{$oneSection['label']}</span>";
+
+            //if($_GET['yes']) {
+                //\Yii::$app->pr->print_r2($oneSection);
+                //$url = Url::to('@catalogDir/'.$oneSection['url'].'/'.$product['code'], true);
+            //}
         }
     }
 
@@ -137,17 +151,21 @@ class BreadCrumbs
      * @param $product
      */
     private function __fillProductItems(&$parentSections, &$product){
+        $cnt = 2;
         foreach($parentSections as &$oneSection){
-
+            $url = Url::to('@catalogDir/'.$oneSection['url'].'/'.$product['code'], true);
+            $oneSection['itemprop'] = 'item';
             $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
 
-            $oneSection['template'] = '
-                    <li class="breadcrumbs_item">
+            $oneSection['template'] = "
+                    <li class='width breadcrumbs_item' itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
                         {link}
-                        <span class="arrow_next">→</span>
+                        <span class='arrow_next''>→</span>
+                        <meta itemprop='position' content='$cnt'>
                     </li>
-            ';
+            ";
             //\Yii::$app->pr->print_r2($oneSection);
+            $cnt++;
         }
 
         /** добавим текущий товар (но без ссылки на него) */
@@ -155,11 +173,13 @@ class BreadCrumbs
             $parentSections[] = [
                 'label' => $product['artikul'],
                 //'url' => $product['url'],
-                'template' => '
-                    <li class="breadcrumbs_item">
-                        {link}
+                'template' => "
+                     <li class='width breadcrumbs_item' itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
+                        <span itemprop='name'>{link}</span>
+                        <meta itemprop='item' content='{$url}'>
+                        <meta itemprop='position' content='$cnt'>
                     </li>
-            ',
+            ",
 
             ];
             //\Yii::$app->pr->print_r2($parentSections);

@@ -6,7 +6,7 @@
 
 use yii\helpers\Html;
 use common\widgets\catalog\CatalogMenu;
-use yii\widgets\Breadcrumbs;
+use common\widgets\bread_crumbs\WBreadCrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\widgets\search\WSearch;
@@ -132,14 +132,24 @@ AppAsset::register($this);
 
             </div>
 
+            <?php
+            //if($_GET['yes']) {
+            //    \Yii::$app->pr->print_r2($this->params['breadcrumbs']);
+            //}
+            ?>
+
             <div class="breadcrumbs_menu col_1180">
-                <?= Breadcrumbs::widget([
+
+
+                <?= WBreadCrumbs::widget([
                     'options'       =>  [
                         //'id'        =>  'breadCrumbs',
-                        'class'        =>  'breadcrumbs_list',
+                        'class'        =>  'breadcrumbs_list breadcrumb',
+                        'itemscope'        =>  '',
+                        'itemtype'        =>  'http://schema.org/BreadcrumbList',
                     ],
                     'homeLink' => ['label' => 'Каталог:'],
-                    'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // for main
+                    'itemTemplate' => '<li class="width breadcrumbs_item breadcrumbs_head" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><span itemprop="name">{link}</span><meta itemprop="position" content="1"></li>', // for main
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]);?>
 

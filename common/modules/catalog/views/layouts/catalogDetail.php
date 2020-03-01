@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+use common\widgets\bread_crumbs\WBreadCrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\widgets\catalog\CatalogMenu;
@@ -177,13 +177,15 @@ AppAsset::register($this);
                     </li>
                 </ul>
                 <?*/?>
-                <?= Breadcrumbs::widget([
+                <?= WBreadCrumbs::widget([
                     'options'       =>  [
                         //'id'        =>  'breadCrumbs',
-                        'class'        =>  'breadcrumbs_list',
+                        'class'        =>  'breadcrumbs_list breadcrumb',
+                        'itemscope'        =>  '',
+                        'itemtype'        =>  'http://schema.org/BreadcrumbList',
                     ],
                     'homeLink' => ['label' => 'Каталог:'],
-                    'itemTemplate' => "<li class='breadcrumbs_item breadcrumbs_head'>{link}</li>", // template for all links
+                    'itemTemplate' => '<li class="width breadcrumbs_item breadcrumbs_head" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><span itemprop="name">{link}</span><meta itemprop="position" content="1"></li>', // template for all links
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]);?>
             </div>
