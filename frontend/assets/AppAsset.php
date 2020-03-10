@@ -30,9 +30,9 @@ class AppAsset extends AssetBundle
         'js/vendor/slick.min.js',
         'js/vendor/clipboard.min.js',
         'js/vendor/jquery.inputmask.bundle.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js',
-        'https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/js/jquery.suggestions.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js',
+        'js/vendor/jquery.xdomainrequest.min.js',
+        'js/vendor/jquery.suggestions.min.js',
+        'js/vendor/jquery.form-validator.min.js',
         'js/script.js',
         'js/cart.min.js',
     ];
