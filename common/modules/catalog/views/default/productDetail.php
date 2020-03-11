@@ -451,7 +451,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
         "name": "<?= $oneProduct['artikul']; ?> | <?= $oneProduct['properties']['proizvoditel']; ?> | <?= $oneProduct['name']; ?>",
         "description": "Осуществляем комплексные поставки комплектующих от всемирно известных производителей по приемлемым ценам. На сайте цены, складские данные, сроки поставки, описание, техническая документация, параметрический поиск",
         "sku": "<?= $oneProduct['artikul']; ?>",
-        "id": "<?= $oneProduct['id']; ?>",
+        "productID": "<?= $oneProduct['id']; ?>",
         "mpn": "<?= $oneProduct['artikul']; ?>",
         "model": "<?= $oneProduct['artikul']; ?>",
         "url": "<?php echo $absoluteUrl;?>",
@@ -466,7 +466,7 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
           "price": "<?php if ($price > 1) {?><?= $price; ?><?php }else{?><?='0.00'?><?php } ?>",
           "priceCurrency": "RUB",
           "itemCondition": "http://schema.org/NewCondition",
-          "priceValidUntil": "10-10-2050"
+          "priceValidUntil": "2050-10-10"
       }
     }
 </script>
