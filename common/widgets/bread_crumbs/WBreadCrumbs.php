@@ -176,7 +176,7 @@ class WBreadCrumbs extends Widget
 
             //$link = Html::a($label, $link['url'], $options);
             $labelUrl = Url::to($link['url']);
-            $link = "<a itemprop='item' href='$labelUrl'><span itemprop='name'>$label</span></a>";
+            $link = '<a itemprop="item" href="'.$labelUrl.'"><span itemprop="name">'.$label.'</span></a>';
 
         } else {
             $link = $label;

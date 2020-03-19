@@ -114,22 +114,22 @@ class BreadCrumbs
                 $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
                 $seoUrl = Url::to('@catalogDir/'.$oneSection['url'], true);
 
-                $oneSection['template'] = "
-                     <li class='width breadcrumbs_item' itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
+                $oneSection['template'] = '
+                     <li class="width breadcrumbs_item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                         {link}
-                        <span class='arrow_next'>→</span>
-                        <meta itemprop='position' content='$cnt'>
+                        <span class="arrow_next">→</span>
+                        <meta itemprop="position" content="'.$cnt.'">
                     </li>
-                ";
+                ';
             }else{
                 unset($oneSection['url']);
-                $oneSection['template'] = "
-                    <li class='width breadcrumbs_item current' itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
-                        <span itemprop='name'>{link}</span>
-                        <meta itemprop='item' content='{$seoUrl}'>
-                        <meta itemprop='position' content='$cnt'>
+                $oneSection['template'] = '
+                    <li class="width breadcrumbs_item current" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <span itemprop="name">{link}</span>
+                        <meta itemprop="item" content="'.$seoUrl.'">
+                        <meta itemprop="position" content="'.$cnt.'">
                     </li>
-                ";
+                ';
             }
 
             $cnt++;
@@ -157,13 +157,13 @@ class BreadCrumbs
             $oneSection['itemprop'] = 'item';
             $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
 
-            $oneSection['template'] = "
-                    <li class='width breadcrumbs_item' itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
+            $oneSection['template'] = '
+                    <li class="width breadcrumbs_item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                         {link}
-                        <span class='arrow_next''>→</span>
-                        <meta itemprop='position' content='$cnt'>
+                        <span class="arrow_next">→</span>
+                        <meta itemprop="position" content="'.$cnt.'">
                     </li>
-            ";
+            ';
             //\Yii::$app->pr->print_r2($oneSection);
             $cnt++;
         }
@@ -173,13 +173,13 @@ class BreadCrumbs
             $parentSections[] = [
                 'label' => $product['artikul'],
                 //'url' => $product['url'],
-                'template' => "
-                     <li class='width breadcrumbs_item' itemprop='itemListElement' itemscope itemtype='http://schema.org/ListItem'>
-                        <span itemprop='name'>{link}</span>
-                        <meta itemprop='item' content='{$url}'>
-                        <meta itemprop='position' content='$cnt'>
+                'template' => '
+                     <li class="width breadcrumbs_item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <span itemprop="name">{link}</span>
+                        <meta itemprop="item" content="'.$url.'">
+                        <meta itemprop="position" content="'.$cnt.'">
                     </li>
-            ",
+            ',
 
             ];
             //\Yii::$app->pr->print_r2($parentSections);
