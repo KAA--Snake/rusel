@@ -19,7 +19,7 @@ class AppAsset extends AssetBundle
         'css/vendor/jquery.jscrollpane.css',
         'css/vendor/slick.css',
         'css/vendor/slick-theme.css',
-        'https://cdn.jsdelivr.net/npm/suggestions-jquery@17.5.0/dist/css/suggestions.min.css',
+        'css/vendor/suggestions.min.css',
         'css/site_main.css',
     ];
     public $js = [
