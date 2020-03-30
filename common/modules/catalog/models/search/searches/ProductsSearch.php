@@ -108,7 +108,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		$minifiltersParam = MiniFilterHelper::getMiniFilterOption();
 		$miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
 		if($miniFilterTerm){
-			$must[] = ['term' => $miniFilterTerm];
+		    $ar['bool']['must'][] = $miniFilterTerm;
+			$must[] = $ar;
 		}
 		//\Yii::$app->pr->print_r2($must);
         //die();
