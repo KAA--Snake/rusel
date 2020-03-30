@@ -158,7 +158,22 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 				],
 
-
+                //на будущее, если понадобится доработка- рабочий вариант
+                /*"highlight" => [
+                    //"number_of_fragments" => 3,
+                    //"fragment_size" => 150,
+                    "fields" => [
+                        //"body" => [ "pre_tags" => ["<tag1>"], "post_tags" => ["</tag1>"] ],
+                        "artikul.raw" => [ "number_of_fragments" => 50, "force_source" => true ],
+                        "name" => [ "number_of_fragments" => 50, "force_source" => true ],
+                        "properties.detail_text" => [
+                            "number_of_fragments" => 50,
+                            "force_source" => true,
+                            "pre_tags" => ["<tag1>"],
+                            "post_tags" => ["</tag1>"]
+                        ]
+                    ]
+                ]*/
 
 				/*'query' => [
 					'regexp' => [
