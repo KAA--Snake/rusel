@@ -33,6 +33,10 @@ abstract class BaseSearch
         return true;
     }
 
+    protected function _getMultyQuery($queryString) {
+        return explode(';', trim($queryString));
+    }
+
     public function getGoodResultsCount(){
         return $this->foundGoodResultsCount;
     }

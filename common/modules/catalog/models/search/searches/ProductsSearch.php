@@ -71,33 +71,47 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		}
 
 		$productsFound = [];
-
+        $must = [];
+        $should = [];
+        $terms = [];
 
 		if(!$this->_isLengthIsGood($searchString)) {
 			$productsFound = ['error' => 'Длина артикула не подходит под условие поиска!'];
 			return $productsFound;
 		}
 
-        $must[] = [
-            "multi_match"=> [
-                "operator"=> "or",
-                "query"=> $searchString,
-                "type"=> "phrase_prefix",
-                "fields"=> [
-                    "name", "properties.detail_text", "artikul.raw"
-                ],
-                //'boost' => 2.0
-            ]
-        ];
+		$multyQueryString = $this->_getMultyQuery($searchString);
+		if (empty($multyQueryString)) {
+            $productsFound = ['error' => 'Произошла непредвиденная ошибка. Обратитесь к администратору сайта.'];
+            return $productsFound;
+        }
 
+        $should['bool'] = [];
+		foreach($multyQueryString as $singleQuery) {
+            $terms[] = [
+                "multi_match"=> [
+                    "operator"=> "or",
+                    "query"=> $singleQuery,
+                    "type"=> "phrase_prefix",
+                    "fields"=> [
+                        "name", "properties.detail_text", "artikul.raw"
+                    ],
+                    //'boost' => 2.0
+                ]
+            ];
+        }
+
+        $should['bool']['should'] = $terms;
+
+        $must[] = $should;
 
 		$minifiltersParam = MiniFilterHelper::getMiniFilterOption();
 		$miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
 		if($miniFilterTerm){
-			$must[] = $miniFilterTerm;
+			$must[] = ['term' => $miniFilterTerm];
 		}
 		//\Yii::$app->pr->print_r2($must);
-
+        //die();
 		$params = [
 			'body' => [
 				'from' => $pagination['from'],
@@ -114,7 +128,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				'query' => [
                     'bool'=> [
                         /** обязательный блок (для ИД раздела ) */
-                    	'must' => $must
+                        'must' => $must
                     ]
 
 
