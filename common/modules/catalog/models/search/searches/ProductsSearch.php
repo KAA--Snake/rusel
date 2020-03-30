@@ -78,19 +78,17 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			return $productsFound;
 		}
 
-
-
-
-		$must[] = [
-
-			'prefix' => [
-				'artikul' => [
-					'value' => $searchString,
-					//'boost' => 2.0
-				]
-			]
-
-		];
+        $must[] = [
+            "multi_match"=> [
+                "operator"=> "or",
+                "query"=> $searchString,
+                "type"=> "phrase_prefix",
+                "fields"=> [
+                    "name", "properties.detail_text", "artikul.raw"
+                ],
+                //'boost' => 2.0
+            ]
+        ];
 
 
 		$minifiltersParam = MiniFilterHelper::getMiniFilterOption();
@@ -112,7 +110,22 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				/*'sort' => [
 					'artikul' => ['order' => 'asc']
 				],*/
+
 				'query' => [
+                    'bool'=> [
+                        /** обязательный блок (для ИД раздела ) */
+                    	'must' => $must
+                    ]
+
+
+                    /*"multi_match" => [
+                    "query" => "quick brown foxes",
+                        "fields" => [
+                        "text",
+                        "text.english"
+                    ],
+                              "type" => "most_fields"
+                    ],*/
 
 						/*'prefix' => [
 							'artikul' => [
@@ -120,11 +133,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 								//'boost' => 2.0
 							]
 						],*/
-						'bool'=> [
+
+						//'bool'=> [
 
 							/** обязательный блок (для ИД раздела ) */
-							'must' => $must
-						]
+						//	'must' => $must
+						//]
 
 
 				],

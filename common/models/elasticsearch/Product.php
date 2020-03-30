@@ -176,17 +176,21 @@ class Product extends Model
                                 ]
                             ],*/
 
+                            'name' => [
+                                'type' => 'text'
+                            ],
+
                             'artikul' => [
                                 'type' => 'keyword',
                                 //'search_analyzer' => 'defaul',
                                 //'search_analyzer' => 'analyzer_keyword',
-                                'normalizer' => 'lowerasciinormalizer'
+                                'normalizer' => 'lowerasciinormalizer',
                                 //мульти поле, для сортировки по нему
-                                /*'fields' => [
+                                'fields' => [
                                     'raw' => [
-                                        'type' => 'keyword'
+                                        'type' => 'text'
                                     ]
-                                ]*/
+                                ]
                             ],
 
                             'properties.proizvoditel' => [
@@ -194,6 +198,10 @@ class Product extends Model
                             ],
                             'properties.prinadlejnosti' => [
                                 'type' => 'keyword'
+                            ],
+
+                            'properties.detail_text' => [
+                                'type' => 'text',
                             ],
 
                             'prices' => [
