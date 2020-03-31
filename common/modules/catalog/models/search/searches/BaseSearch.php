@@ -37,6 +37,47 @@ abstract class BaseSearch
         return explode(';', trim($queryString));
     }
 
+    /**
+     *
+     * Взаимозаменяет символы ",.-" между собой и добавляет к запросу это
+     *
+     * @param array $query
+     * @return array
+     */
+    protected function _replacedSymbolsQuery(array $query) : array 
+    {
+
+        foreach ($query as $singleQuery) {
+
+            if (strpos($singleQuery, '.') !== false) {
+                $newQuery = str_replace('.', '-', $singleQuery);
+                $query[] = $newQuery;
+
+                $newQuery = str_replace('.', ',', $singleQuery);
+                $query[] = $newQuery;
+            }
+
+            if (strpos($singleQuery, ',') !== false) {
+                $newQuery = str_replace(',', '-', $singleQuery);
+                $query[] = $newQuery;
+
+                $newQuery = str_replace(',', '.', $singleQuery);
+                $query[] = $newQuery;
+            }
+
+            if (strpos($singleQuery, '-') !== false) {
+                $newQuery = str_replace('-', '.', $singleQuery);
+                $query[] = $newQuery;
+
+                $newQuery = str_replace('-', ',', $singleQuery);
+                $query[] = $newQuery;
+            }
+
+        }
+
+        return $query;
+    }
+
     public function getGoodResultsCount(){
         return $this->foundGoodResultsCount;
     }

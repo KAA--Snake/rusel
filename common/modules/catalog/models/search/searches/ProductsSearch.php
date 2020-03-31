@@ -80,14 +80,16 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			return $productsFound;
 		}
 
-		$multyQueryString = $this->_getMultyQuery($searchString);
-		if (empty($multyQueryString)) {
+		$multyQueryArr = $this->_getMultyQuery($searchString);
+		if (empty($multyQueryArr)) {
             $productsFound = ['error' => 'Произошла непредвиденная ошибка. Обратитесь к администратору сайта.'];
             return $productsFound;
         }
 
+        $multyQueryArr = $this->_replacedSymbolsQuery($multyQueryArr);
+
         $should['bool'] = [];
-		foreach($multyQueryString as $singleQuery) {
+		foreach($multyQueryArr as $singleQuery) {
             $terms[] = [
                 "multi_match"=> [
                     "operator"=> "or",
