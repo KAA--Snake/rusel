@@ -43,6 +43,10 @@ return [
                 'GET info/delete/<id:\d+>' => 'info/delete',
                 'GET info/update/<id:\d+>' => 'info/update',
 
+                'GET review/<id:\d+>' => 'review/index',
+                'POST review/add' => 'review/add',
+                'GET review/delete/<id:\d+>' => 'review/delete',
+                'GET review/update/<id:\d+>' => 'review/update',
 
                 'GET news/<id:\d+>' => 'news/index',
                 'POST news/add' => 'news/add',
