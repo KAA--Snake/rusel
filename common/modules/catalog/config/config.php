@@ -8,6 +8,13 @@ return [
         'uploadImagesDir' => '/upload/images/',
         'uploadFilesDir' => '/upload/files/',
         'uploadSearchDir' => '/upload/search/', //для загрузки файлов для поиска
+
+        /** Настройки для показа "Популярные Линейки" на главной */
+        'popular' => [
+            'default_img_width' => 200,
+            'default_img_height' => 100,
+        ],
+
         /** ниже настройки каталога*/
 
         //пароль для ерп

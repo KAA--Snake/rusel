@@ -48,6 +48,11 @@ return [
                 'GET review/delete/<id:\d+>' => 'review/delete',
                 'GET review/update/<id:\d+>' => 'review/update',
 
+                'GET popular/<id:\d+>' => 'popular/index',
+                'POST popular/add' => 'popular/add',
+                'GET popular/delete/<id:\d+>' => 'popular/delete',
+                'GET popular/update/<id:\d+>' => 'popular/update',
+
                 'GET news/<id:\d+>' => 'news/index',
                 'POST news/add' => 'news/add',
                 'GET news/delete/<id:\d+>' => 'news/delete',
