@@ -96,20 +96,34 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 "multi_match"=> [
                     "operator"=> "or",
                     "query"=> $singleQuery,
-                    "type"=> "phrase_prefix",
+                    "type"=> "best_fields",
                     "fields"=> [
-                        //"name",
+/*                        "name",
+                        "properties.detail_text",
+                        "artikul.raw_text",
+
                         //поля без подстановки кирилицы-латиницы
-                        //"properties.detail_text.for_filter",
-                        //"artikul.for_filter",
+                        "properties.detail_text.for_filter",
+                        "artikul.for_filter",
+
+                        "artikul.raw_text",
+                        "name.raw_text",
+                        "properties.detail_text.raw_text",*/
 
                         //поля с подстановкой кирилицы-латиницы
+                        "name.cyrillic_to_latinyc",
+                        "name.latinyc_to_cyrillic",
+
                         "properties.detail_text.cyrillic_to_latinyc",
                         "properties.detail_text.latinyc_to_cyrillic",
 
                         "artikul.cyrillic_to_latinyc",
                         "artikul.latinyc_to_cyrillic",
 
+                        //test
+                        /*"name.test_field",
+                        "properties.detail_text.test_field",
+                        "artikul.test_field",*/
                     ],
                     //'boost' => 2.0
                 ]

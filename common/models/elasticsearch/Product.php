@@ -133,6 +133,20 @@ class Product extends Model
                                 "filter"    => ["lowercase", "asciifolding"]
                             ],
                             ///
+                            'removed_spec_symbols_analizer' => [
+                                'type' => 'custom',
+
+                                'char_filter' => [
+                                    'replace_symbols',
+                                ],
+
+                                'filter' => [
+                                    'lowercase',
+                                ],
+
+                                'tokenizer' => 'words_by_whitespace',
+                            ],
+
                             'removed_chars_analizer' => [
                                 'type' => 'custom',
 
@@ -162,7 +176,7 @@ class Product extends Model
                                     //'asciifolding'
                                 ],
 
-                                'tokenizer' => 'punctuation',
+                                'tokenizer' => 'words_by_whitespace',
                             ],
 
                             //замена символов на латиницу в кириллицу
@@ -179,7 +193,7 @@ class Product extends Model
                                     //'asciifolding'
                                 ],
 
-                                'tokenizer' => 'punctuation',
+                                'tokenizer' => 'words_by_whitespace',
                             ]
                         ],
 
@@ -208,7 +222,7 @@ class Product extends Model
                                     'х => x',
                                     'с => c',
                                     'в => b',
-                                    'м => m'
+                                    'м => m',
                                 ]
                             ],
 
@@ -244,8 +258,14 @@ class Product extends Model
                         "tokenizer" => [
                             "punctuation" => [
                                 "type" => "pattern",
-                                "pattern" => "[\.\,\\\/\:\_\-\ ]"
-                            ]
+                                "pattern" => "[\.\,\\\/\:\_\-]"
+                            ],
+
+                            "words_by_whitespace" => [
+                                "type" => "pattern",
+                                "pattern" => " "
+                            ],
+
                         ]
 
                     ]
@@ -286,16 +306,13 @@ class Product extends Model
                             ],*/
 
                             'name' => [
-                                'type' => 'text'
-                            ],
+                                'type' => 'text',
 
-                            'artikul' => [
-                                'type' => 'keyword',
-                                //'search_analyzer' => 'defaul',
-                                //'search_analyzer' => 'analyzer_keyword',
-                                'normalizer' => 'lowerasciinormalizer',
-                                //мульти поле, для сортировки по нему
                                 'fields' => [
+                                    'raw_text'=> [
+                                        'type' => 'text',
+                                        'analyzer' => 'default'
+                                    ],
                                     'for_filter' => [
                                         'type' => 'text',
                                         'analyzer' => 'removed_chars_analizer'
@@ -307,7 +324,43 @@ class Product extends Model
                                     'latinyc_to_cyrillic' => [
                                         'type' => 'text',
                                         'analyzer' => 'latinyc_to_cyrillic_analizer'
-                                    ]
+                                    ],
+                                    'test_field' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'removed_spec_symbols_analizer'
+                                    ],
+                                ]
+
+                            ],
+
+                            'artikul' => [
+                                'type' => 'keyword',
+                                //'search_analyzer' => 'defaul',
+                                //'search_analyzer' => 'analyzer_keyword',
+                                'normalizer' => 'lowerasciinormalizer',
+                                //мульти поле, для сортировки по нему
+                                'fields' => [
+                                    'raw_text'=> [
+                                        'type' => 'text',
+                                        'analyzer' => 'default'
+                                    ],
+                                    'for_filter' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'removed_chars_analizer'
+                                    ],
+                                    'cyrillic_to_latinyc' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'cyrillic_to_latinyc_analizer'
+                                    ],
+                                    'latinyc_to_cyrillic' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'latinyc_to_cyrillic_analizer'
+                                    ],
+                                    'test_field' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'removed_spec_symbols_analizer'
+                                    ],
+
                                 ]
                             ],
 
@@ -322,6 +375,10 @@ class Product extends Model
                                 'type' => 'text',
                                 //мульти поле, для сортировки по нему
                                 'fields' => [
+                                    'raw_text'=> [
+                                        'type' => 'text',
+                                        'analyzer' => 'default'
+                                    ],
                                     'for_filter' => [
                                         'type' => 'text',
                                         'analyzer' => 'removed_chars_analizer'
@@ -333,8 +390,11 @@ class Product extends Model
                                     'latinyc_to_cyrillic' => [
                                         'type' => 'text',
                                         'analyzer' => 'latinyc_to_cyrillic_analizer'
-                                    ]
-
+                                    ],
+                                    'test_field' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'removed_spec_symbols_analizer'
+                                    ],
                                 ]
                             ],
 
