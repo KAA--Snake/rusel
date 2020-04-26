@@ -131,14 +131,49 @@ class Product extends Model
                             "analyzer_keyword" => [
                                 "tokenizer" => "standard",
                                 "filter"    => ["lowercase", "asciifolding"]
+                            ],
+                            ///
+                            'removed_chars_analizer' => [
+                                'type' => 'custom',
+
+                                'char_filter' => [
+                                    'replace_symbols'
+                                ],
+
+                                'filter' => [
+                                    'lowercase',
+                                    //'asciifolding'
+                                ],
+
+                                'tokenizer' => 'punctuation',
+                            ]
+                            ///
+                        ],
+
+                        //char filters to connect to analyzers
+                        'char_filter' => [
+                            'replace_symbols' => [
+                                'type' => 'pattern_replace',
+                                'pattern' => '[\.\,\\\/\:\_\-]',
+                                'replacement' => ''
                             ]
                         ],
+
+
                         "normalizer" => [
                             "lowerasciinormalizer" => [
                                 "type"   => "custom",
                                 "filter" => ["lowercase", "asciifolding"]
                             ]
+                        ],
+
+                        "tokenizer" => [
+                            "punctuation" => [
+                                "type" => "pattern",
+                                "pattern" => "[\.\,\\\/\:\_\-\ ]"
+                            ]
                         ]
+
                     ]
 
 
@@ -187,8 +222,9 @@ class Product extends Model
                                 'normalizer' => 'lowerasciinormalizer',
                                 //мульти поле, для сортировки по нему
                                 'fields' => [
-                                    'raw' => [
-                                        'type' => 'text'
+                                    'for_filter' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'removed_chars_analizer'
                                     ]
                                 ]
                             ],
@@ -202,6 +238,13 @@ class Product extends Model
 
                             'properties.detail_text' => [
                                 'type' => 'text',
+                                //мульти поле, для сортировки по нему
+                                'fields' => [
+                                    'for_filter' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'removed_chars_analizer'
+                                    ]
+                                ]
                             ],
 
                             'prices' => [

@@ -86,7 +86,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             return $productsFound;
         }
 
-        $multyQueryArr = $this->_replacedSymbolsQuery($multyQueryArr);
+        //$multyQueryArr = $this->_replacedSymbolsQuery($multyQueryArr);
+        //$multyQueryArr = $this->__hackForSpaceQuery($multyQueryArr);
+        $multyQueryArr = $this->__addToQuery($multyQueryArr);
 
         $should['bool'] = [];
 		foreach($multyQueryArr as $singleQuery) {
@@ -96,7 +98,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     "query"=> $singleQuery,
                     "type"=> "phrase_prefix",
                     "fields"=> [
-                        "name", "properties.detail_text", "artikul.raw"
+                        "properties.detail_text.for_filter", "artikul.for_filter", "name"
                     ],
                     //'boost' => 2.0
                 ]

@@ -38,6 +38,7 @@ abstract class BaseSearch
     }
 
     /**
+     * @deprecated Не используется, так как сделан другой анализатор
      *
      * Взаимозаменяет символы ",.-" между собой и добавляет к запросу это
      *
@@ -77,6 +78,39 @@ abstract class BaseSearch
 
         return $query;
     }
+
+    /**
+     * Разбиваем запрос на множество если стоит знак + (склеиваем его по знаку +)
+     *
+     * @param array $query
+     * @return array
+     */
+    protected function __addToQuery(array $query) : array
+    {
+
+        //сохраняем на случай запросов с плюсом, тогда его надо обнулить и встроить запрос из фраз между плюсами
+        $returnQuery = $query;
+
+        foreach ($query as $k => $singleQuery) {
+
+            if (strpos($singleQuery, '+') !== false) {
+                //обнуляем исходный запрос
+                $returnQuery = [];
+
+                $plusQueries = explode('+', $singleQuery);
+                foreach ($plusQueries as $onePlusQuery) {
+                    if (!empty($onePlusQuery)) {
+                        $returnQuery[] = trim($onePlusQuery);
+                    }
+
+                }
+            }
+
+        }
+        //\Yii::$app->pr->print_r2($returnQuery);
+        return $returnQuery;
+    }
+
 
     public function getGoodResultsCount(){
         return $this->foundGoodResultsCount;
