@@ -98,7 +98,18 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     "query"=> $singleQuery,
                     "type"=> "phrase_prefix",
                     "fields"=> [
-                        "properties.detail_text.for_filter", "artikul.for_filter", "name"
+                        //"name",
+                        //поля без подстановки кирилицы-латиницы
+                        //"properties.detail_text.for_filter",
+                        //"artikul.for_filter",
+
+                        //поля с подстановкой кирилицы-латиницы
+                        "properties.detail_text.cyrillic_to_latinyc",
+                        "properties.detail_text.latinyc_to_cyrillic",
+
+                        "artikul.cyrillic_to_latinyc",
+                        "artikul.latinyc_to_cyrillic",
+
                     ],
                     //'boost' => 2.0
                 ]

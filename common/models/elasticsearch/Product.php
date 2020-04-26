@@ -137,7 +137,41 @@ class Product extends Model
                                 'type' => 'custom',
 
                                 'char_filter' => [
-                                    'replace_symbols'
+                                    'replace_symbols',
+                                ],
+
+                                'filter' => [
+                                    'lowercase',
+                                    //'asciifolding'
+                                ],
+
+                                'tokenizer' => 'punctuation',
+                            ],
+
+                            //замена символов на кириллицу в латиницу
+                            'cyrillic_to_latinyc_analizer' => [
+                                'type' => 'custom',
+
+                                'char_filter' => [
+                                    'replace_symbols',
+                                    'cyrillic_to_latinyc'
+                                ],
+
+                                'filter' => [
+                                    'lowercase',
+                                    //'asciifolding'
+                                ],
+
+                                'tokenizer' => 'punctuation',
+                            ],
+
+                            //замена символов на латиницу в кириллицу
+                            'latinyc_to_cyrillic_analizer' => [
+                                'type' => 'custom',
+
+                                'char_filter' => [
+                                    'replace_symbols',
+                                    'latinyc_to_cyrillic'
                                 ],
 
                                 'filter' => [
@@ -147,16 +181,56 @@ class Product extends Model
 
                                 'tokenizer' => 'punctuation',
                             ]
-                            ///
                         ],
 
                         //char filters to connect to analyzers
                         'char_filter' => [
+
+                            //не учитывать всякие запятые и прочие символы
                             'replace_symbols' => [
                                 'type' => 'pattern_replace',
                                 'pattern' => '[\.\,\\\/\:\_\-]',
                                 'replacement' => ''
-                            ]
+                            ],
+
+                            //замена символов на кириллицу в латиницу
+                            'cyrillic_to_latinyc' => [
+                                'type' => 'mapping',
+                                'mappings' => [
+                                    //cyr -> lat block
+                                    'е => e',
+                                    'т => t',
+                                    'о => o',//Оооо (не ноль, а именно ооо)
+                                    'р => p',
+                                    'а => a',
+                                    'н => h',
+                                    'к => k',
+                                    'х => x',
+                                    'с => c',
+                                    'в => b',
+                                    'м => m'
+                                ]
+                            ],
+
+                            //замена символов на латиницу в кириллицу
+                            'latinyc_to_cyrillic' => [
+                                'type' => 'mapping',
+                                'mappings' => [
+                                    //lat -> cyr block
+                                    'e => е',
+                                    't => т',
+                                    'o => о',//Оооо (не ноль, а именно ооо)
+                                    'p => р',
+                                    'a => а',
+                                    'h => н',
+                                    'k => к',
+                                    'x => х',
+                                    'c => с',
+                                    'b => в',
+                                    'm => м',
+                                ]
+                            ],
+
                         ],
 
 
@@ -225,6 +299,14 @@ class Product extends Model
                                     'for_filter' => [
                                         'type' => 'text',
                                         'analyzer' => 'removed_chars_analizer'
+                                    ],
+                                    'cyrillic_to_latinyc' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'cyrillic_to_latinyc_analizer'
+                                    ],
+                                    'latinyc_to_cyrillic' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'latinyc_to_cyrillic_analizer'
                                     ]
                                 ]
                             ],
@@ -243,7 +325,16 @@ class Product extends Model
                                     'for_filter' => [
                                         'type' => 'text',
                                         'analyzer' => 'removed_chars_analizer'
+                                    ],
+                                    'cyrillic_to_latinyc' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'cyrillic_to_latinyc_analizer'
+                                    ],
+                                    'latinyc_to_cyrillic' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'latinyc_to_cyrillic_analizer'
                                     ]
+
                                 ]
                             ],
 
