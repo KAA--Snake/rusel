@@ -104,27 +104,23 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     "query"=> $singleQuery,
                     "type"=> "phrase_prefix",
                     "fields"=> [
-/*                        "name",
-                        "properties.detail_text",
-                        "artikul.raw_text",
 
-                        //поля без подстановки кирилицы-латиницы
-                        "properties.detail_text.for_filter",
-                        "artikul.for_filter",
-
-                        "artikul.raw_text",
-                        "name.raw_text",
-                        "properties.detail_text.raw_text",*/
-
-                        //поля с подстановкой кирилицы-латиницы
-                        "name.cyrillic_to_latinyc",
-                        "name.latinyc_to_cyrillic",
-
-                        "properties.detail_text.cyrillic_to_latinyc",
-                        "properties.detail_text.latinyc_to_cyrillic",
+                        //пробуем найти по артикула без пробелов
+                        "artikul.wo_whitespaces",
 
                         "artikul.cyrillic_to_latinyc",
                         "artikul.latinyc_to_cyrillic",
+
+                        "name.cyrillic_to_latinyc",
+                        "name.latinyc_to_cyrillic",
+
+                        //detail text
+                        "properties.detail_text.cyrillic_to_latinyc",
+                        "properties.detail_text.latinyc_to_cyrillic",
+
+                        //производитель
+                        "properties.proizvoditel.cyrillic_to_latinyc",
+                        "properties.proizvoditel.latinyc_to_cyrillic",
 
                         //test
                         /*"name.test_field",
@@ -153,7 +149,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				'from' => $pagination['from'],
 				'size' => $pagination['maxSizeCnt'],
 				'sort' => [
-					'artikul' => ['order' => 'asc']
+				    //'_score' => ['order' => 'asc'],
+					'artikul' => ['order' => 'asc'],
 				],
 				//'from' => $from,
 				//'size' => $this->searchConfig['max_by_manual_result'],
