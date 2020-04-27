@@ -74,6 +74,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $must = [];
         $should = [];
         $terms = [];
+        $logicalOperator = 'should';//should = OR, must = AND
 
 		if(!$this->_isLengthIsGood($searchString)) {
 			$productsFound = ['error' => 'Длина артикула не подходит под условие поиска!'];
@@ -90,13 +91,18 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         //$multyQueryArr = $this->__hackForSpaceQuery($multyQueryArr);
         $multyQueryArr = $this->__addToQuery($multyQueryArr);
 
+		//если в запросе есть знак +, значит это запрос на строгое И(AND)
+        if (strpos($searchString, '+') !== false) {
+            $logicalOperator = 'must';
+        }
+
         $should['bool'] = [];
 		foreach($multyQueryArr as $singleQuery) {
             $terms[] = [
                 "multi_match"=> [
                     "operator"=> "or",
                     "query"=> $singleQuery,
-                    "type"=> "best_fields",
+                    "type"=> "phrase_prefix",
                     "fields"=> [
 /*                        "name",
                         "properties.detail_text",
@@ -130,7 +136,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             ];
         }
 
-        $should['bool']['should'] = $terms;
+        $should['bool'][$logicalOperator] = $terms;
 
         $must[] = $should;
 
