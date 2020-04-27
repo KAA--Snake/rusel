@@ -133,7 +133,7 @@ class Product extends Model
                                 "filter"    => ["lowercase", "asciifolding"]
                             ],
 
-
+                            //анализатор для артикула(удаляет все делая одну строку)
                             'wo_whitespace_analizer' => [
                                 'type' => 'custom',
 
@@ -189,14 +189,14 @@ class Product extends Model
                             //не учитывать всякие запятые и прочие символы
                             'replace_symbols' => [
                                 'type' => 'pattern_replace',
-                                'pattern' => '[\.\,\\\/\:\_\-]',
+                                'pattern' => '[\.\,\\\/\:\_\-\;]',
                                 'replacement' => ''
                             ],
 
                             //не учитывать всякие запятые и прочие символы
                             'replace_symbols_with_whitespace' => [
                                 'type' => 'pattern_replace',
-                                'pattern' => '[\.\,\\\/\:\_\-\ ]',
+                                'pattern' => '[\.\,\\\/\:\;\_\-\ ]',
                                 'replacement' => ''
                             ],
 
@@ -215,7 +215,7 @@ class Product extends Model
                                     'х => x',
                                     'с => c',
                                     'в => b',
-                                    'м => m',
+                                    'м => m'
                                 ]
                             ],
 
@@ -234,7 +234,7 @@ class Product extends Model
                                     'x => х',
                                     'c => с',
                                     'b => в',
-                                    'm => м',
+                                    'm => м'
                                 ]
                             ],
 
@@ -251,7 +251,7 @@ class Product extends Model
                         "tokenizer" => [
                             "all_with_whitespace" => [
                                 "type" => "pattern",
-                                "pattern" => "[\.\,\\\/\:\_\-\ ]"
+                                "pattern" => "[\.\,\\\/\:\;\_\-\ ]"
                             ],
 
                             "words_by_whitespace" => [
