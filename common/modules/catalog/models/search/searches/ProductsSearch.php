@@ -900,14 +900,15 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 }
 
 				//\Yii::$app->pr->print_r2($oneProduct['_source']['id']);
-				//\Yii::$app->pr->print_r2($ids);
+				//\Yii::$app->pr->print_r2($filteredIds);
+				//die();
 				$params = [
 					'body' => [
 						//'from' => 0,
 						//'size' => 3,
 						'query' => [
 							'ids' => [
-								'values' => $filteredIds
+								'values' => array_values($filteredIds)
 							]
 						]
 					]
