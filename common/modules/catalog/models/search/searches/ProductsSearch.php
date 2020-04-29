@@ -76,6 +76,25 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $terms = [];
         $logicalOperator = 'should';//should = OR, must = AND
 
+        $multiFields = [
+
+            //пробуем найти по артикула без пробелов
+            "artikul.wo_whitespaces",
+            "artikul",
+
+            "name.cyrillic_to_latinyc",
+            "name.latinyc_to_cyrillic",
+
+            //detail text
+            "properties.detail_text.cyrillic_to_latinyc",
+            "properties.detail_text.latinyc_to_cyrillic",
+
+            //производитель
+            "properties.proizvoditel.cyrillic_to_latinyc",
+            "properties.proizvoditel.latinyc_to_cyrillic",
+
+        ];
+
 		if(!$this->_isLengthIsGood($searchString)) {
 			$productsFound = ['error' => 'Длина артикула не подходит под условие поиска!'];
 			return $productsFound;
@@ -94,50 +113,18 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		//если в запросе есть знак +, значит это запрос на строгое И(AND)
         if (strpos($searchString, '+') !== false) {
             $logicalOperator = 'must';
+            //костыль- добавляем поле только с цифрами для поиск с +...хз почему но это работает
+            $multiFields[] = "search_data.only_digits";
         }
 
         $should['bool'] = [];
 		foreach($multyQueryArr as $singleQuery) {
             $terms[] = [
                 "multi_match"=> [
-                    "operator"=> "or",
+                    "operator"=> "and",
                     "query"=> $singleQuery,
                     "type"=> "phrase_prefix",
-                    "fields"=> [
-
-                        /*"search_data.cyrillic_to_latinyc",
-                        "search_data.latinyc_to_cyrillic",
-
-                        "search_data.wo_whitespaces",
-                        "search_data",*/
-
-                        "search_data.only_digits",
-
-                        //пробуем найти по артикула без пробелов
-                        "artikul.wo_whitespaces",
-                        "artikul",
-
-                        "name",
-                        "properties.detail_text",
-                        "properties.proizvoditel",
-
-                        "name.cyrillic_to_latinyc",
-                        "name.latinyc_to_cyrillic",
-
-                        //detail text
-                        "properties.detail_text.cyrillic_to_latinyc",
-                        "properties.detail_text.latinyc_to_cyrillic",
-
-                        //производитель
-                        "properties.proizvoditel.cyrillic_to_latinyc",
-                        "properties.proizvoditel.latinyc_to_cyrillic",
-
-
-                        //test
-                        /*"name.test_field",
-                        "properties.detail_text.test_field",
-                        "artikul.test_field",*/
-                    ],
+                    "fields"=> $multiFields
                     //'boost' => 2.0
                 ]
             ];
