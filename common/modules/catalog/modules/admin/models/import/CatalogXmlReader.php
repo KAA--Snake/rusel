@@ -30,6 +30,8 @@ class CatalogXmlReader
     protected $bulkData;
     private $docsCount = 1;
 
+    private $sameTimeDocsCount = 1000;
+
     private $productModel;
 
     //для динамического наполнения импорта
@@ -214,7 +216,7 @@ class CatalogXmlReader
             $this->bulkData['body'][] = $this->productModel->getParamsForBulkLoad($encoded)['for_index'];
             $this->bulkData['body'][] = $this->productModel->getParamsForBulkLoad($encoded)['for_body'];
 
-            if ($this->docsCount % 1000 === 0) {
+            if ($this->docsCount % $this->sameTimeDocsCount === 0) {
 
                 //\Yii::$app->pr->print_r2($this->bulkData);
 
@@ -313,7 +315,7 @@ class CatalogXmlReader
 			$this->bulkData['body'][] = $this->productModel->getParamsForBulkLoadRemains($encoded)['for_index'];
 			$this->bulkData['body'][] = $this->productModel->getParamsForBulkLoadRemains($encoded)['for_body'];
 
-			if ($this->docsCount % 1000 === 0) {
+			if ($this->docsCount % $this->sameTimeDocsCount === 0) {
 
 				//\Yii::$app->pr->print_r2($this->bulkData);
 

@@ -100,16 +100,26 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		foreach($multyQueryArr as $singleQuery) {
             $terms[] = [
                 "multi_match"=> [
-                    "operator"=> "or",
+                    "operator"=> "and",
                     "query"=> $singleQuery,
                     "type"=> "phrase_prefix",
                     "fields"=> [
 
+                        /*"search_data.cyrillic_to_latinyc",
+                        "search_data.latinyc_to_cyrillic",
+
+                        "search_data.wo_whitespaces",
+                        "search_data",*/
+
+
+
                         //пробуем найти по артикула без пробелов
                         "artikul.wo_whitespaces",
 
-                        "artikul.cyrillic_to_latinyc",
-                        "artikul.latinyc_to_cyrillic",
+                        "artikul",
+                        "name",
+                        "properties.detail_text",
+                        "properties.proizvoditel",
 
                         "name.cyrillic_to_latinyc",
                         "name.latinyc_to_cyrillic",
@@ -149,7 +159,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 				'from' => $pagination['from'],
 				'size' => $pagination['maxSizeCnt'],
 				'sort' => [
-				    //'_score' => ['order' => 'asc'],
+				    //'_score' => ['order' => 'desc'],
 					'artikul' => ['order' => 'asc'],
 				],
 				//'from' => $from,
@@ -255,10 +265,15 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		$params = $this->productData + $params;
 
 		//\Yii::$app->pr->print_r2($params);
+		//die();
+        //$params['query_cache'] = false;
+        $params['request_cache'] = false;
+        //$params['explain'] = true;
+        //$params['default_operator'] = 'AND';
 
 		//die();
 		$response = Elastic::getElasticClient()->search($params);
-
+        //\Yii::$app->pr->print_r2($response);
 		//\Yii::$app->pr->print_r2($response);
 
 		//die();
@@ -874,6 +889,17 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			if(!empty($oneProduct['_source']['properties']['prinadlejnosti'])){
 
 				$ids = explode(';', $oneProduct['_source']['properties']['prinadlejnosti']);
+
+				$filteredIds = $ids;
+
+				foreach($ids as $ks => $oneId) {
+				    if (empty($oneId)) {
+                        //\Yii::$app->pr->print_r2($ids);
+				        unset($filteredIds[$ks]);
+                    }
+                }
+
+				//\Yii::$app->pr->print_r2($oneProduct['_source']['id']);
 				//\Yii::$app->pr->print_r2($ids);
 				$params = [
 					'body' => [
@@ -881,13 +907,16 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 						//'size' => 3,
 						'query' => [
 							'ids' => [
-								'values' => $ids
+								'values' => $filteredIds
 							]
 						]
 					]
 				];
 
 				$params = Product::productData + $params;
+                /*$params['query_cache'] = false;
+                $params['request_cache'] = false;
+                $params['explain'] = true;*/
 				$response = Elastic::getElasticClient()->search($params);
 
 				/*\Yii::$app->pr->print_r2($params);

@@ -123,8 +123,8 @@ class Product extends Model
             'body' => [
 
                 'settings' => [
-                    'number_of_shards' => 5,
-                    'number_of_replicas' => 2,
+                    'number_of_shards' => 1,
+                    'number_of_replicas' => 0,
 
                     "analysis" => [
                         "analyzer"   => [
@@ -288,6 +288,26 @@ class Product extends Model
                             ],
                             'sort' => [
                                 'type' => 'integer'
+                            ],
+
+                            'search_data' => [
+                                'type' => 'text',
+
+                                'fields' => [
+                                    'wo_whitespaces' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'wo_whitespace_analizer'
+                                    ],
+                                    'cyrillic_to_latinyc' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'cyrillic_to_latinyc_analizer'
+                                    ],
+                                    'latinyc_to_cyrillic' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'latinyc_to_cyrillic_analizer'
+                                    ],
+                                ]
+
                             ],
 
                             'name' => [
@@ -494,7 +514,10 @@ class Product extends Model
         /** сгенерим урл из урла раздела/урла товара */
         $product['url'] = $this->__generateUrl($product['code'], $product['section_id']);
 
+        $product['search_data'] = $this->getSingleSearchString($product);
+
 		//\Yii::$app->pr->print_r2($product);
+		//die();
 
 
         /*$params = [
@@ -531,6 +554,19 @@ class Product extends Model
         return $params;
     }
 
+
+    private function getSingleSearchString(&$product) {
+
+        $artikul = $product['artikul'] ?? '';
+        $proizvoditel = $product['properties']['proizvoditel'] ?? '';
+        $detailText = $product['properties']['detail_text'] ?? '';
+        $name = $product['name'] ?? '';
+
+        $concat = $artikul.' '.$name.' '.$proizvoditel.' '.$detailText;
+
+        return $concat;
+
+    }
 
 	/**
 	 * Генерирует параметры для bulk загрузки ОСТАТКОВ, используется для сохранения булки для
