@@ -110,6 +110,15 @@ abstract class BaseSearch
         return $returnQuery;
     }
 
+    /**
+     * @param string $searchString
+     * @return string
+     */
+    protected function __whitespaceSubstitute(string $searchString) : string
+    {
+        //костыль- подставляем вместо пробелов +
+        return str_replace(' ', '+', $searchString);;
+    }
 
     public function getGoodResultsCount(){
         return $this->foundGoodResultsCount;

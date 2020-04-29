@@ -100,6 +100,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 			return $productsFound;
 		}
 
+        //костыль- подставляем вместо пробелов +
+        if (strpos($searchString, '+') !== false) {
+            $searchString = $this->__whitespaceSubstitute($searchString);
+        }
+
+
 		$multyQueryArr = $this->_getMultyQuery($searchString);
 		if (empty($multyQueryArr)) {
             $productsFound = ['error' => 'Произошла непредвиденная ошибка. Обратитесь к администратору сайта.'];
