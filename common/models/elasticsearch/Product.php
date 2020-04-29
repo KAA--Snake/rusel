@@ -133,6 +133,21 @@ class Product extends Model
                                 "filter"    => ["lowercase", "asciifolding"]
                             ],
 
+                            //анализатор для разбивки на только цифры
+                            'only_digits_analizer' => [
+                                'type' => 'custom',
+
+                                'char_filter' => [
+                                    'only_digits',
+                                ],
+
+                                /*'filter' => [
+                                    'lowercase',
+                                ],*/
+
+                                'tokenizer' => 'standard',
+                            ],
+
                             //анализатор для артикула(удаляет все делая одну строку)
                             'wo_whitespace_analizer' => [
                                 'type' => 'custom',
@@ -185,6 +200,13 @@ class Product extends Model
 
                         //char filters to connect to analyzers
                         'char_filter' => [
+
+                            //only digits
+                            'only_digits' => [
+                                'type' => 'pattern_replace',
+                                'pattern' => '(\D+)',
+                                'replacement' => ' '
+                            ],
 
                             //не учитывать всякие запятые и прочие символы
                             'replace_symbols' => [
@@ -294,6 +316,12 @@ class Product extends Model
                                 'type' => 'text',
 
                                 'fields' => [
+
+                                    'only_digits' => [
+                                        'type' => 'text',
+                                        'analyzer' => 'only_digits_analizer'
+                                    ],
+
                                     'wo_whitespaces' => [
                                         'type' => 'text',
                                         'analyzer' => 'wo_whitespace_analizer'

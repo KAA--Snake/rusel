@@ -100,7 +100,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		foreach($multyQueryArr as $singleQuery) {
             $terms[] = [
                 "multi_match"=> [
-                    "operator"=> "and",
+                    "operator"=> "or",
                     "query"=> $singleQuery,
                     "type"=> "phrase_prefix",
                     "fields"=> [
@@ -111,12 +111,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                         "search_data.wo_whitespaces",
                         "search_data",*/
 
-
+                        "search_data.only_digits",
 
                         //пробуем найти по артикула без пробелов
                         "artikul.wo_whitespaces",
-
                         "artikul",
+
                         "name",
                         "properties.detail_text",
                         "properties.proizvoditel",
@@ -131,6 +131,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                         //производитель
                         "properties.proizvoditel.cyrillic_to_latinyc",
                         "properties.proizvoditel.latinyc_to_cyrillic",
+
 
                         //test
                         /*"name.test_field",
@@ -267,7 +268,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		//\Yii::$app->pr->print_r2($params);
 		//die();
         //$params['query_cache'] = false;
-        $params['request_cache'] = false;
+        //$params['request_cache'] = false;
         //$params['explain'] = true;
         //$params['default_operator'] = 'AND';
 
