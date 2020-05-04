@@ -113,7 +113,7 @@ AppAsset::register($this);
         <div class="col_220 fll">
 
             <div class="supply_program">
-                <? echo $this->render('@app/views/includes/manufacturers.php', [
+                <? echo $this->render('@app/views/includes/manufacturers_fullwidth.php', [
                     'manufacturers' => $this->params['manufacturers'],
                 ]);?>
             </div>
@@ -129,7 +129,7 @@ AppAsset::register($this);
         </div>
 
 
-        <div class="content_inner_wrap col_940 clear">
+        <div class="content_inner_wrap left0 clear">
             <!--<div class="breadcrumbs_menu">
                 <?/*= Breadcrumbs::widget([
                     'options'       =>  [

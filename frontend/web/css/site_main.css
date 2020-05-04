@@ -260,13 +260,37 @@
       left: 100px;
       border-bottom: none;
       border-right: none; }
+    .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_filter {
+      width: 100%;
+      height: 35px;
+      border: 1px solid #e6e6e6;
+      border-radius: 0;
+      box-shadow: none;
+      color: rgba(51, 51, 51, 0.5);
+      color: #333333;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 33px;
+      padding: 0;
+      padding-left: 10px;
+      transition: 0.2s;
+      outline: none;
+      margin-bottom: 20px; }
+      .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_filter:focus, .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_filter:active, .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_filter:hover {
+        border: 1px solid #336699;
+        color: #333333;
+        transition: 0.2s; }
     .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .jspPane {
       display: flex; }
     .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .inner_list {
       display: flex;
       flex-direction: column; }
+      .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .inner_list.flex-row-layout {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap; }
       .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .inner_list .sp_item {
-        width: 227px; }
+        width: 284px; }
         .container.main .content_wrap .supply_program .sp_body-fullwidth .sp_list .inner_list .sp_item a {
           display: block;
           color: #333333;

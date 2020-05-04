@@ -242,7 +242,7 @@ $(document).ready(function () {
         var spListHeight = $('.wrap').outerHeight() - $('.sp_list').offset().top - 116;
         var spListWrap = $('.sp_list').closest('.js-sp_list_wrap');
         if(spListWrap.hasClass('sp_body-fullwidth')){
-            spListHeight = document.body.clientHeight - $('.sp_list').offset().top - 60;
+            spListHeight = document.body.clientHeight - $('.sp_list').offset().top - 95;
         }
         $('.sp_list').height(spListHeight);
         /*$('.sp_list').animate({'height':spListHeight})*/
