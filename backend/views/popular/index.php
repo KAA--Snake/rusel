@@ -39,12 +39,6 @@ if($model){
                 <div class="label">Порядок сортировки (по умолчанию = 1)</div>
                 <input class="info-id" type="text" name="Popular[sort]" value="<?=$model->sort;?>">
 
-                <div class="label">Ширина картинки в теге (по умолчанию = 200):</div>
-                <input class="info-id" type="text" name="Popular[html_width]" value="<?=$model->html_width;?>">
-
-                <div class="label">Высота картинки в теге (по умолчанию = 100):</div>
-                <input class="info-id" type="text" name="Popular[html_height]" value="<?=$model->html_height;?>">
-
                 <div class="label">Target в теге (по умолчанию = _blank):</div>
                 <input class="info-id" type="text" name="Popular[target]" value="<?=$model->target;?>">
 
@@ -76,8 +70,6 @@ if($model){
                         <span>URL: <?=$oneModel->url;?></span>
                         <span>Сортировка: <?=$oneModel->sort;?></span>
                         <span>Тег target: <?=$oneModel->target;?></span>
-                        <span>Ширина: <?=$oneModel->html_width;?></span>
-                        <span>Высота: <?=$oneModel->html_height;?></span>
                         <span class="delete js-article-delete-btn" data-article-id="/admin/popular/delete/<?=$oneModel->id;?>">удалить</span>
                     </div>
                 <?}?>
