@@ -12,7 +12,7 @@ use yii\helpers\Url;
     \Yii::$app->pr->print_r2($oneNews->getAttributes());
 }*/
 ?>
-<div class="content_block useful-info">
+<div class="content_block useful-info" style="margin-top: 10px;">
     <h2 class="content_header">Обзор категорий</h2>
     <div class="content_body">
         <ul class="cat-review_list">
