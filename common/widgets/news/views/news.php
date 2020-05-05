@@ -41,9 +41,6 @@ use yii\helpers\Url;
                 <?}?>
             <?}?>
 
-
-
-
         </ul>
     </div>
 </div>

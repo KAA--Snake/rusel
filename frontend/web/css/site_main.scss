@@ -2099,6 +2099,19 @@ $white:#ffffff;
           line-height: 1;
           text-transform: uppercase;
           margin-bottom: 16px;
+          display: flex;
+          flex-wrap: nowrap;
+          flex-grow: 2;
+          flex-basis: 100%;
+          min-width: 50%;
+          &:after{
+            content: "";
+            border-bottom: 1px solid #282828;
+            flex-shrink: 1;
+            flex-basis: auto;
+            flex-grow: 1;
+            margin-left: 4px;
+          }
         }
         .content_body{
 
@@ -2156,6 +2169,94 @@ $white:#ffffff;
               display: flex;
               align-items: center;
               overflow: hidden;
+            }
+          }
+
+          .cat-review{
+            &_list{
+              display: flex;
+              justify-content: space-between;
+              flex-wrap: wrap;
+            }
+            &_item{
+              width: 580px;
+              height: 114px;
+              background-color: #ffffff;
+              border: 1px solid $white;
+              margin-bottom: 18px;
+              &:hover{
+                border: 1px solid $blue;
+
+              }
+              a{
+                text-decoration: none;
+                outline: none;
+              }
+            }
+            &_wrap {
+              display: flex;
+              height: 114px;
+            }
+            &_img{
+              min-width: 140px;
+              height: 112px;
+              //margin-top: -1px;
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: left center;
+              overflow: hidden;
+            }
+            &_text{
+              padding: 20px;
+              color: #333333;
+              font-size: 12px;
+              line-height: 16px;
+              overflow: hidden;
+            }
+            &_header{
+              font-size: 16px;
+              margin-bottom: 8px;
+              font-weight: 700;
+            }
+            &_descr{
+              font-weight: 400;
+              overflow: hidden;
+              max-height: 50px;
+            }
+            &_more{
+              color: #336699;
+              text-decoration: underline;
+              font-size: 12px;
+              align-self: flex-end;
+              margin-bottom: 20px;
+              margin-right: 20px;
+            }
+          }
+
+          .popular-items{
+            &_list{
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: space-between;
+            }
+            &_item{
+              width: 220px;
+              height: 110px;
+              background: white;
+              padding: 10px;
+              margin-bottom: 20px;
+              border: 1px solid $white;
+              a{}
+              &:hover{
+                border: 1px solid $blue;
+              }
+            }
+            &_img{
+              background-size: contain;
+              background-position: center;
+              width: 100%;
+              height: 90px;
+              background-repeat: no-repeat;
             }
           }
 

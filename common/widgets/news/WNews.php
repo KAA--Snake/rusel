@@ -26,7 +26,7 @@ class WNews extends Widget
     public function run()
     {
 
-        $news = News::find()->limit(4)->orderBy('date DESC')->all();
+        $news = News::find()->limit(5)->orderBy('date DESC')->all();
 
         return $this->render('news', ['models' => $news]);
     }

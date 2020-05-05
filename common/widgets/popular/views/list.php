@@ -15,15 +15,14 @@ use yii\helpers\Url;
 <div class="content_block useful-info">
     <h2 class="content_header">Популярные линейки</h2>
     <div class="content_body">
-        <ul class="useful-info_list">
+        <ul class="popular-items_list">
 
             <?if(!empty($models)){?>
                 <?foreach($models as $oneInfo){?>
 
-                    <li class="useful-info_item">
+                    <li class="popular-items_item">
                         <a href="<?=$oneInfo->url;?>" target="<?=$oneInfo->target;?>">
-                            <div class="useful-info_img" style="background-image: url('/upload/<?=$oneInfo->url;?>')"></div>
-                            <img src="/upload/<?=$oneInfo->big_img_src;?>" width="<?=$oneInfo->html_width;?>" height="<?=$oneInfo->html_height;?>" />
+                            <div class="popular-items_img" style="background-image: url('/upload/<?=$oneInfo->big_img_src;?>');"></div>
                         </a>
                     </li>
 

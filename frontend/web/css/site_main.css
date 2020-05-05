@@ -1672,7 +1672,19 @@
       font-weight: 700;
       line-height: 1;
       text-transform: uppercase;
-      margin-bottom: 16px; }
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: nowrap;
+      flex-grow: 2;
+      flex-basis: 100%;
+      min-width: 50%; }
+      .container.main .content_wrap .content_inner_wrap .content_block .content_header:after {
+        content: "";
+        border-bottom: 1px solid #282828;
+        flex-shrink: 1;
+        flex-basis: auto;
+        flex-grow: 1;
+        margin-left: 4px; }
     .container.main .content_wrap .content_inner_wrap .content_block .content_body .useful-info_list {
       display: flex;
       justify-content: space-between;
@@ -1718,6 +1730,71 @@
       display: flex;
       align-items: center;
       overflow: hidden; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_item {
+      width: 580px;
+      height: 114px;
+      background-color: #ffffff;
+      border: 1px solid #ffffff;
+      margin-bottom: 18px; }
+      .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_item:hover {
+        border: 1px solid #336699; }
+      .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_item a {
+        text-decoration: none;
+        outline: none; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_wrap {
+      display: flex;
+      height: 114px; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_img {
+      min-width: 140px;
+      height: 112px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left center;
+      overflow: hidden; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_text {
+      padding: 20px;
+      color: #333333;
+      font-size: 12px;
+      line-height: 16px;
+      overflow: hidden; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_header {
+      font-size: 16px;
+      margin-bottom: 8px;
+      font-weight: 700; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_descr {
+      font-weight: 400;
+      overflow: hidden;
+      max-height: 50px; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .cat-review_more {
+      color: #336699;
+      text-decoration: underline;
+      font-size: 12px;
+      align-self: flex-end;
+      margin-bottom: 20px;
+      margin-right: 20px; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .popular-items_list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .popular-items_item {
+      width: 220px;
+      height: 110px;
+      background: white;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ffffff; }
+      .container.main .content_wrap .content_inner_wrap .content_block .content_body .popular-items_item:hover {
+        border: 1px solid #336699; }
+    .container.main .content_wrap .content_inner_wrap .content_block .content_body .popular-items_img {
+      background-size: contain;
+      background-position: center;
+      width: 100%;
+      height: 90px;
+      background-repeat: no-repeat; }
     .container.main .content_wrap .content_inner_wrap .content_block .content_body .specials_list {
       display: flex;
       align-items: flex-start;
