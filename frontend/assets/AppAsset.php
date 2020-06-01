@@ -33,7 +33,7 @@ class AppAsset extends AssetBundle
         'js/vendor/jquery.xdomainrequest.min.js',
         'js/vendor/jquery.suggestions.min.js',
         'js/vendor/jquery.form-validator.min.js',
-        'js/script.js',
+        'js/script.min.js',
         'js/cart.min.js',
     ];
     public $depends = [

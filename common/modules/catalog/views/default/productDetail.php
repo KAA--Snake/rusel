@@ -470,4 +470,22 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
       }
     }
 </script>
-
+<script>
+    dataLayer.push({
+        "ecommerce": {
+            "currencyCode": "RUB",
+            "detail": {
+                "products": [
+                    {
+                        "id": "<?= $oneProduct['id']; ?>",
+                        "name" : "<?= $oneProduct['artikul']; ?> | <?= $oneProduct['properties']['proizvoditel']; ?> | <?= $oneProduct['name']; ?>",
+                        "price": <?php if ($price > 1) {?><?= $price; ?><?php }else{?><?='0.00'?><?php } ?>,
+                        "brand": "<?= $oneProduct['properties']['proizvoditel']; ?>",
+                        "category": "",
+                        "variant" : ""
+                    }
+                ]
+            }
+        }
+    });
+</script>

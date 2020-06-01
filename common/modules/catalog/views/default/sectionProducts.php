@@ -590,6 +590,25 @@ $this->title = $currentSection->name . ' | Каталог';
                     </div>
 
                 </div>
+                <script>
+                    dataLayer.push({
+                        "ecommerce": {
+                            "currencyCode": "RUB",
+                            "detail": {
+                                "products": [
+                                    {
+                                        "id": "<?= $oneProduct['_source']['id']; ?>",
+                                        "name" : "<?= $oneProduct['_source']['artikul']; ?> | <?= $oneProduct['_source']['properties']['proizvoditel']; ?> | <?= $oneProduct['_source']['name']; ?>",
+                                        "price": <?php if ($price > 1) {?><?= $price; ?><?php }else{?><?='0.00'?><?php } ?>,
+                                        "brand": "<?= $oneProduct['_source']['properties']['proizvoditel']; ?>",
+                                        "category": "",
+                                        "variant" : ""
+                                    }
+                                ]
+                            }
+                        }
+                    });
+                </script>
             <?php } ?>
         <?php } ?>
 

@@ -8,7 +8,7 @@ $(document).ready(function () {
     }
 
 
-    getCityList();
+    // getCityList();
     cartCheck();
     orderLinkCountUpdate();
 
