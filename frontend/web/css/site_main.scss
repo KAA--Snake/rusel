@@ -3584,13 +3584,57 @@ $white:#ffffff;
                   font-size: 12px;
                   line-height: 24px;
                   font-weight: 300;
+                  //.params_tab{
+                  //  background-color: transparent;
+                  //  strong {
+                  //    font-weight: bold;
+                  //  }
+                  //
+                  //  & > thead > tr:not(:last-child) > th,
+                  //  & > tbody > tr:not(:last-child) > th,
+                  //  & > tfoot > tr:not(:last-child) > th,
+                  //  & > thead > tr:not(:last-child) > td,
+                  //  & > tbody > tr:not(:last-child) > td,
+                  //  & > tfoot > tr:not(:last-child) > td {
+                  //    border-top: none;
+                  //    border-bottom:1px solid #eaeaea;
+                  //  }
+                  //  & tr td:first-child.full{
+                  //    border-top:1px solid #eaeaea;
+                  //  }
+                  //
+                  //  & tr td:first-child:not(.full) {
+                  //    border-bottom: none;
+                  //  }
+                  //
+                  //  & tr td:first-child {
+                  //    border: none;
+                  //    border-right: 1px solid #eaeaea;
+                  //  }
+                  //
+                  //  & tr td:not(:first-child) {
+                  //    border-top: 1px solid #eaeaea;
+                  //  }
+                  //
+                  //  & tr td.full {
+                  //    background: #ececec;
+                  //    border-bottom: 1px solid #eaeaea;
+                  //    border-top: 1px solid #eaeaea;
+                  //  }
+                  //}
+
                 }
                 .params_tab{
-                  width: 764px;
+                  //width: 764px;
+                  width: 100%;
+                  strong{
+                    font-weight: bold;
+                  }
                   tr{
                     border-bottom: 1px solid #eaeaea;
                     td{
-
+                      padding-left: 10px;
+                      padding-right: 10px;
                     }
                   }
                   .param_name{
@@ -4144,6 +4188,21 @@ $white:#ffffff;
               font-size: 14px;
               line-height: 24px;
               font-weight: 300;
+
+              .params_tab{
+                //width: 764px;
+                width: 100%;
+                strong{
+                  font-weight: bold;
+                }
+                tr{
+                  border-bottom: 1px solid #eaeaea;
+                  td{
+                    padding-left: 10px;
+                    padding-right: 10px;
+                  }
+                }
+              }
             }
             &._appurtenants{
               padding: 0px;

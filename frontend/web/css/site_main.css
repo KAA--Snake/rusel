@@ -2797,9 +2797,14 @@
           line-height: 24px;
           font-weight: 300; }
         .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .product_card_more .product_tab .product_tab_content .params_tab {
-          width: 764px; }
+          width: 100%; }
+          .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .product_card_more .product_tab .product_tab_content .params_tab strong {
+            font-weight: bold; }
           .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .product_card_more .product_tab .product_tab_content .params_tab tr {
             border-bottom: 1px solid #eaeaea; }
+            .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .product_card_more .product_tab .product_tab_content .params_tab tr td {
+              padding-left: 10px;
+              padding-right: 10px; }
           .container.main .content_wrap .content_inner_wrap .product_cards_block .product_card .product_card_more .product_tab .product_tab_content .params_tab .param_name {
             color: #000000;
             font-size: 12px;
@@ -3232,6 +3237,15 @@
       font-size: 14px;
       line-height: 24px;
       font-weight: 300; }
+      .container.main .content_wrap .content_inner_wrap .product_cards_block._detail ._detail_section.description .params_tab {
+        width: 100%; }
+        .container.main .content_wrap .content_inner_wrap .product_cards_block._detail ._detail_section.description .params_tab strong {
+          font-weight: bold; }
+        .container.main .content_wrap .content_inner_wrap .product_cards_block._detail ._detail_section.description .params_tab tr {
+          border-bottom: 1px solid #eaeaea; }
+          .container.main .content_wrap .content_inner_wrap .product_cards_block._detail ._detail_section.description .params_tab tr td {
+            padding-left: 10px;
+            padding-right: 10px; }
     .container.main .content_wrap .content_inner_wrap .product_cards_block._detail ._detail_section._appurtenants {
       padding: 0px; }
       .container.main .content_wrap .content_inner_wrap .product_cards_block._detail ._detail_section._appurtenants h2 {
