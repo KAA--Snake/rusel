@@ -18,7 +18,7 @@ $absoluteUrl = Yii::$app->request->getAbsoluteUrl();
     $oneProduct['_source']['prices']['storage'][] = $singleStorage;
 }*/
 
-$this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvoditel'].' | Каталог';
+$this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvoditel'].' | '.$oneProduct['name'];
 ?>
 <?php //Yii::$app->pr->print_r2($oneProduct);?>
 
