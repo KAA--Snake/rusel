@@ -42,7 +42,6 @@ $this->title = $data['products']['offer']->name;
                     <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage', '25');?>">25</a></li>
                     <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '50');?>">50</a></li>
                     <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '100');?>">100</a></li>
-                    <li class="count_vars_item"><a class="js-filter-post-send" href="<?=Paginator::addToUrl('perPage',  '200');?>">200</a></li>
                 </ul>
             </div>
         </div>
