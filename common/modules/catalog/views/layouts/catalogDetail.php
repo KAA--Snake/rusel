@@ -50,7 +50,7 @@ AppAsset::register($this);
     )
     { ?>
     <meta name="image" content="http://rusel24.ru<?= \yii\helpers\Url::to('@catImages/' . $this->params['seo']['product']['properties']['main_picture']); ?>" />
-    <meta itemprop="image" content="http://rusel24.ru<?= \yii\helpers\Url::to('@catImages/' . $this->params['seo']['product']['properties']['main_picture']); ?>" />
+    <link itemprop="image" content="http://rusel24.ru<?= \yii\helpers\Url::to('@catImages/' . $this->params['seo']['product']['properties']['main_picture']); ?>" />
     <?php } ?>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
