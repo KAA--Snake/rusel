@@ -40,23 +40,9 @@ EMAIL: <?=$order->email;?>
 <br>
 Город доставки: <?=$order->delivery_city;?>
 <br>
-Индекс города: <?=$order->delivery_city_index;?>
-<br>
-Контактное лицо: <?=$order->delivery_contact_person;?>
-<br>
-Телефон для связи: <?=$order->delivery_tel;?>
-<br>
 Точный адрес для доставки «до двери»: <?=$order->delivery_address;?>
 <br>
-Время доставки: <?=$order->delivery_time;?>
-<br>
 Текст примечания: <?=$order->order_comment;?>
-<br>
-ИД клиента: <?=$order->client_id;?>
-<br>
-IP клиента: <?=$order->client_ip;?>
-<br>
-Геолокация: <?=$order->client_geolocation;?>
 <br>
 <br>
 <br>

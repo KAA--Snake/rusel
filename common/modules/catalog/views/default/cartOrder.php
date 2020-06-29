@@ -640,14 +640,14 @@ $this->title = 'RUSEL24 - Форма запроса';
         <input type="hidden" name="Order[time]" value="">
         <input type="hidden" name="Order[client_id]" value="">
         <input type="hidden" name="Order[client_ip]" value="">
-        <input type="hidden" name="Order[client_geolocation]" value="">
+        <!--<input type="hidden" name="Order[client_geolocation]" value="">-->
         <input type="hidden" name="Order[client_shortname]" value="">
         <input type="hidden" name="Order[client_fullname]" value="">
         <input type="hidden" name="Order[client_inn]" value="">
         <input type="hidden" name="Order[client_kpp]" value="">
-        <input type="hidden" class="js-delivery_city_index" name="Order[delivery_city_index]" value="">
+        <!--<input type="hidden" class="js-delivery_city_index" name="Order[delivery_city_index]" value="">-->
         <!--<input type="hidden" class="js-delivery_city_name" name="Order[delivery_city]" value="">-->
-        <input type="hidden" class="js-delivery_time" name="Order[delivery_time]" value="">
+        <!--<input type="hidden" class="js-delivery_time" name="Order[delivery_time]" value="">-->
         <input type="hidden" class="js-client_address" name="Order[client_address]" value="">
         <input type="hidden" class="js-client_address" name="Order[client_city]" value="">
     </form>
