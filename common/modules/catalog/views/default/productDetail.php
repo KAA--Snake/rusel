@@ -49,11 +49,11 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
             <div class="product-card2__img" >
                 <?php if (isset($oneProduct['properties']['main_picture']) && !is_array($oneProduct['properties']['main_picture'])) { ?>
                     <img src="<?= Url::to('@catImages/' . $oneProduct['properties']['main_picture']); ?>"
-                         alt="<?= $oneProduct['artikul']; ?>" title="<?= $oneProduct['artikul']; ?>"
+                         alt="<?= $oneProduct['artikul']; ?> | <?= $oneProduct['properties']['proizvoditel']; ?> | <?= $oneProduct['name']; ?>" title="<?= $oneProduct['artikul']; ?> | <?= $oneProduct['properties']['proizvoditel']; ?> | <?= $oneProduct['name']; ?>"
                          itemprop="contentUrl">
                 <?php } else { ?>
                     <img src="/img/nofoto.png"
-                         alt="<?= $oneProduct['artikul']; ?>" title="<?= $oneProduct['artikul']; ?>">
+                         alt="<?= $oneProduct['artikul']; ?> | <?= $oneProduct['properties']['proizvoditel']; ?> | <?= $oneProduct['name']; ?>" title="<?= $oneProduct['artikul']; ?> | <?= $oneProduct['properties']['proizvoditel']; ?> | <?= $oneProduct['name']; ?>">
                 <?php }  ?>
             </div>
             <div class="product-card2__controls">
