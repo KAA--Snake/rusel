@@ -21,6 +21,7 @@ if ($_COOKIE['dev']) {
             'appliedFilterJson' => $appliedFilterJson,
             'emptyFilterResult' => $emptyFilterResult,
             'filterManufacturers' => $filterManufacturers,
+            'filterSections' => $filterSections,
         ],
 
     ]);

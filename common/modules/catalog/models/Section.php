@@ -430,6 +430,34 @@ class Section extends \yii\db\ActiveRecord
         return $tree;
     }
 
+    /**
+     * @param $sectionIds
+     * @return array
+     */
+    public function getSectionsByUniqueIds($sectionIds) {
+        //\Yii::$app->pr->print_r2($section->getAttributes());
+        /** @var Section $section */
+
+        if (!empty($sectionIds)) {
+
+            $in = implode(',', $sectionIds);
+            $where = "unique_id IN($in)";
+
+            $sections = static::find()
+                ->select(['unique_id', 'upper(name) as label'])
+                ->andWhere($where)
+                ->orderBy('unique_id ASC')
+                ->asArray()
+                //->limit(1)
+                ->all();
+
+            return $sections;
+        }
+
+        return [];
+
+    }
+
 
     /**
      * Находит всех родителей для текущего раздела (для хлебных крошек)

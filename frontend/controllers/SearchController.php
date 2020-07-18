@@ -202,7 +202,6 @@ class SearchController extends Controller
 		    }
 	    }
         //\Yii::$app->pr->print_r2($searchResult);
-        //\Yii::$app->pr->print_r2($pagination);
         //\Yii::$app->pr->die();
 
 	    return $this->render('manualSearchResult', [
@@ -216,6 +215,7 @@ class SearchController extends Controller
             'appliedFilterJson' => $searchResult['appliedFilterJson'],
             'emptyFilterResult' => $searchResult['emptyFilterResult'],
             'filterManufacturers' => $searchResult['filterManufacturers'],
+            'filterSections' => $searchResult['filterSections'],
 		    //'artiklesList' => Yii::$app->getRequest()->post()['articles'],
 	    ]);
     }

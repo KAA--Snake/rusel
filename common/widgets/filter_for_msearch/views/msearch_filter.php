@@ -1,6 +1,7 @@
 <?
 //\Yii::$app->pr->print_r2($filterData);
-
+//\Yii::$app->pr->print_r2($filterSections);
+//\Yii::$app->pr->die();
 ?>
 <div class="goods_filter_block col_1180">
 
@@ -58,6 +59,7 @@
             <form action="" method="post" class="filter_form hidden" name="productFilterForm" id="filter-form">
 
                 <input type="hidden" class="js-filter-param" name="manufacturer" value="">
+                <input type="hidden" class="js-filter-param" name="section" value="">
 
                 <?foreach($filterData as $key => $oneFilter){?>
                     <input type="hidden" class="js-filter-param" name="<?=$key;?>" value="">
@@ -108,6 +110,25 @@
                                 <div class="filter-group__buttons_block">
                                     <button class="filter-group__reset js-reset-filter-group">Закрыть</button>
                                     <input type="submit" form="filter-form" class="filter-group__apply js-submit-filter" data-param="manufacturer" value="Применить">
+                                </div>
+                            </div>
+                        </div>
+                    <?}?>
+
+                    <?if(isset($filterSections) && is_array($filterSections)){?>
+                        <div class="filter-group">
+                            <div class="filter-group__name js-filter-param-name " data-param="section">Раздел:</div>
+                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="section" class="cross js-cancel-filter-group"></span></div>
+                            <div class="filter-group__collapse-btn js-show-filter_group">Выбрать из списка <span class="arrow"></span></div>
+                            <div class="filter-group__params-box collapsed">
+                                <ul class="filter-group__params-list ">
+                                    <?foreach($filterSections as $oneFilter){?>
+                                        <li data-tag="<?=$oneFilter['key'];?>" class="filter-group__params-item js-filter-param-item"><?=$oneFilter['name'];?> <span class="filter-group__params-count">(<?=$oneFilter['doc_count'];?>)</span></li>
+                                    <?}?>
+                                </ul>
+                                <div class="filter-group__buttons_block">
+                                    <button class="filter-group__reset js-reset-filter-group">Закрыть</button>
+                                    <input type="submit" form="filter-form" class="filter-group__apply js-submit-filter" data-param="section" value="Применить">
                                 </div>
                             </div>
                         </div>

@@ -15,6 +15,7 @@ use common\models\elasticsearch\Product;
 use common\modules\catalog\models\elastic\Elastic;
 use Yii;
 use yii\redis\Cache;
+use common\modules\catalog\models\Section;
 
 class ProductsSearch extends BaseSearch implements iProductSearch
 {
@@ -72,8 +73,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $allFilterDataProps = $this->_getProps($filterDataForSection);
         $allManufacturers = $this->_getManufacturers($filterDataForSection);
+
         //@TODO здесь сделать выборку всех разделов(секций)
-        //$allSections = ...
+        $allSections = $this->_getSections($filterDataForSection);
 
         /** заполняем параметры для поика из ПОСТа(если он был) */
         $this->__setParamsFromPostWithoutSections($params);
@@ -186,6 +188,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'paginator' => $pagination,
                 'emptyFilterResult' => $this->isEmptyResult,
                 'filterManufacturers' => $allManufacturers,
+                'filterSections' => $allSections,
 
         ];
 
@@ -573,14 +576,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         //$filterData['quantity']['stock']['count'] = '> 0';
         //$filterData['properties']['proizvoditel'] = '';
 
-
         if(strlen($searchString) == 0){
             $productsFound = ['error' => 'пустой артикул !'];
             return $productsFound;
         }
-
-        //\Yii::$app->pr->print_r2($searchParams);
-        //\Yii::$app->pr->die();
 
         $additParamsMust = [];
 
@@ -600,8 +599,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 $propValue = [$propValue];
             }
 
-
-
             /** Если пришли фильтры по другим параметрам, кроме свойств */
             if(in_array($propId, $this->mainProps)){
 
@@ -612,7 +609,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 ];
 
                 $additParamsMust['bool']['must'][] = $oneFilter;
-                //$must[] = $additParamsMust;
 
                 unset($searchParams[$propId]);
                 continue;
@@ -643,12 +639,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             ];
 
             $additParamsMust['bool']['must'][] = $oneFilter;
-            //$ar['bool']['must'][] = $oneFilter;
-            //$must[] = $ar;
-
-
         }
-
 
         $multiFields = [
 
@@ -1881,6 +1872,45 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 		return $manufacturers;
 	}
+
+    /**
+     * Создает массив значений для свойств, индексированный ИДами свойств.
+     *
+     * @param $buckets
+     *
+     * @return array
+     */
+    private function _getSections(&$filterDataForSection){
+
+        $sectionModel = new Section();
+        $allSections = [];
+        $sectionsWithData = [];
+
+        /**  собираем ID разделов */
+        $sectionIds = [];
+        foreach($filterDataForSection['aggregations']['sections_agg']['buckets'] as $oneFilter){
+            $sectionIds[] = $oneFilter['key'];
+            $sectionsWithData[$oneFilter['key']] = $oneFilter;
+        }
+
+        if (empty($sectionIds)) {
+            return [];
+        }
+
+        //вытянем разделы из мускла
+        $allSections = $sectionModel->getSectionsByUniqueIds($sectionIds);
+
+        if (empty($allSections)) {
+            return [];
+        }
+
+        //добавляем название раздела к выборке секций
+        foreach ($allSections as $oneSection) {
+            $sectionsWithData[$oneSection['unique_id']]['name'] = $oneSection['label'];
+        }
+
+        return $sectionsWithData;
+    }
 
 
 	/**
