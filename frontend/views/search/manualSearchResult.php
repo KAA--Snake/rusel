@@ -3,6 +3,7 @@
 use yii\helpers\Url;
 use common\modules\catalog\models\currency\Currency;
 use common\widgets\catalog\Paginator;
+use common\widgets\filter_for_msearch\MSearchFilter;
 
 $this->title = 'RUSEL24 - Поиск по '.$searchBy;
 ?>
@@ -10,6 +11,23 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
 <div class="man_search_header">
     результат поиска по критерию: <span class="man_search_name"><?=$searchBy;?></span>
 </div>
+<?php
+if ($_COOKIE['dev']) {
+    echo MSearchFilter::widget([
+        'options' => [
+            'totalFound' => $totalFound,
+            'filterData' => $filterData,
+            'perPage' => $perPage,
+            'appliedFilterJson' => $appliedFilterJson,
+            'emptyFilterResult' => $emptyFilterResult,
+            'filterManufacturers' => $filterManufacturers,
+        ],
+
+    ]);
+
+}
+
+?>
 
 <div class="sub_filter_wrap clear">
 

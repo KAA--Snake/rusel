@@ -62,215 +62,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 */
 	public function searchManual(string $searchString)
 	{
-
-		$pagination = \Yii::$app->controller->pagination;
-
-		if(strlen($searchString) == 0){
-			$productsFound = ['error' => 'пустой артикул !'];
-			return $productsFound;
-		}
-
-		$productsFound = [];
-        $must = [];
-        $should = [];
-        $terms = [];
-        $logicalOperator = 'should';//should = OR, must = AND
-
-        $multiFields = [
-
-            //пробуем найти по артикула без пробелов
-            "artikul.wo_whitespaces",
-            "artikul",
-
-            "name.cyrillic_to_latinyc",
-            "name.latinyc_to_cyrillic",
-
-            //detail text
-            "properties.detail_text.cyrillic_to_latinyc",
-            "properties.detail_text.latinyc_to_cyrillic",
-
-            //производитель
-            "properties.proizvoditel.cyrillic_to_latinyc",
-            "properties.proizvoditel.latinyc_to_cyrillic",
-
-        ];
-
-		if(!$this->_isLengthIsGood($searchString)) {
-			$productsFound = ['error' => 'Длина артикула не подходит под условие поиска!'];
-			return $productsFound;
-		}
-
-        //костыль- подставляем вместо пробелов +
-        if (strpos($searchString, '+') !== false) {
-            $searchString = $this->__whitespaceSubstitute($searchString);
-        }
-
-
-		$multyQueryArr = $this->_getMultyQuery($searchString);
-		if (empty($multyQueryArr)) {
-            $productsFound = ['error' => 'Произошла непредвиденная ошибка. Обратитесь к администратору сайта.'];
-            return $productsFound;
-        }
-
-        //$multyQueryArr = $this->_replacedSymbolsQuery($multyQueryArr);
-        //$multyQueryArr = $this->__hackForSpaceQuery($multyQueryArr);
-        $multyQueryArr = $this->__addToQuery($multyQueryArr);
-
-		//если в запросе есть знак +, значит это запрос на строгое И(AND)
-        if (strpos($searchString, '+') !== false) {
-            $logicalOperator = 'must';
-            //костыль- добавляем поле только с цифрами для поиск с +...хз почему но это работает
-            $multiFields[] = "search_data.only_digits";
-        }
-
-        $should['bool'] = [];
-		foreach($multyQueryArr as $singleQuery) {
-            $terms[] = [
-                "multi_match"=> [
-                    "operator"=> "and",
-                    "query"=> $singleQuery,
-                    "type"=> "phrase_prefix",
-                    "fields"=> $multiFields
-                    //'boost' => 2.0
-                ]
-            ];
-        }
-
-        $should['bool'][$logicalOperator] = $terms;
-
-        $must[] = $should;
-
-		$minifiltersParam = MiniFilterHelper::getMiniFilterOption();
-		$miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
-		if($miniFilterTerm){
-		    $ar['bool']['must'][] = $miniFilterTerm;
-			$must[] = $ar;
-		}
-		//\Yii::$app->pr->print_r2($must);
-        //die();
-		$params = [
-			'body' => [
-				'from' => $pagination['from'],
-				'size' => $pagination['maxSizeCnt'],
-				'sort' => [
-				    //'_score' => ['order' => 'desc'],
-					'artikul' => ['order' => 'asc'],
-				],
-				//'from' => $from,
-				//'size' => $this->searchConfig['max_by_manual_result'],
-				/*'sort' => [
-					'artikul' => ['order' => 'asc']
-				],*/
-
-				'query' => [
-                    'bool'=> [
-                        /** обязательный блок (для ИД раздела ) */
-                        'must' => $must
-                    ]
-
-
-                    /*"multi_match" => [
-                    "query" => "quick brown foxes",
-                        "fields" => [
-                        "text",
-                        "text.english"
-                    ],
-                              "type" => "most_fields"
-                    ],*/
-
-						/*'prefix' => [
-							'artikul' => [
-								'value' => $searchString,
-								//'boost' => 2.0
-							]
-						],*/
-
-						//'bool'=> [
-
-							/** обязательный блок (для ИД раздела ) */
-						//	'must' => $must
-						//]
-
-
-				],
-
-                //на будущее, если понадобится доработка- рабочий вариант
-                /*"highlight" => [
-                    //"number_of_fragments" => 3,
-                    //"fragment_size" => 150,
-                    "fields" => [
-                        //"body" => [ "pre_tags" => ["<tag1>"], "post_tags" => ["</tag1>"] ],
-                        "artikul.raw" => [ "number_of_fragments" => 50, "force_source" => true ],
-                        "name" => [ "number_of_fragments" => 50, "force_source" => true ],
-                        "properties.detail_text" => [
-                            "number_of_fragments" => 50,
-                            "force_source" => true,
-                            "pre_tags" => ["<tag1>"],
-                            "post_tags" => ["</tag1>"]
-                        ]
-                    ]
-                ]*/
-
-				/*'query' => [
-					'regexp' => [
-						'artikul' => [
-							'value' => '.{0,5}'.$searchString.'.{0,5}'
-							//'value' => '*'.$searchString.'*'
-						]
-					]
-				]*/
-
-
-				/*'query' => [
-					'fuzzy' => [
-						'artikul' => [
-							'value' => $searchString,
-							//"boost"=> 2.0,
-			                "fuzziness"=> 2,
-			                "prefix_length"=> 0,
-			                //"max_expansions"=> 100,
-							//'boost' => 2.0
-						]
-					]
-				]*/
-
-				/*'query' => [
-					'wildcard' => [
-						'artikul' => [
-							'value' => '*'.$searchString.'*'
-						]
-					]
-				],*/
-				/*'query' => [
-					'more_like_this' => [
-						'fields' => [
-							'artikul', 'name', 'properties.detail_text'
-						],
-						"like" => $searchString,
-			            //"min_term_freq" => 1,
-			            //"max_query_terms" => 12,
-
-					]
-				]*/
-			]
-		];
-
-
-		$params = $this->productData + $params;
-
-		//\Yii::$app->pr->print_r2($params);
-		//die();
-        //$params['query_cache'] = false;
-        //$params['request_cache'] = false;
-        //$params['explain'] = true;
-        //$params['default_operator'] = 'AND';
-
-		//die();
-		$response = Elastic::getElasticClient()->search($params);
-        //\Yii::$app->pr->print_r2($response);
-		//\Yii::$app->pr->print_r2($response);
-
-		//die();
+	    /*
+	    //сначала делаем полную выборку , для получения всех доступных значений для фильтра:
+        $response = $this->getManualSearchFilteredProducts($searchString, false);
 
 		if(!empty($response)){
 
@@ -288,17 +82,149 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		}else{
 			$response = ['error' => 'Товаров не найдено'];
 		}
-
-
-
+*/
 		/*\Yii::$app->pr->print_r2($response);
 		die();*/
 
+		//здесь функционал под рефакторинг
+
+        //пробрасывается в контроллер из Pagination_beh.php
+        $pagination = \Yii::$app->controller->pagination;
+
+        //сначала делаем полную выборку , для получения всех доступных значений для фильтра:
+        $filterDataForSection = $this->getManualSearchFilteredProducts($searchString, false);
+
+        $resultData = [];
+
+        $allFilterDataProps = $this->_getProps($filterDataForSection);
+        $allManufacturers = $this->_getManufacturers($filterDataForSection);
+        //@TODO здесь сделать выборку всех разделов(секций)
+        //$allSections = ...
+
+        /** заполняем параметры для поика из ПОСТа(если он был) */
+        $this->__setParamsFromPostWithoutSections($params);
+
+        $totalFound = 0;
+
+        //\Yii::$app->pr->die();
+        //добавляем фильтр по производителю (костыль по желанию заказчика)
+        if(!empty(\Yii::$app->request->get('manufacturer'))){
+            $params['manufacturer'] = \Yii::$app->request->get('manufacturer');
+        }
+
+        /** если юзер выбрал какие-то параметры в фильтре, сделаем запрос с этими параметрами */
+        if(!empty($params)){
+            $filterDataForSection = $this->getManualSearchFilteredProducts($searchString, $params);
+
+            //@TODO проверить вариант с выбранным филььтром тут
+            \Yii::$app->pr->print_r2($filterDataForSection);
+            \Yii::$app->pr->die();
+        }
+
+        /** собираем отфильтрованные товары */
+        if( isset($filterDataForSection['hits']['total']) ){
+            $totalFound = $filterDataForSection['hits']['total'];
+
+            $pagination['totalCount'] = $filterDataForSection['hits']['total'];
+        }
 
 
-		return $response;
+        /**  собираем свойства товаров */
+        $filterData = $this->_getProps($filterDataForSection);
 
-	}
+        //\Yii::$app->pr->print_r2($filterData);
+        //\Yii::$app->pr->die();
+
+        /**  собираем производителей */
+        $filteredManufacturers = $this->_getManufacturers($filterDataForSection);
+
+        //почистим ненужные агрегации из памяти
+        unset($filterDataForSection['aggregations']);
+
+        /** сборка для уже выбранных параметров фильтра */
+        $appliedFilter = [];
+        if(count(\Yii::$app->request->post()) > 0){
+            foreach (\Yii::$app->request->post() as $k=>$postData){
+                if(empty($postData)) continue;
+
+                if(in_array($k, $this->mainProps)){
+                    $appliedFilter['manufacturer'] = $postData;
+                }
+
+                if(isset($allFilterDataProps[$k])){
+                    $appliedFilter[$k] = $postData;
+                }
+
+            }
+        }
+
+        //\Yii::$app->pr->print_r2($filterData);
+        //если был выбран фильтр, но ничего не найдено, покажем уведомление
+        if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
+
+            if($totalFound == 0){
+                //если результат поиска нулевой - обнулим все значения
+                $this->isEmptyResult = true;
+            }
+
+            /*if(count($appliedFilter) == 0){
+                $isEmptyFilter = true;
+            }*/
+        }
+
+        //переставляем производителя в начало массива
+        /*        if(isset($appliedFilter['manufacturer'])){
+                    $manufacturerPop['manufacturer'] = $appliedFilter['manufacturer'];
+                    unset($appliedFilter['manufacturer']);
+
+                    $appliedFilter = $manufacturerPop+$appliedFilter;
+
+                }*/
+
+        //unset($_POST);
+
+        //\Yii::$app->pr->print_r2($appliedFilter);
+
+        $appliedFilter = json_encode($appliedFilter, JSON_UNESCAPED_SLASHES);
+
+        //\Yii::$app->pr->print_r2($allFilterDataProps);
+        //die();
+        /**
+         * производим добавление пустых значений для фильтра
+         * (полный фильтр + найденные)
+         */
+        //добавим пустые значения для выбранного фильтра
+        $this->_addEmptyProps($allFilterDataProps, $filterData);
+        /*\Yii::$app->pr->print_r2($pagination);
+        \Yii::$app->pr->print_r2($allManufacturers);
+        \Yii::$app->pr->print_r2($filterDataForSection);
+        die();*/
+        //unset($allFilterDataProps);
+
+        //добавим пустые значения для выбранного фильтра по производителям
+        $this->_addEmptyManufacturers($allManufacturers, $filteredManufacturers);
+
+        $this->_setSingleStorageAsMulti($filterDataForSection);
+
+        $this->_setSinglePriceAsMulty($filterDataForSection);
+
+        static::setAccessoriedProds($filterDataForSection);
+
+        $this->_clearProductsForMiniFilter($filterDataForSection);
+
+        return
+            [
+                'products' => $filterDataForSection,
+                'totalProductsFound' => $totalFound,
+                'filterData' => $allFilterDataProps,
+                'appliedFilterJson' => $appliedFilter,
+                'paginator' => $pagination,
+                'emptyFilterResult' => $this->isEmptyResult,
+                'filterManufacturers' => $allManufacturers,
+
+        ];
+
+    }
 
     public function searchByArtikuls(array $artikuls)
     {
@@ -646,6 +572,282 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         return $response;
     }
 
+    /**
+     * Отдает товары и фильтр по заданным параметрам, аналог getFilteredProducts ,
+     * но без кеширования и с доп строкой поиска.
+     *
+     * Юзается при ручном поиске через строку поиска.
+     *
+     * @param $params
+     * @return array|bool
+     */
+    private function getManualSearchFilteredProducts($searchString, $searchParams) {
+
+        $pagination = \Yii::$app->controller->pagination;
+
+        if(strlen($searchString) == 0){
+            $productsFound = ['error' => 'пустой артикул !'];
+            return $productsFound;
+        }
+
+        $productsFound = [];
+        $must = [];
+        $should = [];
+        $terms = [];
+        $logicalOperator = 'should';//should = OR, must = AND
+
+        $multiFields = [
+
+            //пробуем найти по артикула без пробелов
+            "artikul.wo_whitespaces",
+            "artikul",
+
+            "name.cyrillic_to_latinyc",
+            "name.latinyc_to_cyrillic",
+
+            //detail text
+            "properties.detail_text.cyrillic_to_latinyc",
+            "properties.detail_text.latinyc_to_cyrillic",
+
+            //производитель
+            "properties.proizvoditel.cyrillic_to_latinyc",
+            "properties.proizvoditel.latinyc_to_cyrillic",
+
+        ];
+
+        if(!$this->_isLengthIsGood($searchString)) {
+            $productsFound = ['error' => 'Длина артикула не подходит под условие поиска!'];
+            return $productsFound;
+        }
+
+        //костыль- подставляем вместо пробелов +
+        if (strpos($searchString, '+') !== false) {
+            $searchString = $this->__whitespaceSubstitute($searchString);
+        }
+
+
+        $multyQueryArr = $this->_getMultyQuery($searchString);
+        if (empty($multyQueryArr)) {
+            $productsFound = ['error' => 'Произошла непредвиденная ошибка. Обратитесь к администратору сайта.'];
+            return $productsFound;
+        }
+
+        //$multyQueryArr = $this->_replacedSymbolsQuery($multyQueryArr);
+        //$multyQueryArr = $this->__hackForSpaceQuery($multyQueryArr);
+        $multyQueryArr = $this->__addToQuery($multyQueryArr);
+
+        //если в запросе есть знак +, значит это запрос на строгое И(AND)
+        if (strpos($searchString, '+') !== false) {
+            $logicalOperator = 'must';
+            //костыль- добавляем поле только с цифрами для поиск с +...хз почему но это работает
+            $multiFields[] = "search_data.only_digits";
+        }
+
+        $should['bool'] = [];
+        foreach($multyQueryArr as $singleQuery) {
+            $terms[] = [
+                "multi_match"=> [
+                    "operator"=> "and",
+                    "query"=> $singleQuery,
+                    "type"=> "phrase_prefix",
+                    "fields"=> $multiFields
+                    //'boost' => 2.0
+                ]
+            ];
+        }
+
+        $should['bool'][$logicalOperator] = $terms;
+
+        $must[] = $should;
+
+        $minifiltersParam = MiniFilterHelper::getMiniFilterOption();
+        $miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
+        if($miniFilterTerm){
+            $ar['bool']['must'][] = $miniFilterTerm;
+            $must[] = $ar;
+        }
+        //\Yii::$app->pr->print_r2($must);
+        //die();
+        $params = [
+            'body' => [
+                'from' => $pagination['from'],
+                'size' => $pagination['maxSizeCnt'],
+                'sort' => [
+                    //'_score' => ['order' => 'desc'],
+                    'artikul' => ['order' => 'asc'],
+                ],
+                //'from' => $from,
+                //'size' => $this->searchConfig['max_by_manual_result'],
+                /*'sort' => [
+                    'artikul' => ['order' => 'asc']
+                ],*/
+
+                'query' => [
+                    'bool'=> [
+                        /** обязательный блок (для ИД раздела ) */
+                        'must' => $must
+                    ]
+
+
+                    /*"multi_match" => [
+                    "query" => "quick brown foxes",
+                        "fields" => [
+                        "text",
+                        "text.english"
+                    ],
+                              "type" => "most_fields"
+                    ],*/
+
+                    /*'prefix' => [
+                        'artikul' => [
+                            'value' => $searchString,
+                            //'boost' => 2.0
+                        ]
+                    ],*/
+
+                    //'bool'=> [
+
+                    /** обязательный блок (для ИД раздела ) */
+                    //	'must' => $must
+                    //]
+
+
+                ],
+
+                /** start of aggs */
+
+                "aggs" => [
+                    "properties_agg" => [
+                        "nested" => [
+                            "path" => "other_properties.property",
+                        ],
+                        "aggs" => [
+                            "sub_agg" => [
+                                "terms"=> [
+                                    "field"=> "other_properties.property.id",
+                                    "size"=> 500,
+                                ],
+                                'aggs' => [
+                                    'prop_values' => [
+                                        "terms"=> [
+                                            "field"=> "other_properties.property.value",
+                                            "size"=> 500,
+                                            "order"=> ["_term" => "asc"]
+                                        ],
+
+                                    ],
+                                    'prop_name' => [
+                                        "terms"=> [
+                                            "field"=> "other_properties.property.name",
+                                            "size"=> 1,
+                                            //"order"=> ["_term" => "asc"]
+                                        ],
+
+                                    ],
+
+                                ]
+                            ]
+                        ]
+                    ],
+                    'manufacturers_agg' =>[
+                        "terms"=> [
+                            "field"=> "properties.proizvoditel",
+                            "size"=> 5000,
+                            "order"=> ["_term" => "asc"]
+                        ],
+                    ],
+                    'sections_agg' =>[
+                        "terms"=> [
+                            "field"=> "section_id",
+                            "size"=> 500,
+                            "order"=> ["_term" => "asc"]
+                        ],
+                    ],
+                ],
+                /** end of aggs */
+                //на будущее, если понадобится доработка- рабочий вариант
+                /*"highlight" => [
+                    //"number_of_fragments" => 3,
+                    //"fragment_size" => 150,
+                    "fields" => [
+                        //"body" => [ "pre_tags" => ["<tag1>"], "post_tags" => ["</tag1>"] ],
+                        "artikul.raw" => [ "number_of_fragments" => 50, "force_source" => true ],
+                        "name" => [ "number_of_fragments" => 50, "force_source" => true ],
+                        "properties.detail_text" => [
+                            "number_of_fragments" => 50,
+                            "force_source" => true,
+                            "pre_tags" => ["<tag1>"],
+                            "post_tags" => ["</tag1>"]
+                        ]
+                    ]
+                ]*/
+
+                /*'query' => [
+                    'regexp' => [
+                        'artikul' => [
+                            'value' => '.{0,5}'.$searchString.'.{0,5}'
+                            //'value' => '*'.$searchString.'*'
+                        ]
+                    ]
+                ]*/
+
+
+                /*'query' => [
+                    'fuzzy' => [
+                        'artikul' => [
+                            'value' => $searchString,
+                            //"boost"=> 2.0,
+                            "fuzziness"=> 2,
+                            "prefix_length"=> 0,
+                            //"max_expansions"=> 100,
+                            //'boost' => 2.0
+                        ]
+                    ]
+                ]*/
+
+                /*'query' => [
+                    'wildcard' => [
+                        'artikul' => [
+                            'value' => '*'.$searchString.'*'
+                        ]
+                    ]
+                ],*/
+                /*'query' => [
+                    'more_like_this' => [
+                        'fields' => [
+                            'artikul', 'name', 'properties.detail_text'
+                        ],
+                        "like" => $searchString,
+                        //"min_term_freq" => 1,
+                        //"max_query_terms" => 12,
+
+                    ]
+                ]*/
+            ]
+        ];
+
+
+        $params = $this->productData + $params;
+
+        //if ($_COOKIE['dev']) {
+
+        //}
+
+        //\Yii::$app->pr->print_r2($params);
+        //\Yii::$app->pr->die();
+
+        //die();
+        //$params['query_cache'] = false;
+        //$params['request_cache'] = false;
+        //$params['explain'] = true;
+        //$params['default_operator'] = 'AND';
+
+        //die();
+        $response = Elastic::getElasticClient()->search($params);
+        //\Yii::$app->pr->print_r2($response);
+
+        return $response;
+    }
 
     /**
      * Отдает товары и фильтр по заданным параметрам
@@ -1297,6 +1499,56 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		return true;
 	}
 
+    /**
+     * Заполняет массив параметров для фильтра из POST-а (параметры по ссылке!)
+     *
+     * @param $params, $withoutSection
+     * @return bool
+     */
+    private function __setParamsFromPostWithoutSections(&$params){
+
+        /** $searchParams формируем для того чтоб фильтровать по заполненному фильтру */
+        $searchParams = [];
+
+        /** При применении фильтра не кешируем @TODO может будем кешировать? */
+
+        if( \Yii::$app->request->isPost){ //если был применен фильтр
+            if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
+                //\Yii::$app->pr->print_r2(\Yii::$app->request->post() );
+                //die();
+                $filterData = \Yii::$app->request->post();
+            }
+        }
+
+
+
+        if(!empty($filterData)){
+
+            $fakes = [
+                '_csrf-frontend',
+                'perPage',
+                'catalog_filter',
+                'from',
+            ];
+            foreach($filterData as $k => $postData){
+
+                if(in_array($k, $fakes)) continue;
+
+                //if(!is_integer($k)) continue;
+
+                if(empty($postData)) continue;
+
+                $searchParams[$k] = $postData;
+            }
+        }
+
+        //\Yii::$app->pr->print_r2($searchParams );
+        $params = $searchParams;
+
+        return true;
+
+    }
+
 
 
 	/**
@@ -1477,9 +1729,17 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	    foreach($filterDataForSection['aggregations']['properties_agg']['sub_agg']['buckets'] as &$oneFilter){
 		    //if ($oneFilter['key'] != 15) continue;
 
-		    $oneFilter['prop_name'] = $oneFilter['prop_name']['buckets'][0]['key'];
-		    $key = $oneFilter['key'];
-		    $filterData[$key] = $oneFilter;
+            //иногда почему то приходит уже очищенная $oneFilter['prop_name'] и ее не надо доставать из массива
+            if (!isset($oneFilter['prop_name']['buckets'])) {
+                $key = $oneFilter['key'];
+                $filterData[$key] = $oneFilter;
+
+            } else {
+                $oneFilter['prop_name'] = $oneFilter['prop_name']['buckets'][0]['key'];
+                $key = $oneFilter['key'];
+                $filterData[$key] = $oneFilter;
+            }
+
 
 		    sort($oneFilter['prop_values']['buckets']);
 

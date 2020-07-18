@@ -192,23 +192,30 @@ class SearchController extends Controller
 
 		    $searchModel = new ProductsSearch();
 		    $searchResult = $searchModel->searchManual($searchQuery);
-			//\Yii::$app->pr->print_r2($searchResult);
 
 		    //die();
 
-		    if( isset($searchResult['hits']['total']) ){
-			    $totalFound = $searchResult['hits']['total'];
+		    if( isset($searchResult['products']['hits']['total']) ){
+			    $totalFound = $searchResult['products']['hits']['total'];
 
-			    $pagination['totalCount'] = $searchResult['hits']['total'];
+			    $pagination['totalCount'] = $searchResult['products']['hits']['total'];
 		    }
 	    }
+        //\Yii::$app->pr->print_r2($searchResult);
+        //\Yii::$app->pr->print_r2($pagination);
+        //\Yii::$app->pr->die();
 
 	    return $this->render('manualSearchResult', [
 	    	'searchBy' => $searchQuery,
-		    'productsList' => $searchResult['hits']['hits'],
+		    'productsList' => $searchResult['products']['hits']['hits'],
 		    'paginator' => $pagination,
 		    'totalFound' => $totalFound,
-		    'perPage' => $perPage
+		    'perPage' => $perPage,
+
+            'filterData' => $searchResult['filterData'],
+            'appliedFilterJson' => $searchResult['appliedFilterJson'],
+            'emptyFilterResult' => $searchResult['emptyFilterResult'],
+            'filterManufacturers' => $searchResult['filterManufacturers'],
 		    //'artiklesList' => Yii::$app->getRequest()->post()['articles'],
 	    ]);
     }
