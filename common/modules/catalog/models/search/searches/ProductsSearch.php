@@ -62,37 +62,11 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 */
 	public function searchManual(string $searchString)
 	{
-	    /*
-	    //сначала делаем полную выборку , для получения всех доступных значений для фильтра:
-        $response = $this->getManualSearchFilteredProducts($searchString, false);
-
-		if(!empty($response)){
-
-			$this->_setSingleStorageAsMulti($response);
-
-			$this->_setSinglePriceAsMulty($response);
-
-
-			//добавляем аксессуары к продуктам
-			static::setAccessoriedProds($response);
-
-			$this->_clearProductsForMiniFilter($response);
-
-			$this->foundGoodResultsCount++;
-		}else{
-			$response = ['error' => 'Товаров не найдено'];
-		}
-*/
-		/*\Yii::$app->pr->print_r2($response);
-		die();*/
-
-		//здесь функционал под рефакторинг
-
         //пробрасывается в контроллер из Pagination_beh.php
         $pagination = \Yii::$app->controller->pagination;
 
         //сначала делаем полную выборку , для получения всех доступных значений для фильтра:
-        $filterDataForSection = $this->getManualSearchFilteredProducts($searchString, false);
+        $filterDataForSection = $this->getManualSearchFilteredProducts($searchString, []);
 
         $resultData = [];
 
@@ -115,10 +89,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         /** если юзер выбрал какие-то параметры в фильтре, сделаем запрос с этими параметрами */
         if(!empty($params)){
             $filterDataForSection = $this->getManualSearchFilteredProducts($searchString, $params);
-
-            //@TODO проверить вариант с выбранным филььтром тут
-            \Yii::$app->pr->print_r2($filterDataForSection);
-            \Yii::$app->pr->die();
         }
 
         /** собираем отфильтрованные товары */
@@ -128,12 +98,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             $pagination['totalCount'] = $filterDataForSection['hits']['total'];
         }
 
-
         /**  собираем свойства товаров */
         $filterData = $this->_getProps($filterDataForSection);
-
-        //\Yii::$app->pr->print_r2($filterData);
-        //\Yii::$app->pr->die();
 
         /**  собираем производителей */
         $filteredManufacturers = $this->_getManufacturers($filterDataForSection);
@@ -158,7 +124,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             }
         }
 
-        //\Yii::$app->pr->print_r2($filterData);
         //если был выбран фильтр, но ничего не найдено, покажем уведомление
         if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
 
@@ -581,20 +546,109 @@ class ProductsSearch extends BaseSearch implements iProductSearch
      * @param $params
      * @return array|bool
      */
-    private function getManualSearchFilteredProducts($searchString, $searchParams) {
-
-        $pagination = \Yii::$app->controller->pagination;
-
-        if(strlen($searchString) == 0){
-            $productsFound = ['error' => 'пустой артикул !'];
-            return $productsFound;
-        }
+    private function getManualSearchFilteredProducts($searchString, $searchParams = []) {
 
         $productsFound = [];
         $must = [];
         $should = [];
         $terms = [];
         $logicalOperator = 'should';//should = OR, must = AND
+
+        $pagination = \Yii::$app->controller->pagination;
+
+        if (!empty($searchParams['section_id']) && isset($searchParams['section_id'])) {
+            $sectionId = $searchParams['section_id'];
+            unset($searchParams['section_id']);
+
+            $must[] = [
+                "term"=> [
+                    "section_id"=> $sectionId
+                ]
+            ];
+        }
+
+        $filterData = [];
+
+        /**  дефолтные данные по фильтрам TODO применить их в фильтре !*/
+        //$filterData['quantity']['stock']['count'] = '> 0';
+        //$filterData['properties']['proizvoditel'] = '';
+
+
+        if(strlen($searchString) == 0){
+            $productsFound = ['error' => 'пустой артикул !'];
+            return $productsFound;
+        }
+
+        //\Yii::$app->pr->print_r2($searchParams);
+        //\Yii::$app->pr->die();
+
+        $additParamsMust = [];
+
+        foreach($searchParams as $propId=>$propValue){
+
+            //Пропускаем "на складах" и "маркетинг" - они добавляются ниже, через метод $this->_getMiniFiltersQuery()
+            if(in_array($propId, $this->additionalProps)){
+                continue;
+            }
+
+            if(mb_stripos($propValue, '|') !== false){
+                $propValue = explode('|', $propValue);
+            }
+
+            //$propValue может быть массивом значений '10|20|50'!
+            if(!is_array($propValue)){
+                $propValue = [$propValue];
+            }
+
+
+
+            /** Если пришли фильтры по другим параметрам, кроме свойств */
+            if(in_array($propId, $this->mainProps)){
+
+                $oneFilter = [
+                    "terms"=> [
+                        "properties.proizvoditel"=> $propValue
+                    ]
+                ];
+
+                $additParamsMust['bool']['must'][] = $oneFilter;
+                //$must[] = $additParamsMust;
+
+                unset($searchParams[$propId]);
+                continue;
+            }
+
+            $oneFilter = [
+                "nested"=> [
+
+                    "path"=> "other_properties.property",
+                    "query"=> [
+                        'bool' => [
+                            'must' => [
+                                [
+                                    "term"=> [
+                                        "other_properties.property.id"=> $propId,
+                                    ],
+                                ],
+                                [
+                                    "terms"=> [
+                                        "other_properties.property.value"=> $propValue,
+                                        //"other_properties.property.id"=> [134],
+                                    ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            ];
+
+            $additParamsMust['bool']['must'][] = $oneFilter;
+            //$ar['bool']['must'][] = $oneFilter;
+            //$must[] = $ar;
+
+
+        }
+
 
         $multiFields = [
 
@@ -663,11 +717,14 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $minifiltersParam = MiniFilterHelper::getMiniFilterOption();
         $miniFilterTerm = $this->_getMiniFiltersQuery($minifiltersParam);
         if($miniFilterTerm){
-            $ar['bool']['must'][] = $miniFilterTerm;
-            $must[] = $ar;
+            $additParamsMust['bool']['must'][] = $miniFilterTerm;
         }
-        //\Yii::$app->pr->print_r2($must);
-        //die();
+
+
+        if (!empty($additParamsMust)) {
+            $must[] = $additParamsMust;
+        }
+
         $params = [
             'body' => [
                 'from' => $pagination['from'],
