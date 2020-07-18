@@ -31,7 +31,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
     /** Массив для названий главных свойств (не лежащих в nested) */
     private $mainProps = [
-        'manufacturer'
+        'manufacturer',
+        'section_id'
     ];
 
 	/** Массив для названий доп свойств(лежащих в nested) */
@@ -73,8 +74,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $allFilterDataProps = $this->_getProps($filterDataForSection);
         $allManufacturers = $this->_getManufacturers($filterDataForSection);
-
-        //@TODO здесь сделать выборку всех разделов(секций)
         $allSections = $this->_getSections($filterDataForSection);
 
         /** заполняем параметры для поика из ПОСТа(если он был) */
@@ -116,7 +115,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 if(empty($postData)) continue;
 
                 if(in_array($k, $this->mainProps)){
-                    $appliedFilter['manufacturer'] = $postData;
+                    $appliedFilter[$k] = $postData;
                 }
 
                 if(isset($allFilterDataProps[$k])){
@@ -125,7 +124,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
             }
         }
-
+        //\Yii::$app->pr->print_r2($appliedFilter);
         //если был выбран фильтр, но ничего не найдено, покажем уведомление
         if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
 
@@ -350,7 +349,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
             /** Если пришли фильтры по другим параметрам, кроме свойств */
-            if(in_array($propId, $this->mainProps)){
+            if($propId === 'manufacturer'){
 
                 $must[] = [
                     "terms"=> [
@@ -362,6 +361,17 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 continue;
             }
 
+            //здесь это не надо, но на всякий случай на будущее...хотя этот метод лучше реализован в msearch()
+            if ($propId === 'section_id') {
+                $must[] = [
+                    "terms"=> [
+                        "section_id"=> $propValue
+                    ]
+                ];
+
+                unset($searchParams[$propId]);
+                continue;
+            }
 
 	        /** Если пришли фильтры по складам и спецпредложениям */
 	        if(in_array($propId, $this->additionalProps)){
@@ -559,7 +569,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $pagination = \Yii::$app->controller->pagination;
 
-        if (!empty($searchParams['section_id']) && isset($searchParams['section_id'])) {
+        /*if (!empty($searchParams['section_id']) && isset($searchParams['section_id'])) {
             $sectionId = $searchParams['section_id'];
             unset($searchParams['section_id']);
 
@@ -568,7 +578,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                     "section_id"=> $sectionId
                 ]
             ];
-        }
+        }*/
 
         $filterData = [];
 
@@ -582,7 +592,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         }
 
         $additParamsMust = [];
-
+        //\Yii::$app->pr->print_r2($searchParams);
         foreach($searchParams as $propId=>$propValue){
 
             //Пропускаем "на складах" и "маркетинг" - они добавляются ниже, через метод $this->_getMiniFiltersQuery()
@@ -600,11 +610,23 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             }
 
             /** Если пришли фильтры по другим параметрам, кроме свойств */
-            if(in_array($propId, $this->mainProps)){
-
+            if ($propId === 'manufacturer') {
                 $oneFilter = [
                     "terms"=> [
                         "properties.proizvoditel"=> $propValue
+                    ]
+                ];
+
+                $additParamsMust['bool']['must'][] = $oneFilter;
+
+                unset($searchParams[$propId]);
+                continue;
+            }
+
+            if ($propId === 'section_id') {
+                $oneFilter = [
+                    "terms"=> [
+                        "section_id"=> $propValue
                     ]
                 ];
 
@@ -641,6 +663,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             $additParamsMust['bool']['must'][] = $oneFilter;
         }
 
+        //\Yii::$app->pr->print_r2($additParamsMust);
+        //\Yii::$app->pr->die();
         $multiFields = [
 
             //пробуем найти по артикула без пробелов
@@ -1037,7 +1061,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 if(empty($postData)) continue;
 
                 if(in_array($k, $this->mainProps)){
-                    $appliedFilter['manufacturer'] = $postData;
+                    $appliedFilter[$k] = $postData;
                 }
 
                 if(isset($allFilterDataProps[$k])){
@@ -1562,13 +1586,9 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         if( \Yii::$app->request->isPost){ //если был применен фильтр
             if( !empty( \Yii::$app->request->post('catalog_filter') ) ){
-                //\Yii::$app->pr->print_r2(\Yii::$app->request->post() );
-                //die();
                 $filterData = \Yii::$app->request->post();
             }
         }
-
-
 
         if(!empty($filterData)){
 
@@ -1576,7 +1596,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 '_csrf-frontend',
                 'perPage',
                 'catalog_filter',
-                'from',
+                'from'
             ];
             foreach($filterData as $k => $postData){
 

@@ -59,7 +59,7 @@
             <form action="" method="post" class="filter_form hidden" name="productFilterForm" id="filter-form">
 
                 <input type="hidden" class="js-filter-param" name="manufacturer" value="">
-                <input type="hidden" class="js-filter-param" name="section" value="">
+                <input type="hidden" class="js-filter-param" name="section_id" value="">
 
                 <?foreach($filterData as $key => $oneFilter){?>
                     <input type="hidden" class="js-filter-param" name="<?=$key;?>" value="">
@@ -117,8 +117,8 @@
 
                     <?if(isset($filterSections) && is_array($filterSections)){?>
                         <div class="filter-group">
-                            <div class="filter-group__name js-filter-param-name " data-param="section">Раздел:</div>
-                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="section" class="cross js-cancel-filter-group"></span></div>
+                            <div class="filter-group__name js-filter-param-name " data-param="section_id">Раздел:</div>
+                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="section_id" class="cross js-cancel-filter-group"></span></div>
                             <div class="filter-group__collapse-btn js-show-filter_group">Выбрать из списка <span class="arrow"></span></div>
                             <div class="filter-group__params-box collapsed">
                                 <ul class="filter-group__params-list ">
@@ -128,7 +128,7 @@
                                 </ul>
                                 <div class="filter-group__buttons_block">
                                     <button class="filter-group__reset js-reset-filter-group">Закрыть</button>
-                                    <input type="submit" form="filter-form" class="filter-group__apply js-submit-filter" data-param="section" value="Применить">
+                                    <input type="submit" form="filter-form" class="filter-group__apply js-submit-filter" data-param="section_id" value="Применить">
                                 </div>
                             </div>
                         </div>
