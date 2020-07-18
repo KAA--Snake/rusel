@@ -72,7 +72,10 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $resultData = [];
 
-        $allFilterDataProps = $this->_getProps($filterDataForSection);
+        //@TODO открыть это $allFilterDataProps ниже, если потребуются все свойства !
+        //$allFilterDataProps = $this->_getProps($filterDataForSection);
+        $allFilterDataProps = []; //а это соотв удалить, чтоб они появились.
+
         $allManufacturers = $this->_getManufacturers($filterDataForSection);
         $allSections = $this->_getSections($filterDataForSection);
 
