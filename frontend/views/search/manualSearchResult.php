@@ -12,7 +12,7 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
     результат поиска по критерию: <span class="man_search_name"><?=$searchBy;?></span>
 </div>
 <?php
-if ($_COOKIE['dev']) {
+//if ($_COOKIE['dev']) {
     echo MSearchFilter::widget([
         'options' => [
             'totalFound' => $totalFound,
@@ -26,7 +26,7 @@ if ($_COOKIE['dev']) {
 
     ]);
 
-}
+//}
 
 ?>
 

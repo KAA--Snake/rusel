@@ -96,14 +96,14 @@
             <div class="filter__inner_empty js-empty-filter js-filter_dropdown inactive">Выбрать параметры для фильтра <span class="arrow"></span></div>
             <div class="filter__inner_params">
                 <div class="filter_selector_wrap collapsed">
-                    <?if(isset($filterManufacturers) && is_array($filterManufacturers)){?>
+                    <?if(isset($filterManufacturers['aggregations']) && is_array($filterManufacturers['aggregations'])){?>
                         <div class="filter-group">
-                            <div class="filter-group__name js-filter-param-name " data-param="manufacturer">Производитель:</div>
+                            <div class="filter-group__name js-filter-param-name " data-param="manufacturer">Производитель (<?php echo $filterManufacturers['overallCount'];?>):</div>
                             <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="manufacturer" class="cross js-cancel-filter-group"></span></div>
                             <div class="filter-group__collapse-btn js-show-filter_group">Выбрать из списка <span class="arrow"></span></div>
                             <div class="filter-group__params-box collapsed">
                                 <ul class="filter-group__params-list ">
-                                    <?foreach($filterManufacturers as $oneFilter){?>
+                                    <?foreach($filterManufacturers['aggregations'] as $oneFilter){?>
                                         <li data-tag="<?=$oneFilter['key'];?>" class="filter-group__params-item js-filter-param-item"><?=$oneFilter['key'];?> <span class="filter-group__params-count">(<?=$oneFilter['doc_count'];?>)</span></li>
                                     <?}?>
                                 </ul>
@@ -115,14 +115,14 @@
                         </div>
                     <?}?>
 
-                    <?if(isset($filterSections) && is_array($filterSections)){?>
+                    <?if(isset($filterSections['aggregations']) && is_array($filterSections['aggregations'])){?>
                         <div class="filter-group">
-                            <div class="filter-group__name js-filter-param-name " data-param="section_id">Раздел:</div>
+                            <div class="filter-group__name js-filter-param-name " data-param="section_id">Раздел(<?php echo $filterSections['overallCount'];?>):</div>
                             <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="section_id" class="cross js-cancel-filter-group"></span></div>
                             <div class="filter-group__collapse-btn js-show-filter_group">Выбрать из списка <span class="arrow"></span></div>
                             <div class="filter-group__params-box collapsed">
                                 <ul class="filter-group__params-list ">
-                                    <?foreach($filterSections as $oneFilter){?>
+                                    <?foreach($filterSections['aggregations'] as $oneFilter){?>
                                         <li data-tag="<?=$oneFilter['key'];?>" class="filter-group__params-item js-filter-param-item"><?=$oneFilter['name'];?> <span class="filter-group__params-count">(<?=$oneFilter['doc_count'];?>)</span></li>
                                     <?}?>
                                 </ul>

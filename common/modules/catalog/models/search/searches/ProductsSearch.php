@@ -76,7 +76,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         //$allFilterDataProps = $this->_getProps($filterDataForSection);
         $allFilterDataProps = []; //а это соотв удалить, чтоб они появились.
 
-        $allManufacturers = $this->_getManufacturers($filterDataForSection);
+        $allManufacturers = $this->_getBucketsForAggregation($filterDataForSection);
         $allSections = $this->_getSections($filterDataForSection);
 
         /** заполняем параметры для поика из ПОСТа(если он был) */
@@ -93,6 +93,13 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         /** если юзер выбрал какие-то параметры в фильтре, сделаем запрос с этими параметрами */
         if(!empty($params)){
             $filterDataForSection = $this->getManualSearchFilteredProducts($searchString, $params);
+
+            //сужение фильтра, показываем только те значения, которые подходят по уже выбранным чекбоксам
+            $allManufacturers = $this->_getBucketsForAggregation($filterDataForSection, 'manufacturers_agg');
+            $allSections = $this->_getSections($filterDataForSection);
+
+            //\Yii::$app->pr->print_r2($filterDataForSection);
+            //\Yii::$app->pr->print_r2($allSections);
         }
 
         /** собираем отфильтрованные товары */
@@ -106,7 +113,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $filterData = $this->_getProps($filterDataForSection);
 
         /**  собираем производителей */
-        $filteredManufacturers = $this->_getManufacturers($filterDataForSection);
+        //$filteredManufacturers = $this->_getBucketsForAggregation($filterDataForSection, 'manufacturers_agg');
+        //$filteredSections = $this->_getSections($filterDataForSection);
 
         //почистим ненужные агрегации из памяти
         unset($filterDataForSection['aggregations']);
@@ -163,7 +171,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
          * (полный фильтр + найденные)
          */
         //добавим пустые значения для выбранного фильтра
-        $this->_addEmptyProps($allFilterDataProps, $filterData);
+        //$this->_addEmptyProps($allFilterDataProps, $filterData);
         /*\Yii::$app->pr->print_r2($pagination);
         \Yii::$app->pr->print_r2($allManufacturers);
         \Yii::$app->pr->print_r2($filterDataForSection);
@@ -171,7 +179,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         //unset($allFilterDataProps);
 
         //добавим пустые значения для выбранного фильтра по производителям
-        $this->_addEmptyManufacturers($allManufacturers, $filteredManufacturers);
+        //$this->_addEmptyManufacturers($allManufacturers, $filteredManufacturers);
+        //$this->_addEmptyManufacturers($allSections, $filteredSections);
 
         $this->_setSingleStorageAsMulti($filterDataForSection);
 
@@ -968,7 +977,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $resultData = [];
 
 	    $allFilterDataProps = $this->_getProps($filterDataForSection);
-	    $allManufacturers = $this->_getManufacturers($filterDataForSection);
+	    $allManufacturers = $this->_getBucketsForAggregation($filterDataForSection)['aggregations'];
 
         /** заполняем параметры для поика из ПОСТа(если он был) */
         if(!$getAll){
@@ -1036,7 +1045,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
 
         /**  собираем производителей */
-	    $filteredManufacturers = $this->_getManufacturers($filterDataForSection);
+	    $filteredManufacturers = $this->_getBucketsForAggregation($filterDataForSection)['aggregations'];
 
 
 
@@ -1138,7 +1147,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'appliedFilterJson' => $appliedFilter,
                 'paginator' => $pagination,
                 'emptyFilterResult' => $this->isEmptyResult,
-                'filterManufacturers' => $allManufacturers,
+                'filterManufacturers' => $allManufacturers['aggregations'],
 
             ];
     }
@@ -1875,25 +1884,30 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	    }
     }
 
-	/**
-	 * Создает массив значений для свойств, индексированный ИДами свойств.
-	 *
-	 * @param $buckets
-	 *
-	 * @return array
-	 */
-	private function _getManufacturers(&$filterDataForSection){
+    /**
+     * Создает массив значений для свойств, индексированный ИДами свойств.
+     *
+     * @param $filterDataForSection
+     * @param string $aggregationName
+     * @return array
+     */
+	private function _getBucketsForAggregation(&$filterDataForSection, $aggregationName = 'manufacturers_agg'){
 
-		/**  собираем производителей */
-		$manufacturers = [];
-		foreach($filterDataForSection['aggregations']['manufacturers_agg']['buckets'] as $oneFilter){
-			$manufacturers[] = $oneFilter;
+	    $bucket = [];
+		//$overallCount = 0;
+		foreach($filterDataForSection['aggregations'][$aggregationName]['buckets'] as $oneFilter){
+            $bucket[] = $oneFilter;
+            //$overallCount += (int) $oneFilter['doc_count'];
 		}
-		sort($manufacturers);
-		//\Yii::$app->pr->print_r2($manufacturers);
+		sort($bucket);
+        //\Yii::$app->pr->print_r2($oneFilter);
 
+        $aggregations = [
+            'overallCount' => count($bucket),
+            'aggregations' => $bucket
+        ];
 
-		return $manufacturers;
+		return $aggregations;
 	}
 
     /**
@@ -1909,11 +1923,15 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         $allSections = [];
         $sectionsWithData = [];
 
+        //$overallCount = 0;
+
         /**  собираем ID разделов */
         $sectionIds = [];
         foreach($filterDataForSection['aggregations']['sections_agg']['buckets'] as $oneFilter){
             $sectionIds[] = $oneFilter['key'];
             $sectionsWithData[$oneFilter['key']] = $oneFilter;
+
+            //$overallCount += (int) $oneFilter['doc_count'];
         }
 
         if (empty($sectionIds)) {
@@ -1932,7 +1950,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             $sectionsWithData[$oneSection['unique_id']]['name'] = $oneSection['label'];
         }
 
-        return $sectionsWithData;
+        $aggregations = [
+            'overallCount' => count($allSections),
+            'aggregations' => $sectionsWithData
+        ];
+
+        return $aggregations;
     }
 
 
