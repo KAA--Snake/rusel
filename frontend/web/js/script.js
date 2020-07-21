@@ -783,31 +783,7 @@ $(document).ready(function () {
     });
 
     $('.filter_reset_btn').click(function (e) {
-        window.location = window.location.pathname;
-        /*if (window.location.search) {
-            var query = decodeURIComponent(window.location.search.substring(1));
-            var vars = query.split('&');
-            var finishSearchQuery = [];
-            var finishSearchString = '';
-
-
-            //window.location.search = '';
-
-            for (var i = 0; i < vars.length; i++) {
-                var param = vars[i].slice(0, vars[i].indexOf('='));
-                if (excludedFilterParams.indexOf(param) !== -1) {
-                    finishSearchQuery.push(vars[i]);
-                }
-            }
-            for (var x = 0; x < finishSearchQuery.length; x++) {
-                if (x == finishSearchQuery.length - 1) {
-                    finishSearchString += finishSearchQuery[x]
-                } else {
-                    finishSearchString += finishSearchQuery[x] + '&'
-                }
-            }
-            window.location.search = finishSearchString;
-        }*/
+        window.location = window.location.pathname + window.location.search;
     });
 
     $('.upload_btn').click(function(e){

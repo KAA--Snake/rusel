@@ -17,43 +17,12 @@
 
         </div>
 
-        <div class="filter_reset_btn"><div>Сброс</div></div>
+        <div class="filter_reset_btn m_search"><div>Сброс</div></div>
     </div>
 
 
 
     <div class="filter_selector_wrap collapsed">
-       <!-- <table class="filter_tab">
-
-            <?/*if(isset($filterManufacturers) && is_array($filterManufacturers)){*/?>
-                <tr class="filter_selector_item">
-                    <td class="tags">
-                        <ul class="tag_list">
-                            <li data-param="manufacturer" class="name js-filter-param-name">Производитель:</li>
-                            <?/*foreach($filterManufacturers as $oneFilter){*/?>
-                                <li data-tag="<?/*=$oneFilter['key'];*/?>" class="tag_item js-filter-param-item"><?/*=$oneFilter['key'];*/?> <span class="filter_param_count">(<?/*=$oneFilter['doc_count'];*/?>)</span></li>
-                            <?/*}*/?>
-                        </ul>
-                    </td>
-                </tr>
-            <?/*}*/?>
-
-            <?/*foreach($filterData as $key => $oneFilter){*/?>
-                <tr class="filter_selector_item">
-                    <td class="tags">
-                        <ul class="tag_list">
-                            <li data-param="<?/*=$key;*/?>" class="name js-filter-param-name"><?/*=$oneFilter['prop_name'];*/?>:</li>
-                            <?/*foreach($oneFilter['prop_values']['buckets'] as $i => $oneBucket){*/?>
-                                <li data-tag="<?/*=$oneBucket['key'];*/?>" class="tag_item js-filter-param-item <?php /*if($i >= 10){*/?> hidden <?/*}*/?>"><?/*=$oneBucket['key'];*/?> <span class="filter_param_count">(<?/*=$oneBucket['doc_count'];*/?>)</span></li>
-                            <?/*}*/?>
-                            <?php /*if(count($oneFilter['prop_values']['buckets']) > 10) {*/?>
-                                <li class="filter_more_btn js-filter-param-item-more">показать все ↓</li>
-                            <?/*}*/?>
-                        </ul>
-                    </td>
-                </tr>
-            <?/*}*/?>
-        </table>-->
         <div class="apply_filter_btn_wrap">
 
             <form action="" method="post" class="filter_form hidden" name="productFilterForm" id="filter-form">
@@ -90,12 +59,12 @@
 
     <div class="goods_filter_wrap">
 
-        <div class="filter_btn js-filter_dropdown inactive">Фильтр</div>
+        <div class="filter_btn js-filter_dropdown active">Фильтр</div>
 
         <div class="filter_params_applied">
             <div class="filter__inner_empty js-empty-filter js-filter_dropdown inactive">Выбрать параметры для фильтра <span class="arrow"></span></div>
             <div class="filter__inner_params">
-                <div class="filter_selector_wrap collapsed">
+                <div class="filter_selector_wrap expanded">
                     <?if(isset($filterManufacturers['aggregations']) && is_array($filterManufacturers['aggregations'])){?>
                         <div class="filter-group">
                             <div class="filter-group__name js-filter-param-name " data-param="manufacturer">Производитель (<?php echo $filterManufacturers['overallCount'];?>):</div>
