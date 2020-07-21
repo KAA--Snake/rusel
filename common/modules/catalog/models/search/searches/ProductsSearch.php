@@ -126,8 +126,12 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             foreach (\Yii::$app->request->post() as $k=>$postData){
                 if(empty($postData)) continue;
 
-                if(in_array($k, $this->mainProps)){
+                if ($k === 'manufacturer') {
                     $appliedFilter[$k] = $postData;
+                }
+
+                if ($k === 'section_id') {
+                    $appliedFilter[$k] = $allSections['aggregations'][$postData]['name'];
                 }
 
                 if(isset($allFilterDataProps[$k])){
