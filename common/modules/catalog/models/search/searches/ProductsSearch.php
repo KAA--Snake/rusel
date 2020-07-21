@@ -84,7 +84,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $totalFound = 0;
 
-        //\Yii::$app->pr->die();
+        //\Yii::$app->pr->print_r2($allManufacturers);
+        //\Yii::$app->pr->print_r2($allSections);
         //добавляем фильтр по производителю (костыль по желанию заказчика)
         if(!empty(\Yii::$app->request->get('manufacturer'))){
             $params['manufacturer'] = \Yii::$app->request->get('manufacturer');
@@ -1899,6 +1900,11 @@ class ProductsSearch extends BaseSearch implements iProductSearch
             $bucket[] = $oneFilter;
             //$overallCount += (int) $oneFilter['doc_count'];
 		}
+
+        if (empty($bucket)) {
+            return [];
+        }
+
 		sort($bucket);
         //\Yii::$app->pr->print_r2($oneFilter);
 
