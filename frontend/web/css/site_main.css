@@ -913,14 +913,16 @@
       .container.main .content_wrap .goods_filter_block_2 .filter_selector_wrap .filter-group__name {
         color: #999999;
         font-size: 14px;
-        font-weight: 300; }
+        font-weight: 300;
+        display: inline-block; }
       .container.main .content_wrap .goods_filter_block_2 .filter_selector_wrap .filter-group__collapse-btn {
         color: #336699;
         font-size: 14px;
         font-weight: 300;
         line-height: 33px;
         text-decoration: underline;
-        cursor: pointer; }
+        cursor: pointer;
+        display: inline-block; }
         .container.main .content_wrap .goods_filter_block_2 .filter_selector_wrap .filter-group__collapse-btn .arrow {
           margin-left: 10px;
           display: inline-block;

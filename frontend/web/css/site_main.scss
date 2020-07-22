@@ -1135,6 +1135,7 @@ $white:#ffffff;
             color: #999999;
             font-size: 14px;
             font-weight: 300;
+            display: inline-block;
 
           }
           &__collapse-btn{
@@ -1144,6 +1145,7 @@ $white:#ffffff;
             line-height: 33px;
             text-decoration: underline;
             cursor: pointer;
+            display: inline-block;
             .arrow{
               margin-left: 10px;
               display: inline-block;
