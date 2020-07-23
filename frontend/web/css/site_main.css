@@ -1119,6 +1119,8 @@
   text-transform: uppercase;
   margin-left: 20px;
   margin-bottom: 20px; }
+  .container.main .content_wrap .catalog_h1 .man_search_name {
+    color: #336699; }
 .container.main .content_wrap .content_inner_wrap {
   margin-left: 240px;
   /*h1{

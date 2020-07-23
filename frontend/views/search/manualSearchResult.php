@@ -8,9 +8,9 @@ use common\widgets\filter_for_msearch\MSearchFilter;
 $this->title = 'RUSEL24 - Поиск по '.$searchBy;
 ?>
 
-<div class="man_search_header">
+<h1 class="catalog_h1">
     результат поиска по критерию: <span class="man_search_name"><?=$searchBy;?></span>
-</div>
+</h1>
 <?php
 //if ($_COOKIE['dev']) {
     echo MSearchFilter::widget([
