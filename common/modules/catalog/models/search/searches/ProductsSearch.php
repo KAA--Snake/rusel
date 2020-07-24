@@ -1181,7 +1181,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'appliedFilterJson' => $appliedFilter,
                 'paginator' => $pagination,
                 'emptyFilterResult' => $this->isEmptyResult,
-                'filterManufacturers' => $allManufacturers['aggregations'],
+                'filterManufacturers' => $allManufacturers,
 
             ];
     }
