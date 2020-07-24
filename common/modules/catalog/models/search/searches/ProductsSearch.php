@@ -131,7 +131,24 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 }
 
                 if ($k === 'section_id') {
-                    $appliedFilter[$k] = $allSections['aggregations'][$postData]['name'];
+                    //сборка вида 12|23|45
+                    $appliedFilter[$k] = $postData;
+
+                    /*
+                    тут блок, если понадобится пробрасывать не ИД разделов, а названия.
+                    но потом надо будет пересобирать эти названия и делатьпо ним ИДы в параметрах фильтра.
+                    пока решили переложить это на фронт.
+
+                    //собираем названия разделов из их ИД
+                    $sectionsExploded = explode("|", $postData);
+                    //\Yii::$app->pr->print_r2($sectionsExploded);
+                    $sectionNames = [];
+                    foreach($sectionsExploded as $oneSectionId) {
+                        $sectionNames[] = $allSections['aggregations'][$oneSectionId]['name'];
+                    }
+
+                    //$appliedFilter[$k] = implode("|", $sectionNames);
+                    */
                 }
 
                 if(isset($allFilterDataProps[$k])){
@@ -610,6 +627,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $additParamsMust = [];
         //\Yii::$app->pr->print_r2($searchParams);
+        //\Yii::$app->pr->die();
+
         foreach($searchParams as $propId=>$propValue){
 
             //Пропускаем "на складах" и "маркетинг" - они добавляются ниже, через метод $this->_getMiniFiltersQuery()
@@ -679,6 +698,15 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
             $additParamsMust['bool']['must'][] = $oneFilter;
         }
+
+        //убираем ВСЕ товары у которых ИД раздела = 0
+        $emptySectionFilter = [
+            "term"=> [
+                "section_id"=> 0
+            ]
+        ];
+
+        $additParamsMust['bool']['must_not'][] = $emptySectionFilter;
 
         //\Yii::$app->pr->print_r2($additParamsMust);
         //\Yii::$app->pr->die();
