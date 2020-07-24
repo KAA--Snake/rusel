@@ -1129,8 +1129,11 @@ $white:#ffffff;
           display: none;
         }
         .filter-group{
-          margin-bottom: 20px;
+
           line-height: 18px;
+          &:last-child{
+            margin-bottom: 20px;
+          }
           &__name{
             color: #999999;
             font-size: 14px;

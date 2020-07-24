@@ -908,8 +908,9 @@
     .container.main .content_wrap .goods_filter_block_2 .filter_selector_wrap.collapsed {
       display: none; }
     .container.main .content_wrap .goods_filter_block_2 .filter_selector_wrap .filter-group {
-      margin-bottom: 20px;
       line-height: 18px; }
+      .container.main .content_wrap .goods_filter_block_2 .filter_selector_wrap .filter-group:last-child {
+        margin-bottom: 20px; }
       .container.main .content_wrap .goods_filter_block_2 .filter_selector_wrap .filter-group__name {
         color: #999999;
         font-size: 14px;
