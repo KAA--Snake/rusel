@@ -14,6 +14,10 @@ class PrettyPrintComponent extends Component
         parent::init();
     }
 
+    public function printR2WOChecks($whatPrint) {
+        print_r2($whatPrint);
+    }
+
 
     public function print_r2($whatPrint){
         if ($_COOKIE['dev']) {
