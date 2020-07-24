@@ -714,6 +714,7 @@ $(document).ready(function () {
     if(filterQuery.length && filterQuery !== '[]') {
 
         var queryParams = JSON.parse(filterQuery);
+        console.log(queryParams);
 
 
         for( var p in queryParams) {
@@ -727,11 +728,23 @@ $(document).ready(function () {
                     var selectedFilterParamsList = selectedFilterParamsBlock.find('.js-applied_filter_params_list');
                     var showFilterGroupBtn = $(this).find('.js-show-filter_group');
                     var cancelFilterGroupBtn = $(this).find('.js-cancel-filter-group');
+                    var isSectionFilter = $(this).hasClass('js-section-filter');
+                    var sectionJson = isSectionFilter ? JSON.parse($(this).attr('data-aggregations')) : null;
+
                     if(filterParamCat.data('param') == p) {
                         if (i < queryParams[p].length -1) {
-                            selectedFilterParamsList.append('<span>'+queryParams[p][i]+'; </span>');
+                            if(isSectionFilter) {
+                                selectedFilterParamsList.append('<span>'+ sectionJson[queryParams[p][i]].name +'; </span>');
+                            }else{
+                                selectedFilterParamsList.append('<span>'+queryParams[p][i]+'; </span>');
+                            }
+
                         }else{
-                            selectedFilterParamsList.append('<span>'+queryParams[p][i]+'</span>');
+                            if(isSectionFilter) {
+                                selectedFilterParamsList.append('<span>'+sectionJson[queryParams[p][i]].name+'</span>');
+                            }else{
+                                selectedFilterParamsList.append('<span>'+queryParams[p][i]+'</span>');
+                            }
                             showParamsBtn.remove();
                         }
                         selectedFilterParamsBlock.show();

@@ -85,9 +85,9 @@
                     <?}?>
 
                     <?if(isset($filterSections['aggregations']) && is_array($filterSections['aggregations'])){?>
-                        <div class="filter-group">
+                        <div class="filter-group js-section-filter" data-aggregations='<?=$appliedFilterSectionJson;?>'>
                             <div class="filter-group__name js-filter-param-name " data-param="section_id">Раздел (<?php echo $filterSections['overallCount'];?>):</div>
-                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="section_id" data-aggregations="<?=$appliedFilterSectionJson;?>" class="cross js-cancel-filter-group"></span></div>
+                            <div class="filter-group__applied_params js-applied_filter_group"><span class="applied_filter_params_list js-applied_filter_params_list"></span><span data-param="section_id" class="cross js-cancel-filter-group"></span></div>
                             <div class="filter-group__collapse-btn js-show-filter_group">список <span class="arrow"></span></div>
                             <div class="filter-group__params-box collapsed">
                                 <ul class="filter-group__params-list ">
