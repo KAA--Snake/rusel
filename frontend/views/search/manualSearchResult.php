@@ -19,6 +19,7 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
             'filterData' => $filterData,
             'perPage' => $perPage,
             'appliedFilterJson' => $appliedFilterJson,
+            'appliedFilterSectionJson' => $appliedFilterSectionJson,
             'emptyFilterResult' => $emptyFilterResult,
             'filterManufacturers' => $filterManufacturers,
             'filterSections' => $filterSections,

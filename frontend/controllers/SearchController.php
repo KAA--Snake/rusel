@@ -213,6 +213,7 @@ class SearchController extends Controller
 
             'filterData' => $searchResult['filterData'],
             'appliedFilterJson' => $searchResult['appliedFilterJson'],
+            'appliedFilterSectionJson' => $searchResult['appliedFilterSectionJson'],
             'emptyFilterResult' => $searchResult['emptyFilterResult'],
             'filterManufacturers' => $searchResult['filterManufacturers'],
             'filterSections' => $searchResult['filterSections'],

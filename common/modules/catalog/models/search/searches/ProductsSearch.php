@@ -222,6 +222,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
                 'emptyFilterResult' => $this->isEmptyResult,
                 'filterManufacturers' => $allManufacturers,
                 'filterSections' => $allSections,
+                'appliedFilterSectionJson' => json_encode($allSections['aggregations'], JSON_UNESCAPED_SLASHES)
 
         ];
 
