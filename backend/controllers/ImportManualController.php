@@ -221,6 +221,22 @@ class ImportManualController extends Controller
                 /** @TODO СДЕЛАТЬ ПРОВЕРКУ НА АДМИНА !!*/
 
                 $productModel = new \common\models\elasticsearch\Product();
+
+                $log = [];
+
+                $date = new \DateTime();
+                $log['DATE'] = $date->format('Y-m-d H:i:sP');
+
+                $log['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+                $log['REMOTE_PORT'] = $_SERVER['REMOTE_PORT'];
+                $log['REQUEST_METHOD'] = $_SERVER['REQUEST_METHOD'];
+                $log['QUERY_STRING'] = $_SERVER['QUERY_STRING'];
+                $log['HTTP_USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'];
+                $log['HTTP_COOKIE'] = $_SERVER['HTTP_COOKIE'];
+                $log['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+
+                file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/ClearProducts.log", "Очистка индекса и каталога: " . print_r($log, true). "\r\n", FILE_APPEND);
+
                 $productModel->clearAllProducts();
                 $productModel->mapIndex();
                 $isProductsClear = true;
