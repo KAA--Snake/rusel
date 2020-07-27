@@ -514,7 +514,7 @@ $perPage = $paginator['maxSizeCnt'];
                     <div class="product_card_more collapsed">
                         <div class="product_tab">
                             <ul class="product_specs_list">
-                                <?php if (isset($oneProduct['_source']['properties']['detail_text']) && count($oneProduct['_source']['properties']['detail_text']) > 0) { ?>
+                                <?php if (isset($oneProduct['_source']['properties']['detail_text']) && !empty($oneProduct['_source']['properties']['detail_text'])) { ?>
                                     <li class="product_tab_item"><a href="#description">Описание</a></li>
                                 <?php } ?>
                                 <?php if (!empty($oneProduct['_source']['other_properties']['property']) && count($oneProduct['_source']['other_properties']['property']) > 0) { ?>

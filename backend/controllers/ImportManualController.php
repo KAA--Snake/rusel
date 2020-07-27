@@ -175,8 +175,8 @@ class ImportManualController extends Controller
         $model = new CatalogImport();
 
         $importResults = Import_log::find()->andWhere([])->asArray()->all();
-        echo 'Результат импорта товаров: ';
-        \Yii::$app->pr->printR2WOChecks($importResults);
+        //echo 'Результат импорта товаров: ';
+        //\Yii::$app->pr->printR2WOChecks($importResults);
 
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
 
