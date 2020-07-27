@@ -7,7 +7,7 @@ use yii\helpers\Url;
 <div class="sp_body-fullwidth js-sp_list_wrap">
     <div class="sp_corner"></div>
     <div class="sp_list js-scroll-pane">
-        <? if(count($manufacturers) > 0) {?>
+        <? if(!empty($manufacturers) && isset($manufacturers)) {?>
             <?
             $manufacturersCount = count($manufacturers);
             $newRow = ceil($manufacturersCount / 5);

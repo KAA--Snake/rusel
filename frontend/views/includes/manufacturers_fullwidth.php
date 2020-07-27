@@ -1,5 +1,6 @@
 <?php
-//\Yii::$app->pr->print_r2($manufacturers);
+/*\Yii::$app->pr->print_r2($manufacturers);
+\Yii::$app->pr->die();*/
 
 use yii\helpers\Url;
 ?>
@@ -10,7 +11,7 @@ use yii\helpers\Url;
         <input type="text" class="sp_filter js-sp_filter" placeholder="Поиск производителя">
     </div>
     <div class="sp_list js-scroll-pane">
-        <? if(count($manufacturers) > 0) {?>
+        <? if(!empty($manufacturers) && isset($manufacturers)) {?>
             <ul class="inner_list flex-row-layout">
             <? foreach($manufacturers as $key => $manufacturer) {?>
                 <li class="sp_item js-sp_item <?=$lastKey?>"><a href="<?=Url::to('/manufacturer/'.$manufacturer['m_name'].'/');?>"><?=$manufacturer['m_name'];?></a></li>

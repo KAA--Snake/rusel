@@ -9,7 +9,7 @@ use yii\helpers\Url;
         <input type="text" class="sp_filter" placeholder="Поиск производителя">
     </div>
     <ul class="sp_list js-scroll-pane">
-        <? if(count($manufacturers) > 0) {?>
+        <? if(!empty($manufacturers) && isset($manufacturers)) {?>
             <? foreach($manufacturers as $manufacturer) {?>
 
                 <li class="sp_item"><a href="<?=Url::to('/manufacturer/'.$manufacturer['m_name'].'/');?>"><?=$manufacturer['m_name'];?></a></li>
