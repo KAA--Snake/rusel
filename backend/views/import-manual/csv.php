@@ -9,7 +9,8 @@ foreach (\Yii::$app->session->getAllFlashes() as $key => $message) {
 }
 ?>
 <?php
-
+echo 'Результат импорта товаров: ';
+\Yii::$app->pr->printR2WOChecks($importResults);
 if($isProductsClear) {
     echo '<br /> Все товары успешно удалены! <br /><br />';
 }

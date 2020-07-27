@@ -15,7 +15,7 @@ use common\widgets\search\WSearch;
 
 
 $catalogParentLink = '';
-if(count($this->params['breadcrumbs']) > 0){
+if(isset($this->params['breadcrumbs']) && !empty(($this->params['breadcrumbs']))){
     foreach($this->params['breadcrumbs'] as $bCrumb){
         if(isset($bCrumb['finalItem'])){
             if($bCrumb['finalItem'] == true){
