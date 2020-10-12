@@ -136,7 +136,7 @@ class DefaultController extends Controller
             $seoArtikle = Artikle::find()->andWhere(['type' => 'seo_text'])->one();
             $seoText = '';
 
-            if(isset($seoArtikle->full_text) && is_array($seoArtikle->full_text)){
+            if(isset($seoArtikle->full_text)){
                 $seoText = Templater::makeSubstitution(
                     $seoArtikle->full_text,
                     $product

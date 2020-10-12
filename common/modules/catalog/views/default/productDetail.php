@@ -443,20 +443,36 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
     </div>
 
 
-    <div class="_detail_section products_offset">
+    <div class="_detail_section products_offset" style="padding: 15px;">
         <?php if ($productsOffset['lt']) {
             $url = str_replace('|', '/', $productsOffset['lt']['url']);
             ?>
-            <div class="left_offset" style="float: left"><a href="/catalog/<?=$url;?>"><?=$productsOffset['lt']['artikul'];?></a></div>
+            <div class="left_offset" style="float: left; text-align: left;">
+                <div style="opacity: 0.5;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;"><<< Предыдущий</div>
+                <div><a style="color: #9f0f18;" href="/catalog/<?=$url;?>"><?=$productsOffset['lt']['artikul'];?></a></div>
+            </div>
         <?php } else {?> <div class="left_offset"></div> <?php }?>
 
         <?php if ($productsOffset['gt']) {
             $url = str_replace('|', '/', $productsOffset['gt']['url']);
             ?>
-            <div class="right_offset" style="float: right"><a href="/catalog/<?=$url;?>"><?=$productsOffset['gt']['artikul'];?></a></div>
+
+            <div class="right_offset" style="float: right; text-align: right;">
+                <div style="opacity: 0.5;
+    color: #333333;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;">Следующий >>></div>
+                <div><a style="color: #9f0f18;" href="/catalog/<?=$url;?>"><?=$productsOffset['gt']['artikul'];?></a></div>
+
+            </div>
         <?php } else {?> <div class="right_offset"></div> <?php }?>
 
-        <div class="clear"></div>
+        <div class="clearBoth" style="clear: both"></div>
     </div>
 
 
