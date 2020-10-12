@@ -1520,6 +1520,76 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		return $response['hits'];
 	}
 
+	private function getNextSideByIdAndSectionId($side = 'gt', $product)
+    {
+        $order = 'asc';
+
+        if ($side == 'lt') {
+            $order = 'desc';
+        }
+
+        $must[] = [
+            "term"=> [
+                "section_id"=> $product['section_id']
+            ]
+        ];
+
+        $sort = [
+            'artikul' => ['order' => $order]
+        ];
+
+        $must[] = [
+            'range' => [
+                'artikul' => [
+                    [$side => $product['artikul']]
+                    //['lt' => $product['id']]
+                ]
+            ]
+        ];
+
+        $params = [
+            'body' => [
+                'size' => 1,
+                'sort' => $sort,
+                'query' => [
+                    'bool'=> [
+                        /** обязательный блок (для ИД раздела ) */
+                        'must' => $must
+                    ]
+                ],
+            ]
+        ];
+
+        $params = Product::productData + $params;
+
+        $response = Elastic::getElasticClient()->search($params);
+
+        if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
+            return $response['hits']['hits'][0]['_source'];
+        }
+
+        return false;
+    }
+
+    /**
+     * Получает товар "слева" и "справа" от $product
+     * Используется для построения цепочки "следующий и предыдущий" товар
+     *
+     * @param $product
+     * @return array
+     */
+	public function getLTRTForProduct($product)
+    {
+       $gtProduct = $this->getNextSideByIdAndSectionId('gt', $product);
+//        \Yii::$app->pr->print_r2($gtProduct);
+//        \Yii::$app->pr->die();
+
+       $ltProduct = $this->getNextSideByIdAndSectionId('lt', $product);
+//       \Yii::$app->pr->print_r2($ltProduct);
+//        \Yii::$app->pr->die();
+        return ['lt' => $ltProduct, 'gt' => $gtProduct];
+
+    }
 
 	/**
 	 * Получает товар по его св-ву url

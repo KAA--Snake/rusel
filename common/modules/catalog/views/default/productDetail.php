@@ -441,6 +441,25 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
         <h2>Информация</h2>
         <?=$seoText;?>
     </div>
+
+
+    <div class="_detail_section products_offset">
+        <?php if ($productsOffset['lt']) {
+            $url = str_replace('|', '/', $productsOffset['lt']['url']);
+            ?>
+            <div class="left_offset" style="float: left"><a href="/catalog/<?=$url;?>"><?=$productsOffset['lt']['artikul'];?></a></div>
+        <?php } else {?> <div class="left_offset"></div> <?php }?>
+
+        <?php if ($productsOffset['gt']) {
+            $url = str_replace('|', '/', $productsOffset['gt']['url']);
+            ?>
+            <div class="right_offset" style="float: right"><a href="/catalog/<?=$url;?>"><?=$productsOffset['gt']['artikul'];?></a></div>
+        <?php } else {?> <div class="right_offset"></div> <?php }?>
+
+        <div class="clear"></div>
+    </div>
+
+
 </div>
 
 <script type="application/ld+json">

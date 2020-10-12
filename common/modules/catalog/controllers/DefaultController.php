@@ -114,10 +114,14 @@ class DefaultController extends Controller
 
         /** карточка товара */
         $productModel = new ProductsSearch();
+        $productsOffset = ['lt' => false, 'gt' => false];
 
         $product = $productModel->getProductByUrl($pathForParse);
         //
         if($product){
+
+            //блок следующий/предыдущий товар
+            $productsOffset = $productModel->getLTRTForProduct($product);
 
             //получаем breadcrumbs
             $breadcrumbs = $breadCrumbsObj->getForCatalogProduct($product);
@@ -131,7 +135,8 @@ class DefaultController extends Controller
             //$seoArtikle = \Artikle::find()->andWhere(['type' => 'seo_text'])->one();
             $seoArtikle = Artikle::find()->andWhere(['type' => 'seo_text'])->one();
             $seoText = '';
-            if(isset($seoArtikle->full_text)){
+
+            if(isset($seoArtikle->full_text) && is_array($seoArtikle->full_text)){
                 $seoText = Templater::makeSubstitution(
                     $seoArtikle->full_text,
                     $product
@@ -146,7 +151,7 @@ class DefaultController extends Controller
             }*/
 	        //\Yii::$app->pr->print_r2($product);
 	        //die();
-            return $this->render('productDetail', ['oneProduct' => $product, 'seoText' => $seoText]);
+            return $this->render('productDetail', ['oneProduct' => $product, 'seoText' => $seoText, 'productsOffset' => $productsOffset]);
         }
 
 
