@@ -15,6 +15,7 @@ use common\modules\catalog\models\Section;
 use common\modules\catalog\models\seo\SeoManufacturer;
 use common\widgets\seo_manufacturer\SeoManufacturers;
 use yii\web\Controller;
+use yii\web\HttpException;
 
 class ManufacturerController extends Controller
 {
@@ -62,9 +63,20 @@ class ManufacturerController extends Controller
                 'manufacturerId' => $manufacturer->m_id
             ],
         ]);
+        //\Yii::$app->pr->print_r2($manufacturer);
+        //\Yii::$app->pr->die();
 
         if(empty($manufacturer->m_id) || !isset($manufacturer->m_id) || empty($manufacturer->m_group_ids)) {
-            return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);
+
+            throw new HttpException(404);
+
+//            return $this->render('productsList', [
+//                'productsList' => [],
+//                'manufacturer' => $manufacturer->m_name,
+//                'groupedSections' => [],
+//                'seoText' => false,
+//                //'paginator' => $products['paginator'],
+//            ]);
         }
         //\Yii::$app->pr->print_r2($this->pagination);
 
@@ -74,9 +86,6 @@ class ManufacturerController extends Controller
         if(count($products) <= 0){
             return $this->render('productsList', ['productsList' => [], 'manufacturer' => $manufacturer->m_name]);
         }
-
-        /*\Yii::$app->pr->print_r2($products);
-        die();*/
 
         /** @TODO вынимаем структуру разделов. */
         $sectionModel = new Section();
