@@ -499,6 +499,60 @@ class Section extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     * Получает раздел каталога и всех его потомков по $sectionId,
+     * можно указать максимальную глубину для подразделов
+     *
+     * @param $url
+     * @param bool $maxDepthLevel
+     * @return array
+     * @internal param bool $asArray
+     */
+    public function getSectionWithSiblingsById($sectionId, $maxDepthLevel=false){
+
+        $returnData = [];
+        $returnData['currentSection'] = [];
+        $returnData['unGroupedSiblings'] = [];
+        $returnData['groupedSiblings'] = [];
+        $returnData['currentSectionProducts'] = []; //товары текущего раздела
+
+        /** достаем выбранный раздел */
+        $returnData['currentSection'] = static::find()->andWhere([
+            'unique_id' => $sectionId
+        ])->one();
+
+        /** достаем всех дочерние разделы */
+        if($returnData['currentSection']){
+
+            $mtn = 'lft > ' .$returnData['currentSection']->lft;
+            $ltn = 'rgt < '.$returnData['currentSection']->rgt;
+
+            $subsectionsQuery = static::find()->andWhere(['and', $mtn, $ltn]);
+
+            /** если надо, то ограничим уровень вложенности */
+            if($maxDepthLevel){
+                $maxDepthLevel = $returnData['currentSection']->depth_level + $maxDepthLevel;
+
+                $subsectionsQuery->andWhere([
+                    '<=', 'depth_level', $maxDepthLevel
+                ]);
+            }
+
+            $returnData['unGroupedSiblings'] = $subsectionsQuery->orderBy('depth_level, parent_id, sort ASC')->all();
+
+            //$unGroupedSiblings = $subsectionsQuery->orderBy('depth_level, parent_id, sort ASC')->all();
+
+            //$returnData['unGroupedSiblings'] = $unGroupedSiblings;
+
+            /** группировка подразделов -не работает как требуется здесь почему то */
+            //$returnData['groupedSiblings']= $this->groupSubsections($unGroupedSiblings, $returnData['currentSection']->unique_id);
+
+
+        }
+
+
+        return $returnData;
+    }
 
     /**
      * Выводит в каталоге список

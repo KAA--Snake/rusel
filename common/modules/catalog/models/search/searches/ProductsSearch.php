@@ -585,6 +585,54 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         return $response;
     }
 
+
+    public function getProductsForSectionId($sectionId)
+    {
+
+        $must = array();
+
+        $must[] = [
+            "term"=> [
+                "section_id"=> $sectionId
+            ]
+        ];
+
+        $params =[
+            'body' =>[
+                'from' => 0,
+                'size' => 1,
+                /*'sort' => [
+                    'artikul' => ['order' => 'asc']
+                ],*/
+//                'sort' => [
+//                    'artikul' => ['order' => 'asc']
+//                ],
+                "query"=> [
+                    "bool"=> [
+
+                        /** обязательный блок (для ИД раздела ) */
+                        'must' => $must
+                    ]
+                ],
+
+
+            ]
+        ];
+
+        $params = $this->productData + $params;
+
+        //\Yii::$app->pr->print_r2($params);
+        //die();
+
+        $response = Elastic::getElasticClient()->search($params);
+
+        if(!empty($response['hits']['hits'])) {
+            return $response['hits']['hits'];
+        }
+
+        return [];
+    }
+
     /**
      * Отдает товары и фильтр по заданным параметрам, аналог getFilteredProducts ,
      * но без кеширования и с доп строкой поиска.
@@ -1244,6 +1292,99 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		return true;
 	}
 
+
+	public function getFirstProductFromSection($sectionId)
+    {
+        $order = 'asc';
+
+        $must[] = [
+            "term"=> [
+                "section_id"=> $sectionId
+            ]
+        ];
+
+        $sort = [
+            'artikul' => ['order' => $order]
+        ];
+
+        $params = [
+            'body' => [
+                'size' => 1,
+                'sort' => $sort,
+                'query' => [
+                    'bool'=> [
+                        'must' => $must
+                    ]
+                ],
+            ]
+        ];
+
+        $params = Product::productData + $params;
+
+        $response = Elastic::getElasticClient()->search($params);
+
+        if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
+            return $response['hits']['hits'][0]['_source'];
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $sectionId
+     * @param $lastArticul
+     * @param string $side
+     * @return bool
+     */
+    public function getNextProductFromSection($sectionId, $lastArticul, $side='gt')
+    {
+        $order = 'asc';
+
+        if ($side == 'lt') {
+            $order = 'desc';
+        }
+
+        $must[] = [
+            "term"=> [
+                "section_id"=> $sectionId
+            ]
+        ];
+
+        $sort = [
+            'artikul' => ['order' => $order]
+        ];
+
+        $must[] = [
+            'range' => [
+                'artikul' => [
+                    [$side => $lastArticul]
+                    //['lt' => $product['id']]
+                ]
+            ]
+        ];
+
+        $params = [
+            'body' => [
+                'size' => 1,
+                'sort' => $sort,
+                'query' => [
+                    'bool'=> [
+                        'must' => $must
+                    ]
+                ],
+            ]
+        ];
+
+        $params = Product::productData + $params;
+
+        $response = Elastic::getElasticClient()->search($params);
+
+        if(!empty($response['hits']['hits'][0]['_source']) && isset($response['hits']['hits'][0]['_source'])){
+            return $response['hits']['hits'][0]['_source'];
+        }
+
+        return false;
+    }
 
 
 	/**

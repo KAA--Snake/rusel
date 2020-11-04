@@ -40,6 +40,12 @@ $this->title = 'admin main page';
                 <a class="dashboard_section-link" href="/admin/seo/manufacturer">СЕО текст для Производителей</a>
             </div>
         </div>
+        <div class="dashboard_section">
+            <h3 class="dashboard_section-header">Выгрузка каталога</h3>
+            <div class="dashboard_section-body">
+                <a class="dashboard_section-link" href="/admin/export">Экспорт товаров в ХМЛ</a>
+            </div>
+        </div>
     </div>
 </div>
 

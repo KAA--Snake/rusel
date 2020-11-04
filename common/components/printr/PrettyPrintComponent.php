@@ -19,6 +19,15 @@ class PrettyPrintComponent extends Component
     }
 
 
+    public function print_r($whatPrint){
+        if ($_COOKIE['dev']) {
+            echo '<pre>';
+                print_r($whatPrint);
+            echo '</pre>';
+        }
+    }
+
+
     public function print_r2($whatPrint){
         if ($_COOKIE['dev']) {
             $bcktrace = debug_backtrace();
