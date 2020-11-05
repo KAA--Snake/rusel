@@ -12,6 +12,28 @@ use common\modules\catalog\models\Section;
 
 class ProductXmlWriter {
 
+    var $writer;
+    var $propertyGetter;
+
+    function __construct()
+    {
+        $this->writer = new \XMLWriter();
+        $this->propertyGetter = new PropertyGetter();
+
+        //очищаем файл
+        file_put_contents($_SERVER['DOCUMENT_ROOT'].'/exportCatalog.xml', "");
+
+        //TODO здесь надо создать стартовую переменную для мониторинга результата (в сессии)
+
+        //начинаем запись потока + ставим начальный тег
+        $this->openDocument();
+    }
+
+    function __destruct()
+    {
+        //TODO здесь надо создать конечную переменную для мониторинга результата (в сессии)
+        $this->closeDocument();
+    }
 
     public function goThrousgSection($sectionId)
     {
@@ -19,7 +41,8 @@ class ProductXmlWriter {
         $sectionModel = new Section();
         $productsSearchModel = new ProductsSearch();
 
-        $returnData = $sectionModel->getSectionWithSiblingsById(135);
+        //получаем данные по выбранному разделу
+        $returnData = $sectionModel->getSectionWithSiblingsById($sectionId);
 
         //получаем товары из текущего раздела (если есть)
         if(!empty($returnData['currentSection']['unique_id']) && $returnData['currentSection']['unique_id'] > 0) {
@@ -30,32 +53,31 @@ class ProductXmlWriter {
 
             $sectionProducts = $productsSearchModel->getProductsForSectionId($returnData['currentSection']['unique_id']);
 
-            //todo здесь отправить на формирование хмл для массива $sectionProducts
-            //\Yii::$app->pr->print_r2($sectionProducts);
+            //отправить на формирование хмл для массива $sectionProducts
+            $this->writeArrayToXml($sectionProducts);
+
         }
 
         //\Yii::$app->pr->print_r2($returnData['currentSection']->getAttributes());
 
+        //получаем список подразделов для выбранного раздела
         if(!empty($returnData['unGroupedSiblings']) && is_array($returnData['unGroupedSiblings'])) {
+
             foreach($returnData['unGroupedSiblings'] as $oneSibling) {
+                //проходим по всем подразделам
                 $sectionProducts = $productsSearchModel->getProductsForSectionId($oneSibling->unique_id);
 
-                //todo здесь отправить на формирование хмл для массива $sectionProducts
+                //здесь отправить на формирование хмл для массива $sectionProducts
+                $this->writeArrayToXml($sectionProducts);
                 //\Yii::$app->pr->print_r2($sectionProducts);
             }
         }
 
-//        if(!empty($returnData['groupedSiblings']) && is_array($returnData['groupedSiblings'])) {
-//            foreach($returnData['groupedSiblings'] as $oneSibling) {
-//                \Yii::$app->pr->print_r($oneSibling->id);
-//            }
-//        }
+        //закрываем запись + закрываем последний тег
+        $this->closeDocument();
 
-        die();
 
-        //получаем список подразделов для выбранного раздела
 
-        //проходим по всем подразделам
 
         //получаем первый продукт
 
@@ -64,56 +86,78 @@ class ProductXmlWriter {
 
     }
 
-
-    private function writeXmlForSection($sectionId)
+    //<list>
+    private function openDocument()
     {
-        $propertyGetter = new PropertyGetter();
+        $this->writer->openURI("file:///{$_SERVER['DOCUMENT_ROOT']}/exportCatalog.xml");
+        $this->writer->startDocument('1.0','UTF-8');
+        $this->writer->setIndent(4);
 
-        $writer = new \XMLWriter();
+        $this->writer->startElement('list');
+    }
 
+    //</list>
+    private function closeDocument()
+    {
+        $this->writer->endElement();
+        $this->writer->endDocument();
+        $this->writer->flush();
+    }
 
-        $writer->openURI("file:///{$_SERVER['DOCUMENT_ROOT']}/exportCatalog.xml");
+    //<item>
+    private function openItem()
+    {
+        $this->writer->startElement('item');
+    }
 
-        $writer->startDocument('1.0','UTF-8');
-        $writer->setIndent(4);
-        $writer->startElement('chart');
-            $writer->writeAttribute('lowerLimit', '0');
-            $writer->writeAttribute('upperLimit', '100');
-            $writer->writeAttribute('caption', 'Revenue');
-            $writer->writeAttribute('subcaption', 'US $ (1,000s)');
-            $writer->writeAttribute('numberPrefix', '$');
-            $writer->writeAttribute('numberSuffix', 'K');
-            $writer->writeAttribute('showValue', '1');
-            $writer->startElement('colorRange');
-                $writer->startElement('color');
-                    $writer->writeAttribute('minValue', '0');
-                    $writer->writeAttribute('maxValue', '50');
-                    $writer->writeAttribute('color', 'A6A6A6');
-                $writer->endElement();
-                $writer->startElement('color');
-                    $writer->writeAttribute('minValue', '50');
-                    $writer->writeAttribute('maxValue', '75');
-                    $writer->writeAttribute('color', 'CCCCCC');
-                $writer->endElement();
-                $writer->startElement('color');
-                        $writer->writeAttribute('minValue', '75');
-                        $writer->writeAttribute('maxValue', '100');
-                        $writer->writeAttribute('color', 'E1E1E1');
-                $writer->endElement();
-            $writer->endElement();
-        $writer->writeElement('value','78.9');
-        $writer->writeElement('target','78.9');
+    //</item>
+    private function closseItem()
+    {
         $writer->endElement();
-        $writer->endDocument();
-        $writer->flush();
+    }
 
-        $file = 'people.txt';
+    private function writeArrayToXml($products)
+    {
+        if (!empty($products) && is_array($products)) {
+            foreach($products as $oneProduct) {
+                $this->writeXmlForProduct($oneProduct);
+                //\Yii::$app->pr->print_r2($oneProduct);
+            }
+        }
+    }
 
-        $person = "John Smith\n";
 
-        //file_put_contents("{$_SERVER['DOCUMENT_ROOT']}/exportCatalog.xml", . "\r\n", FILE_APPEND | LOCK_EX);
-        //;
-        //\Yii::$app->pr->printR2WOChecks($sectionId);
+
+    private function writeXmlForProduct(&$oneProduct)
+    {
+        $this->propertyGetter->setProduct($oneProduct);
+        //$this->openItem();
+
+        $this->writer->startElement('item');
+        //записать здесь один продукт
+        $this->writer->writeElement('id', $this->propertyGetter->id());
+        $this->writer->writeElement('section', $this->propertyGetter->section());
+        $this->writer->writeElement('section_nazvanie', $this->propertyGetter->section_nazvanie());
+        $this->writer->writeElement('full_url', $this->propertyGetter->full_url());
+        $this->writer->writeElement('name', $this->propertyGetter->name());
+        $this->writer->writeElement('code', $this->propertyGetter->code());
+        $this->writer->writeElement('artikul', $this->propertyGetter->artikul());
+        $this->writer->writeElement('ed_izmerenia', $this->propertyGetter->ed_izmerenia());
+        $this->writer->writeElement('proizvoditel', $this->propertyGetter->proizvoditel());
+        $this->writer->writeElement('proizv_kod', $this->propertyGetter->proizv_kod());
+        $this->writer->writeElement('detail_text', $this->propertyGetter->detail_text());
+        $this->writer->writeElement('picture', $this->propertyGetter->picture());
+        $this->writer->writeElement('teh_doc_file', $this->propertyGetter->teh_doc_file());
+        $this->writer->writeElement('prinadlejnosti', $this->propertyGetter->prinadlejnosti());
+        $this->writer->writeElement('properties', $this->propertyGetter->properties());
+        $this->writer->writeElement('stock_data', $this->propertyGetter->stock_data());
+        $this->writer->writeElement('prices', $this->propertyGetter->prices());
+        $this->writer->writeElement('analogi', $this->propertyGetter->analogi());
+        $this->writer->writeElement('trade_info', $this->propertyGetter->trade_info());
+
+        $this->writer->endElement();
+        //$this->closseItem();
+
     }
 
 
