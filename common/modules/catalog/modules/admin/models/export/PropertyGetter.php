@@ -56,7 +56,7 @@ class PropertyGetter {
     }
 
 
-    function prices()
+    function stock_data()
     {
         $prices = $this->ifAvailableAndArray($this->product['_source']['prices']);
 
@@ -78,17 +78,6 @@ class PropertyGetter {
     }
 
     /**
-     * перечисление всех имеющихся складов ( часть свойств )
-     * в одной строке через разделитель ";",
-     * последовательность такакя: ид_склада, количество, срок_со_склада, срок_под_заказ;...
-     * @return mixed
-     */
-    function stock_data()
-    {
-        return $this->product['_source']['id'];
-    }
-
-    /**
      * перечисление параметров товара в одной строке через разделитель ";",
      * последовательность такая : ИД_параметра, сортировка_параметра, имя_параметра, значение_параметра; ...
      * @return string
@@ -105,12 +94,16 @@ class PropertyGetter {
 
     function prinadlejnosti()
     {
-        //TODO - найти где они - пока неизвестно, спросил
-        return $this->xml_escape( $this->product['_source']['id'] );
+        $prinadlejnosty = $this->ifAvailableAndNotArray($this->product['_source']['properties']['prinadlejnosti']);
+
+        return $this->xml_escape( $prinadlejnosty );
     }
 
     function teh_doc_file()
     {
+
+        return $this->ifAvailableAndNotArray($this->product['_source']['properties']['teh_doc_file']);
+
         return $this->xml_escape( $this->ifAvailableAndNotArray($this->product['_source']['properties']['teh_doc_file']) );
     }
 
