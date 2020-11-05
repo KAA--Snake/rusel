@@ -16,6 +16,8 @@ class PropertyGetter {
 
     var $product;
 
+    var $serverPath = 'http://lm37.ru';
+
     /** @var Section $section */
     var $section;
 
@@ -112,7 +114,7 @@ class PropertyGetter {
         $picture = $this->ifAvailableAndNotArray($this->product['_source']['properties']['main_picture']);
 
         if ($picture) {
-            $picture = $_SERVER['HTTP_ORIGIN'].Url::to('@catImages/' . $picture);
+            $picture = $this->serverPath.Url::to('@catImages/' . $picture);
         }
 
         return $this->xml_escape( $picture );
@@ -155,7 +157,7 @@ class PropertyGetter {
 
     function full_url()
     {
-        $url = $_SERVER['HTTP_ORIGIN'].'/catalog/'.str_replace('|', '/', $this->product['_source']['url']).'/';
+        $url = $this->serverPath.'/catalog/'.str_replace('|', '/', $this->product['_source']['url']).'/';
 
         return $this->xml_escape( $url );
     }
@@ -169,7 +171,7 @@ class PropertyGetter {
     {
 
         if (isset($this->section) && !empty($this->section)) {
-            $sectionId = $this->section->getAttribute('id');
+            $sectionId = $this->section->getAttribute('unique_id');
             if ($sectionId) {
                 return $this->xml_escape( $sectionId );
             }
