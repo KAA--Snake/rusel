@@ -10,6 +10,7 @@ namespace common\modules\catalog\modules\admin\models\export;
 
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\Section;
+use yii\helpers\Url;
 
 class PropertyGetter {
 
@@ -54,9 +55,14 @@ class PropertyGetter {
         return [];
     }
 
+
     function prices()
     {
-        return $this->product['_source']['id'];
+        $prices = $this->ifAvailableAndArray($this->product['_source']['prices']);
+
+        $startCDATA = json_encode($prices, JSON_PRESERVE_ZERO_FRACTION);
+
+        return $startCDATA;
     }
 
     //это новое свойтсво, которого еще нет в товаре, сделаем в будущем
@@ -65,9 +71,10 @@ class PropertyGetter {
         return false;
     }
 
+    //это новое свойтсво, которого еще нет в товаре, сделаем в будущем
     function analogi()
     {
-        return $this->product['_source']['id'];
+        return false;
     }
 
     /**
@@ -88,29 +95,12 @@ class PropertyGetter {
      */
     function properties()
     {
-        $properties = $this->ifAvailableAndArray($this->product['_source']['other_properties']['property']);
+        //$properties = $this->ifAvailableAndArray($this->product['_source']['other_properties']['property']);
+        $properties = $this->ifAvailableAndArray($this->product['_source']['other_properties']);
 
-        $propArray = array();
+        $CDATA = json_encode($properties, JSON_PRESERVE_ZERO_FRACTION);
 
-        /**
-        id	360
-        sort	2
-        name	Корпус
-        value	CASE 267
-         */
-        foreach ($properties as $oneProperty) {
-            $singleProps = array(
-                $this->xml_escape( $oneProperty['id'] ),
-                $this->xml_escape( $oneProperty['sort'] ),
-                $this->xml_escape( $oneProperty['name'] ),
-                $this->xml_escape( $oneProperty['value'] )
-            );
-            $singleProps = implode('::', $singleProps);
-
-            $propArray[] = $singleProps;
-        }
-
-        return $this->xml_escape( implode('||', $propArray) );
+        return $CDATA;
     }
 
     function prinadlejnosti()
@@ -126,7 +116,13 @@ class PropertyGetter {
 
     function picture()
     {
-        return $this->xml_escape( $this->ifAvailableAndNotArray($this->product['_source']['properties']['main_picture']) );
+        $picture = $this->ifAvailableAndNotArray($this->product['_source']['properties']['main_picture']);
+
+        if ($picture) {
+            $picture = $_SERVER['HTTP_ORIGIN'].Url::to('@catImages/' . $picture);
+        }
+
+        return $this->xml_escape( $picture );
     }
 
     function detail_text()

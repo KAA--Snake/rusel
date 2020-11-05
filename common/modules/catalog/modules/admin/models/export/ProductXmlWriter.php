@@ -127,14 +127,12 @@ class ProductXmlWriter {
     {
         if (!empty($products) && is_array($products)) {
             foreach($products as $oneProduct) {
-                \Yii::$app->pr->print_r2($oneProduct);
+                //\Yii::$app->pr->print_r2($oneProduct);
                 $this->writeXmlForProduct($oneProduct);
 
             }
         }
     }
-
-
 
     private function writeXmlForProduct(&$oneProduct)
     {
@@ -158,9 +156,17 @@ class ProductXmlWriter {
         $this->writer->writeElement('picture', $this->propertyGetter->picture());
         $this->writer->writeElement('teh_doc_file', $this->propertyGetter->teh_doc_file());
         $this->writer->writeElement('prinadlejnosti', $this->propertyGetter->prinadlejnosti());
-        $this->writer->writeElement('properties', $this->propertyGetter->properties());
+
+        $this->writer->startElement('properties');
+            $this->writer->writeCData($this->propertyGetter->properties());
+        $this->writer->endElement();
+
         $this->writer->writeElement('stock_data', $this->propertyGetter->stock_data());
-        $this->writer->writeElement('prices', $this->propertyGetter->prices());
+
+        $this->writer->startElement('prices');
+            $this->writer->writeCData($this->propertyGetter->prices());
+        $this->writer->endElement();
+
         $this->writer->writeElement('analogi', $this->propertyGetter->analogi());
         $this->writer->writeElement('trade_info', $this->propertyGetter->trade_info());
 
