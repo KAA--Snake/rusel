@@ -53,6 +53,9 @@ class ProductXmlWriter {
 
             $sectionProducts = $productsSearchModel->getProductsForSectionId($returnData['currentSection']['unique_id']);
 
+            //сохраняем текущую секцию
+            $this->propertyGetter->setSection($returnData['currentSection']);
+
             //отправить на формирование хмл для массива $sectionProducts
             $this->writeArrayToXml($sectionProducts);
 
@@ -64,6 +67,10 @@ class ProductXmlWriter {
         if(!empty($returnData['unGroupedSiblings']) && is_array($returnData['unGroupedSiblings'])) {
 
             foreach($returnData['unGroupedSiblings'] as $oneSibling) {
+
+                //сохраняем текущую секцию
+                $this->propertyGetter->setSection($oneSibling);
+
                 //проходим по всем подразделам
                 $sectionProducts = $productsSearchModel->getProductsForSectionId($oneSibling->unique_id);
 
@@ -120,8 +127,9 @@ class ProductXmlWriter {
     {
         if (!empty($products) && is_array($products)) {
             foreach($products as $oneProduct) {
+                \Yii::$app->pr->print_r2($oneProduct);
                 $this->writeXmlForProduct($oneProduct);
-                //\Yii::$app->pr->print_r2($oneProduct);
+
             }
         }
     }
@@ -131,6 +139,7 @@ class ProductXmlWriter {
     private function writeXmlForProduct(&$oneProduct)
     {
         $this->propertyGetter->setProduct($oneProduct);
+
         //$this->openItem();
 
         $this->writer->startElement('item');
