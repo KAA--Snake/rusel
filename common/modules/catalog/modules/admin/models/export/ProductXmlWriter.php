@@ -17,6 +17,8 @@ class ProductXmlWriter {
 
     var $countedProducts = 0;
 
+    static $dirPath = '/webapp/upload/export/';
+
     function __construct()
     {
         $this->writer = new \XMLWriter();
@@ -24,10 +26,10 @@ class ProductXmlWriter {
 
         //очищаем файл
         //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/exportCatalog.xml', "");
-        file_put_contents('/webapp/exportCatalog.xml', "");
+        file_put_contents(self::$dirPath.'exportCatalog.xml', "");
 
         //TODO здесь надо создать стартовую переменную для мониторинга результата (в сессии)
-        file_put_contents('/webapp/exportStatus.log', "В процессе... обработано {$this->countedProducts}");
+        file_put_contents(self::$dirPath.'exportStatus.log', "В процессе... обработано {$this->countedProducts}");
 
         //начинаем запись потока + ставим начальный тег
         $this->openDocument();
@@ -36,11 +38,11 @@ class ProductXmlWriter {
     function __destruct()
     {
         //TODO здесь надо создать конечную переменную для мониторинга результата (в сессии)
-        file_put_contents('/webapp/exportStatus.log', "Завершен. Обработано {$this->countedProducts}");
+        file_put_contents(self::$dirPath.'exportStatus.log', "Завершен. Обработано {$this->countedProducts}");
         $this->closeDocument();
     }
 
-    public function goThrousgSection($sectionId)
+    public function goThrousgSection($sectionId, $manufacturerId)
     {
         $productSearch = new ProductsSearch();
         $sectionModel = new Section();
@@ -56,7 +58,8 @@ class ProductXmlWriter {
                 'section_id' => $returnData['currentSection']['unique_id']
             ];
 
-            $sectionProducts = $productsSearchModel->getProductsForSectionId($returnData['currentSection']['unique_id']);
+            $sectionProducts = $productsSearchModel->getProductsForSectionIdAndManufacturerId($returnData['currentSection']['unique_id'], $manufacturerId);
+            //$sectionProducts = $productsSearchModel->getProductsForSectionId($returnData['currentSection']['unique_id']);
 
             //сохраняем текущую секцию
             $this->propertyGetter->setSection($returnData['currentSection']);
@@ -77,7 +80,7 @@ class ProductXmlWriter {
                 $this->propertyGetter->setSection($oneSibling);
 
                 //проходим по всем подразделам
-                $sectionProducts = $productsSearchModel->getProductsForSectionId($oneSibling->unique_id);
+                $sectionProducts = $productsSearchModel->getProductsForSectionIdAndManufacturerId($oneSibling->unique_id, $manufacturerId);
 
                 //здесь отправить на формирование хмл для массива $sectionProducts
                 $this->writeArrayToXml($sectionProducts);
@@ -102,7 +105,10 @@ class ProductXmlWriter {
     private function openDocument()
     {
         //$this->writer->openURI("file:///{$_SERVER['DOCUMENT_ROOT']}/exportCatalog.xml");
-        $res = $this->writer->openURI("file:///webapp/exportCatalog.xml");
+
+        $path = self::$dirPath;
+
+        $res = $this->writer->openURI("file://{$path}exportCatalog.xml");
 
         $this->writer->startDocument('1.0','UTF-8');
         $this->writer->setIndent(4);

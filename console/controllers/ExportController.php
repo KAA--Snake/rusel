@@ -28,26 +28,31 @@ use yii\web\UploadedFile;
 
 class ExportController extends Controller
 {
-    public function actionManual($sectionId = false){
+    public function actionManual($sectionId, $manufacturerId){
 
         //file_put_contents('/webapp/import.log', 'Start import: '.date("H:i:s"), FILE_APPEND);
-        if(!$sectionId) {
-            return;
+
+        $sectionId = (int)$sectionId;
+        $manufacturerId = (int)$manufacturerId;
+
+        $path = ProductXmlWriter::$dirPath;
+
+        try {
+            $xmlWriter = new ProductXmlWriter();
+        } catch (\Exception $ex) {
+            file_put_contents($path.'export.log', $ex->getMessage(),  FILE_APPEND);
         }
+
+        $xmlWriter->goThrousgSection($sectionId, $manufacturerId);
+
         //$erpParams = \Yii::$app->getModule('catalog')->params['erp'];
 
         //$postData = \Yii::$app->getRequest()->post();
 
         //$postData['file_name'] = 'list-1-1516437522108.xml';
-        $sectionId = (int)$sectionId;
 
-        try {
-            $xmlWriter = new ProductXmlWriter();
-        } catch (\Exception $ex) {
-            file_put_contents('/webapp/export.log', $ex->getMessage(),  FILE_APPEND);
-        }
 
-        $xmlWriter->goThrousgSection($sectionId);
+
 
     }
 }

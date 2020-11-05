@@ -633,6 +633,61 @@ class ProductsSearch extends BaseSearch implements iProductSearch
         return [];
     }
 
+    public function getProductsForSectionIdAndManufacturerId($sectionId, $manufacturerId)
+    {
+
+        $must = array();
+
+        $must[] = [
+            "term"=> [
+                "section_id"=> $sectionId
+            ]
+        ];
+
+        if ($manufacturerId !== 0) {
+            $must[] = [
+                'term' => [
+                    'properties.proizv_id' => $manufacturerId
+                ]
+            ];
+        }
+
+        $params =[
+            'body' =>[
+                //'from' => 0,
+                'size' => 1000000,
+                /*'sort' => [
+                    'artikul' => ['order' => 'asc']
+                ],*/
+//                'sort' => [
+//                    'artikul' => ['order' => 'asc']
+//                ],
+                "query"=> [
+                    "bool"=> [
+
+                        /** обязательный блок (для ИД раздела ) */
+                        'must' => $must
+                    ]
+                ],
+
+
+            ]
+        ];
+
+        $params = $this->productData + $params;
+
+        //\Yii::$app->pr->print_r2($params);
+        //die();
+
+        $response = Elastic::getElasticClient()->search($params);
+
+        if(!empty($response['hits']['hits'])) {
+            return $response['hits']['hits'];
+        }
+
+        return [];
+    }
+
     /**
      * Отдает товары и фильтр по заданным параметрам, аналог getFilteredProducts ,
      * но без кеширования и с доп строкой поиска.

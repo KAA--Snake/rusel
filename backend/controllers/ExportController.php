@@ -83,8 +83,10 @@ class ExportController extends Controller
 
         $importResults = '';
 
+        $path = ProductXmlWriter::$dirPath;
+
         try {
-            $importResults = file_get_contents('/webapp/exportStatus.log');
+            $importResults = file_get_contents($path.'exportStatus.log');
         } catch (\Exception $e) {
         }
         //$importResults = file_get_contents('/webapp/exportStatus.log');
@@ -93,15 +95,27 @@ class ExportController extends Controller
 
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()){
 
-            if ( !empty($model->section_id) ) {
+            $sectionId = 0;
+            $manufacturerId = 0;
+
+            if ( !empty($model->section_id) )  {
                 //\Yii::$app->pr->printR2WOChecks($model->getAttributes());
+                $sectionId = (int)$model->section_id;
 
-                //$xmlWriter = new ProductXmlWriter();
-                //$xmlWriter->goThrousgSection((int)$model->section_id);
-
-                exec('nohup php /webapp/yii export/manual '.(int)$model->section_id. ' > /dev/null &');
             }
 
+            if ( !empty($model->manufacturer_id) ) {
+                $manufacturerId = (int)$model->manufacturer_id;
+            }
+
+            //$xmlWriter = new ProductXmlWriter();
+            //$xmlWriter->goThrousgSection($sectionId, $manufacturerId);
+
+
+            exec('nohup php /webapp/yii export/manual '.$sectionId.' '.$manufacturerId.' > /dev/null &');
+
+            ob_end_clean();
+            echo "<script type='text/javascript'>  window.location='/admin/export/'; </script>";
 
         }
 
