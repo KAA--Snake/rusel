@@ -81,7 +81,13 @@ class ExportController extends Controller
 
         $model = new CatalogExport();
 
-        $importResults = "No export results available yet";
+        $importResults = '';
+
+        try {
+            $importResults = file_get_contents('/webapp/exportStatus.log');
+        } catch (\Exception $e) {
+        }
+        //$importResults = file_get_contents('/webapp/exportStatus.log');
         //echo 'Результат импорта товаров: ';
         //\Yii::$app->pr->printR2WOChecks($importResults);
 
@@ -90,11 +96,10 @@ class ExportController extends Controller
             if ( !empty($model->section_id) ) {
                 //\Yii::$app->pr->printR2WOChecks($model->getAttributes());
 
-                $xmlWriter = new ProductXmlWriter();
-                $xmlWriter->goThrousgSection((int)$model->section_id);
+                //$xmlWriter = new ProductXmlWriter();
+                //$xmlWriter->goThrousgSection((int)$model->section_id);
 
-
-                //exec('nohup php /webapp/yii export/manual '.$model->section_id. ' > /dev/null &');
+                exec('nohup php /webapp/yii export/manual '.(int)$model->section_id. ' > /dev/null &');
             }
 
 

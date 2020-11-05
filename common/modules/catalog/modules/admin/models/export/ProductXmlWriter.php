@@ -15,15 +15,19 @@ class ProductXmlWriter {
     var $writer;
     var $propertyGetter;
 
+    var $countedProducts = 0;
+
     function __construct()
     {
         $this->writer = new \XMLWriter();
         $this->propertyGetter = new PropertyGetter();
 
         //очищаем файл
-        file_put_contents($_SERVER['DOCUMENT_ROOT'].'/exportCatalog.xml', "");
+        //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/exportCatalog.xml', "");
+        file_put_contents('/webapp/exportCatalog.xml', "");
 
         //TODO здесь надо создать стартовую переменную для мониторинга результата (в сессии)
+        file_put_contents('/webapp/exportStatus.log', "В процессе... обработано {$this->countedProducts}");
 
         //начинаем запись потока + ставим начальный тег
         $this->openDocument();
@@ -32,6 +36,7 @@ class ProductXmlWriter {
     function __destruct()
     {
         //TODO здесь надо создать конечную переменную для мониторинга результата (в сессии)
+        file_put_contents('/webapp/exportStatus.log', "Завершен. Обработано {$this->countedProducts}");
         $this->closeDocument();
     }
 
@@ -61,7 +66,7 @@ class ProductXmlWriter {
 
         }
 
-        //\Yii::$app->pr->print_r2($returnData['currentSection']->getAttributes());
+        //\Yii::$app->pr->print_r($returnData['currentSection']->getAttributes());
 
         //получаем список подразделов для выбранного раздела
         if(!empty($returnData['unGroupedSiblings']) && is_array($returnData['unGroupedSiblings'])) {
@@ -96,7 +101,9 @@ class ProductXmlWriter {
     //<list>
     private function openDocument()
     {
-        $this->writer->openURI("file:///{$_SERVER['DOCUMENT_ROOT']}/exportCatalog.xml");
+        //$this->writer->openURI("file:///{$_SERVER['DOCUMENT_ROOT']}/exportCatalog.xml");
+        $res = $this->writer->openURI("file:///webapp/exportCatalog.xml");
+
         $this->writer->startDocument('1.0','UTF-8');
         $this->writer->setIndent(4);
 
@@ -127,9 +134,12 @@ class ProductXmlWriter {
     {
         if (!empty($products) && is_array($products)) {
             foreach($products as $oneProduct) {
-                \Yii::$app->pr->print_r2($oneProduct);
+                //\Yii::$app->pr->print_r2($oneProduct);
+                //print_r($oneProduct);
+
                 $this->writeXmlForProduct($oneProduct);
 
+                $this->countedProducts++;
             }
         }
     }
@@ -137,8 +147,6 @@ class ProductXmlWriter {
     private function writeXmlForProduct(&$oneProduct)
     {
         $this->propertyGetter->setProduct($oneProduct);
-
-        //$this->openItem();
 
         $this->writer->startElement('item');
         //записать здесь один продукт

@@ -599,8 +599,8 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 
         $params =[
             'body' =>[
-                'from' => 0,
-                'size' => 20,
+                //'from' => 0,
+                'size' => 1000000,
                 /*'sort' => [
                     'artikul' => ['order' => 'asc']
                 ],*/

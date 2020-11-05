@@ -11,7 +11,8 @@ foreach (\Yii::$app->session->getAllFlashes() as $key => $message) {
 //\Yii::$app->pr->printR2WOChecks($model->getAttributes());
 //die();
 ?>
-
+<div>Процесс экспорта: <b><?php echo $exportResults;?></b></div>
+<div>Сформированный хмл: <b></b></div>
 
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 <br />
