@@ -16,7 +16,7 @@ class PropertyGetter {
 
     var $product;
 
-    var $serverPath = 'http://lm37.ru';
+    var $serverPath = 'http://rusel24.ru/';
 
     /** @var Section $section */
     var $section;
