@@ -62,7 +62,7 @@ class PropertyGetter {
     {
         $prices = $this->ifAvailableAndArray($this->product['_source']['prices']);
 
-        $startCDATA = json_encode($prices, JSON_PRESERVE_ZERO_FRACTION);
+        $startCDATA = json_encode($prices, JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE);
 
         return $startCDATA;
     }
@@ -88,8 +88,13 @@ class PropertyGetter {
     {
         //$properties = $this->ifAvailableAndArray($this->product['_source']['other_properties']['property']);
         $properties = $this->ifAvailableAndArray($this->product['_source']['other_properties']);
+        //\Yii::$app->pr->print_r2($properties);
+       // die();
 
-        $CDATA = json_encode($properties, JSON_PRESERVE_ZERO_FRACTION);
+        $CDATA = json_encode($properties, JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE);
+
+        //echo $CDATA;
+        //die();
 
         return $CDATA;
     }
