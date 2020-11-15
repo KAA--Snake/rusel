@@ -254,7 +254,22 @@ class Section extends \yii\db\ActiveRecord
         return $returnData;
     }
 
+    /**
+     *
+     * Отдает построенное дерево ВСЕХ разделов каталога для урла типа /catalog/
+     * @param $url
+     * @param bool $maxDepthLevel
+     * @return array
+     * @internal param bool $asArray
+     */
+    public function getAllSections(){
 
+        $returnData = static::find()->orderBy('depth_level, parent_id, sort ASC')->all();
+
+        $returnData = $this->buildTreeAsObjects($returnData);
+
+        return $returnData;
+    }
 
     private function groupSubsections($data, $rootID=false){
 
@@ -406,6 +421,21 @@ class Section extends \yii\db\ActiveRecord
 
     }
 
+    protected function buildTreeAsObjects(&$data, $rootID = 0) {
+
+        $tree = array();
+
+        foreach ($data as $id => $node) {
+
+            if ($node->parent_id == $rootID) {
+                unset($data[$id]);
+
+                $node->childs = $this->buildTreeAsObjects($data, $node->unique_id);
+                $tree[] = $node;
+            }
+        }
+        return $tree;
+    }
 
     /**
      * Рекурсивно выводит структуру каталога
@@ -417,7 +447,6 @@ class Section extends \yii\db\ActiveRecord
     protected function buildTree(&$data, $rootID = 0) {
 
         $tree = array();
-
 
         foreach ($data as $id => $node) {
             if ($node['parent_id'] == $rootID) {

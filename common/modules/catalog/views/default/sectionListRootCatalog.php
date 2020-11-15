@@ -41,7 +41,7 @@ use common\modules\catalog\models\Section;
 $sectionModel = new Section();
 
 //$sectionModel->listTree($groupedSiblings);
-$this->title = $currentSection->name . ' | Каталог';;
+$this->title = 'Каталог';;
 ?>
 <div class="section_list_wrap clear">
     <h1><?= $currentSection->name; ?></h1>
@@ -82,56 +82,6 @@ $this->title = $currentSection->name . ' | Каталог';;
                 </div>
             </div>
         <?php } ?>
-
-
-        <?php /*?>
-    <div class="content_block">
-        <div class="tree_container clear">
-            <div class="tree_img fll">
-                <img src="<?= Url::to('@web/img/tree_img3.png'); ?>" alt="<?= $currentSection->name; ?>">
-            </div>
-            <div class="catalog_tree_wrap fll">
-                <h2>Конденсаторы !СТАТИКА!</h2>
-                <div class="tree_list">
-                    <ul class="catalog_tree lv1">
-                        <li class="ct_item lv1 ct_first ct_dir child_collapsed">
-
-                            Танталовые конденсаторы
-                            <ul class="catalog_tree lv2 sublvl collapsed">
-                                <li class="ct_item lv2 sublvl ct_dir child_collapsed">
-                                    Высоковольтные
-                                    <ul class="catalog_tree lv3 sublvl collapsed">
-                                        <li class="ct_item lv3 sublvl"><a href="#">Высоковольтные подраздел 1</a></li>
-                                        <li class="ct_item ct_last lv3 sublvl"><a href="#">Высоковольтные подраздел
-                                                2</a></li>
-                                    </ul>
-                                </li>
-                                <li class="ct_item lv2 sublvl"><a href="#">Низкотемпературные</a></li>
-                                <li class="ct_item ct_last lv2 sublvl"><a href="#">Выводные</a></li>
-                            </ul>
-                        </li>
-                        <li class="ct_item lv1 ct_dir child_collapsed">
-                            Керамические конденсаторы
-                            <ul class="catalog_tree lv2 sublvl collapsed">
-                                <li class="ct_item lv2 sublvl"><a href="#">Низкотемпературные</a></li>
-                                <li class="ct_item lv2 sublvl"><a href="#">Низкотемпературные 2</a></li>
-                                <li class="ct_item ct_last lv2 sublvl"><a href="#">Низкотемпературные 3</a></li>
-                            </ul>
-                        </li>
-                        <li class="ct_item lv1 ct_last ct_dir child_collapsed">
-                            Металлопленочные конденсаторы
-                            <ul class="catalog_tree lv2 sublvl collapsed">
-                                <li class="ct_item lv2 sublvl"><a href="#">Выводные</a></li>
-                                <li class="ct_item lv2 sublvl"><a href="#">Выводные 2</a></li>
-                                <li class="ct_item ct_last lv2 sublvl"><a href="#">Выводные 3</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php */?>
 
     </div>
 </div>

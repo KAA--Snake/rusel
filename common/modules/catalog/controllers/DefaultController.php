@@ -102,12 +102,15 @@ class DefaultController extends Controller
         $this->view->params['perPage'] = $perPage;
 
 
-        /** для нулевого уровня каталога показываем только главные разделы */
+        /** для нулевого уровня каталога показываем все разделы */
         if(!$pathForParse){
-            $rootSections = $sectionModel->getRootSections();
-            throw new HttpException(404);
-            return false;
-            //return $this->render('catalogRoot', ['rootSections' => $rootSections]);
+            $sectionData = $sectionModel->getAllSections();
+            $returnData = [
+                'currentSection' => false,
+                'groupedSiblings' => $sectionData,
+            ];
+
+            return $this->render('sectionListRootCatalog', $returnData);
         }
 
 

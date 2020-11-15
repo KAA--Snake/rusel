@@ -15,21 +15,43 @@ class PrettyPrintComponent extends Component
     }
 
     public function printR2WOChecks($whatPrint) {
+        ob_start();
         print_r2($whatPrint);
+        $dump = ob_get_clean();
+        echo $dump;
     }
 
+    public function pre_dump($whatPrint) {
+        if ($_COOKIE['dev']) {
+            ob_start();
+            call_user_func_array('var_dump', func_get_args());
+            $dump = ob_get_clean();
+            echo '<pre style="background:#fff; color:#070; text-align:left;">';
+            echo preg_replace(["/]=>\n/", "/{\n *}/"], ["] =>\t", "{}"], $dump);
+            echo '</pre>';
+
+            //die();
+        }
+
+    }
 
     public function print_r($whatPrint){
+
         if ($_COOKIE['dev']) {
+            ob_start();
             echo '<pre>';
                 print_r($whatPrint);
             echo '</pre>';
+
+            $dump = ob_get_clean();
+            echo $dump;
         }
     }
 
 
     public function print_r2($whatPrint){
         if ($_COOKIE['dev']) {
+            ob_start();
             $bcktrace = debug_backtrace();
 
             $filename = $bcktrace[0]['file'];
@@ -40,12 +62,14 @@ class PrettyPrintComponent extends Component
             echo $textInfo;
             print_r2($whatPrint);
 
-
+            $dump = ob_get_clean();
+            echo $dump;
         }
     }
 
     public function die() {
         if ($_COOKIE['dev']) {
+            ob_start();
             $bcktrace = debug_backtrace();
 
             $filename = $bcktrace[0]['file'];
@@ -54,7 +78,10 @@ class PrettyPrintComponent extends Component
 
             $textInfo = 'Called DIE in ' . $filename . ' >>> ' . ' at line: ' . $line;
 
-            die($textInfo);
+            echo $textInfo;
+            $dump = ob_get_clean();
+            echo $dump;
+            die();
         }
     }
 
