@@ -44,7 +44,7 @@ $sectionModel = new Section();
 $this->title = 'Каталог';;
 ?>
 <div class="section_list_wrap clear">
-    <h1><?= $currentSection->name; ?></h1>
+    <h1>КАТАЛОГ</h1>
     <div class="catalog_tree_container fll">
 
         <?php

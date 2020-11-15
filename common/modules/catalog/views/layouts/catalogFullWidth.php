@@ -139,7 +139,7 @@ AppAsset::register($this);
                         'itemscope'        =>  '',
                         'itemtype'        =>  'http://schema.org/BreadcrumbList',
                     ],
-                    'homeLink' => ['label' => 'Каталог:'],
+                    'homeLink' => ['label' => 'Каталог:', 'url' => '/catalog/'],
                     'itemTemplate' => '<li class="width breadcrumbs_item breadcrumbs_head" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
                         <a itemprop="item" href="/"><span itemprop="name">{link}</span></a>
                         <meta itemprop="position" content="1">
