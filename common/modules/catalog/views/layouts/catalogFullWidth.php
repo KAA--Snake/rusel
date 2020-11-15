@@ -125,12 +125,12 @@ AppAsset::register($this);
 
             <?php
             //if($_GET['yes']) {
-            //    \Yii::$app->pr->print_r2($this->params['breadcrumbs']);
+                //\Yii::$app->pr->print_r2($this->params['breadcrumbs']);
+                //\Yii::$app->pr->die();
             //}
             ?>
 
             <div class="breadcrumbs_menu col_1180">
-
 
                 <?= WBreadCrumbs::widget([
                     'options'       =>  [
@@ -139,11 +139,8 @@ AppAsset::register($this);
                         'itemscope'        =>  '',
                         'itemtype'        =>  'http://schema.org/BreadcrumbList',
                     ],
-                    'homeLink' => ['label' => 'Каталог:', 'url' => '/catalog/'],
-                    'itemTemplate' => '<li class="width breadcrumbs_item breadcrumbs_head" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-                        <a itemprop="item" href="/"><span itemprop="name">{link}</span></a>
-                        <meta itemprop="position" content="1">
-                    </li>', // for main
+                    'homeLink' => false,
+                    //'itemTemplate' => '', // for main
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]);?>
 

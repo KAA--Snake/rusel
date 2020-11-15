@@ -57,10 +57,31 @@ class BreadCrumbs
             //\Yii::$app->pr->print_r2($product);
             //здесь делаем наполнение шаблонов для хлебных крошек
             $this->__fillProductItems($parents, $product);
+
+            //вставляем рутовую сслыку на каталог
+            $this->insertRootCatalog($parents);
             return $parents;
         }
 
         //выбрать для этого раздела предков
+    }
+
+
+    private function insertRootCatalog(&$formedBreadcrumbs) {
+        //хак для добавления каталога в хлебные крошки (сделано так потому, что ебучий виджет YII править- еще больший геморой.)
+        $catalogBreadCrumb = array(
+            'url' => '/catalog/',
+            'label' => 'Каталог',
+            'itemprop' => 'item',
+            'template' => '
+                     <li class="width breadcrumbs_item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        {link}
+                        <span class="arrow_next">→</span>
+                        <meta itemprop="position" content="1">
+                    </li>
+                '
+        );
+        array_unshift($formedBreadcrumbs, $catalogBreadCrumb);
     }
 
     /**
@@ -77,6 +98,9 @@ class BreadCrumbs
             //\Yii::$app->pr->print_r2($parents);
             //здесь делаем наполнение шаблонов для хлебных крошек
             $this->__fillSectionItems($parents);
+
+            //вставляем рутовую сслыку на каталог
+            $this->insertRootCatalog($parents);
             return $parents;
         }
 
@@ -89,6 +113,9 @@ class BreadCrumbs
 
             //здесь делаем наполнение шаблонов для хлебных крошек
             $this->__fillSectionItems($parents);
+
+            //вставляем рутовую сслыку на каталог
+            $this->insertRootCatalog($parents);
             return $parents;
         }
 
@@ -107,13 +134,14 @@ class BreadCrumbs
         $cnt = 2;
         foreach($parentSections as &$oneSection){
 
+            $url = $oneSection['url'];
+            $oneSection['url'] = Url::to('@catalogDir/'.$url);
+            $seoUrl = Url::to('@catalogDir/'.$url);
+
             if(!$oneSection['finalItem']){
 
                 $oneSection['itemprop'] = 'item';
-
-                $url = $oneSection['url'];
-                $oneSection['url'] = Url::to('@catalogDir/'.$url);
-                $seoUrl = Url::to('@catalogDir/'.$url, true);
+                //\Yii::$app->pr->print_r2($oneSection);
 
                 $oneSection['template'] = '
                      <li class="width breadcrumbs_item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
@@ -156,7 +184,7 @@ class BreadCrumbs
     private function __fillProductItems(&$parentSections, &$product){
         $cnt = 2;
         foreach($parentSections as &$oneSection){
-            $url = Url::to('@catalogDir/'.$oneSection['url'].$product['code'], true);
+            $url = Url::to('@catalogDir/'.$oneSection['url'].$product['code'].'/');
             $oneSection['itemprop'] = 'item';
             $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
 
