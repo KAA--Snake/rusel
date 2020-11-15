@@ -111,8 +111,9 @@ class BreadCrumbs
 
                 $oneSection['itemprop'] = 'item';
 
-                $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
-                $seoUrl = Url::to('@catalogDir/'.$oneSection['url'], true);
+                $url = $oneSection['url'];
+                $oneSection['url'] = Url::to('@catalogDir/'.$url);
+                $seoUrl = Url::to('@catalogDir/'.$url, true);
 
                 $oneSection['template'] = '
                      <li class="width breadcrumbs_item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
@@ -141,6 +142,8 @@ class BreadCrumbs
                 //$url = Url::to('@catalogDir/'.$oneSection['url'].'/'.$product['code'], true);
             //}
         }
+
+
     }
 
 
