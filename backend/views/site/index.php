@@ -36,6 +36,7 @@ $this->title = 'admin main page';
         <div class="dashboard_section">
             <h3 class="dashboard_section-header">СЕО БЛОКИ</h3>
             <div class="dashboard_section-body">
+                <a class="dashboard_section-link" href="/admin/seo/section">СЕО текст для разделов каталога</a>
                 <a class="dashboard_section-link" href="/admin/static/seo_text">СЕО текст в карточке товара</a>
                 <a class="dashboard_section-link" href="/admin/seo/manufacturer">СЕО текст для Производителей</a>
             </div>

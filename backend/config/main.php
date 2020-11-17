@@ -76,6 +76,12 @@ return [
                 'GET seo/manufacturer/delete/<id:\d+>' => 'seo-manufacturer/delete',
                 'GET seo/manufacturer/update/<id:\d+>' => 'seo-manufacturer/update',
 
+                'GET seo/section' => 'seo-section/index',
+                'GET seo/section/<id:\d+>' => 'seo-section/index',
+                'POST seo/section/add' => 'seo-section/add',
+                'GET seo/section/delete/<id:\d+>' => 'seo-section/delete',
+                'GET seo/section/update/<id:\d+>' => 'seo-section/update',
+
                 //'admin/<action:\w+>' => 'admin/site/<action>'
                 /*'<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

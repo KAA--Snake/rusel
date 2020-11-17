@@ -8,7 +8,7 @@ if($model){
     if(!empty($errors)){
         foreach ($errors as $oneError) {?>
             <div class="back-link-wrap ">
-                $oneError
+                <?php echo $oneError; ?>
             </div>
 <?php
         }
