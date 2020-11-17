@@ -755,6 +755,6 @@ $this->title = $currentSection->name . ' | Каталог';
     ]);
     ?>
 
-
+    <div class="seo__block"><?php echo $sectionSeoTextWidget; ?></div>
 
 </div>
