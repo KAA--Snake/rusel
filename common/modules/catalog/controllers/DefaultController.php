@@ -9,6 +9,7 @@ use common\modules\catalog\models\BreadCrumbs;
 use common\modules\catalog\models\filter\CatalogFilter;
 use common\modules\catalog\models\search\searches\ProductsSearch;
 use common\modules\catalog\models\Section;
+use common\widgets\seo_section\SeoSections;
 use yii\web\Controller;
 use yii\web\HttpException;
 
@@ -71,7 +72,6 @@ class DefaultController extends Controller
     }
 
 
-
     /**
      * Точка входа для всего каталога
      *
@@ -79,6 +79,7 @@ class DefaultController extends Controller
      * @param bool $pathForParse
      * @return string
      * @throws HttpException
+     * @throws \Exception
      */
     public function actionIndex($pathForParse = false)
     {
@@ -197,7 +198,17 @@ class DefaultController extends Controller
 
             }
 
+            //СЕО текст для выбранного раздела
+            $sectionSeoTextWidget = '';
+            if (!empty($sectionData['currentSection']->unique_id) && isset($sectionData['currentSection']->unique_id)) {
+                $sectionId = $sectionData['currentSection']->unique_id;
 
+                $sectionSeoTextWidget = SeoSections::widget([
+                    'options' => [
+                        'sectionId' => $sectionId
+                    ],
+                ]);
+            }
 
             $returnData = [
                 'currentSection' => $sectionData['currentSection'],
@@ -210,12 +221,13 @@ class DefaultController extends Controller
                 'appliedFilterJson' => $sectionProducts['appliedFilterJson'],
                 'emptyFilterResult' => $sectionProducts['emptyFilterResult'],
                 'filterManufacturers' => $sectionProducts['filterManufacturers'],
+                'sectionSeoTextWidget' => $sectionSeoTextWidget,
                 'perPage' => $perPage,
 
             ];
 
-	       /* \Yii::$app->pr->print_r2($sectionProducts['filterData']);
-	        die();*/
+            //\Yii::$app->pr->print_r2($returnData['currentSection']->getAttributes());
+            //\Yii::$app->pr->die();
         }else{
             /** если ничего не нашлось, выбросим 404 */
             throw new HttpException(404);
