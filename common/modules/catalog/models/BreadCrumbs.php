@@ -135,8 +135,8 @@ class BreadCrumbs
         foreach($parentSections as &$oneSection){
 
             $url = $oneSection['url'];
-            $oneSection['url'] = Url::to('@catalogDir/'.$url);
-            $seoUrl = Url::to('@catalogDir/'.$url);
+            $oneSection['url'] = Url::to('@catalogDir/'.$url, true);
+            $seoUrl = Url::to('@catalogDir/'.$url, true);
 
             if(!$oneSection['finalItem']){
 
@@ -184,9 +184,9 @@ class BreadCrumbs
     private function __fillProductItems(&$parentSections, &$product){
         $cnt = 2;
         foreach($parentSections as &$oneSection){
-            $url = Url::to('@catalogDir/'.$oneSection['url'].$product['code'].'/');
+            $url = Url::to('@catalogDir/'.$oneSection['url'].$product['code'].'/', true);
             $oneSection['itemprop'] = 'item';
-            $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url']);
+            $oneSection['url'] = Url::to('@catalogDir/'.$oneSection['url'], true);
 
             $oneSection['template'] = '
                     <li class="width breadcrumbs_item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
