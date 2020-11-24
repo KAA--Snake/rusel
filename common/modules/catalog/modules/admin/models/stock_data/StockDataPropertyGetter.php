@@ -6,13 +6,13 @@
  * Time: 16:41
  */
 
-namespace common\modules\catalog\modules\admin\models\export;
+namespace common\modules\catalog\modules\admin\models\stock_data;
 
 use common\models\elasticsearch\Product;
 use common\modules\catalog\models\Section;
 use yii\helpers\Url;
 
-class PropertyGetter {
+class StockDataPropertyGetter {
 
     var $product;
 
@@ -123,6 +123,17 @@ class PropertyGetter {
         }
 
         return $this->xml_escape( $picture );
+    }
+
+    function pricesTotal()
+    {
+        $total = $this->ifAvailableAndNotArray($this->product['_source']['prices']['total']);
+
+        if (!$total) {
+            return 0;
+        }
+
+        return $this->xml_escape( $total );
     }
 
     function detail_text()
