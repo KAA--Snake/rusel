@@ -20,7 +20,7 @@ use common\modules\catalog\models\Section;
 class ProductsSearch extends BaseSearch implements iProductSearch
 {
 
-    private     $productData;
+    public      $productData;
     public      $productModel;
     public      $searchConfig;
 
@@ -36,7 +36,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
     ];
 
 	/** Массив для названий доп свойств(лежащих в nested) */
-	private $additionalProps = [
+	public $additionalProps = [
 		'on_stores',
 		'marketing'
 	];
@@ -1524,7 +1524,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 *
 	 * @return bool
 	 */
-	private function _setSingleStorageAsMulti(&$response){
+	public function _setSingleStorageAsMulti(&$response){
 
 		foreach ($response['hits']['hits'] as $k => $oneProduct){
 
@@ -1551,7 +1551,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 *
 	 * @return bool
 	 */
-	private function _setSinglePriceAsMulty(&$response){
+	public function _setSinglePriceAsMulty(&$response){
 
 		foreach ($response['hits']['hits'] as $k => &$oneProduct){
 
@@ -2135,7 +2135,7 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 	 *
 	 * @param $requestParams
 	 */
-    private function _clearProductsForMiniFilter(&$filteredData){
+    public function _clearProductsForMiniFilter(&$filteredData){
 
     	//получаем параметри или из поста или из гета
 	    $requestParams = MiniFilterHelper::getMiniFilterOption();
@@ -2352,68 +2352,6 @@ class ProductsSearch extends BaseSearch implements iProductSearch
 		}
 
 		return true;
-	}
-
-
-	private function _getMiniFiltersQuery($minifilterType){
-		/** Если пришли фильтры по складам и спецпредложениям */
-
-		$must = false;
-
-		switch($minifilterType){
-			case 'on_stores':
-
-				/** Доступные на складах */
-				$must = [
-					"nested"=> [
-
-						"path"=> "prices.storage.quantity",
-						"query"=> [
-							'bool' => [
-								'must' => [
-									[
-										"range"=> [
-											"prices.storage.quantity.stock.count" => [
-												"gte" => 0,
-											],
-										],
-									],
-								],
-							]
-						]
-					]
-				];
-
-				break;
-
-			case 'marketing':
-
-				/** Спецпредложения */
-				$must = [
-					"nested"=> [
-
-						"path"=> "prices.storage.marketing",
-						"query"=> [
-							'bool' => [
-								'must' => [
-									[
-										"range"=> [
-											"prices.storage.marketing.id" => [
-												"gte" => 0,
-											],
-										],
-									],
-								],
-							]
-						]
-					]
-				];
-
-				break;
-		}
-
-		return $must;
-
 	}
 
     /**

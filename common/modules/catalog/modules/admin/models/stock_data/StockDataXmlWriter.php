@@ -42,10 +42,15 @@ class StockDataXmlWriter {
         }
 
         $searchModel = new StockProductsSearch();
-        $searchResult = $searchModel->searchManual($searchQuery);
+        try {
+            $searchResult = $searchModel->searchManual($searchQuery);
 
-        if (isset($searchResult['products']['hits']['hits']) & !empty($searchResult['products']['hits']['hits'])) {
-            $this->writeArrayToXml($searchResult['products']['hits']['hits']);
+            if (isset($searchResult['hits']['hits']) & !empty($searchResult['hits']['hits'])) {
+                $this->writeArrayToXml($searchResult['hits']['hits']);
+            }
+
+        } catch (\Exception $exception) {
+            $this->writer->writeElement('ERROR', $exception->getMessage());
         }
 
         //закрываем запись + закрываем последний тег

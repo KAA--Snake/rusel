@@ -37,6 +37,67 @@ abstract class BaseSearch
         return explode(';', trim($queryString));
     }
 
+    protected function _getMiniFiltersQuery($minifilterType){
+        /** Если пришли фильтры по складам и спецпредложениям */
+
+        $must = false;
+
+        switch($minifilterType){
+            case 'on_stores':
+
+                /** Доступные на складах */
+                $must = [
+                    "nested"=> [
+
+                        "path"=> "prices.storage.quantity",
+                        "query"=> [
+                            'bool' => [
+                                'must' => [
+                                    [
+                                        "range"=> [
+                                            "prices.storage.quantity.stock.count" => [
+                                                "gte" => 0,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ]
+                        ]
+                    ]
+                ];
+
+                break;
+
+            case 'marketing':
+
+                /** Спецпредложения */
+                $must = [
+                    "nested"=> [
+
+                        "path"=> "prices.storage.marketing",
+                        "query"=> [
+                            'bool' => [
+                                'must' => [
+                                    [
+                                        "range"=> [
+                                            "prices.storage.marketing.id" => [
+                                                "gte" => 0,
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ]
+                        ]
+                    ]
+                ];
+
+                break;
+        }
+
+        return $must;
+
+    }
+
     /**
      *
      * Взаимозаменяет символы ",.-" между собой и добавляет к запросу это

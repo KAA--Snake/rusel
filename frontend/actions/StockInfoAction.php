@@ -38,7 +38,7 @@ class StockInfoAction extends Action
         Yii::$app->getResponse()->getHeaders()
             ->set('Pragma', 'public')
             ->set('Expires', '0')
-            ->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+            ->set('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
             ->set('Content-Transfer-Encoding', 'binary')
             ->set('Content-type', 'application/xml');
 
@@ -57,7 +57,7 @@ class StockInfoAction extends Action
         \Yii::$app->controller->pagination['max_elements_cnt'] = 5;
         \Yii::$app->controller->pagination['maxSizeCnt'] = 5;
 
-        $this->setHttpHeaders();
+        //$this->setHttpHeaders();
         Yii::$app->response->format = Response::FORMAT_XML;
 
         ob_start();
