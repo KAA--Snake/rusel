@@ -1140,6 +1140,12 @@
     display: flex;
     margin-left: 20px;
     margin-bottom: 20px; }
+  .container.main .content_wrap .content_inner_wrap .seo__wrap {
+    margin-top: 20px;
+    margin-left: 0px;
+    margin-bottom: 20px;
+    padding: 20px 20px 0;
+    background: #fff; }
   .container.main .content_wrap .content_inner_wrap .seo__img {
     margin-right: 20px; }
     .container.main .content_wrap .content_inner_wrap .seo__img img {

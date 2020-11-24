@@ -83,7 +83,7 @@ $this->title = $currentSection->name . ' | Каталог';;
             </div>
         <?php } ?>
 
-        <div class="seo__block"><?php echo $sectionSeoTextWidget;?></div>
+
 
         <?php /*?>
     <div class="content_block">
@@ -136,6 +136,8 @@ $this->title = $currentSection->name . ' | Каталог';;
 
     </div>
 </div>
+
+<div class="seo__block seo__wrap"><?php echo $sectionSeoTextWidget;?></div>
 
 
 
