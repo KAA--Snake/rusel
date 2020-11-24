@@ -35,6 +35,15 @@ class StockInfoAction extends Action
      */
     public function run()
     {
+        Yii::$app->getResponse()->getHeaders()
+            ->set('Pragma', 'public')
+            ->set('Expires', '0')
+            ->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+            ->set('Content-Transfer-Encoding', 'binary')
+            ->set('Content-type', 'application/xml');
+
+        //\Yii::$app->pr->print_r2($rr);
+
         $searchQuery = '';
         if(isset(Yii::$app->getRequest()->post()['search']) && !empty(Yii::$app->getRequest()->post()['search'])){
             $searchQuery = Yii::$app->getRequest()->post()['search'];
@@ -56,9 +65,12 @@ class StockInfoAction extends Action
         $stockDataXmlWriter = new StockDataXmlWriter();
         $stockDataXmlWriter->writeXmlBySearchQuery($searchQuery);
 
-        echo ob_get_clean();
-        die();
+        $rr = ob_get_clean();
 
+        \Yii::$app->getResponse()->send();
+        echo $rr;
+
+        die();
     }
 
     /**

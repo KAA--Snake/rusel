@@ -92,10 +92,11 @@ class StockDataXmlWriter {
             }
         }
     }
-/**
 
-	    <bid>20</bid> <!-- пустое  -->
- * */
+    /**
+     * https://stackoverflow.com/questions/3212982/need-to-write-xml-using-php-how
+     * @param $oneProduct
+     */
     private function writeXmlForProduct(&$oneProduct)
     {
         $this->propertyGetter->setProduct($oneProduct);
