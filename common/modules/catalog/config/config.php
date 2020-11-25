@@ -40,7 +40,7 @@ return [
         'search' => [
             'max_by_files_result' => 100,
             'max_by_manual_result' => 100,
-            'min_artikul_length' => 3,
+            'min_artikul_length' => 2,
             'max_artikul_length' => 100,
 
             //для поска в StockData
