@@ -714,8 +714,6 @@ $(document).ready(function () {
     if(filterQuery.length && filterQuery !== '[]') {
 
         var queryParams = JSON.parse(filterQuery);
-        console.log(queryParams);
-
 
         for( var p in queryParams) {
             queryParams[p] = queryParams[p].split('|');
