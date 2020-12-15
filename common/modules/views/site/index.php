@@ -105,27 +105,6 @@ $this->title = 'My Yii Application';
 
 <div class="content_wrap mw1180">
 
-    <div class="col_220 fll">
-
-        <div class="supply_program">
-            <? echo $this->render('@app/views/includes/manufacturers.php', [
-                'manufacturers' => $this->params['manufacturers'],
-            ]);?>
-        </div>
-
-    </div>
-
-
-    <div class="content_top col_940">
-
-        <?=CatalogMenu::widget();?>
-
-
-        <?=WSearch::widget();?>
-
-    </div>
-
-
     <div class="content_inner_wrap col_940">
 
         <div class="slider">

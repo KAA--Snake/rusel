@@ -16,7 +16,7 @@ use yii\helpers\Url;
         <input type="hidden" name="<?=\Yii::$app->request->csrfParam; ?>" value="<?=\Yii::$app->request->getCsrfToken(); ?>" />
         <?*/?>
         <button class="submit_search">Найти</button>
-        <a href="/search/" class="list_seach">Поиск по списку</a>
+<!--        <a href="/search/" class="list_seach">Поиск по списку</a>-->
     </form>
 </div>
 

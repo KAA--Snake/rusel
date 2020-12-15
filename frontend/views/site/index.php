@@ -28,26 +28,6 @@ $this->title = 'RUSEL24: Комплексное снабжение компле�
 
 <div class="content_wrap mw1180">
 
-    <div class="col_220 fll">
-
-        <div class="supply_program">
-            <? echo $this->render('@app/views/includes/manufacturers_fullwidth.php', [
-                'manufacturers' => $this->params['manufacturers'],
-            ]);?>
-        </div>
-
-    </div>
-
-
-    <div class="content_top col_940">
-
-        <?=CatalogMenu::widget();?>
-
-
-        <?=WSearch::widget();?>
-
-    </div>
-
 
     <div class="content_inner_wrap left0">
 

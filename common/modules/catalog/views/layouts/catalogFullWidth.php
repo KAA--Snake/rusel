@@ -104,25 +104,6 @@ AppAsset::register($this);
 
         <div class="content_wrap mw1180">
 
-            <div class="col_220 fll">
-
-                <div class="supply_program">
-                    <? echo $this->render('@app/views/includes/manufacturers_fullwidth.php', [
-                        'manufacturers' => $this->params['manufacturers'],
-                    ]);?>
-                </div>
-
-            </div>
-
-
-            <div class="content_top col_940">
-                <?=CatalogMenu::widget(['maket' => 'menu_full_width']);?>
-
-
-                <?=WSearch::widget();?>
-
-            </div>
-
             <?php
             //if($_GET['yes']) {
                 //\Yii::$app->pr->print_r2($this->params['breadcrumbs']);

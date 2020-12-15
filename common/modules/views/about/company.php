@@ -111,41 +111,6 @@ use common\widgets\Alert;
 
         <div class="content_wrap mw1180">
 
-            <div class="col_220 fll">
-
-                <div class="supply_program">
-                    <? echo $this->render('@app/views/includes/manufacturers.php', [
-                        'manufacturers' => $this->params['manufacturers'],
-                    ]);?>
-                </div>
-
-            </div>
-
-
-            <div class="content_top col_940">
-                <div class="goods_catalog js-dropdown-catalog">
-                    <div class="gc_header">Каталог</div>
-                    <ul class="gc_list gc_list-lvl0">
-                        <li class="gc_item">
-                            <a href="/catalog/electric_products/"><span>Электротехнические изделия</span></a>
-                        </li>
-                        <li class="gc_item">
-                            <a href="/catalog/izmeritelnye-pribory/"><span>Измерительные приборы</span></a>
-                        </li>
-                        <li class="gc_item">
-                            <a href="/catalog/electronic_components/"><span>Электронные компоненты</span></a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="search_block">
-                    <input type="text" placeholder="Введите искомый артикул" class="search_field">
-                    <button class="submit_search">Найти</button>
-                    <a href="/search/" class="list_seach">Поиск по списку</a>
-                </div>
-
-            </div>
-
             <div class="content_inner_wrap left0 col_1180 about_company">
                 <h1>О проекте</h1>
                 <img src="<?= Url::to('@web/img/about_1.png');?>" alt="" class="fll">
