@@ -1,12 +1,39 @@
 <?php
 namespace common\widgets\catalog\views;
 
+use common\modules\catalog\models\Section;
 use yii\helpers\Url;
 
 if(!isset($rootSections) || empty($rootSections)){
     $rootSections = [];
 }
-//\Yii::$app->pr->print_r2($rootSections[0]);
+
+/**
+ * Дерево детей находится тут, вложенность меню = 2 (верхний уровень + один)
+ * пример вызова тут и еще ниже с закормменченной отладкой. Как закончишь - оставь закомменченное тут, чтоб не забылось
+ *
+ * foreach($rootSections as $k=>$oneSection) {
+ *
+ *      foreach ($oneSection->childs as $sectionChild) {
+ *          echo $sectionChild->name;
+ *          echo $sectionChild->url;
+ *      }
+ * }
+ *
+ */
+
+foreach($rootSections as $k=>$oneSection) {
+
+    /** @var Section $sectionChild */
+    foreach ($oneSection->childs as $sectionChild) {
+        //раскомментируй ниже, чтобы посмотреть структуру $sectionChild. Впрочем она такая-же как у верхних разделов.
+        //\Yii::$app->pr->print_r2($sectionChild->getAttributes());
+       }
+  }
+
+//конструкция ниже - делает die(), но он работает только только для куки = dev, как print_r2()
+//чтоб не шаблон не мешался, лучше ее запустить когда будешь смотреть отладку выше.
+//\Yii::$app->pr->die();
 ?>
 
 

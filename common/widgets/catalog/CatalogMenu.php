@@ -27,7 +27,8 @@ class CatalogMenu extends Widget
     public function run()
     {
         $sectionModel = new Section();
-        $rootSections = $sectionModel->getRootSections();
+        /** @var Section $rootSections */
+        $rootSections = $sectionModel->getAllSectionsByMaxDepthLevel(2);
 
         if($this->maket != 'main_menu' && !empty($this->maket)){
             return $this->render($this->maket, ['rootSections' => $rootSections]);

@@ -271,6 +271,26 @@ class Section extends \yii\db\ActiveRecord
         return $returnData;
     }
 
+    /**
+     *
+     * Отдает построенное дерево ВСЕХ разделов каталога с ограничением по depth_level
+     * @param $url
+     * @param bool $maxDepthLevel
+     * @return array
+     * @internal param bool $asArray
+     */
+    public function getAllSectionsByMaxDepthLevel($maxDepthLevel=2){
+
+        $returnData = static::find()
+            ->andWhere(['<=', 'depth_level', $maxDepthLevel] )
+            ->orderBy('depth_level, parent_id, sort ASC')
+            ->all();
+
+        $returnData = $this->buildTreeAsObjects($returnData);
+
+        return $returnData;
+    }
+
     private function groupSubsections($data, $rootID=false){
 
         $tree = array();
