@@ -38,7 +38,23 @@ foreach($rootSections as $k=>$oneSection) {
 
 
 <div class="goods_catalog js-dropdown-catalog">
-    <div class="gc_header">Каталог</div>
+
+    <div class="gc_header">
+        <div class="cat_icon">
+            <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    width="20px" height="12px">
+                <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+                      d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"/>
+                <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+                      d="M-0.000,5.000 L20.000,5.000 L20.000,7.000 L-0.000,7.000 L-0.000,5.000 Z"/>
+                <path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+                      d="M-0.000,10.000 L20.000,10.000 L20.000,12.000 L-0.000,12.000 L-0.000,10.000 Z"/>
+            </svg>
+        </div>
+        Каталог
+    </div>
     <ul class="gc_list gc_list-lvl0" >
         <?php if(count($rootSections) > 0){?>
             <?php foreach($rootSections as $k=>$oneSection){?>
