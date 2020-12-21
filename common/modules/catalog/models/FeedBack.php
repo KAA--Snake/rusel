@@ -97,17 +97,13 @@ class FeedBack extends Model
 
         $params = ['feedback' => $this]; //передаем текущий заказ
 
-        $emailParams = \Yii::$app->getModule('catalog')->params['email'];
+        $params['date'] = date('Y-m-d H:i:s');
 
-        $fio = $this->fio;
-        if(empty($fio)){
-            $fio = 'Покупатель';
-        }
+        $emailParams = \Yii::$app->getModule('catalog')->params['email'];
 
         //$products = (array) json_decode($this->getAttributes()['products']);
 
-        \Yii::$app->pr->print_r2($params);
-        die();
+
         //\Yii::$app->pr->print_r2($this->getAttributes()['products']);
         try{
             //отправка уведомления для админа
@@ -119,12 +115,10 @@ class FeedBack extends Model
                 ->setSubject('Rusel24.ru: Обратная связь ' .date('Y-m-d H:i:s'))
                 ->send();
         }catch(Exception $exception){
+            \Yii::$app->pr->print_r2($exception->getMessage());
             //file_put_contents('/webapp/upload/orders_errors', 'Не удалось отправить на почту заказ '.$this->id, FILE_APPEND );
         }
 
-        if(empty($this->email)){
-            return false;
-        }
 
         return true; //пока не делаем рассылку для клиентов
 
