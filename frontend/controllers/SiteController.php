@@ -77,6 +77,14 @@ class SiteController extends Controller
             'stock_info_1' => [
                 'class' => 'frontend\actions\StockInfoAction'
             ],
+            'feedback-form' => [
+                'class' => 'frontend\actions\FeedBackFormAction'
+            ],
+
+            'feedback-form-add' => [
+                'class' => 'frontend\actions\FeedBackFormAddAction'
+            ],
+
         ];
     }
 

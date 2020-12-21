@@ -5,22 +5,7 @@ $params = array_merge(
     require(__DIR__ . '/params.php'),
     require(__DIR__ . '/params-local.php')
 );
-//elastic
-/*
-admin: 123123123
-readwrite: r1rf98wh7p8
-readonly: sh5okh9jf9
-elastic: 2v29gg83hjx
 
-# This editor maps roles to users of that role, like this:
-# role_name: user1, user2
-
-admin: admin
-readwrite: readwrite
-readonly: readonly
-*/
-//6g0h5BHK0kXLM0nSlu4vgVKN
-//https://4873ffa424778a84e4cc377607e792b2.us-east-1.aws.found.io:9243/
 return [
     'id' => 'app-frontend',
     'homeUrl' => '/',
@@ -70,6 +55,18 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
+        'urlManager' => [
+            'rules' => [
+                //stock infos
+                'stock_info_1/' => 'site/stock_info_1',
+
+                //feed back form
+                'feedback-form/' => 'site/feedback-form',
+                'feedback-form-add/' => 'site/feedback-form-add',
+            ]
+
+        ]
 
     ],
     'params' => $params,
