@@ -478,6 +478,15 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 
 <?php
 if ($_COOKIE['dev']) {
+
+    /**
+     * Виды mode (в зависимости от выбранной будет соответствующий текст на кнопке):
+     *
+     * FeedBackForm::$defaultMode = "Задать вопрос"
+     * FeedBackForm::$quickMode = "Быстрый запрос"
+     * FeedBackForm::$detailMode = "Загрузить заказ"
+     *
+     */
     try {
         echo FeedBackForm::widget(['options' => [
                 'mode' => FeedBackForm::$detailMode,

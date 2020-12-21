@@ -782,6 +782,14 @@ $perPage = $paginator['maxSizeCnt'];
     <?php */ ?>
 
         <?php
+        /**
+         * Виды mode (в зависимости от выбранной будет соответствующий текст на кнопке):
+         *
+         * FeedBackForm::$defaultMode = "Задать вопрос"
+         * FeedBackForm::$quickMode = "Быстрый запрос"
+         * FeedBackForm::$detailMode = "Загрузить заказ"
+         *
+         */
         if ($_COOKIE['dev']) {
             try {
                 echo FeedBackForm::widget(['options' => [
