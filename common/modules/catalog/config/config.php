@@ -34,7 +34,7 @@ return [
         //адреса для рассылки
         'email' => [
             'admin_order' => 'ordsite@rusel24.ru',
-            'feedback' => 'smu138@gmail.com' //для отправки формы обратной связи
+            'feedback' => 'ordsite@rusel24.ru' //для отправки формы обратной связи
         ],
 
         'search' => [
