@@ -3,10 +3,13 @@
 /* @var $this yii\web\View */
 /* @var $options array */
 /* @var $oneProduct array */
+/* @var $errors array */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+
+//use yii\bootstrap\ActiveForm;
 
 //\Yii::$app->pr->print_r2($options);
 
@@ -20,74 +23,120 @@ use yii\widgets\ActiveForm;
 
     <h1 class="header_h1">Форма обратной связи</h1>
 
-    <form action="/feedback-form-add/" method="post" name="feed-back" enctype="multipart/form-data" id="feed-back-form" class="feed-back-form">
-        <?= Html::hiddenInput(\Yii::$app->request->csrfParam, \Yii::$app->request->getCsrfToken()); ?>
-        <input type="hidden" name="FeedBack[formUrl]" value="<?php echo $_SERVER['REQUEST_URI'];?>" />
+    <?php
+    if (!empty($errors)) {
+        echo "<div class='errors'>";
+            foreach ($errors as $oneError) {
+                echo "<p>$oneError</p>";
+            }
+        echo "</div>";
+    }
+    ?>
 
+    <?php $form = ActiveForm::begin([
+        'id' => 'login-form-admin',
+        //'action' => '/feedback-form-add/',
+        'method' => 'post',
+        'enableAjaxValidation' => true,
+        'enableClientValidation' => false,
+        'validateOnSubmit' => false,
+        'options' => ['class' => 'someClass','enctype' => 'multipart/form-data'],
+    ]) ?>
+
+    <input type="hidden" name="FeedBack[formUrl]" value="<?php echo $_SERVER['REQUEST_URI'];?>" />
+
+    <?php
+    if ($oneProduct) { ?>
+        <input type="hidden" name="FeedBack[productName]" value="<?php echo $oneProduct['name'];?>" />
+        <input type="hidden" name="FeedBack[artikul]" value="<?php echo $oneProduct['artikul'];?>" />
+        <input type="hidden" name="FeedBack[manufacturer]" value="<?php echo $oneProduct['properties']['proizvoditel'];?>" />
+    <?php }?>
+
+    <div class="label">
         <?php
-        if ($oneProduct) { ?>
-            <input type="hidden" name="FeedBack[productName]" value="<?php echo $oneProduct['name'];?>" />
-            <input type="hidden" name="FeedBack[artikul]" value="<?php echo $oneProduct['artikul'];?>" />
-            <input type="hidden" name="FeedBack[manufacturer]" value="<?php echo $oneProduct['properties']['proizvoditel'];?>" />
-        <?php }?>
+        echo $form->field($model, 'file')
+            ->fileInput()
+            //->hint('ФИО')
+            ->label('Файл:');
+        ?>
+    </div>
 
+    <div class="label">
         <?php
-        try {
-            echo \himiklab\yii2\recaptcha\ReCaptcha::widget([
-                'name' => 'FeedBack[reCapthca]',
-                'siteKey' => '6LeJeg8aAAAAAO7psesiWIQeECli_9tMUlcyJvc2', // unnecessary is reCaptcha component was set up
-                //'action' => 'homepage',
-                'widgetOptions' => ['class' => 'col-sm-offset-3'],
-            ]);
-        } catch (Exception $e) {
-            \Yii::$app->pr->print_r2($e->getMessage());
-        } ?>
+        echo $form->field($model, 'fio')
+            ->textInput()
+            //->hint('ФИО')
+            ->label('ФИО:');
+        ?>
+    </div>
 
-        <div class="label">
-            Файл:
-            <input type="file" name="FeedBack[file]" value="" />
-        </div>
-
-        <div class="label">
-            ФИО:
-            <input type="text" name="FeedBack[fio]" value="" >
-        </div>
-
-        <div class="label">
-            тел:
-            <input type="text" name="FeedBack[phone]" value="">
-        </div>
-
-        <div class="label">
-            майл:
-            <input type="text" name="FeedBack[email]" value="">
-        </div>
-
-        <div class="label">
-            компания:
-            <input type="text" name="FeedBack[company]" value="">
-        </div>
-        <div class="label">
-            ИНН:
-            <input type="text" name="FeedBack[inn]" value="">
-        </div>
-
-        <div class="label">
-            текст:
-            <textarea name="FeedBack[text]"></textarea>
-        </div>
-
+    <div class="label">
         <?php
-        if ($oneProduct) { ?>
-            <div class="label">
-                Количество:
-                <input type="text" name="FeedBack[productCount]" value="1" />
-            </div>
-        <?php }?>
+        echo $form->field($model, 'phone')
+            ->textInput()
+            ->label('тел:');
+        ?>
+    </div>
 
-            <button><?php echo $buttonText;?></button>
+    <div class="label">
+        <?php
+        echo $form->field($model, 'email')
+            ->textInput()
+            ->label('майл:');
+        ?>
+    </div>
 
-    </form>
+    <div class="label">
+        <?php
+        echo $form->field($model, 'company')
+            ->textInput()
+            ->label('компания:');
+        ?>
+    </div>
+    <div class="label">
+        <?php
+        echo $form->field($model, 'inn')
+            ->textInput()
+            ->label('ИНН:');
+        ?>
+    </div>
+
+    <div class="label">
+        <?php
+        echo $form->field($model, 'text')
+            ->textarea(['rows' => 5, 'cols' => 50])
+            ->label('текст');
+        ?>
+    </div>
+
+    <?php
+    if ($oneProduct) { ?>
+        <div class="label">
+            <?php
+            echo $form->field($model, 'productCount')
+                ->textInput()
+                ->label('Количество:');
+            ?>
+        </div>
+    <?php }?>
+
+    <?php
+    //captcha
+    try {
+        echo $form->field($model, 'reCaptcha', ['enableAjaxValidation' => false])->widget(
+            \himiklab\yii2\recaptcha\ReCaptcha::className(), [
+                'name' => 'reCaptcha',
+                'siteKey' => '6LeJeg8aAAAAAO7psesiWIQeECli_9tMUlcyJvc2',
+                //'widgetOptions' => ['class' => 'recaptcha-login']
+            ]
+        )->label('reCaptcha');
+    } catch (Exception $e) {
+        \Yii::$app->pr->print_r2($e->getMessage());
+    } ?>
+
+    <?php echo Html::submitButton($buttonText, ['class' => 'btn btn-success']) ?>
+
+    <?php ActiveForm::end(); ?>
 
 </div>
 
