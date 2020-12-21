@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use common\modules\catalog\models\currency\Currency;
 use common\widgets\catalog\Paginator;
 use common\widgets\filter_for_msearch\MSearchFilter;
+use common\widgets\feedback_form\FeedBackForm;
 
 $this->title = 'RUSEL24 - Поиск по '.$searchBy;
 ?>
@@ -630,6 +631,20 @@ $this->title = 'RUSEL24 - Поиск по '.$searchBy;
     <?php } ?>
 
 </div>
+
+
+<?php
+if ($_COOKIE['dev']) {
+    try {
+        echo FeedBackForm::widget(['options' => [
+            'mode' => FeedBackForm::$quickMode,
+        ]
+        ]);
+    } catch (Exception $e) {
+        //no needed
+    }
+}
+?>
 
 <?
 echo Paginator::widget([

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use common\widgets\feedback_form\FeedBackForm;
 use common\modules\catalog\models\Section;
 use common\widgets\catalog\Paginator;
 use common\modules\catalog\models\currency\Currency;
@@ -779,6 +780,20 @@ $perPage = $paginator['maxSizeCnt'];
         </div>
     </div>
     <?php */ ?>
+
+        <?php
+        if ($_COOKIE['dev']) {
+            try {
+                echo FeedBackForm::widget(['options' => [
+                        'mode' => FeedBackForm::$defaultMode,
+                    ]
+                ]);
+            } catch (Exception $e) {
+                //no needed
+            }
+        }
+        ?>
+
 
     </div>
 
