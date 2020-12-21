@@ -33,8 +33,8 @@ return [
 
         //адреса для рассылки
         'email' => [
-            'admin_order' => 'ordsite@rusel24.ru'
-            //'admin_order' => 'smu_139@mail.ru'
+            'admin_order' => 'ordsite@rusel24.ru',
+            'feedback' => 'smu138@gmail.com' //для отправки формы обратной связи
         ],
 
         'search' => [

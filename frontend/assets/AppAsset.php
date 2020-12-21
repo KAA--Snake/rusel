@@ -23,7 +23,7 @@ class AppAsset extends AssetBundle
         'css/site_main.css',
     ];
     public $js = [
-        'js/vendor/jquery-3.2.1.min.js',
+        //'js/vendor/jquery-3.2.1.min.js',
         'js/vendor/jquery-ui.min.js',
         'js/vendor/jquery.mousewheel.js',
         'js/vendor/jquery.jscrollpane.min.js',

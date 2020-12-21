@@ -486,6 +486,7 @@ if ($_COOKIE['dev']) {
             ]
         ]);
     } catch (Exception $e) {
+        \Yii::$app->pr->print_r2($e->getMessage());
     }
 }
 

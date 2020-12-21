@@ -10,6 +10,9 @@ use yii\widgets\ActiveForm;
 
 //\Yii::$app->pr->print_r2($options);
 
+
+
+
 ?>
 
 
@@ -27,6 +30,18 @@ use yii\widgets\ActiveForm;
             <input type="hidden" name="FeedBack[artikul]" value="<?php echo $oneProduct['artikul'];?>" />
             <input type="hidden" name="FeedBack[manufacturer]" value="<?php echo $oneProduct['properties']['proizvoditel'];?>" />
         <?php }?>
+
+        <?php
+        try {
+            echo \himiklab\yii2\recaptcha\ReCaptcha::widget([
+                'name' => 'FeedBack[reCapthca]',
+                'siteKey' => '6LeJeg8aAAAAAO7psesiWIQeECli_9tMUlcyJvc2', // unnecessary is reCaptcha component was set up
+                //'action' => 'homepage',
+                'widgetOptions' => ['class' => 'col-sm-offset-3'],
+            ]);
+        } catch (Exception $e) {
+            \Yii::$app->pr->print_r2($e->getMessage());
+        } ?>
 
         <div class="label">
             Файл:

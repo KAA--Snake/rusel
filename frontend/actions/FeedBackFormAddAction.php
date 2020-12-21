@@ -31,9 +31,12 @@ class FeedBackFormAddAction extends Action
     public function run()
     {
         $feedBack = new FeedBack();
+        \Yii::$app->pr->print_r2($feedBack);
 
         if($feedBack->load(Yii::$app->getRequest()->post()) && $feedBack->validate()){
             $feedBack = $feedBack->saveMe();
+        } else {
+            \Yii::$app->pr->print_r2($feedBack->getErrors());
         }
 
         die('END HERE');

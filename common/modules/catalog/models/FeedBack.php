@@ -13,6 +13,8 @@ use yii\web\UploadedFile;
 
 class FeedBack extends Model
 {
+    public $reCaptcha;
+
     public $formUrl;
 
     public $fio;
@@ -30,7 +32,7 @@ class FeedBack extends Model
     public $artikul;
     public $productName;
     public $manufacturer;
-    public $productCount;
+    public $productCount = 1;
 
 
     public function rules()
@@ -68,6 +70,9 @@ class FeedBack extends Model
             //[['id','big_img_width', 'big_img_height', 'small_img_width', 'small_img_height'], 'integer'],
             //[['email', 'phone', 'text'], 'required'],
             [['filepath', 'fileUrl'], 'safe'],
+            [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(),
+                'secret' => '6LeJeg8aAAAAAOoO_-rN0--_aj2TPOgurXaAJutg', // unnecessary if reСaptcha is already configured
+                'uncheckedMessage' => 'Пожалуйста, подтвердите что вы не бот.'],
         ];
     }
 
@@ -133,7 +138,7 @@ class FeedBack extends Model
                 ->setSubject('Rusel24.ru: Обратная связь ' .date('Y-m-d H:i:s'))
                 ->send();
         }catch(Exception $exception){
-            \Yii::$app->pr->print_r2($exception->getMessage());
+            //\Yii::$app->pr->print_r2($exception->getMessage());
             //file_put_contents('/webapp/upload/orders_errors', 'Не удалось отправить на почту заказ '.$this->id, FILE_APPEND );
         }
 
