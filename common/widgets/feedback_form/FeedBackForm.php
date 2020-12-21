@@ -17,6 +17,7 @@ class FeedBackForm extends Widget
     public $options;
 
     private $errors = array();
+    private $isSent = false;
 
     public static $defaultMode = 'default';
     public static $quickMode = 'quickAsk';
@@ -54,25 +55,35 @@ class FeedBackForm extends Widget
         }
     }
 
-    private function checkForm()
-    {
-
-    }
-
     public function run()
     {
         $buttonText = $this->buttonLogic();
 
         $feedBack = new FeedBack();
 
-        if($feedBack->load(\Yii::$app->getRequest()->post()) && $feedBack->validate()){
-            $feedBack = $feedBack->saveMe();
-        } else {
-            $this->errors = $feedBack->getErrors();
-        }
-        //\Yii::$app->pr->print_r2($this->options);
+        if($feedBack->load(\Yii::$app->getRequest()->post())) {
 
-        return $this->render('form2', [
+            if($feedBack->validate()){
+                $feedBack = $feedBack->saveMe();
+
+                //говорим что все в порядке (в шаблоне где-то)
+                $this->isSent = true;
+
+                //обновляем поля формы
+                $feedBack = new FeedBack();
+
+            } else {
+                $this->errors = $feedBack->getErrors();
+
+                //очистим ошибки, чтобы показать их без гребаной яичной дефолтности
+                $feedBack->clearErrors();
+            }
+        }
+
+        //\Yii::$app->pr->print_r2($this->errors);
+
+        return $this->render('form', [
+            'isSent' => $this->isSent,
             'errors' => $this->errors,
             'model' => $feedBack,
             'buttonText' => $buttonText,

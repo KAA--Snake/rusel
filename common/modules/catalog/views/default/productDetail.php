@@ -479,15 +479,13 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
 <?php
 
 if ($_COOKIE['dev']) {
-    try {
-        echo FeedBackForm::widget(['options' => [
-                'mode' => FeedBackForm::$detailMode,
-                'oneProduct' => $oneProduct
-            ]
-        ]);
-    } catch (Exception $e) {
-        \Yii::$app->pr->print_r2($e->getMessage());
-    }
+
+    echo FeedBackForm::widget(['options' => [
+            'mode' => FeedBackForm::$detailMode,
+            'oneProduct' => $oneProduct
+        ]
+    ]);
+
 }
 
 ?>

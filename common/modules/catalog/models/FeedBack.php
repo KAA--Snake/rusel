@@ -68,7 +68,7 @@ class FeedBack extends Model
                 //'extensions' => $allowedExtensions,
                 'maxFiles' => 1],
             //[['id','big_img_width', 'big_img_height', 'small_img_width', 'small_img_height'], 'integer'],
-            //[['email', 'phone', 'text'], 'required'],
+            [['email', 'phone', 'text'], 'required'],
             [['filepath', 'fileUrl'], 'safe'],
             [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(),
                 'secret' => '6LeJeg8aAAAAAOoO_-rN0--_aj2TPOgurXaAJutg', // unnecessary if reСaptcha is already configured
@@ -76,6 +76,21 @@ class FeedBack extends Model
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'fio' => 'ФИО',
+            'phone' => 'Телефон',
+            'email' => 'Email',
+            'company' => 'Компания',
+            'text' => 'Текст',
+            'inn' => 'ИНН',
+            'reCaptcha' => '',
+        ];
+    }
 
     public function upload()
     {

@@ -13,9 +13,6 @@ use yii\widgets\ActiveForm;
 
 //\Yii::$app->pr->print_r2($options);
 
-
-
-
 ?>
 
 
@@ -24,17 +21,27 @@ use yii\widgets\ActiveForm;
     <h1 class="header_h1">Форма обратной связи</h1>
 
     <?php
+    if ($isSent) {
+        echo "<div class='success'>";
+            echo "<p>Форма успешно отправлена !</p>";
+        echo "</div>";
+    }
+    ?>
+
+    <?php
     if (!empty($errors)) {
         echo "<div class='errors'>";
-            foreach ($errors as $oneError) {
-                echo "<p>$oneError</p>";
+            foreach ($errors as $errorTypes) {
+                foreach ($errorTypes as $oneError) {
+                    echo "<p>$oneError</p>";
+                }
             }
         echo "</div>";
     }
     ?>
 
     <?php $form = ActiveForm::begin([
-        'id' => 'login-form-admin',
+        'id' => 'feedback-form',
         //'action' => '/feedback-form-add/',
         'method' => 'post',
         'enableAjaxValidation' => true,
@@ -56,17 +63,18 @@ use yii\widgets\ActiveForm;
         <?php
         echo $form->field($model, 'file')
             ->fileInput()
-            //->hint('ФИО')
-            ->label('Файл:');
         ?>
     </div>
 
     <div class="label">
         <?php
-        echo $form->field($model, 'fio')
+        echo $form->field($model, 'fio', [
+            'inputOptions' => [
+                'id' => 'my-fio-input-id',
+            ],
+            ])
             ->textInput()
             //->hint('ФИО')
-            ->label('ФИО:');
         ?>
     </div>
 
@@ -74,15 +82,13 @@ use yii\widgets\ActiveForm;
         <?php
         echo $form->field($model, 'phone')
             ->textInput()
-            ->label('тел:');
         ?>
     </div>
 
     <div class="label">
         <?php
         echo $form->field($model, 'email')
-            ->textInput()
-            ->label('майл:');
+            ->input('email')
         ?>
     </div>
 
@@ -90,14 +96,12 @@ use yii\widgets\ActiveForm;
         <?php
         echo $form->field($model, 'company')
             ->textInput()
-            ->label('компания:');
         ?>
     </div>
     <div class="label">
         <?php
         echo $form->field($model, 'inn')
             ->textInput()
-            ->label('ИНН:');
         ?>
     </div>
 
@@ -105,7 +109,6 @@ use yii\widgets\ActiveForm;
         <?php
         echo $form->field($model, 'text')
             ->textarea(['rows' => 5, 'cols' => 50])
-            ->label('текст');
         ?>
     </div>
 
@@ -115,7 +118,6 @@ use yii\widgets\ActiveForm;
             <?php
             echo $form->field($model, 'productCount')
                 ->textInput()
-                ->label('Количество:');
             ?>
         </div>
     <?php }?>
@@ -127,9 +129,9 @@ use yii\widgets\ActiveForm;
             \himiklab\yii2\recaptcha\ReCaptcha::className(), [
                 'name' => 'reCaptcha',
                 'siteKey' => '6LeJeg8aAAAAAO7psesiWIQeECli_9tMUlcyJvc2',
-                //'widgetOptions' => ['class' => 'recaptcha-login']
+                'widgetOptions' => ['class' => 'recaptcha-widget']
             ]
-        )->label('reCaptcha');
+        )->label(false);
     } catch (Exception $e) {
         \Yii::$app->pr->print_r2($e->getMessage());
     } ?>
