@@ -21,6 +21,9 @@ class FeedBack extends Model
 
     public $file;
 
+    public $filepath;
+    public $fileUrl = 'http://rusel24.ru/upload/feedback/';
+
 
     public function rules()
     {
@@ -32,6 +35,9 @@ class FeedBack extends Model
                     'email',
                     'company',
                     'text',
+
+                    'filepath',
+                    'fileUrl',
                 ],
                 'string'
             ],
@@ -43,6 +49,7 @@ class FeedBack extends Model
                 'maxFiles' => 1],
             //[['id','big_img_width', 'big_img_height', 'small_img_width', 'small_img_height'], 'integer'],
             //[['email', 'phone', 'text'], 'required'],
+            [['filepath', 'fileUrl'], 'safe'],
         ];
     }
 
@@ -53,11 +60,12 @@ class FeedBack extends Model
         $folder =  $_SERVER['DOCUMENT_ROOT'].'/upload/feedback/'; //$_SERVER['DOCUMENT_ROOT'] = /webapp
 
         if ($this->validate()) {
-            $filePath = $folder . $this->file->baseName . '.' . $this->file->extension;
+            $this->filepath = $folder . $this->file->baseName . '.' . $this->file->extension;
+            $this->fileUrl .= $this->file->baseName . '.' . $this->file->extension;
 
-            $this->file->saveAs($filePath);
+            $this->file->saveAs($this->filepath);
 
-            return $filePath;
+            return true;
         } else {
             return false;
         }
@@ -71,15 +79,10 @@ class FeedBack extends Model
 
         if(!empty($model->file)){
 
-
-            $filePath = $model->upload();
-
-            if ($filePath) {
-
-                \Yii::$app->pr->print_r2($filePath);
+            if ($model->upload()) {
 
                 //здесь делать отправку письма
-
+                $this->sendMail();
 
                 //здесь удалять $filePath
             }
@@ -87,6 +90,52 @@ class FeedBack extends Model
         }
 
         return $model;
+
+    }
+
+    public function sendMail(){
+
+        $params = ['feedback' => $this]; //передаем текущий заказ
+
+        $emailParams = \Yii::$app->getModule('catalog')->params['email'];
+
+        $fio = $this->fio;
+        if(empty($fio)){
+            $fio = 'Покупатель';
+        }
+
+        //$products = (array) json_decode($this->getAttributes()['products']);
+
+        \Yii::$app->pr->print_r2($params);
+        die();
+        //\Yii::$app->pr->print_r2($this->getAttributes()['products']);
+        try{
+            //отправка уведомления для админа
+            \Yii::$app->mailer->compose([
+                'html' => 'views/feedback/feedback.php',
+                //'text' => 'views/order/order.created.admin.php',
+            ], $params)
+                ->setTo([$emailParams['feedback'] => 'Admin'])
+                ->setSubject('Rusel24.ru: Обратная связь ' .date('Y-m-d H:i:s'))
+                ->send();
+        }catch(Exception $exception){
+            //file_put_contents('/webapp/upload/orders_errors', 'Не удалось отправить на почту заказ '.$this->id, FILE_APPEND );
+        }
+
+        if(empty($this->email)){
+            return false;
+        }
+
+        return true; //пока не делаем рассылку для клиентов
+
+        //шаблоны для клиента - решили не отправлять ничего клиентам
+        /*\Yii::$app->mailer->compose([
+            'html' => 'views/order/order.' . $view . '.html.php',
+            'text' => 'views/order/order.' . $view . '.text.php',
+        ], $params)
+            ->setTo([$this->email => $fio])
+            ->setSubject('Успешно оформлен заказ Rusel24.ru')
+            ->send();*/
 
     }
 
