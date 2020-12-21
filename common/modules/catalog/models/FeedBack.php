@@ -83,10 +83,11 @@ class FeedBack extends Model
     {
         return [
             'fio' => 'ФИО',
+            'file' => 'Прикрепить файл',
             'phone' => 'Телефон',
-            'email' => 'Email',
-            'company' => 'Компания',
-            'text' => 'Текст',
+            'email' => 'E-mail',
+            'company' => 'Организация или ИП',
+            'text' => 'Текст сообщения',
             'inn' => 'ИНН',
             'reCaptcha' => '',
         ];

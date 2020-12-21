@@ -477,17 +477,17 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
     </div>
 
 <?php
-
 if ($_COOKIE['dev']) {
-
-    echo FeedBackForm::widget(['options' => [
-            'mode' => FeedBackForm::$detailMode,
-            'oneProduct' => $oneProduct
-        ]
-    ]);
-
+    try {
+        echo FeedBackForm::widget(['options' => [
+                'mode' => FeedBackForm::$detailMode,
+                'oneProduct' => $oneProduct
+            ]
+        ]);
+    } catch (Exception $e) {
+        //no needed
+    }
 }
-
 ?>
 </div>
 

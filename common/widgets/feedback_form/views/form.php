@@ -67,6 +67,8 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="label">
+        <!-- Обрати внимание что здесь поставлен ->label(false) чтобы не получить дефолтный лейбл перед полем-->
+        ФИО:
         <?php
         echo $form->field($model, 'fio', [
             'inputOptions' => [
@@ -74,7 +76,7 @@ use yii\widgets\ActiveForm;
             ],
             ])
             ->textInput()
-            //->hint('ФИО')
+            ->label(false) //отключен дефолтный лейбл перед инпутом
         ?>
     </div>
 
