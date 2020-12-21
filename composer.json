@@ -14,8 +14,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4.0",
-        "fxp/composer-asset-plugin":"*",
+        "php": ">=7.4.5",
         "yiisoft/yii2": "~2.0.6",
         "kartik-v/yii2-grid": "@dev",
         "yiisoft/yii2-bootstrap": "~2.0.0",
@@ -25,7 +24,8 @@
         "elasticsearch/elasticsearch": "~5.0",
         "php-amqplib/php-amqplib": ">=2.6.1",
         "phpoffice/phpexcel": "dev-master",
-        "yiisoft/yii2-redis": "~2.0.7"
+        "yiisoft/yii2-redis": "~2.0.7",
+        "himiklab/yii2-recaptcha-widget" : "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -35,15 +35,15 @@
         "codeception/verify": "~0.3.1"
     },
     "config": {
-        "process-timeout": 3000
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
+        "process-timeout": 3000,
+        "fxp-asset": {
+            "enabled": false
         }
     },
-    "scripts": {
-        "post-install-cmd": "php init --env=Development --overwrite=n"
-    }
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }
