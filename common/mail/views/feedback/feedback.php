@@ -10,6 +10,15 @@
 </p>
 
 <p>
+    URL с которого отправлена: <b> <?php echo $feedback->formUrl;?> </b>
+</p>
+
+
+<p>
+    Дата и время отправки: <b> <?php echo $date;?> </b>
+</p>
+
+<p>
     ФИО: <b> <?php echo $feedback->fio;?> </b>
 </p>
 
@@ -23,6 +32,10 @@
 
 <p>
     Компания: <b><?php echo $feedback->company;?></b>
+</p>
+
+<p>
+    ИНН: <b><?php echo $feedback->inn;?></b>
 </p>
 
 <p>
@@ -40,21 +53,17 @@
 <br />
 
 <p>
-    артикул товара:
+    название товара: <b><?php echo $feedback->productName;?></b>
 </p>
 
 <p>
-    название товара:
+    артикул товара: <b><?php echo $feedback->artikul;?></b>
 </p>
 
 <p>
-    производитель товара:
+    производитель товара: <b><?php echo $feedback->manufacturer;?></b>
 </p>
 
 <p>
-    картинка товара:
-</p>
-
-<p>
-    количество товара:
+    количество товара: <b><?php echo $feedback->productCount;?></b>
 </p>

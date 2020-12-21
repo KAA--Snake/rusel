@@ -13,16 +13,24 @@ use yii\web\UploadedFile;
 
 class FeedBack extends Model
 {
+    public $formUrl;
+
     public $fio;
     public $phone;
     public $email;
     public $company;
     public $text;
+    public $inn;
 
     public $file;
 
     public $filepath;
     public $fileUrl = 'http://rusel24.ru/upload/feedback/';
+
+    public $artikul;
+    public $productName;
+    public $manufacturer;
+    public $productCount;
 
 
     public function rules()
@@ -30,14 +38,24 @@ class FeedBack extends Model
         return [
             [
                 [
+                    'formUrl',
+
                     'fio',
                     'phone',
                     'email',
                     'company',
                     'text',
+                    'inn',
 
+                    //приложенный файл
                     'filepath',
                     'fileUrl',
+
+                    //товар
+                    'productName',
+                    'artikul',
+                    'manufacturer',
+                    'productCount',
                 ],
                 'string'
             ],

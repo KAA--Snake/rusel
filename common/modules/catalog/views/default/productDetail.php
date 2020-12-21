@@ -2,6 +2,7 @@
 
 use yii\helpers\Url;
 use common\modules\catalog\models\currency\Currency;
+use \common\widgets\feedback_form\FeedBackForm;
 
 //здесь выводится все по товару
 //\Yii::$app->pr->print_r2($oneProduct);
@@ -475,7 +476,20 @@ $this->title = $oneProduct['artikul'].' | '.$oneProduct['properties']['proizvodi
         <div class="clearBoth" style="clear: both"></div>
     </div>
 
+<?php
 
+if ($_COOKIE['dev']) {
+    try {
+        echo FeedBackForm::widget(['options' => [
+                'mode' => FeedBackForm::$detailMode,
+                'oneProduct' => $oneProduct
+            ]
+        ]);
+    } catch (Exception $e) {
+    }
+}
+
+?>
 </div>
 
 <script type="application/ld+json">

@@ -1,5 +1,7 @@
 <?
 use \common\widgets\feedback_form\FeedBackForm;
 
-echo FeedBackForm::widget();
+//if ($_COOKIE['dev']) {
+//    echo FeedBackForm::widget(['options' => ['some']]);
+//}
 ?>
