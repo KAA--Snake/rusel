@@ -649,7 +649,7 @@ if ($_COOKIE['dev']) {
         ]
         ]);
     } catch (Exception $e) {
-        //no needed
+        echo '<script>window.location.href=window.location.href</script>';
     }
 }
 ?>

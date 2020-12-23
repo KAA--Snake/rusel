@@ -66,6 +66,9 @@ class FeedBackForm extends Widget
             if($feedBack->validate()){
                 $feedBack = $feedBack->saveMe();
 
+                //отправка письма
+                $feedBack->sendMail();
+
                 //говорим что все в порядке (в шаблоне где-то)
                 $this->isSent = true;
 

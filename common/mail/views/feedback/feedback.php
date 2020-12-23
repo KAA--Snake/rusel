@@ -42,9 +42,13 @@
     Текст: <b><?php echo $feedback->text;?></b>
 </p>
 
+<?php
+if ($isFileAttached) {
+?>
 <p>
     Приложенный файл: <?php echo $feedback->fileUrl;?>
 </p>
+<? } ?>
 
 <p>
     Данные по товару:

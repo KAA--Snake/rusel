@@ -34,6 +34,8 @@ class FeedBack extends Model
     public $manufacturer;
     public $productCount = 1;
 
+    private $isFileAttached = false;
+
 
     public function rules()
     {
@@ -68,7 +70,7 @@ class FeedBack extends Model
                 //'extensions' => $allowedExtensions,
                 'maxFiles' => 1],
             //[['id','big_img_width', 'big_img_height', 'small_img_width', 'small_img_height'], 'integer'],
-            [['email', 'phone', 'text'], 'required'],
+            [['email', 'phone', 'fio'], 'required'],
             [['filepath', 'fileUrl'], 'safe'],
             [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(),
                 'secret' => '6LeJeg8aAAAAAOoO_-rN0--_aj2TPOgurXaAJutg', // unnecessary if reСaptcha is already configured
@@ -89,6 +91,7 @@ class FeedBack extends Model
             'company' => 'Организация или ИП',
             'text' => 'Текст сообщения',
             'inn' => 'ИНН',
+            'productCount' => 'Количество',
             'reCaptcha' => '',
         ];
     }
@@ -104,6 +107,8 @@ class FeedBack extends Model
 
             $this->file->saveAs($this->filepath);
 
+            $this->isFileAttached = true;
+
             return true;
         } else {
             return false;
@@ -117,19 +122,10 @@ class FeedBack extends Model
         $model->file = UploadedFile::getInstance($model, 'file');
 
         if(!empty($model->file)){
-
-            if ($model->upload()) {
-
-                //здесь делать отправку письма
-                $this->sendMail();
-
-                //здесь удалять $filePath
-            }
-
+            $model->upload();
         }
 
         return $model;
-
     }
 
     public function sendMail(){
@@ -137,13 +133,14 @@ class FeedBack extends Model
         $params = ['feedback' => $this]; //передаем текущий заказ
 
         $params['date'] = date('Y-m-d H:i:s');
+        $params['isFileAttached'] = $this->isFileAttached;
 
         $emailParams = \Yii::$app->getModule('catalog')->params['email'];
 
         //$products = (array) json_decode($this->getAttributes()['products']);
 
 
-        //\Yii::$app->pr->print_r2($this->getAttributes()['products']);
+        //\Yii::$app->pr->print_r2($params);
         try{
             //отправка уведомления для админа
             \Yii::$app->mailer->compose([
