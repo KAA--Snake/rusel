@@ -32,7 +32,7 @@ class FeedBack extends Model
     public $artikul;
     public $productName;
     public $manufacturer;
-    public $productCount = 1;
+    public $productCount = '1';
 
     private $isFileAttached = false;
 
@@ -75,6 +75,7 @@ class FeedBack extends Model
             [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(),
                 'secret' => '6LeJeg8aAAAAAOoO_-rN0--_aj2TPOgurXaAJutg', // unnecessary if reСaptcha is already configured
                 'uncheckedMessage' => 'Пожалуйста, подтвердите что вы не бот.'],
+            //[['productName', 'manufacturer', 'artikul', 'productCount'], 'string', 'skipOnEmpty' => true],
         ];
     }
 
