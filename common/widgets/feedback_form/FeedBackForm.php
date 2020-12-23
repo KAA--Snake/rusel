@@ -66,14 +66,22 @@ class FeedBackForm extends Widget
             if($feedBack->validate()){
                 $feedBack = $feedBack->saveMe();
 
-                //отправка письма
-                $feedBack->sendMail();
+                //этот блок если при загрузке файла появятся ошибки
+                if ($feedBack->hasErrors()) {
+                    $this->errors = $feedBack->getErrors();
 
-                //говорим что все в порядке (в шаблоне где-то)
-                $this->isSent = true;
+                    //очистим ошибки, чтобы показать их без гребаной яичной дефолтности
+                    $feedBack->clearErrors();
+                } else {
+                    //отправка письма
+                    $feedBack->sendMail();
 
-                //обновляем поля формы
-                $feedBack = new FeedBack();
+                    //говорим что все в порядке (в шаблоне где-то)
+                    $this->isSent = true;
+
+                    //обновляем поля формы
+                    $feedBack = new FeedBack();
+                }
 
             } else {
                 $this->errors = $feedBack->getErrors();

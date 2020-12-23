@@ -24,6 +24,7 @@ class FeedBack extends Model
     public $text;
     public $inn;
 
+    /** @var UploadedFile */
     public $file;
 
     public $filepath;
@@ -68,7 +69,10 @@ class FeedBack extends Model
                 //'skipOnEmpty' => false,
                 'checkExtensionByMimeType' => false, //bug #6148
                 //'extensions' => $allowedExtensions,
-                'maxFiles' => 1],
+                'maxSize' => 1024 * 1024 * 5,
+                'maxFiles' => 1,
+                //'allowEmpty' => true
+            ],
             //[['id','big_img_width', 'big_img_height', 'small_img_width', 'small_img_height'], 'integer'],
             [['email', 'phone', 'fio'], 'required'],
             [['filepath', 'fileUrl'], 'safe'],
@@ -97,6 +101,9 @@ class FeedBack extends Model
         ];
     }
 
+    /**
+     * @return bool
+     */
     public function upload()
     {
 
@@ -112,6 +119,7 @@ class FeedBack extends Model
 
             return true;
         } else {
+            //$this->addError('file', 'СЛИШКОМ БОЛЬШОЙ ФАЙЛ !');
             return false;
         }
     }
