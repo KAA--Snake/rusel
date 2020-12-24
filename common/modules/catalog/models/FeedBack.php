@@ -157,7 +157,7 @@ class FeedBack extends Model
                 //'text' => 'views/order/order.created.admin.php',
             ], $params)
                 ->setTo([$emailParams['feedback'] => 'Admin'])
-                ->setSubject('Rusel24.ru: Обратная связь ' .date('Y-m-d H:i:s'))
+                ->setSubject('Rusel24.ru: Сообщение от ' .date('Y-m-d H:i:s'))
                 ->send();
         }catch(Exception $exception){
             //\Yii::$app->pr->print_r2($exception->getMessage());
