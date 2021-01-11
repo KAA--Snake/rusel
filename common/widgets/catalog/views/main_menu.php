@@ -55,21 +55,24 @@ foreach($rootSections as $k=>$oneSection) {
         </div>
         Каталог
     </div>
-    <ul class="gc_list gc_list-lvl0" >
-        <?php if(count($rootSections) > 0){?>
-            <?php foreach($rootSections as $k=>$oneSection){?>
-                <li class="gc_item">
-                    <a href="<?= Url::toRoute(['@catalogDir/' . $oneSection->url]); ?>"><span><?=$oneSection->name;?></span> <div class="catalog-icon"></div></a>
-                    <ul class="gc_list gc_list-lvl1" >
-                        <?php foreach ($oneSection->childs as $sectionChild) {?>
-                            <li class="gc_item lvl1-item">
-                                <a href="<?= Url::toRoute(['@catalogDir/' . $sectionChild->url]); ?>"><span><?=$sectionChild->name;?></span></a>
-                            </li>
-                        <?php }?>
-                    </ul>
-                </li>
+    <div class="gc_menu_wrap">
+        <ul class="gc_list gc_list-lvl0" >
+            <?php if(count($rootSections) > 0){?>
+                <?php foreach($rootSections as $k=>$oneSection){?>
+                    <li class="gc_item">
+                        <a href="<?= Url::toRoute(['@catalogDir/' . $oneSection->url]); ?>"><span><?=$oneSection->name;?></span> <div class="catalog-icon"></div></a>
+                        <ul class="gc_list gc_list-lvl1" >
+                            <?php foreach ($oneSection->childs as $sectionChild) {?>
+                                <li class="gc_item lvl1-item">
+                                    <a href="<?= Url::toRoute(['@catalogDir/' . $sectionChild->url]); ?>"><span><?=$sectionChild->name;?></span></a>
+                                </li>
+                            <?php }?>
+                        </ul>
+                    </li>
+                <?php }?>
             <?php }?>
-        <?php }?>
 
-    </ul>
+        </ul>
+    </div>
+
 </div>
