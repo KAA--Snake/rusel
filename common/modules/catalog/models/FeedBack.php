@@ -24,6 +24,7 @@ class FeedBack extends Model
     public $text;
     public $inn;
 
+    /** @var UploadedFile */
     public $file;
 
     public $filepath;
@@ -32,7 +33,9 @@ class FeedBack extends Model
     public $artikul;
     public $productName;
     public $manufacturer;
-    public $productCount = 1;
+    public $productCount = '1';
+
+    private $isFileAttached = false;
 
 
     public function rules()
@@ -66,13 +69,17 @@ class FeedBack extends Model
                 //'skipOnEmpty' => false,
                 'checkExtensionByMimeType' => false, //bug #6148
                 //'extensions' => $allowedExtensions,
-                'maxFiles' => 1],
+                'maxSize' => 1024 * 1024 * 5,
+                'maxFiles' => 1,
+                //'allowEmpty' => true
+            ],
             //[['id','big_img_width', 'big_img_height', 'small_img_width', 'small_img_height'], 'integer'],
-            [['email', 'phone', 'text'], 'required'],
+            [['email', 'phone', 'fio'], 'required'],
             [['filepath', 'fileUrl'], 'safe'],
             [['reCaptcha'], \himiklab\yii2\recaptcha\ReCaptchaValidator::className(),
                 'secret' => '6LeJeg8aAAAAAOoO_-rN0--_aj2TPOgurXaAJutg', // unnecessary if reСaptcha is already configured
                 'uncheckedMessage' => 'Пожалуйста, подтвердите что вы не бот.'],
+            //[['productName', 'manufacturer', 'artikul', 'productCount'], 'string', 'skipOnEmpty' => true],
         ];
     }
 
@@ -89,10 +96,14 @@ class FeedBack extends Model
             'company' => 'Организация или ИП',
             'text' => 'Текст сообщения',
             'inn' => 'ИНН',
+            'productCount' => 'Количество',
             'reCaptcha' => '',
         ];
     }
 
+    /**
+     * @return bool
+     */
     public function upload()
     {
 
@@ -104,8 +115,11 @@ class FeedBack extends Model
 
             $this->file->saveAs($this->filepath);
 
+            $this->isFileAttached = true;
+
             return true;
         } else {
+            //$this->addError('file', 'СЛИШКОМ БОЛЬШОЙ ФАЙЛ !');
             return false;
         }
     }
@@ -117,19 +131,10 @@ class FeedBack extends Model
         $model->file = UploadedFile::getInstance($model, 'file');
 
         if(!empty($model->file)){
-
-            if ($model->upload()) {
-
-                //здесь делать отправку письма
-                $this->sendMail();
-
-                //здесь удалять $filePath
-            }
-
+            $model->upload();
         }
 
         return $model;
-
     }
 
     public function sendMail(){
@@ -137,13 +142,14 @@ class FeedBack extends Model
         $params = ['feedback' => $this]; //передаем текущий заказ
 
         $params['date'] = date('Y-m-d H:i:s');
+        $params['isFileAttached'] = $this->isFileAttached;
 
         $emailParams = \Yii::$app->getModule('catalog')->params['email'];
 
         //$products = (array) json_decode($this->getAttributes()['products']);
 
 
-        //\Yii::$app->pr->print_r2($this->getAttributes()['products']);
+        //\Yii::$app->pr->print_r2($params);
         try{
             //отправка уведомления для админа
             \Yii::$app->mailer->compose([
@@ -151,7 +157,7 @@ class FeedBack extends Model
                 //'text' => 'views/order/order.created.admin.php',
             ], $params)
                 ->setTo([$emailParams['feedback'] => 'Admin'])
-                ->setSubject('Rusel24.ru: Обратная связь ' .date('Y-m-d H:i:s'))
+                ->setSubject('Rusel24.ru: Сообщение от ' .date('Y-m-d H:i:s'))
                 ->send();
         }catch(Exception $exception){
             //\Yii::$app->pr->print_r2($exception->getMessage());

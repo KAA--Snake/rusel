@@ -8,11 +8,11 @@
 <p>
   Отправлена форма с сайта
 </p>
-
+<?php /*?>
 <p>
     URL с которого отправлена: <b> <?php echo $feedback->formUrl;?> </b>
 </p>
-
+<?php */?>
 
 <p>
     Дата и время отправки: <b> <?php echo $date;?> </b>
@@ -42,28 +42,31 @@
     Текст: <b><?php echo $feedback->text;?></b>
 </p>
 
+<?php
+if ($isFileAttached) {
+?>
 <p>
     Приложенный файл: <?php echo $feedback->fileUrl;?>
 </p>
+<? } ?>
 
-<p>
-    Данные по товару:
-</p>
+<?php
+if (isset($feedback->artikul) && !empty($feedback->artikul)) {
+?>
+    <p>
+        Данные по запрошенной позиции:
+    </p>
 
-<br />
-
-<p>
-    название товара: <b><?php echo $feedback->productName;?></b>
-</p>
-
-<p>
-    артикул товара: <b><?php echo $feedback->artikul;?></b>
-</p>
-
-<p>
-    производитель товара: <b><?php echo $feedback->manufacturer;?></b>
-</p>
-
-<p>
-    количество товара: <b><?php echo $feedback->productCount;?></b>
-</p>
+    <p>
+        Артикул: <b><?php echo $feedback->artikul;?></b>
+    </p>
+    <p>
+        Название: <b><?php echo $feedback->productName;?></b>
+    </p>
+    <p>
+        Производитель: <b><?php echo $feedback->manufacturer;?></b>
+    </p>
+    <p>
+        Количество: <b><?php echo $feedback->productCount;?></b>
+    </p>
+<?php } ?>

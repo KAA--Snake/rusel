@@ -494,6 +494,8 @@ if ($_COOKIE['dev']) {
             ]
         ]);
     } catch (Exception $e) {
+        echo '<script>window.location.href=window.location.href</script>';
+        //\Yii::$app->pr->print_r2($e->getMessage());
         //no needed
     }
 }
