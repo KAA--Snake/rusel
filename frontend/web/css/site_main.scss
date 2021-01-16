@@ -536,8 +536,26 @@ $white: #ffffff;
                   color: #333333;
                 }
                 a {
-                  padding-top: 17px;
-                  padding-bottom: 16px;
+                  padding-top: 10px;
+                  padding-bottom: 10px;
+                  &:before{
+                    content: "";
+                    width: 10px;
+                    height: 10px;
+                    background: #9f0f18;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-right: 10px;
+                  }
+                  &:after{
+                    content: "";
+                    background: url("../img/blue_arrow_icon.svg") no-repeat center;
+                    width: 20px;
+                    height: 18px;
+                    display: inline-block;
+                    line-height: 18px;
+                    vertical-align: top;
+                  }
                 }
                 &:hover {
                   /*border-left: 5px solid  #9f0f18;*/
@@ -546,6 +564,16 @@ $white: #ffffff;
                   transition: 0.2s;
                   span {
                     color: $white;
+                  }
+                  a {
+                    &:before{
+                      background: #ffffff;
+                    }
+                    &:after{
+                      background: url(../img/catalog_arrow.svg) no-repeat center;
+                      transform: rotate(-90deg) scale(0.8);
+                    }
+
                   }
                   .catalog-icon {
                     transform: rotate(-90deg);

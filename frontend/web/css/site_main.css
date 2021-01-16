@@ -424,8 +424,24 @@
             .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item span {
               color: #333333; }
             .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item a {
-              padding-top: 17px;
-              padding-bottom: 16px; }
+              padding-top: 10px;
+              padding-bottom: 10px; }
+              .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item a:before {
+                content: "";
+                width: 10px;
+                height: 10px;
+                background: #9f0f18;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 10px; }
+              .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item a:after {
+                content: "";
+                background: url("../img/blue_arrow_icon.svg") no-repeat center;
+                width: 20px;
+                height: 18px;
+                display: inline-block;
+                line-height: 18px;
+                vertical-align: top; }
             .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item:hover {
               /*border-left: 5px solid  #9f0f18;*/
               background-color: #336699;
@@ -433,6 +449,11 @@
               transition: 0.2s; }
               .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item:hover span {
                 color: #ffffff; }
+              .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item:hover a:before {
+                background: #ffffff; }
+              .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item:hover a:after {
+                background: url(../img/catalog_arrow.svg) no-repeat center;
+                transform: rotate(-90deg) scale(0.8); }
               .container.main .header_v2 > .bottom .menu_block .goods_catalog .gc_list-lvl1 .gc_item.lvl1-item:hover .catalog-icon {
                 transform: rotate(-90deg);
                 transition: 0.2s; }
