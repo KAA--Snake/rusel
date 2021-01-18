@@ -87,7 +87,8 @@
       height: 60px;
       width: 406px;
       text-decoration: none;
-      flex-shrink: 0; }
+      flex-shrink: 0;
+      margin-left: 36px; }
     .container.main .header_v2 > .top .logo_ico {
       background: url(../img/logo_ico.png) no-repeat center;
       width: 60px;
