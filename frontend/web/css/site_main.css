@@ -85,18 +85,21 @@
       align-items: center;
       justify-content: space-between;
       height: 60px;
-      width: 406px;
+      width: 466px;
       text-decoration: none;
       flex-shrink: 0;
-      margin-left: 36px; }
+      margin-left: 16px; }
     .container.main .header_v2 > .top .logo_ico {
       background: url(../img/logo_ico.png) no-repeat center;
-      width: 60px;
-      height: 60px; }
+      background-size: contain;
+      width: 80px;
+      height: 80px; }
     .container.main .header_v2 > .top .logo_name {
       background: url(../img/logo_name.png) no-repeat center;
-      width: 338px;
-      height: 60px; }
+      background-size: contain;
+      width: 458px;
+      height: 80px;
+      margin-left: 30px; }
     .container.main .header_v2 > .top .divider {
       background-color: rgba(51, 102, 153, 0.5);
       width: 1px;
