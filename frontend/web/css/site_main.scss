@@ -106,11 +106,11 @@ $white: #ffffff;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 60px;
+          height: 80px;
           width: 466px;
           text-decoration: none;
           flex-shrink: 0;
-          margin-left: 16px;
+          margin-left: 32px;
         }
         &_ico {
           background: url(../img/logo_ico.png) no-repeat center;
@@ -123,7 +123,6 @@ $white: #ffffff;
           background-size: contain;
           width: 458px;
           height: 80px;
-          margin-left: 30px;
         }
 
       }

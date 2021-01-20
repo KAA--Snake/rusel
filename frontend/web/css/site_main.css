@@ -84,11 +84,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 60px;
+      height: 80px;
       width: 466px;
       text-decoration: none;
       flex-shrink: 0;
-      margin-left: 16px; }
+      margin-left: 32px;
+      margin-left: 32px; }
     .container.main .header_v2 > .top .logo_ico {
       background: url(../img/logo_ico.png) no-repeat center;
       background-size: contain;
@@ -98,8 +99,7 @@
       background: url(../img/logo_name.png) no-repeat center;
       background-size: contain;
       width: 458px;
-      height: 80px;
-      margin-left: 30px; }
+      height: 80px; }
     .container.main .header_v2 > .top .divider {
       background-color: rgba(51, 102, 153, 0.5);
       width: 1px;
