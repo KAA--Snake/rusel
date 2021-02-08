@@ -11,6 +11,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\widgets\catalog\CatalogMenu;
 use common\widgets\search\WSearch;
+use common\widgets\seo_tags\SeoTags;
 
 AppAsset::register($this);
 ?>
@@ -27,6 +28,23 @@ AppAsset::register($this);
     <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
     <meta name="robots" content="index,follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <?php
+    $description = "Комплексные поставки | $this->title";
+    ?>
+    <meta name="description" content="<?= Html::encode($description) ?>">
+    <?php
+    try {
+        echo SeoTags::widget([
+            'options' => [
+                'mode' => SeoTags::$mainPageMode,
+                'seo' => false,
+                'title' => $this->title,
+                'description' => $description,
+            ]
+        ]);
+    } catch (Exception $e) {
+    }
+    ?>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
