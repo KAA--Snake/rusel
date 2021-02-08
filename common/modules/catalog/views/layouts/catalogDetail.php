@@ -12,6 +12,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\widgets\catalog\CatalogMenu;
 use common\widgets\search\WSearch;
+use common\widgets\seo_tags\SeoTags;
 
 
 $catalogParentLink = '';
@@ -42,7 +43,21 @@ AppAsset::register($this);
     <meta name="robots" content="index,follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keywords" content="<?=$this->params['seo']['product']['artikul'];?>, <?=$this->params['seo']['product']['name'];?>, <?=$this->params['seo']['product']['properties']['proizvoditel'];?>, купить, цена, наличие, сроки, обзор, инструкция, описание, документация, pdf, datasheet">
-    <meta name="description" content="Артикул (Part #): <?=$this->params['seo']['product']['artikul'];?> / Производитель: <?=$this->params['seo']['product']['properties']['proizvoditel'];?> / <?=$this->params['seo']['product']['name'];?>. Цены, наличие, сроки поставки, описание, техническая документация, параметрический поиск. Поставки со склада и под заказ. В каталоге более 1 млн. наименований от 250 производителей.">
+    <?php
+    $description = "Артикул (Part #): {$this->params['seo']['product']['artikul']} / Производитель: {$this->params['seo']['product']['properties']['proizvoditel']} / {$this->params['seo']['product']['name']}. Цены, наличие, сроки поставки, описание, техническая документация, параметрический поиск. Поставки со склада и под заказ. В каталоге более 1 млн. наименований от 250 производителей.";
+    ?>
+    <meta name="description" content="<?=$description;?>">
+    <?php
+        echo SeoTags::widget([
+            'options' => [
+                'mode' => SeoTags::$productDetailMode,
+                'seo' => $this->params['seo'],
+                'title' => $this->title,
+                'description' => $description,
+            ]
+        ]);
+    ?>
+
     <?php
     if (
             isset($this->params['seo']['product']['properties']['main_picture'])
