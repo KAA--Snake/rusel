@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use common\widgets\seo_tags\SeoTags;
 
 AppAsset::register($this);
 ?>
@@ -26,7 +27,23 @@ AppAsset::register($this);
     <meta name="robots" content="index,follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="C4rArFRoh6XOiiizt7sk3wn1lAK1IoQrPfKcmqqYw5s" />
-    <meta name="description" content="Компания осуществляет комплексные мелкооптовые и оптовые поставки комплектующих: электронные компоненты, электротехнические изделия, клеммы, разъемы, соединители, контрольно-измерительные проборы и устройства, блоки питания и ИБП, устройства автоматизации и управления. В каталоге более 1 млн. наименований от 250 производителей, актуальные цены, наличие, сроки поставки, описание, техническая документация, параметрический поиск">
+    <?php
+    $description = "Компания осуществляет комплексные мелкооптовые и оптовые поставки комплектующих: электронные компоненты, электротехнические изделия, клеммы, разъемы, соединители, контрольно-измерительные проборы и устройства, блоки питания и ИБП, устройства автоматизации и управления. В каталоге более 1 млн. наименований от 250 производителей, актуальные цены, наличие, сроки поставки, описание, техническая документация, параметрический поиск";
+    ?>
+    <meta name="description" content="<?php echo $description;?>">
+    <?php
+    try {
+        echo SeoTags::widget([
+            'options' => [
+                'mode' => SeoTags::$mainPageMode,
+                'seo' => false,
+                'title' => $this->title,
+                'description' => $description,
+            ]
+        ]);
+    } catch (Exception $e) {
+    }
+    ?>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>

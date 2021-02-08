@@ -9,7 +9,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 //\Yii::$app->pr->print_r2($model);
-$image = "http://rusel24.ru/upload/images/Logo_Rusel24_sq2.png";
+$image = $defaultImage;
 if (isset($model['seo']['product']['properties']['main_picture'])) {
     $image = "http://rusel24.ru/upload/images/{$model['seo']['product']['properties']['main_picture']}";
 }

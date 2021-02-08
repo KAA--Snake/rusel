@@ -8,12 +8,10 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-/** @var \common\modules\catalog\models\Manufacturer $manufacturer */
-$manufacturer = $model['seo']['manufacturer'];
+/** @var \common\modules\catalog\models\Manufacturer $model['seo']['manufacturer'] */
 
-//\Yii::$app->pr->print_r($model);
 //\Yii::$app->pr->print_r2($manufacturer->getAttributes());
-$image = "http://rusel24.ru/upload/artikles/{$manufacturer->m_id}.jpg";
+$image = "http://rusel24.ru/upload/artikles/{$model['seo']['manufacturer']->m_id}.jpg";
 ?>
 
 

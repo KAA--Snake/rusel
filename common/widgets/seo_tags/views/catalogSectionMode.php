@@ -9,10 +9,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 //\Yii::$app->pr->print_r2($model);
-$image = "http://rusel24.ru/upload/images/Logo_Rusel24_sq2.png";
-if (isset($model['seo']['product']['properties']['main_picture'])) {
-    $image = "http://rusel24.ru/upload/images/{$model['seo']['product']['properties']['main_picture']}";
-}
+
 ?>
 
 
@@ -20,5 +17,5 @@ if (isset($model['seo']['product']['properties']['main_picture'])) {
 <meta property="og:description" content="<?= Html::encode($model['description']); ?>">
 <meta property="og:site_name" content="rusel24.ru">
 <meta property="og:type" content="website">
-<meta property="og:image" content="<?= Html::encode($image); ?>">
+<meta property="og:image" content="<?= Html::encode($defaultImage); ?>">
 

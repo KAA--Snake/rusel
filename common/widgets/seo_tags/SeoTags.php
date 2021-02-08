@@ -21,6 +21,7 @@ class SeoTags extends Widget
     public static $catalogSectionMode = 'catalogSectionMode';
     public static $manufacturerMode = 'manufacturerMode';
 
+    private $defaultImage = "http://rusel24.ru/upload/images/Logo_Rusel24_sq2.png";
     private $model = [];
     private $viewForMode = 'mainPageMode';
 
@@ -66,7 +67,10 @@ class SeoTags extends Widget
        // \Yii::$app->pr->print_r2($this->model);
 
 
-        return $this->render($this->viewForMode, ['model' => $this->model]);
+        return $this->render($this->viewForMode, [
+            'model' => $this->model,
+            'defaultImage' => $this->defaultImage
+        ]);
 
     }
 }
