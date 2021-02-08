@@ -12,6 +12,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use common\widgets\catalog\CatalogMenu;
 use common\widgets\search\WSearch;
+use common\widgets\seo_tags\SeoTags;
 
 
 AppAsset::register($this);
@@ -29,9 +30,27 @@ AppAsset::register($this);
     <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
     <meta name="robots" content="index,follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Программа поставок: <?=$this->params['seo']['manufacturer']->m_name;?>. Каталог, описание, техническая документация, параметрический поиск, наличие, сроки поставки, актуальные цены. Поставки со склада и под заказ. Более 1 млн. наименований от 250 производителей.">
+    <?php
+    $description = "Программа поставок: {$this->params['seo']['manufacturer']->m_name}. Каталог, описание, техническая документация, параметрический поиск, наличие, сроки поставки, актуальные цены. Поставки со склада и под заказ. Более 1 млн. наименований от 250 производителей.";
+    ?>
+    <meta name="description" content="<?php echo $description;?>">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <?php
+    try {
+        echo SeoTags::widget([
+            'options' => [
+                'mode' => SeoTags::$manufacturerMode,
+                'seo' => $this->params['seo'],
+                'title' => $this->title,
+                'description' => $description,
+            ]
+        ]);
+    } catch (Exception $e) {
+    }
+    ?>
+
+
     <?php $this->head() ?>
 </head>
 <body>
