@@ -34,7 +34,7 @@ use common\widgets\filter\CatalogFilter;
  * Вот тут можно посмотреть отладку (не забудь добавить куку dev = 123 для сайта, чтоб ее увидеть)
  * \Yii::$app->pr->print_r2($data['resultText']);
  */
-
+\Yii::$app->pr->print_r2($data['resultText']);
 
 $this->title = $data['products']['offer']->name;
 //this->params['breadcrumbs'][] = 'Спецпредложения';
