@@ -33,9 +33,11 @@ $this->title = 'admin Offer page';
                 <div class="label">URL:</div>
                 <input class="offer-id" type="text" name="Offers[url]" value="<?=$model->url;?>">
 
+                <div class="label">Текст:</div>
+                <textarea name="Offers[full_text]" id="offer_fulltext" class="offer_goods_list" placeholder="Введите текст"><?=$model->full_text;?></textarea>
+
                 <div class="label">ID свойств:</div>
                 <textarea name="Offers[property_ids]" id="offer_head" class="offer_goods_list" placeholder="Введите текст"><?=$model->property_ids;?></textarea>
-
 
                 <div class="label">ID товаров:</div>
                 <textarea name="Offers[product_ids]" id="offer_head" class="offer_goods_list" placeholder="Введите текст"><?=$model->product_ids;?></textarea>

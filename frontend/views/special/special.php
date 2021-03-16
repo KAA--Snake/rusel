@@ -8,9 +8,33 @@ use common\modules\catalog\models\currency\Currency;
 use common\widgets\filter\CatalogFilter;
 
 //echo Url::current(['perPage' => '50']);
-//echo ;
+
 //\Yii::$app->pr->print_r2($data);
-//die();
+//\Yii::$app->pr->die();
+
+/** ВОТ ЗДЕСЬ НАХОДИТСЯ ТЕКСТ С ПОДСТАНОВКАМИ -> $data['resultText']
+ * Отладка закомменчена ниже.
+ *  ШАБЛОН ДЛЯ ПОДСТАНОВКИ КАЖДОГО ТОВАРА ЛЕЖИТ ТУТ:
+ * common/widgets/offers_substitution/views/offers_substitutions.php
+ *
+ * Работает так-
+ * <P>КУЧА ТЕКСТА</P>
+ * <P>{24994}</P>
+ * <P>КУЧА ТЕКСТА</P>
+ *
+ * переводит в
+ *
+ * <P>КУЧА ТЕКСТА</P>
+ * <P>common/widgets/offers_substitution/views/offers_substitutions.php</P>
+ * <P>КУЧА ТЕКСТА</P>
+ *
+ * Сам товар идентичный common/modules/catalog/views/default/productDetail.php
+ * и собственно шаблон взят оттуда-же, поэтому все должно работать "нативно".
+ *
+ * Вот тут можно посмотреть отладку (не забудь добавить куку dev = 123 для сайта, чтоб ее увидеть)
+ * \Yii::$app->pr->print_r2($data['resultText']);
+ */
+
 
 $this->title = $data['products']['offer']->name;
 //this->params['breadcrumbs'][] = 'Спецпредложения';
